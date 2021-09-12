@@ -142,6 +142,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exercises\Chapter1\VirtualCannon.h" />
     <ClInclude Include="src\Tuple.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="tests\tupleTests.h" />

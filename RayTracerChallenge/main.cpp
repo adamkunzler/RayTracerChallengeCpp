@@ -5,6 +5,8 @@
 #include "tests\tupleTests.h"
 #include "tests\utilsTests.h"
 
+#include "Exercises\Chapter1\VirtualCannon.h"
+
 bool RunTests();
 void RunRayTracer();
 
@@ -12,16 +14,13 @@ int main()
 {
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
-	/*RayTracer::Tuple t(1, 2, 3, 0);
-	RayTracer::Tuple t2(2, 2, 2, 0);
-	RayTracer::Tuple p = RayTracer::Tuple::CreatePoint(1, 2, 3);
-	RayTracer::Tuple v = RayTracer::Tuple::CreateVector(1, 2, 3);*/
-			
-	bool result = RunTests();	
-	if(result)
-	{ 
-		RunRayTracer();
-	}
+	Exercises::Chapter1::FireCannon();
+
+	//bool result = RunTests();	
+	//if(result)
+	//{ 
+	//	RunRayTracer();
+	//}
 
 	std::cout << "\n\n\n";
 	return 0;
@@ -94,12 +93,56 @@ bool RunTests()
 		if (RayTracer::Tests::VectorSubtractPoint()) { numPassed++; }
 		else { failedTests.push_back("VectorSubtractPoint()"); }
 
-		if (RayTracer::Tests::NegatePoint()) { numPassed++; }
-		else { failedTests.push_back("NegatePoint()"); }
+		if (RayTracer::Tests::NegateTuple()) { numPassed++; }
+		else { failedTests.push_back("NegateTuple()"); }
 
 		if (RayTracer::Tests::NegateVector()) { numPassed++; }
 		else { failedTests.push_back("NegateVector()"); }
+
+		if (RayTracer::Tests::MultiplyTupleByScalar1()) { numPassed++; }
+		else { failedTests.push_back("MultiplyTupleByScalar1()"); }
+
+		if (RayTracer::Tests::MultiplyTupleByScalar2()) { numPassed++; }
+		else { failedTests.push_back("MultiplyTupleByScalar2()"); }
+
+		if (RayTracer::Tests::MultiplyTupleByFraction1()) { numPassed++; }
+		else { failedTests.push_back("MultiplyTupleByFraction1()"); }
+
+		if (RayTracer::Tests::MultiplyTupleByFraction2()) { numPassed++; }
+		else { failedTests.push_back("MultiplyTupleByFraction2()"); }
 		
+		if (RayTracer::Tests::DivideTupleByScalar1()) { numPassed++; }
+		else { failedTests.push_back("DivideTupleByScalar1()"); }
+
+		if (RayTracer::Tests::DivideTupleByScalar2()) { numPassed++; }
+		else { failedTests.push_back("DivideTupleByScalar2()"); }
+
+		if (RayTracer::Tests::MagnitudeOfVector1()) { numPassed++; }
+		else { failedTests.push_back("MagnitudeOfVector1()"); }
+
+		if (RayTracer::Tests::MagnitudeOfVector2()) { numPassed++; }
+		else { failedTests.push_back("MagnitudeOfVector2()"); }
+
+		if (RayTracer::Tests::MagnitudeOfVector3()) { numPassed++; }
+		else { failedTests.push_back("MagnitudeOfVector3()"); }
+
+		if (RayTracer::Tests::MagnitudeOfVector4()) { numPassed++; }
+		else { failedTests.push_back("MagnitudeOfVector4()"); }
+
+		if (RayTracer::Tests::MagnitudeOfVector5()) { numPassed++; }
+		else { failedTests.push_back("MagnitudeOfVector5()"); }
+
+		if (RayTracer::Tests::NormalizeVector1()) { numPassed++; }
+		else { failedTests.push_back("NormalizeVector1()"); }
+
+		if (RayTracer::Tests::NormalizeVector2()) { numPassed++; }
+		else { failedTests.push_back("NormalizeVector2()"); }
+
+		if (RayTracer::Tests::VectorDotProduct()) { numPassed++; }
+		else { failedTests.push_back("VectorDotProduct()"); }
+
+		if (RayTracer::Tests::VectorCrossProduct()) { numPassed++; }
+		else { failedTests.push_back("VectorCrossProduct()"); }
 
 		std::cout << "END Tuple, Vector, Point Tests\n";
 	}
