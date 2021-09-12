@@ -3,8 +3,6 @@
 
 #include "src\Tuple.h"
 #include "tests\tupleTests.h"
-#include "tests\pointTests.h"
-#include "tests\vectorTests.h"
 #include "tests\utilsTests.h"
 
 bool RunTests();
@@ -14,6 +12,11 @@ int main()
 {
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
+	/*RayTracer::Tuple t(1, 2, 3, 0);
+	RayTracer::Tuple t2(2, 2, 2, 0);
+	RayTracer::Tuple p = RayTracer::Tuple::CreatePoint(1, 2, 3);
+	RayTracer::Tuple v = RayTracer::Tuple::CreateVector(1, 2, 3);*/
+			
 	bool result = RunTests();	
 	if(result)
 	{ 
@@ -31,43 +34,84 @@ bool RunTests()
 
 	std::cout << "Running tests...\n\n";
 
-	if (RayTracer::Tests::TupleIsPoint()) { numPassed++; } 
-	else { failedTests.push_back("TupleIsPoint()"); }
+	//
+	// TUPLE, POINT, VECTOR TESTS
+	//
+	{
+		std::cout << "\nBEGIN Tuple, Vector, Point Tests...\n";
 
-	if (RayTracer::Tests::TupleIsVector()) { numPassed++; }
-	else { failedTests.push_back("TupleIsVector()"); }
+		if (RayTracer::Tests::TupleIsPoint()) { numPassed++; }
+		else { failedTests.push_back("TupleIsPoint()"); }
 
-	if (RayTracer::Tests::CreatePoint()) { numPassed++; }
-	else { failedTests.push_back("CreatePoint()"); }
+		if (RayTracer::Tests::TupleIsVector()) { numPassed++; }
+		else { failedTests.push_back("TupleIsVector()"); }
 
-	if (RayTracer::Tests::CreateVector()) { numPassed++; }
-	else { failedTests.push_back("CreateVector()"); }
-	
-	if (RayTracer::Tests::Util_FloatEquals(0.555551, 0.555551)) { numPassed++; }
-	else { failedTests.push_back("Util_FloatEquals(0.555551, 0.555551)"); }
-	
-	if (RayTracer::Tests::Util_FloatEquals(0.555551, 0.555552)) { numPassed++; }
-	else { failedTests.push_back("Util_FloatNotEquals(0.555551, 0.555552)"); }
+		if (RayTracer::Tests::CreatePoint()) { numPassed++; }
+		else { failedTests.push_back("CreatePoint()"); }
 
-	if (RayTracer::Tests::Util_FloatNotEquals(0.55551, 0.55552)) { numPassed++; }
-	else { failedTests.push_back("Util_FloatNotEquals(0.55551, 0.55552)"); }
+		if (RayTracer::Tests::CreateVector()) { numPassed++; }
+		else { failedTests.push_back("CreateVector()"); }
 
-	RayTracer::Tuple t1(1, 2, 3, 0);
-	RayTracer::Tuple t2(1, 2, 3, 0);
-	if (RayTracer::Tests::TuplesAreEqual(t1, t2)) { numPassed++; }
-	else { failedTests.push_back("TuplesAreEqual()"); }
+		if (RayTracer::Tests::Util_FloatEquals(0.555551, 0.555551)) { numPassed++; }
+		else { failedTests.push_back("Util_FloatEquals(0.555551, 0.555551)"); }
 
-	RayTracer::Tuple t3(5, 2, 3, 0);
-	RayTracer::Tuple t4(1, 2, 3, 0);
-	if (RayTracer::Tests::TuplesAreNotEqual(t3,t4)) { numPassed++; }
-	else { failedTests.push_back("TuplesAreNotEqual()"); }
+		if (RayTracer::Tests::Util_FloatEquals(0.555551, 0.555552)) { numPassed++; }
+		else { failedTests.push_back("Util_FloatNotEquals(0.555551, 0.555552)"); }
 
-	if (RayTracer::Tests::TuplesAreNotEqual(t1, t2)) { numPassed++; }
-	else { failedTests.push_back("TuplesAreNotEqual()"); }
+		if (RayTracer::Tests::Util_FloatNotEquals(0.55551, 0.55552)) { numPassed++; }
+		else { failedTests.push_back("Util_FloatNotEquals(0.55551, 0.55552)"); }
+		
+		if (RayTracer::Tests::TuplesAreEqual()) { numPassed++; }
+		else { failedTests.push_back("TuplesAreEqual()"); }
+		
+		if (RayTracer::Tests::TuplesAreNotEqual()) { numPassed++; }
+		else { failedTests.push_back("TuplesAreNotEqual()"); }
+
+		if (RayTracer::Tests::TupleAddition()) { numPassed++; }
+		else { failedTests.push_back("TupleAddition()"); }
+
+		if (RayTracer::Tests::PointPlusPoint()) { numPassed++; }
+		else { failedTests.push_back("PointPlusPoint()"); }
+
+		if (RayTracer::Tests::VectorPlusVector()) { numPassed++; }
+		else { failedTests.push_back("VectorPlusVector()"); }
+
+		if (RayTracer::Tests::VectorPlusPoint()) { numPassed++; }
+		else { failedTests.push_back("VectorPlusPoint()"); }
+
+		if (RayTracer::Tests::TupleSubtraction()) { numPassed++; }
+		else { failedTests.push_back("TupleSubtraction()"); }
+
+		if (RayTracer::Tests::PointSubtractPoint()) { numPassed++; }
+		else { failedTests.push_back("PointSubtractPoint()"); }
+
+		if (RayTracer::Tests::VectorSubtractVector()) { numPassed++; }
+		else { failedTests.push_back("VectorSubtractVector()"); }
+
+		if (RayTracer::Tests::PointSubtractVector()) { numPassed++; }
+		else { failedTests.push_back("PointSubtractVector()"); }
+
+		if (RayTracer::Tests::VectorSubtractPoint()) { numPassed++; }
+		else { failedTests.push_back("VectorSubtractPoint()"); }
+
+		if (RayTracer::Tests::NegatePoint()) { numPassed++; }
+		else { failedTests.push_back("NegatePoint()"); }
+
+		if (RayTracer::Tests::NegateVector()) { numPassed++; }
+		else { failedTests.push_back("NegateVector()"); }
+		
+
+		std::cout << "END Tuple, Vector, Point Tests\n";
+	}
 
 	std::cout << "\nTests Completed.\n";
 	std::cout << "\nPassing Tests: " << numPassed;
-	std::cout << "\nFailing Tests: " << failedTests.size();
+	std::cout << "\nFailing Tests: " << failedTests.size() << std::endl;
+
+	for (std::vector<std::string>::const_iterator iter = failedTests.begin(); iter != failedTests.end(); ++iter)
+	{
+		std::cout << "\t" << *iter << std::endl;
+	}
 	
 	return failedTests.size() == 0;
 }

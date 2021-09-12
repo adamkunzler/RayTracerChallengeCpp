@@ -142,14 +142,10 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Tuple.h" />
     <ClInclude Include="src\Utils.h" />
-    <ClInclude Include="src\Vector.h" />
-    <ClInclude Include="tests\pointTests.h" />
     <ClInclude Include="tests\tupleTests.h" />
     <ClInclude Include="tests\utilsTests.h" />
-    <ClInclude Include="tests\vectorTests.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

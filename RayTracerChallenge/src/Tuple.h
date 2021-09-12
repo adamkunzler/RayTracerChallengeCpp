@@ -1,5 +1,6 @@
 #pragma once
 
+#include <typeinfo>
 #include <iostream>
 #include "Utils.h"
 
@@ -15,7 +16,25 @@ namespace RayTracer
 		Tuple(float lx, float ly, float lz, float lw) : x(lx), y(ly), z(lz), w(lw)
 		{
 		}
+
+		Tuple(const Tuple& other) {
+			// i think???
+			this->x = other.x;
+			this->y = other.y;
+			this->z = other.z;
+			this->w = other.w;
+		}
 				
+		static Tuple CreatePoint(float lx, float ly, float lz)
+		{
+			return Tuple(lx, ly, lz, 1.0f);
+		}
+
+		static Tuple CreateVector(float lx, float ly, float lz)
+		{
+			return Tuple(lx, ly, lz, 0.0f);
+		}
+
 		bool IsPoint() const { return w == 1.0; }
 		bool IsVector() const { return w == 0; }
 
@@ -39,6 +58,44 @@ namespace RayTracer
 		{			
 			//std::cout << "Tuple !=\n";
 			return !(*this == other);
+		}
+
+		//
+		// Add two Tuples together		
+		// 
+		// point + vector is okay => result is point
+		// vector + vector is okay => result is vector
+		// point + point NOT okay => result is unknown (w would = 2)
+		//
+		Tuple& operator+(const Tuple& other)
+		{			
+			//std::cout << "Tuple +\n";
+			Tuple t(this->x + other.x, this->y + other.y, this->z + other.z, this->w + other.w);
+			return t;
+		}
+
+		//
+		// Subtract two Tuples together		
+		// 
+		// point - point is okay => result is vector
+		// vector - vector is okay => result is vector
+		// point - vector is okay => result is point
+		// vector - point NOT okay => result is unknown (w would = -1)
+		//
+		Tuple& operator-(const Tuple& other)
+		{
+			//std::cout << "Tuple -\n";
+			Tuple t(this->x - other.x, this->y - other.y, this->z - other.z, this->w - other.w);
+			return t;
+		}
+
+		//
+		// Negate Operator - the negative of a Tuple. Does not affect w component.
+		//
+		Tuple& operator-()
+		{
+			Tuple t(-this->x, -this->y, -this->z, this->w);
+			return t;
 		}
 
 	public: 

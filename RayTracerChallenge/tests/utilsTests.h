@@ -13,7 +13,7 @@ namespace RayTracer
 			bool result = FloatEquals(a, b);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\tFloatEquals(" << a << ", " << b << ")\n";
+			std::cout << pf << "\t" << "FloatEquals()\n";
 
 			return result;
 		}
@@ -23,7 +23,7 @@ namespace RayTracer
 			bool result = !FloatEquals(a, b);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\tFloatNotEquals(" << a << ", " << b << ")\n";
+			std::cout << pf << "\t" << "FloatNotEquals()\n";
 
 			return result;
 		}
