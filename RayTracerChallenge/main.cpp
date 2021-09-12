@@ -16,11 +16,11 @@ int main()
 	
 	Exercises::Chapter1::FireCannon();
 
-	//bool result = RunTests();	
-	//if(result)
-	//{ 
-	//	RunRayTracer();
-	//}
+	/*bool result = RunTests();	
+	if(result)
+	{ 
+		RunRayTracer();
+	}*/
 
 	std::cout << "\n\n\n";
 	return 0;

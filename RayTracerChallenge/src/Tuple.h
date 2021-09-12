@@ -5,28 +5,54 @@
 #include "Utils.h"
 
 namespace RayTracer
-{
+{	
+
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+
+	
+	
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+
 	/// <summary>
 	/// Represents an Ordered List of values (x, y, z, w)
-	/// 
-	/// Vector has w = 0
-	/// Point has w = 1
 	/// </summary>
 	class Tuple
 	{		
 	public:
+		float x;
+		float y;
+		float z;
+		float w;
+
+	public:
+		Tuple() : x(0.0f), y(0.0f), z(0.0f), w(0.0f)
+		{
+		}
+
 		Tuple(float lx, float ly, float lz, float lw) : x(lx), y(ly), z(lz), w(lw)
 		{
 		}
 
-		Tuple(const Tuple& other) {
-			// i think???
-			this->x = other.x;
-			this->y = other.y;
-			this->z = other.z;
-			this->w = other.w;
+		Tuple(const Tuple& other) {			
+			x = other.x;
+			y = other.y;
+			z = other.z;
+			w = other.w;
 		}
-				
+		
+		Tuple& operator=(const Tuple& other)
+		{
+			if (this == &other)
+				return *this;
+
+			x = other.x;
+			y = other.y;
+			z = other.z;
+			w = other.w;
+
+			return *this;
+		}
+
 		static Tuple createPoint(float lx, float ly, float lz)
 		{
 			return Tuple(lx, ly, lz, 1.0f);
@@ -43,23 +69,14 @@ namespace RayTracer
 		//
 		// Computes the magnitude of a Tuple
 		// 
-		// point - is okay
-		// vector - is okay
-		// tuple - is okay
-		//
 		float magnitude() const
-		{
-			//return std::sqrt(this->x * this->x + this->y * this->y + this->z * this->z + this->w * this->w);
+		{			
 			return magnitude(*this);
 		}
 
 		//
 		// Computes the magnitude of a Tuple
 		// 
-		// point - is okay
-		// vector - is okay
-		// tuple - is okay
-		//
 		static float magnitude(const Tuple& t)
 		{
 			return std::sqrt(t.x * t.x + t.y * t.y + t.z * t.z + t.w * t.w);
@@ -69,20 +86,18 @@ namespace RayTracer
 		// Normalize a tuple so that it has a magnitude of 1.0.
 		//
 		Tuple& normalize()
-		{
-			//float m = this->magnitude();
-			//return *this / m;
+		{			
 			return Tuple::normalize(*this);
 		}
 
 		//
 		// Normalize a tuple so that it has a magnitude of 1.0.
 		//
-		static Tuple& normalize(const Tuple& t)
-		{
-			Tuple t2(t);
-			float m = t2.magnitude();			
-			return t2 / m;
+		static Tuple& normalize(Tuple& t)
+		{			
+			float m = t.magnitude();			
+			Tuple tn(t.x / m, t.y / m, t.z / m, t.w / m);
+			return tn;
 		}
 
 		//
@@ -94,10 +109,6 @@ namespace RayTracer
 		//   
 		float dot(const Tuple& other) const
 		{
-			/*return this->x * other.x + 
-				   this->y * other.y + 
-				   this->z * other.z + 
-				   this->w * other.w;*/
 			return Tuple::dot(*this, other);
 		}
 
@@ -123,11 +134,6 @@ namespace RayTracer
 		//
 		Tuple& cross(const Tuple& other) const
 		{
-			/*Tuple t = Tuple::createVector(
-				this->y * other.z - this->z * other.y,
-				this->z * other.x - this->x * other.z,
-				this->x * other.y - this->y * other.x);
-			return t;*/
 			return Tuple::cross(*this, other);
 		}
 		
@@ -148,113 +154,83 @@ namespace RayTracer
 		//
 		// Compares two Tuples for equality
 		// 
-		// Tuple a(1,2,3,0)
-		// Tuple b(1,2,3,0)
-		// a == b
-		//
 		bool operator==(const Tuple& other)
-		{						
-			//std::cout << "Tuple ==\n";
-			return FloatEquals(this->x, other.x) && FloatEquals(this->y, other.y) && FloatEquals(this->z, other.z) && FloatEquals(this->w, other.w);
+		{									
+			return FloatEquals(x, other.x) && FloatEquals(y, other.y) && FloatEquals(z, other.z) && FloatEquals(w, other.w);
 		}
 
 		//
 		// Implemented by calling !(operator== overload)
 		//
 		bool operator!=(const Tuple& other)
-		{			
-			//std::cout << "Tuple !=\n";
+		{						
 			return !(*this == other);
-		}
+		}			
 
 		//
-		// Add two Tuples together		
-		// 
-		// point + vector is okay => result is point
-		// vector + vector is okay => result is vector
-		// point + point NOT okay => result is unknown (w would = 2)
+		// Add two Tuples together
 		//
-		Tuple& operator+(const Tuple& other)
+		Tuple& operator+=(const Tuple& other)
 		{			
-			//std::cout << "Tuple +\n";
-			Tuple t(this->x + other.x, this->y + other.y, this->z + other.z, this->w + other.w);
+			Tuple t(x + other.x, y + other.y, z + other.z, w + other.w);
 			return t;
-		}
+		}				
 
 		//
 		// Subtract two Tuples together		
 		// 
-		// point - point is okay => result is vector
-		// vector - vector is okay => result is vector
-		// point - vector is okay => result is point
-		// vector - point NOT okay => result is unknown (w = -1)
-		//
-		Tuple& operator-(const Tuple& other)
-		{
-			//std::cout << "Tuple -\n";
-			Tuple t(this->x - other.x, this->y - other.y, this->z - other.z, this->w - other.w);
+		Tuple& operator-=(const Tuple& other)
+		{			
+			Tuple t(x - other.x, y - other.y, z - other.z, w - other.w);
 			return t;
 		}
 
 		//
 		// Negate Operator - the negative of a Tuple.
 		// 
-		// tuple - is okay
-		// vector - is okay
-		// point - NOT okay => result is unknown (w = -1)
-		//
 		Tuple& operator-()
 		{
-			Tuple t(-this->x, -this->y, -this->z, -this->w);
+			Tuple t(-x, -y, -z, -w);
 			return t;
 		}
-
-		//
-		// Multiply a Tuple by a scalar
-		//
-		Tuple& operator*(const float &scalar)
-		{
-			Tuple t(this->x * scalar, this->y * scalar, this->z * scalar, this->w * scalar);
-			return t;
-		}
-
+				
 		//
 		// Multiply a Tuple by a scalar
 		//
 		Tuple& operator*=(const float& scalar)
-		{			
-			*this = (*this) * scalar;			
+		{									
+			x *= scalar;
+			y *= scalar;
+			z *= scalar;
+			w *= scalar;			
 			return *this;
 		}
-
-		//
-		// Divide a Tuple by a scalar
-		//
-		Tuple& operator/(const float& scalar)
-		{
-			Tuple t(this->x / scalar, this->y / scalar, this->z / scalar, this->w / scalar);
-			return t;
-		}
-
+		
 		//
 		// Divide a Tuple by a scalar
 		//
 		Tuple& operator/=(const float& scalar)
 		{
-			*this = (*this) / scalar;
+			x /= scalar; 
+			y /= scalar;
+			z /= scalar;
+			w /= scalar;
 			return *this;
-		}
-
-	public: 
-		float x;
-		float y;
-		float z;
-		float w;
+		}	
 	};
 
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+
+	/// <summary>
+	/// Tuple with a w=1
+	/// </summary>
 	class Point : public Tuple
 	{
 	public:
+		Point() : Tuple()
+		{
+		}
+
 		Point(float lx, float ly, float lz) : Tuple(lx, ly, lz, 1)
 		{}
 
@@ -262,19 +238,52 @@ namespace RayTracer
 		{}
 	};
 
+	// -------------------------------------------------------------------------------------------------------------------------------------------
+
+	/// <summary>
+	/// Tuple with a w=0
+	/// </summary>
 	class Vector : public Tuple
 	{
 	public:
+		Vector() : Tuple()
+		{
+		}
+
 		Vector(float lx, float ly, float lz) : Tuple(lx, ly, lz, 0)
 		{}
-		
+
 		Vector(const Tuple& t) : Tuple(t)
 		{}
-	};
-}
+	};	
+
+	//
+	// Add two Tuples together
+	//
+	Tuple operator+(Tuple a, Tuple const& b) { return a += b; }
+
+	//
+	// Subtract two Tuples together		
+	// 		
+	Tuple operator-(Tuple a, Tuple const& b) { return a -= b; }
+
+	//
+	// Multiply a Tuple by a scalar
+	//
+	Tuple operator*(Tuple a, float const& scalar) { return a *= scalar; }
+
+	//
+	// Divide a Tuple by a scalar
+	//
+	Tuple operator/(Tuple a, float const& scalar) { return a /= scalar; }
+} // end namespace
+
+// -------------------------------------------------------------------------------------------------------------------------------------------
 
 std::ostream& operator<<(std::ostream& os, const RayTracer::Tuple& tuple)
 {
 	os << "(" << tuple.x << ", " << tuple.y << ", " << tuple.z << ", " << tuple.w << ")";
 	return os;
 }
+
+// -------------------------------------------------------------------------------------------------------------------------------------------

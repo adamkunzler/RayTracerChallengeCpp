@@ -258,7 +258,7 @@ namespace RayTracer
 		{
 			Tuple p(1, -2, 3, -4);
 			p *= 3.5;
-			
+
 			bool result = (p.x == 3.5 && p.y == -7 && p.z == 10.5 && p.w == -14);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
