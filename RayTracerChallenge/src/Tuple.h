@@ -172,8 +172,11 @@ namespace RayTracer
 		//
 		Tuple& operator+=(const Tuple& other)
 		{			
-			Tuple t(x + other.x, y + other.y, z + other.z, w + other.w);
-			return t;
+			x += other.x;
+			y += other.y;
+			z += other.z; 
+			w += other.w;
+			return *this;
 		}				
 
 		//
@@ -181,8 +184,11 @@ namespace RayTracer
 		// 
 		Tuple& operator-=(const Tuple& other)
 		{			
-			Tuple t(x - other.x, y - other.y, z - other.z, w - other.w);
-			return t;
+			x -= other.x;
+			y -= other.y;
+			z -= other.z;
+			w -= other.w;
+			return *this;
 		}
 
 		//
@@ -198,7 +204,7 @@ namespace RayTracer
 		// Multiply a Tuple by a scalar
 		//
 		Tuple& operator*=(const float& scalar)
-		{									
+		{							
 			x *= scalar;
 			y *= scalar;
 			z *= scalar;
@@ -256,6 +262,8 @@ namespace RayTracer
 		Vector(const Tuple& t) : Tuple(t)
 		{}
 	};	
+
+	// -------------------------------------------------------------------------------------------------------------------------------------------
 
 	//
 	// Add two Tuples together

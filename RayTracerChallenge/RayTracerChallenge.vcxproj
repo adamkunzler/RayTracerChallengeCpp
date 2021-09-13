@@ -143,8 +143,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exercises\Chapter1\VirtualCannon.h" />
+    <ClInclude Include="src\Color.h" />
     <ClInclude Include="src\Tuple.h" />
     <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="tests\colorTests.h" />
     <ClInclude Include="tests\tupleTests.h" />
     <ClInclude Include="tests\utilsTests.h" />
   </ItemGroup>

@@ -35,5 +35,11 @@
     <ClInclude Include="Exercises\Chapter1\VirtualCannon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Color.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\colorTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

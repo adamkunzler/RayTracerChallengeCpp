@@ -4,6 +4,7 @@
 #include "src\Tuple.h"
 #include "tests\tupleTests.h"
 #include "tests\utilsTests.h"
+#include "tests\colorTests.h"
 
 #include "Exercises\Chapter1\VirtualCannon.h"
 
@@ -14,13 +15,13 @@ int main()
 {
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
-	Exercises::Chapter1::FireCannon();
+	//Exercises::Chapter1::FireCannon();
 
-	/*bool result = RunTests();	
+	bool result = RunTests();	
 	if(result)
 	{ 
 		RunRayTracer();
-	}*/
+	}
 
 	std::cout << "\n\n\n";
 	return 0;
@@ -28,6 +29,9 @@ int main()
 
 bool RunTests()
 {	
+	bool runTupleTests = true;
+	bool runColorTests = true;
+
 	int numPassed(0);
 	std::vector<std::string> failedTests;
 
@@ -35,7 +39,8 @@ bool RunTests()
 
 	//
 	// TUPLE, POINT, VECTOR TESTS
-	//
+	//	
+	if(runTupleTests) 
 	{
 		std::cout << "\nBEGIN Tuple, Vector, Point Tests...\n";
 
@@ -145,6 +150,43 @@ bool RunTests()
 		else { failedTests.push_back("VectorCrossProduct()"); }
 
 		std::cout << "END Tuple, Vector, Point Tests\n";
+	}
+	
+	//
+	// COLOR TESTS
+	//
+	if(runColorTests)
+	{
+		std::cout << "\n\n\nBEGIN Color Tests...\n";
+
+		if (RayTracer::Tests::ColorsAreTuples()) { numPassed++; }
+		else { failedTests.push_back("ColorsAreTuples()"); }
+
+		if (RayTracer::Tests::AddColors1()) { numPassed++; }
+		else { failedTests.push_back("AddColors1()"); }
+
+		if (RayTracer::Tests::AddColors2()) { numPassed++; }
+		else { failedTests.push_back("AddColors2()"); }
+
+		if (RayTracer::Tests::SubtractColors1()) { numPassed++; }
+		else { failedTests.push_back("SubtractColors1()"); }
+
+		if (RayTracer::Tests::SubtractColors2()) { numPassed++; }
+		else { failedTests.push_back("SubtractColors2()"); }
+
+		if (RayTracer::Tests::ColorMultipliedByScalar1()) { numPassed++; }
+		else { failedTests.push_back("ColorMultipliedByScalar1()"); }
+
+		if (RayTracer::Tests::ColorMultipliedByScalar2()) { numPassed++; }
+		else { failedTests.push_back("ColorMultipliedByScalar2()"); }
+
+		if (RayTracer::Tests::MultiplyingColors1()) { numPassed++; }
+		else { failedTests.push_back("MultiplyingColors1()"); }
+
+		if (RayTracer::Tests::MultiplyingColors2()) { numPassed++; }
+		else { failedTests.push_back("MultiplyingColors2()"); }
+
+		std::cout << "END Color Tests\n";
 	}
 
 	std::cout << "\nTests Completed.\n";
