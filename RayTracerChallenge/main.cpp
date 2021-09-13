@@ -5,6 +5,7 @@
 #include "tests\tupleTests.h"
 #include "tests\utilsTests.h"
 #include "tests\colorTests.h"
+#include "tests\canvasTests.h"
 
 #include "Exercises\Chapter1\VirtualCannon.h"
 
@@ -29,8 +30,9 @@ int main()
 
 bool RunTests()
 {	
-	bool runTupleTests = true;
-	bool runColorTests = true;
+	bool runTupleTests = false;
+	bool runColorTests = false;
+	bool runCanvasTests = true;
 
 	int numPassed(0);
 	std::vector<std::string> failedTests;
@@ -187,6 +189,37 @@ bool RunTests()
 		else { failedTests.push_back("MultiplyingColors2()"); }
 
 		std::cout << "END Color Tests\n";
+	}
+
+	//
+	// CANVAS TEST
+	//
+	if (runCanvasTests)
+	{
+		std::cout << "\n\n\nBEGIN Canvas Tests...\n";
+
+		if (RayTracer::Tests::CreateACanvas_Dimensions()) { numPassed++; }
+		else { failedTests.push_back("CreateACanvas_Dimensions()"); }
+
+		if (RayTracer::Tests::CreateACanvas_AllBlack()) { numPassed++; }
+		else { failedTests.push_back("CreateACanvas_AllBlack()"); }
+
+		if (RayTracer::Tests::CreateACanvas_Big()) { numPassed++; }
+		else { failedTests.push_back("CreateACanvas_Big()"); }
+
+		if (RayTracer::Tests::CanvasSetPixelByXY()) { numPassed++; }
+		else { failedTests.push_back("CanvasSetPixelByXY()"); }
+
+		if (RayTracer::Tests::CanvasSetPixelByIndex()) { numPassed++; }
+		else { failedTests.push_back("CanvasSetPixelByIndex()"); }
+
+		if (RayTracer::Tests::CanvasToPPM_Header()) { numPassed++; }
+		else { failedTests.push_back("CanvasToPPM_Header()"); }
+
+		if (RayTracer::Tests::CanvasToPPM_PixelData()) { numPassed++; }
+		else { failedTests.push_back("CanvasToPPM_PixelData()"); }
+
+		std::cout << "END Canvas Tests\n";
 	}
 
 	std::cout << "\nTests Completed.\n";

@@ -41,5 +41,11 @@
     <ClInclude Include="tests\colorTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Canvas.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\canvasTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

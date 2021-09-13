@@ -10,7 +10,7 @@ namespace RayTracer
 	/// A color represented by a Tuple
 	/// </summary>
 	class Color : public Tuple
-	{
+	{	
 	public:
 		Color() : Tuple()
 		{
@@ -29,6 +29,16 @@ namespace RayTracer
 		const float& green() { return y; }
 		const float& blue() { return z; }
 		const float& alpha() { return w; }
+
+		bool isBlack()
+		{
+			return FloatEquals(x, 0) && FloatEquals(y, 0) && FloatEquals(z, 0);
+		}
+
+		bool isWhite()
+		{
+			return FloatEquals(x, 1) && FloatEquals(y, 1) && FloatEquals(z, 1);
+		}
 
 		Color& operator*=(const float& scalar)
 		{
@@ -63,6 +73,11 @@ namespace RayTracer
 			c.w = a.w * b.w;
 			
 			return c;
+		}
+
+		bool operator==(const Color& color)
+		{
+			return FloatEquals(x, color.x) && FloatEquals(y, color.y) && FloatEquals(z, color.z);
 		}
 	};
 

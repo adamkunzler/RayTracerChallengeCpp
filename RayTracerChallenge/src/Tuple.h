@@ -1,6 +1,5 @@
 #pragma once
 
-#include <typeinfo>
 #include <iostream>
 #include "Utils.h"
 
