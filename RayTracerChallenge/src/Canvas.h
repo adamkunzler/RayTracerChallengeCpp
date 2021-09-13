@@ -22,7 +22,7 @@ namespace RayTracer
 			Color black(0, 0, 0);
 			fillCanvas(black);			
 		}
-
+		
 		const void fillCanvas(const Color& color)
 		{
 			for (int i = 0; i < width * height; i++)
@@ -37,8 +37,8 @@ namespace RayTracer
 		const Color pixelAt(const int index)
 		{
 			int i = index;
-			/*if (index < 0) i = 0;
-			if (index > maxIndex) i = maxIndex;*/
+			if (index < 0) i = 0;
+			if (index > maxIndex) i = maxIndex;
 
 			return pixels[i];
 		}
@@ -51,8 +51,8 @@ namespace RayTracer
 		const void setPixel(const int index, const Color& color)
 		{
 			int i = index;
-			/*if (index < 0) i = 0;
-			if (index > maxIndex) i = maxIndex;*/
+			if (index < 0) i = 0;
+			if (index > maxIndex) i = maxIndex;
 
 			pixels[i] = color;
 		}
@@ -119,7 +119,14 @@ namespace RayTracer
 		{
 			std::string data(toPPM());
 			std::ofstream stream(filename, std::ios::out);
+			
+			/*const size_t bufsize = 256 * 1024;
+			char buf[bufsize];
+			stream.rdbuf()->pubsetbuf(buf, bufsize);*/
+
 			stream << data;
+			
+			stream.close();
 		}
 
 	private:

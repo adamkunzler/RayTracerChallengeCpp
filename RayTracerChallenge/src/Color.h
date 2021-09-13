@@ -30,6 +30,15 @@ namespace RayTracer
 		const float& blue() { return z; }
 		const float& alpha() { return w; }
 
+		//
+		// Convert an RGB color in the range of 0 - 255 to a range of 0 - 1
+		//
+		static Color fromRGB(const int r, const int g, const int b)
+		{
+			Color c(r / 255.0f, g / 255.0f, b / 255.0f);
+			return c;
+		}
+
 		bool isBlack()
 		{
 			return FloatEquals(x, 0) && FloatEquals(y, 0) && FloatEquals(z, 0);

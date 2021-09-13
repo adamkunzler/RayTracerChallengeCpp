@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <chrono>
 
 #include "src\Tuple.h"
 #include "tests\tupleTests.h"
@@ -19,7 +20,7 @@ int main()
 	
 	//Exercises::Chapter1::FireCannon();
 	Exercises::Chapter2::ProjectilePPM();
-
+		
 	/*bool result = RunTests();	
 	if(result)
 	{ 
@@ -41,11 +42,15 @@ bool RunTests()
 
 	std::cout << "Running tests...\n\n";
 
+	auto start = std::chrono::high_resolution_clock::now();
+	
 	//
 	// TUPLE, POINT, VECTOR TESTS
 	//	
 	if(runTupleTests) 
 	{
+		auto tstart = std::chrono::high_resolution_clock::now();
+
 		std::cout << "\nBEGIN Tuple, Vector, Point Tests...\n";
 
 		if (RayTracer::Tests::TupleIsPoint()) { numPassed++; }
@@ -153,7 +158,10 @@ bool RunTests()
 		if (RayTracer::Tests::VectorCrossProduct()) { numPassed++; }
 		else { failedTests.push_back("VectorCrossProduct()"); }
 
-		std::cout << "END Tuple, Vector, Point Tests\n";
+		auto tstop = std::chrono::high_resolution_clock::now();
+		auto tduration = std::chrono::duration_cast<std::chrono::milliseconds>(tstop - tstart);
+
+		std::cout << "END Tuple, Vector, Point Tests (" << tduration.count() << "ms)\n";
 	}
 	
 	//
@@ -162,6 +170,7 @@ bool RunTests()
 	if(runColorTests)
 	{
 		std::cout << "\n\n\nBEGIN Color Tests...\n";
+		auto tstart = std::chrono::high_resolution_clock::now();
 
 		if (RayTracer::Tests::ColorsAreTuples()) { numPassed++; }
 		else { failedTests.push_back("ColorsAreTuples()"); }
@@ -190,7 +199,10 @@ bool RunTests()
 		if (RayTracer::Tests::MultiplyingColors2()) { numPassed++; }
 		else { failedTests.push_back("MultiplyingColors2()"); }
 
-		std::cout << "END Color Tests\n";
+		auto tstop = std::chrono::high_resolution_clock::now();
+		auto tduration = std::chrono::duration_cast<std::chrono::milliseconds>(tstop - tstart);
+
+		std::cout << "END Color Tests (" << tduration.count() << "ms)\n";
 	}
 
 	//
@@ -199,6 +211,7 @@ bool RunTests()
 	if (runCanvasTests)
 	{
 		std::cout << "\n\n\nBEGIN Canvas Tests...\n";
+		auto tstart = std::chrono::high_resolution_clock::now();
 
 		if (RayTracer::Tests::CreateACanvas_Dimensions()) { numPassed++; }
 		else { failedTests.push_back("CreateACanvas_Dimensions()"); }
@@ -224,13 +237,20 @@ bool RunTests()
 		if (RayTracer::Tests::CanvasToPPM_LongLines()) { numPassed++; }
 		else { failedTests.push_back("CanvasToPPM_LongLines()"); }
 
-		std::cout << "END Canvas Tests\n";
+		auto tstop = std::chrono::high_resolution_clock::now();
+		auto tduration = std::chrono::duration_cast<std::chrono::milliseconds>(tstop - tstart);
+
+		std::cout << "END Canvas Tests (" << tduration.count() << "ms)\n";
 	}
 
-	std::cout << "\nTests Completed.\n";
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	
+	std::cout << "\nTests Completed in " << duration.count() << "ms.\n";
 	std::cout << "\nPassing Tests: " << numPassed;
 	std::cout << "\nFailing Tests: " << failedTests.size() << std::endl;
 
+	// write out the failed tests
 	for (std::vector<std::string>::const_iterator iter = failedTests.begin(); iter != failedTests.end(); ++iter)
 	{
 		std::cout << "\t" << *iter << std::endl;
@@ -241,9 +261,16 @@ bool RunTests()
 
 void RunRayTracer()
 {
+	auto start = std::chrono::high_resolution_clock::now();
+
 	std::cout << "\n\nRunning Ray Tracer...\n\n";
 
 	std::cout << "NOT IMPLEMENTED\n\n";
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+	std::cout << "\nRay Tracer Completed in " << duration.count() << "ms.\n";
 
 	return;
 }

@@ -124,9 +124,17 @@ namespace RayTracer
 			return result;
 		}
 
+		bool CanvasToPPM_LongLines();
+		bool CanvasToPPM_LongLines(int width, int height);
+
 		bool CanvasToPPM_LongLines()
 		{
-			Canvas c(100, 100);
+			return CanvasToPPM_LongLines(100, 100);
+		}
+
+		bool CanvasToPPM_LongLines(int width, int height)
+		{
+			Canvas c(width, height);
 			Color c1(1, 0.8, 0.6);
 			
 			c.fillCanvas(c1);
@@ -136,7 +144,7 @@ namespace RayTracer
 			bool result = true;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t" << "CanvasToPPM_PixelData()\n";
+			std::cout << pf << "\t" << "CanvasToPPM_LongLines()\n";
 
 			return result;
 		}
