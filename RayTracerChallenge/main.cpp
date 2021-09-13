@@ -8,6 +8,7 @@
 #include "tests\canvasTests.h"
 
 #include "Exercises\Chapter1\VirtualCannon.h"
+#include "Exercises\Chapter2\ProjectilePPM.h"
 
 bool RunTests();
 void RunRayTracer();
@@ -17,12 +18,13 @@ int main()
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
 	//Exercises::Chapter1::FireCannon();
+	Exercises::Chapter2::ProjectilePPM();
 
-	bool result = RunTests();	
+	/*bool result = RunTests();	
 	if(result)
 	{ 
 		RunRayTracer();
-	}
+	}*/
 
 	std::cout << "\n\n\n";
 	return 0;
@@ -30,8 +32,8 @@ int main()
 
 bool RunTests()
 {	
-	bool runTupleTests = false;
-	bool runColorTests = false;
+	bool runTupleTests = true;
+	bool runColorTests = true;
 	bool runCanvasTests = true;
 
 	int numPassed(0);
@@ -218,6 +220,9 @@ bool RunTests()
 
 		if (RayTracer::Tests::CanvasToPPM_PixelData()) { numPassed++; }
 		else { failedTests.push_back("CanvasToPPM_PixelData()"); }
+
+		if (RayTracer::Tests::CanvasToPPM_LongLines()) { numPassed++; }
+		else { failedTests.push_back("CanvasToPPM_LongLines()"); }
 
 		std::cout << "END Canvas Tests\n";
 	}

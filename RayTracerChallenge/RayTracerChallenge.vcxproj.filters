@@ -47,5 +47,8 @@
     <ClInclude Include="tests\canvasTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Exercises\Chapter2\ProjectilePPM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

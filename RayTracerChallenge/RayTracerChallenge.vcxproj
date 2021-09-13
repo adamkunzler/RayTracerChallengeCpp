@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exercises\Chapter1\VirtualCannon.h" />
+    <ClInclude Include="Exercises\Chapter2\ProjectilePPM.h" />
     <ClInclude Include="src\Canvas.h" />
     <ClInclude Include="src\Color.h" />
     <ClInclude Include="src\Tuple.h" />

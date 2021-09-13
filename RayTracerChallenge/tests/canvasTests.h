@@ -107,23 +107,33 @@ namespace RayTracer
 			Canvas c(5, 3);
 			Color c1(1.5, 0, 0);
 			Color c2(0, 0.5, 0);
-			Color c3(-0.5, 0, 1);
-
-			std::cout << "c2 normalize: " << c2.normalize() << std::endl;
+			Color c3(-0.5, 0, 1);			
 
 			c.setPixel(0, 0, c1);
 			c.setPixel(2, 1, c2);
 			c.setPixel(4, 2, c3);
-
+			
 			std::string ppm = c.toPPM();
-			std::cout << ppm << std::endl;
-
-			// TODO
-			// c2 should be 128
-			// c3 should be 255
-
-
+			//std::cout << ppm << std::endl;
+			
 			bool result = ppm == "P3\n5 3\n255\n255 0 0 0 0 0 0 0 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 128 0 0 0 0 0 0 0 \n0 0 0 0 0 0 0 0 0 0 0 0 0 0 255 \n\n";
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "CanvasToPPM_PixelData()\n";
+
+			return result;
+		}
+
+		bool CanvasToPPM_LongLines()
+		{
+			Canvas c(100, 100);
+			Color c1(1, 0.8, 0.6);
+			
+			c.fillCanvas(c1);
+								
+			c.toPPM("images/CanvasToPPM_LongLines.ppm");
+
+			bool result = true;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "CanvasToPPM_PixelData()\n";
