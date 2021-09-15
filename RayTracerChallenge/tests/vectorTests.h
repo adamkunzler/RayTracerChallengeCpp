@@ -10,397 +10,396 @@ namespace RayTracer
 {
 	namespace Tests
 	{
-		bool TupleConstructor_Default()
+		bool VectorConstructor_Default()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleConstructor_Default\n";
+			std::cout << pf << "\t VectorConstructor_De\n";
 
 			return result;
 		}
 
-		bool TupleConstructor_Values()
+		bool VectorConstructor_Values()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleConstructor_Values\n";
+			std::cout << pf << "\t VectorConstructor_Va\n";
 
 			return result;
 		}
 
-		bool TupleConstructor_Copy()
+		bool VectorConstructor_Copy()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleConstructor_Copy\n";
+			std::cout << pf << "\t VectorConstructor_Co\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Assignment_Tuple()
+		bool VectorOperator_Assignment_Tuple()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Assignment_Tuple\n";
+			std::cout << pf << "\t VectorOperator_Assig\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Assignment_Vector()
+		bool VectorOperator_Assignment_Vector()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Assignment_Vector\n";
+			std::cout << pf << "\t VectorOperator_Assig\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Assignment_Point()
+		bool VectorOperator_Assignment_Point()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Assignment_Point\n";
+			std::cout << pf << "\t VectorOperator_Assig\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Equality_Tuple()
+		bool VectorOperator_Equality_Tuple()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Equality_Tuple\n";
+			std::cout << pf << "\t VectorOperator_Equal\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Equality_Vector()
+		bool VectorOperator_Equality_Vector()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Equality_Vector\n";
+			std::cout << pf << "\t VectorOperator_Equal\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Equality_Point()
+		bool VectorOperator_Equality_Point()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Equality_Point\n";
+			std::cout << pf << "\t VectorOperator_Equal\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Inequality_Tuple()
+		bool VectorOperator_Inequality_Tuple()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Inequality_Tuple\n";
+			std::cout << pf << "\t VectorOperator_Inequ\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Inequality_Vector()
+		bool VectorOperator_Inequality_Vector()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Inequality_Vector\n";
+			std::cout << pf << "\t VectorOperator_Inequ\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Inequality_Point()
+		bool VectorOperator_Inequality_Point()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Inequality_Point\n";
+			std::cout << pf << "\t VectorOperator_Inequ\n";
 
 			return result;
 		}
 
-		bool TupleOperator_PlusEquals_Tuple()
+		bool VectorOperator_PlusEquals_Tuple()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_PlusEquals_Tuple\n";
+			std::cout << pf << "\t VectorOperator_PlusE\n";
 
 			return result;
 		}
 
-		bool TupleOperator_PlusEquals_Vector()
+		bool VectorOperator_PlusEquals_Vector()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_PlusEquals_Vector\n";
+			std::cout << pf << "\t VectorOperator_PlusE\n";
 
 			return result;
 		}
 
-		bool TupleOperator_PlusEquals_Point()
+		bool VectorOperator_PlusEquals_Point()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_PlusEquals_Point\n";
+			std::cout << pf << "\t VectorOperator_PlusE\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Plus_Tuple()
+		bool VectorOperator_Plus_Tuple()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Plus_Tuple\n";
+			std::cout << pf << "\t VectorOperator_Plus_\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Plus_Vector()
+		bool VectorOperator_Plus_Vector()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Plus_Vector\n";
+			std::cout << pf << "\t VectorOperator_Plus_\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Plus_Point()
+		bool VectorOperator_Plus_Point()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Plus_Point\n";
+			std::cout << pf << "\t VectorOperator_Plus_\n";
 
 			return result;
 		}
 
-		bool TupleOperator_MinusEquals_Tuple()
+		bool VectorOperator_MinusEquals_Tuple()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_MinusEquals_Tuple\n";
+			std::cout << pf << "\t VectorOperator_Minus\n";
 
 			return result;
 		}
 
-		bool TupleOperator_MinusEquals_Vector()
+		bool VectorOperator_MinusEquals_Vector()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_MinusEquals_Vector\n";
+			std::cout << pf << "\t VectorOperator_Minus\n";
 
 			return result;
 		}
 
-		bool TupleOperator_MinusEquals_Point()
+		bool VectorOperator_MinusEquals_Point()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_MinusEquals_Point\n";
+			std::cout << pf << "\t VectorOperator_Minus\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Minus_Tuple()
+		bool VectorOperator_Minus_Tuple()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Minus_Tuple\n";
+			std::cout << pf << "\t VectorOperator_Minus\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Minus_Vector()
+		bool VectorOperator_Minus_Vector()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Minus_Vector\n";
+			std::cout << pf << "\t VectorOperator_Minus\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Minus_Point()
+		bool VectorOperator_Minus_Point()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Minus_Point\n";
+			std::cout << pf << "\t VectorOperator_Minus\n";
 
 			return result;
 		}
 
-		bool TupleOperator_Negate()
+		bool VectorOperator_Negate()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_Negate\n";
+			std::cout << pf << "\t VectorOperator_Negat\n";
 
 			return result;
 		}
 
-		bool TupleOperator_MultiplyByEquals_Scalar()
+		bool VectorOperator_MultiplyByEquals_Scalar()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_MultiplyByEquals_Scalar\n";
+			std::cout << pf << "\t VectorOperator_Multi\n";
 
 			return result;
 		}
 
-		bool TupleOperator_MultiplyBy_Scalar()
+		bool VectorOperator_MultiplyBy_Scalar()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_MultiplyBy_Scalar\n";
+			std::cout << pf << "\t VectorOperator_Multi\n";
 
 			return result;
 		}
 
-		bool TupleOperator_DividedByEquals_Scalar()
+		bool VectorOperator_DividedByEquals_Scalar()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_DividedByEquals_Scalar\n";
+			std::cout << pf << "\t VectorOperator_Divid\n";
 
 			return result;
 		}
 
-		bool TupleOperator_DividedBy_Scalar()
+		bool VectorOperator_DividedBy_Scalar()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleOperator_DividedBy_Scalar\n";
+			std::cout << pf << "\t VectorOperator_Divid\n";
 
 			return result;
 		}
 
-		bool TupleIsPoint()
+		bool VectorIsPoint()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleIsPoint\n";
+			std::cout << pf << "\t VectorIsPoint\n";
 
 			return result;
 		}
 
-		bool TupleIsVector()
+		bool VectorIsVector()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleIsVector\n";
+			std::cout << pf << "\t VectorIsVector\n";
 
 			return result;
 		}
 
-		bool TupleMagnitude()
+		bool VectorMagnitude()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleMagnitude\n";
+			std::cout << pf << "\t VectorMagnitude\n";
 
 			return result;
 		}
 
-		bool TupleMagnitudeStatic()
+		bool VectorMagnitudeStatic()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleMagnitudeStatic\n";
+			std::cout << pf << "\t VectorMagnitudeStati\n";
 
 			return result;
 		}
 
-		bool TupleNormalize()
+		bool VectorNormalize()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleNormalize\n";
+			std::cout << pf << "\t VectorNormalize\n";
 
 			return result;
 		}
 
-		bool TupleNormalizeStatic()
+		bool VectorNormalizeStatic()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleNormalizeStatic\n";
+			std::cout << pf << "\t VectorNormalizeStati\n";
 
 			return result;
 		}
 
-		bool TupleDot()
+		bool VectorDot()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleDot\n";
+			std::cout << pf << "\t VectorDot\n";
 
 			return result;
 		}
 
-		bool TupleDotStatic()
+		bool VectorDotStatic()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleDotStatic\n";
+			std::cout << pf << "\t VectorDotStatic\n";
 
 			return result;
 		}
 
-		bool TupleCross()
+		bool VectorCross()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleCross\n";
+			std::cout << pf << "\t VectorCross\n";
 
 			return result;
 		}
 
-		bool TupleCrossStatic()
+		bool VectorCrossStatic()
 		{
 			bool result = false;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t TupleCrossStatic\n";
+			std::cout << pf << "\t VectorCrossStatic\n";
 
 			return result;
 		}
 
 
 	}
-
 }

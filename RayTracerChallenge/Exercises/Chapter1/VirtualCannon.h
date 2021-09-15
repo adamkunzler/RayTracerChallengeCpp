@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include "../../src/Tuple.h"
+#include "../../src/Point.h"
+#include "../../src/Vector.h"
 
 namespace Exercises
 {
@@ -27,7 +29,7 @@ namespace Exercises
 			RayTracer::Vector wind;
 		};
 
-		Projectile& Tick(Environment& env, Projectile& proj)
+		Projectile Tick(Environment& env, Projectile& proj)
 		{			
 			RayTracer::Point position = proj.position + proj.velocity;
 			RayTracer::Vector velocity = proj.velocity + env.gravity + env.wind;

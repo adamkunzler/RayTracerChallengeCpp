@@ -1,34 +1,45 @@
 #pragma once
 
 #include <iostream>
-#include "Utils.h"
-#include "Tuple.h"
 
 namespace RayTracer
 {
 	/// <summary>
-	/// A color represented by a Tuple
+	/// A color represented by RGB with each value in the range of 0.0 to 1.0 inclusive
 	/// </summary>
-	class Color : public Tuple
+	class Color
 	{	
 	public:
-		Color() : Tuple()
+		float r;
+		float g;
+		float b;
+
+	public:
+		Color() : r(0.0f), g(0.0f), b(0.0f)
 		{
 		}
 
-		Color(float lr, float lg, float lb) : Tuple(lr, lg, lb, 0)
+		Color(float lr, float lg, float lb) : r(lr), g(lg), b(lb)
 		{}
 
-		Color(float lr, float lg, float lb, float lalpha) : Tuple(lr, lg, lb, lalpha)
-		{}
+		Color(const Color& other) {
+			r = other.r;
+			g = other.g;
+			b = other.b;
+		}
+			
+		// assignment operator
+		Color& operator=(const Color& other)
+		{
+			if (this == &other)
+				return *this;
 
-		Color(const Tuple& t) : Tuple(t)
-		{}
-
-		const float& red() { return x; }
-		const float& green() { return y; }
-		const float& blue() { return z; }
-		const float& alpha() { return w; }
+			r = other.r;
+			g = other.g;
+			b = other.b;
+			
+			return *this;
+		}
 
 		//
 		// Convert an RGB color in the range of 0 - 255 to a range of 0 - 1
@@ -39,59 +50,95 @@ namespace RayTracer
 			return c;
 		}
 
-		bool isBlack()
+		bool isBlack() const
 		{
-			return FloatEquals(x, 0) && FloatEquals(y, 0) && FloatEquals(z, 0);
+			return FloatEquals(r, 0) && FloatEquals(g, 0) && FloatEquals(b, 0);
 		}
 
-		bool isWhite()
+		bool isWhite() const
 		{
-			return FloatEquals(x, 1) && FloatEquals(y, 1) && FloatEquals(z, 1);
+			return FloatEquals(r, 1) && FloatEquals(g, 1) && FloatEquals(b, 1);
 		}
-
-		Color& operator*=(const float& scalar)
-		{
-			// not sure why the Tuple function didn't get called
-			x *= scalar;
-			y *= scalar;
-			z *= scalar;
-			w *= scalar;
-			return *this;
-		}
-
-		//
-		// Multiply a Tuple by a scalar
-		//
-		Color& operator*=(Color& other)
+				
+		// Multiply a Color by a Color
+		Color operator*=(const Color& other)
 		{
 			Color c = hadamardProduct(*this, other);
-			x = c.x;
-			y = c.y;
-			z = c.z;
-			w = c.w;
+			r = c.r;
+			b = c.b;
+			g = c.g;
 			return *this;
 		}
 
-		Color& hadamardProduct(Color& a, Color& b)
+		Color& hadamardProduct(Color& a, const Color& b)
 		{
-			Color c;
-
-			c.x = a.red() * b.red();
-			c.y = a.green() * b.green();
-			c.z = a.blue() * b.blue();
-			c.w = a.w * b.w;
-			
+			Color c(a.r * b.r, a.g * b.g, a.b * b.b);			
 			return c;
 		}
 
+		// equality
 		bool operator==(const Color& color)
 		{
-			return FloatEquals(x, color.x) && FloatEquals(y, color.y) && FloatEquals(z, color.z);
+			return FloatEquals(r, color.r) && FloatEquals(g, color.g) && FloatEquals(b, color.b);
+		}
+
+		// inequality
+		bool operator!=(const Color& color)
+		{
+			return !(*this == color);
+		}
+
+		// Add two Colors		
+		Color& operator+=(const Color& other)
+		{
+			r += other.r;
+			g += other.g;
+			b += other.b;
+			return *this;
+		}
+
+		// Subtract two Colors				
+		Color& operator-=(const Color& other)
+		{
+			r -= other.r;
+			g -= other.g; 
+			b -= other.b;
+			return *this;
+		}
+
+		// multiply color by a scalar
+		Color operator*=(const float& scalar)
+		{
+			r *= scalar; 
+			g *= scalar; 
+			b *= scalar;
+			return *this;
+		}
+
+		// Divide Color by a scalar
+		Color& operator/=(const float& scalar)
+		{
+			r /= scalar;
+			g /= scalar;
+			b /= scalar;
+			return *this;
 		}
 	};
+	
+	
+	Color operator+(Color a, Color const& b) { return a += b; }
+	
+	Color operator-(Color a, Color const& b) { return a -= b; }
 
-	//
-	// Multiply two Colors
-	//
-	Color operator*(Color a, Color& b) { return a *= b; }
+	Color operator*(Color& a, Color const& b) { return a *= b; }
+
+	Color operator*(Color a, float const& scalar) { return a *= scalar; }
+	
+	Color operator/(Color a, float const& scalar) { return a /= scalar; }
+}
+
+std::ostream& operator<<(std::ostream& os, const RayTracer::Color& color)
+{
+	os << "(" << color.r << ", " << color.g << ", " << color.b << ")";
+	return os;
 }

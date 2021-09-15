@@ -5,6 +5,8 @@
 #include "../../src/Canvas.h"
 #include "../../src/Utils.h"
 #include "../../src/Tuple.h"
+#include "../../src/Point.h"
+#include "../../src/Vector.h"
 
 namespace Exercises
 {
@@ -42,10 +44,10 @@ namespace Exercises
 
 			RayTracer::Color color = RayTracer::Color::fromRGB(29,153,24);
 
-			RayTracer::Point position(0, 1, 0);
-			RayTracer::Vector velocity(1, 1.8, 0);
-			RayTracer::Vector gravity(0, -0.1, 0);
-			RayTracer::Vector wind(-0.01, 0, 0);
+			RayTracer::Point position(0.0f, 1.0f, 0.0f);
+			RayTracer::Vector velocity(1.0f, 1.8f, 0.0f);
+			RayTracer::Vector gravity(0.0f, -0.1f, 0.0f);
+			RayTracer::Vector wind(-0.04f, 0.0f, 0.0f);
 			
 			velocity = velocity.normalize() * 11.25;
 

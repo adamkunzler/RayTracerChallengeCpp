@@ -4,7 +4,7 @@
 
 namespace RayTracer
 {
-	const float EPSILON(0.00001);
+	const float EPSILON(0.00001f);
 
 	bool FloatEquals(float a, float b)
 	{

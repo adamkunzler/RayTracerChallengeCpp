@@ -135,7 +135,7 @@ namespace RayTracer
 		bool CanvasToPPM_LongLines(int width, int height)
 		{
 			Canvas c(width, height);
-			Color c1(1, 0.8, 0.6);
+			Color c1(1.0f, 0.8f, 0.6f);
 			
 			c.fillCanvas(c1);
 								

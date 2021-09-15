@@ -147,12 +147,18 @@
     <ClInclude Include="Exercises\Chapter2\ProjectilePPM.h" />
     <ClInclude Include="src\Canvas.h" />
     <ClInclude Include="src\Color.h" />
+    <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Tuple.h" />
     <ClInclude Include="src\Utils.h" />
+    <ClInclude Include="src\Vector.h" />
     <ClInclude Include="tests\canvasTests.h" />
     <ClInclude Include="tests\colorTests.h" />
+    <ClInclude Include="tests\pointTests.h" />
     <ClInclude Include="tests\tupleTests.h" />
+    <ClInclude Include="tests\tupleTests_old.h" />
     <ClInclude Include="tests\utilsTests.h" />
+    <ClInclude Include="tests\vectorTests.h" />
+    <ClInclude Include="tests\_testHarness.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

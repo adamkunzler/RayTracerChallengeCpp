@@ -95,9 +95,9 @@ namespace RayTracer
 					const int index = x + y * width;
 					Color c = pixelAt(index);
 					
-					const int r = std::clamp((int)(c.x * 256.0f), 0, 255);
-					const int g = std::clamp((int)(c.y * 256.0f), 0, 255);
-					const int b = std::clamp((int)(c.z * 256.0f), 0, 255);
+					const int r = std::clamp((int)(c.r * 256.0f), 0, 255);
+					const int g = std::clamp((int)(c.g * 256.0f), 0, 255);
+					const int b = std::clamp((int)(c.b * 256.0f), 0, 255);
 
 					ss << r << " " << g << " " << b << " ";
 				}
@@ -119,11 +119,7 @@ namespace RayTracer
 		{
 			std::string data(toPPM());
 			std::ofstream stream(filename, std::ios::out);
-			
-			/*const size_t bufsize = 256 * 1024;
-			char buf[bufsize];
-			stream.rdbuf()->pubsetbuf(buf, bufsize);*/
-
+						
 			stream << data;
 			
 			stream.close();
