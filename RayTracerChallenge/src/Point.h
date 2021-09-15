@@ -10,11 +10,11 @@ namespace RayTracer
 	class Point : public Tuple
 	{
 	public:
-		Point() : Tuple()
+		Point() : Tuple(0.0f, 0.0f, 0.0f, 1.0f)
 		{
 		}
 
-		Point(float lx, float ly, float lz) : Tuple(lx, ly, lz, 1)
+		Point(float lx, float ly, float lz) : Tuple(lx, ly, lz, 1.0f)
 		{}
 
 		Point(const Tuple& t) : Tuple(t)

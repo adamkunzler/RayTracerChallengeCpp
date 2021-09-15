@@ -37,16 +37,16 @@ namespace RayTracer
 
 		bool RunTests()
 		{
-			bool runTupleTests = false;
-			//bool runTupleTests = true;
-			bool runVectorTests = false;
-			//bool runVectorTests = true;
+			//bool runTupleTests = false;
+			bool runTupleTests = true;
+			//bool runVectorTests = false;
+			bool runVectorTests = true;
 			//bool runPointTests = false;
 			bool runPointTests = true;
-			bool runColorTests = false;
-			//bool runColorTests = true;
-			bool runCanvasTests = false;
-			//bool runCanvasTests = true;
+			//bool runColorTests = false;
+			bool runColorTests = true;
+			//bool runCanvasTests = false;
+			bool runCanvasTests = true;
 
 			int numPassed(0);
 			std::vector<std::string> failedTests;
@@ -392,19 +392,13 @@ namespace RayTracer
 			else { failedTests.push_back("PointConstructor_Copy"); }
 
 			if (RayTracer::Tests::PointOperator_Assignment_Tuple()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_Assignment_Tuple"); }
-
-			if (RayTracer::Tests::PointOperator_Assignment_Vector()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_Assignment_Vector"); }
+			else { failedTests.push_back("PointOperator_Assignment_Tuple"); }			
 
 			if (RayTracer::Tests::PointOperator_Assignment_Point()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_Assignment_Point"); }
 
 			if (RayTracer::Tests::PointOperator_Equality_Tuple()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_Equality_Tuple"); }
-
-			if (RayTracer::Tests::PointOperator_Equality_Vector()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_Equality_Vector"); }
 
 			if (RayTracer::Tests::PointOperator_Equality_Point()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_Equality_Point"); }
@@ -468,13 +462,7 @@ namespace RayTracer
 
 			if (RayTracer::Tests::PointOperator_DividedBy_Scalar()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_DividedBy_Scalar"); }
-
-			if (RayTracer::Tests::PointIsPoint()) { numPassed++; }
-			else { failedTests.push_back("PointIsPoint"); }
-
-			if (RayTracer::Tests::PointIsVector()) { numPassed++; }
-			else { failedTests.push_back("PointIsVector"); }
-
+			
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 

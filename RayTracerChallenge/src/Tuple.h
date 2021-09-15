@@ -46,8 +46,8 @@ namespace RayTracer
 			return *this;
 		}
 		
-		bool isPoint() const { return w == 1.0; }
-		bool isVector() const { return w == 0; }
+		bool isPoint() const { return FloatEquals(w, 1.0f); }
+		bool isVector() const { return FloatEquals(w, 0.0f); }
 		
 		// Computes the magnitude of a Tuple		
 		float magnitude() const
