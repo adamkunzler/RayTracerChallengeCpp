@@ -12,7 +12,9 @@ namespace RayTracer
 	{
 		bool TupleConstructor_Default()
 		{
-			bool result = false;
+			Tuple t;
+
+			bool result = FloatEquals(t.x, 0.0f) && FloatEquals(t.y, 0.0f) && FloatEquals(t.z, 0.0f) && FloatEquals(t.w, 0.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleConstructor_Default\n";
@@ -22,7 +24,9 @@ namespace RayTracer
 
 		bool TupleConstructor_Values()
 		{
-			bool result = false;
+			Tuple t(1.0f, 2.0f, 3.0f, 1.0f);
+
+			bool result = FloatEquals(t.x, 1.0f) && FloatEquals(t.y, 2.0f) && FloatEquals(t.z, 3.0f) && FloatEquals(t.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleConstructor_Values\n";
@@ -31,8 +35,11 @@ namespace RayTracer
 		}
 
 		bool TupleConstructor_Copy()
-		{
-			bool result = false;
+		{			
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Tuple t(t1);
+
+			bool result = FloatEquals(t.x, 1.0f) && FloatEquals(t.y, 2.0f) && FloatEquals(t.z, 3.0f) && FloatEquals(t.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleConstructor_Copy\n";
@@ -42,7 +49,10 @@ namespace RayTracer
 
 		bool TupleOperator_Assignment_Tuple()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Tuple t = t1;
+
+			bool result = FloatEquals(t.x, 1.0f) && FloatEquals(t.y, 2.0f) && FloatEquals(t.z, 3.0f) && FloatEquals(t.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Assignment_Tuple\n";
@@ -52,7 +62,13 @@ namespace RayTracer
 
 		bool TupleOperator_Assignment_Vector()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Vector v = t1;
+
+			bool result = FloatEquals(v.x, 1.0f) 
+					   && FloatEquals(v.y, 2.0f) 
+				       && FloatEquals(v.z, 3.0f) 
+				       && FloatEquals(v.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Assignment_Vector\n";
@@ -62,7 +78,13 @@ namespace RayTracer
 
 		bool TupleOperator_Assignment_Point()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Point v = t1;
+
+			bool result = FloatEquals(v.x, 1.0f)
+				&& FloatEquals(v.y, 2.0f)
+				&& FloatEquals(v.z, 3.0f)
+				&& FloatEquals(v.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Assignment_Point\n";
@@ -72,7 +94,10 @@ namespace RayTracer
 
 		bool TupleOperator_Equality_Tuple()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Tuple t2(1.0f, 2.0f, 3.0f, 1.0f);
+
+			bool result = t1 == t2;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Equality_Tuple\n";
@@ -82,7 +107,10 @@ namespace RayTracer
 
 		bool TupleOperator_Equality_Vector()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 0.0f);
+			Vector t2(1.0f, 2.0f, 3.0f);
+
+			bool result = t1 == t2;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Equality_Vector\n";
@@ -92,7 +120,10 @@ namespace RayTracer
 
 		bool TupleOperator_Equality_Point()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Point t2(1.0f, 2.0f, 3.0f);
+
+			bool result = t1 == t2;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Equality_Point\n";
@@ -102,7 +133,10 @@ namespace RayTracer
 
 		bool TupleOperator_Inequality_Tuple()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Tuple t2(4.0f, 5.0f, 6.0f, 0.0f);
+
+			bool result = t1 != t2;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Inequality_Tuple\n";
@@ -112,7 +146,10 @@ namespace RayTracer
 
 		bool TupleOperator_Inequality_Vector()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Vector t2(4.0f, 5.0f, 6.0f);
+
+			bool result = t1 != t2;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Inequality_Vector\n";
@@ -122,7 +159,10 @@ namespace RayTracer
 
 		bool TupleOperator_Inequality_Point()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Point t2(4.0f, 5.0f, 6.0f);
+
+			bool result = t1 != t2;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Inequality_Point\n";
@@ -132,7 +172,15 @@ namespace RayTracer
 
 		bool TupleOperator_PlusEquals_Tuple()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Tuple t2(2.0f, 3.0f, 4.0f, 1.0f);
+
+			t1 += t2;
+
+			bool result = FloatEquals(t1.x, 3.0f) 
+					   && FloatEquals(t1.y, 5.0f) 
+					   && FloatEquals(t1.z, 7.0f) 
+					   && FloatEquals(t1.w, 2.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_PlusEquals_Tuple\n";
@@ -142,7 +190,15 @@ namespace RayTracer
 
 		bool TupleOperator_PlusEquals_Vector()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Vector t2(2.0f, 3.0f, 4.0f);
+
+			t1 += t2;
+
+			bool result = FloatEquals(t1.x, 3.0f)
+				&& FloatEquals(t1.y, 5.0f)
+				&& FloatEquals(t1.z, 7.0f)
+				&& FloatEquals(t1.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_PlusEquals_Vector\n";
@@ -152,7 +208,15 @@ namespace RayTracer
 
 		bool TupleOperator_PlusEquals_Point()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Point t2(2.0f, 3.0f, 4.0f);
+
+			t1 += t2;
+
+			bool result = FloatEquals(t1.x, 3.0f)
+				&& FloatEquals(t1.y, 5.0f)
+				&& FloatEquals(t1.z, 7.0f)
+				&& FloatEquals(t1.w, 2.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_PlusEquals_Point\n";
@@ -162,7 +226,15 @@ namespace RayTracer
 
 		bool TupleOperator_Plus_Tuple()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Tuple t2(2.0f, 3.0f, 4.0f, 1.0f);
+
+			Tuple t3 = t1 + t2;
+
+			bool result = FloatEquals(t3.x, 3.0f)
+				&& FloatEquals(t3.y, 5.0f)
+				&& FloatEquals(t3.z, 7.0f)
+				&& FloatEquals(t3.w, 2.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Plus_Tuple\n";
@@ -172,7 +244,15 @@ namespace RayTracer
 
 		bool TupleOperator_Plus_Vector()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Vector t2(2.0f, 3.0f, 4.0f);
+
+			Tuple t3 = t1 + t2;
+
+			bool result = FloatEquals(t3.x, 3.0f)
+				&& FloatEquals(t3.y, 5.0f)
+				&& FloatEquals(t3.z, 7.0f)
+				&& FloatEquals(t3.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Plus_Vector\n";
@@ -182,7 +262,15 @@ namespace RayTracer
 
 		bool TupleOperator_Plus_Point()
 		{
-			bool result = false;
+			Tuple t1(1.0f, 2.0f, 3.0f, 1.0f);
+			Point t2(2.0f, 3.0f, 4.0f);
+
+			Tuple t3 = t1 + t2;
+
+			bool result = FloatEquals(t3.x, 3.0f)
+				&& FloatEquals(t3.y, 5.0f)
+				&& FloatEquals(t3.z, 7.0f)
+				&& FloatEquals(t3.w, 2.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Plus_Point\n";
@@ -191,8 +279,16 @@ namespace RayTracer
 		}
 
 		bool TupleOperator_MinusEquals_Tuple()
-		{
-			bool result = false;
+		{			
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			Tuple t2(1.0f, 2.0f, 3.0f, 1.0f);
+
+			t1 -= t2;
+
+			bool result = FloatEquals(t1.x, 1.0f)
+				&& FloatEquals(t1.y, 1.0f)
+				&& FloatEquals(t1.z, 1.0f)
+				&& FloatEquals(t1.w, 0.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_MinusEquals_Tuple\n";
@@ -202,7 +298,15 @@ namespace RayTracer
 
 		bool TupleOperator_MinusEquals_Vector()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			Vector t2(1.0f, 2.0f, 3.0f);
+
+			t1 -= t2;
+
+			bool result = FloatEquals(t1.x, 1.0f)
+				&& FloatEquals(t1.y, 1.0f)
+				&& FloatEquals(t1.z, 1.0f)
+				&& FloatEquals(t1.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_MinusEquals_Vector\n";
@@ -212,7 +316,15 @@ namespace RayTracer
 
 		bool TupleOperator_MinusEquals_Point()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			Point t2(1.0f, 2.0f, 3.0f);
+
+			t1 -= t2;
+
+			bool result = FloatEquals(t1.x, 1.0f)
+				&& FloatEquals(t1.y, 1.0f)
+				&& FloatEquals(t1.z, 1.0f)
+				&& FloatEquals(t1.w, 0.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_MinusEquals_Point\n";
@@ -222,7 +334,15 @@ namespace RayTracer
 
 		bool TupleOperator_Minus_Tuple()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			Tuple t2(1.0f, 2.0f, 3.0f, 1.0f);
+
+			Tuple t3 = t1 - t2;
+
+			bool result = FloatEquals(t3.x, 1.0f)
+				&& FloatEquals(t3.y, 1.0f)
+				&& FloatEquals(t3.z, 1.0f)
+				&& FloatEquals(t3.w, 0.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Minus_Tuple\n";
@@ -232,7 +352,15 @@ namespace RayTracer
 
 		bool TupleOperator_Minus_Vector()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			Vector t2(1.0f, 2.0f, 3.0f);
+
+			Tuple t3 = t1 - t2;
+
+			bool result = FloatEquals(t3.x, 1.0f)
+				&& FloatEquals(t3.y, 1.0f)
+				&& FloatEquals(t3.z, 1.0f)
+				&& FloatEquals(t3.w, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Minus_Vector\n";
@@ -242,7 +370,15 @@ namespace RayTracer
 
 		bool TupleOperator_Minus_Point()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			Point t2(1.0f, 2.0f, 3.0f);
+
+			Tuple t3 = t1 - t2;
+
+			bool result = FloatEquals(t3.x, 1.0f)
+				&& FloatEquals(t3.y, 1.0f)
+				&& FloatEquals(t3.z, 1.0f)
+				&& FloatEquals(t3.w, 0.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Minus_Point\n";
@@ -252,7 +388,13 @@ namespace RayTracer
 
 		bool TupleOperator_Negate()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			Tuple t2 = -t1;
+
+			bool result = FloatEquals(t2.x, -2.0f)
+				&& FloatEquals(t2.y, -3.0f)
+				&& FloatEquals(t2.z, -4.0f)
+				&& FloatEquals(t2.w, -1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_Negate\n";
@@ -262,7 +404,15 @@ namespace RayTracer
 
 		bool TupleOperator_MultiplyByEquals_Scalar()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			float s = 2.0f;
+
+			t1 *= s;
+
+			bool result = FloatEquals(t1.x, 4.0f)
+				&& FloatEquals(t1.y, 6.0f)
+				&& FloatEquals(t1.z, 8.0f)
+				&& FloatEquals(t1.w, 2.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_MultiplyByEquals_Scalar\n";
@@ -272,7 +422,15 @@ namespace RayTracer
 
 		bool TupleOperator_MultiplyBy_Scalar()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			float s = 2.0f;
+
+			Tuple t2 = t1 * s;
+
+			bool result = FloatEquals(t2.x, 4.0f)
+				&& FloatEquals(t2.y, 6.0f)
+				&& FloatEquals(t2.z, 8.0f)
+				&& FloatEquals(t2.w, 2.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_MultiplyBy_Scalar\n";
@@ -282,7 +440,15 @@ namespace RayTracer
 
 		bool TupleOperator_DividedByEquals_Scalar()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			float s = 2.0f;
+
+			t1 /= s;
+
+			bool result = FloatEquals(t1.x, 1.0f)
+				&& FloatEquals(t1.y, 1.5f)
+				&& FloatEquals(t1.z, 2.0f)
+				&& FloatEquals(t1.w, 0.5f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_DividedByEquals_Scalar\n";
@@ -292,7 +458,15 @@ namespace RayTracer
 
 		bool TupleOperator_DividedBy_Scalar()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			float s = 2.0f;
+
+			Tuple t2  = t1 / s;
+
+			bool result = FloatEquals(t2.x, 1.0f)
+				&& FloatEquals(t2.y, 1.5f)
+				&& FloatEquals(t2.z, 2.0f)
+				&& FloatEquals(t2.w, 0.5f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleOperator_DividedBy_Scalar\n";
@@ -302,7 +476,8 @@ namespace RayTracer
 
 		bool TupleIsPoint()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 1.0f);
+			bool result = t1.isPoint();
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleIsPoint\n";
@@ -312,7 +487,9 @@ namespace RayTracer
 
 		bool TupleIsVector()
 		{
-			bool result = false;
+			Tuple t1(2.0f, 3.0f, 4.0f, 0.0f);
+			
+			bool result = t1.isVector();
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleIsVector\n";
@@ -322,7 +499,9 @@ namespace RayTracer
 
 		bool TupleMagnitude()
 		{
-			bool result = false;
+			Tuple t(1.0f, 2.0f, 3.0f, 0.0f);
+
+			bool result = FloatEquals(t.magnitude(), std::sqrt(14.0f));
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleMagnitude\n";
@@ -332,7 +511,9 @@ namespace RayTracer
 
 		bool TupleMagnitudeStatic()
 		{
-			bool result = false;
+			Tuple t(-1.0f, -2.0f, -3.0f, 0.0f);
+
+			bool result = FloatEquals(Tuple::magnitude(t), std::sqrt(14.0f));
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleMagnitudeStatic\n";
@@ -342,7 +523,15 @@ namespace RayTracer
 
 		bool TupleNormalize()
 		{
-			bool result = false;
+			Tuple p(4.0f, 0.0f, 0.0f, 0.0f);
+			p = p.normalize();
+			float m = p.magnitude();
+
+			bool result = FloatEquals(p.x, 1.0f)
+						&& FloatEquals(p.y, 0.0f)
+						&& FloatEquals(p.z, 0.0f)
+						&& FloatEquals(p.w, 0.0f)
+						&& FloatEquals(m, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleNormalize\n";
@@ -352,7 +541,15 @@ namespace RayTracer
 
 		bool TupleNormalizeStatic()
 		{
-			bool result = false;
+			Tuple p(1.0f, 2.0f, 3.0f, 0.0f);
+			p = Tuple::normalize(p);
+			float m = p.magnitude();
+
+			bool result = FloatEquals(p.x, 0.26726f)
+				&& FloatEquals(p.y, 0.53452f)
+				&& FloatEquals(p.z, 0.80178f)
+				&& FloatEquals(p.w, 0.0f)
+				&& FloatEquals(m, 1.0f);;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleNormalizeStatic\n";
@@ -362,7 +559,12 @@ namespace RayTracer
 
 		bool TupleDot()
 		{
-			bool result = false;
+			Tuple a(1.0f, 2.0f, 3.0f, 0.0f);
+			Tuple b(2.0f, 3.0f, 4.0f, 0.0f);
+
+			float dot = a.dot(b);
+
+			bool result = FloatEquals(dot, 20.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleDot\n";
@@ -372,7 +574,12 @@ namespace RayTracer
 
 		bool TupleDotStatic()
 		{
-			bool result = false;
+			Tuple a(1.0f, 2.0f, 3.0f, 0.0f);
+			Tuple b(2.0f, 3.0f, 4.0f, 0.0f);
+
+			float dot = Tuple::dot(a, b);
+
+			bool result = FloatEquals(dot, 20.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleDotStatic\n";
@@ -382,7 +589,16 @@ namespace RayTracer
 
 		bool TupleCross()
 		{
-			bool result = false;
+			Tuple a(1.0f, 2.0f, 3.0f, 0.0f);
+			Tuple b(2.0f, 3.0f, 4.0f, 0.0f);
+
+			Tuple c = a.cross(b);
+			Tuple d = b.cross(a);
+
+			Tuple cp1(-1.0f, 2.0f, -1.0f, 0.0f);
+			Tuple cp2(1.0f, -2.0f, 1.0f, 0.0f);
+
+			bool result = (c == cp1 && d == cp2);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleCross\n";
@@ -392,7 +608,16 @@ namespace RayTracer
 
 		bool TupleCrossStatic()
 		{
-			bool result = false;
+			Tuple a(1.0f, 2.0f, 3.0f, 0.0f);
+			Tuple b(2.0f, 3.0f, 4.0f, 0.0f);
+
+			Tuple c = Tuple::cross(a, b);
+			Tuple d = Tuple::cross(b, a);
+
+			Tuple cp1(-1.0f, 2.0f, -1.0f, 0.0f);
+			Tuple cp2(1.0f, -2.0f, 1.0f, 0.0f);
+
+			bool result = (c == cp1 && d == cp2);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleCrossStatic\n";
