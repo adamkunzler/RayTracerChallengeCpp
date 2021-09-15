@@ -549,7 +549,7 @@ namespace RayTracer
 				&& FloatEquals(p.y, 0.53452f)
 				&& FloatEquals(p.z, 0.80178f)
 				&& FloatEquals(p.w, 0.0f)
-				&& FloatEquals(m, 1.0f);;
+				&& FloatEquals(m, 1.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t TupleNormalizeStatic\n";

@@ -155,7 +155,6 @@
     <ClInclude Include="tests\colorTests.h" />
     <ClInclude Include="tests\pointTests.h" />
     <ClInclude Include="tests\tupleTests.h" />
-    <ClInclude Include="tests\tupleTests_old.h" />
     <ClInclude Include="tests\utilsTests.h" />
     <ClInclude Include="tests\vectorTests.h" />
     <ClInclude Include="tests\_testHarness.h" />

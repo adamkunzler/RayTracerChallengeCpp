@@ -37,12 +37,12 @@ namespace RayTracer
 
 		bool RunTests()
 		{
-			//bool runTupleTests = false;
-			bool runTupleTests = true;
+			bool runTupleTests = false;
+			//bool runTupleTests = true;
 			bool runVectorTests = false;
 			//bool runVectorTests = true;
-			bool runPointTests = false;
-			//bool runPointTests = true;
+			//bool runPointTests = false;
+			bool runPointTests = true;
 			bool runColorTests = false;
 			//bool runColorTests = true;
 			bool runCanvasTests = false;
@@ -272,27 +272,18 @@ namespace RayTracer
 
 			if (RayTracer::Tests::VectorOperator_Assignment_Vector()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Assignment_Vector"); }
-
-			if (RayTracer::Tests::VectorOperator_Assignment_Point()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_Assignment_Point"); }
-
+			
 			if (RayTracer::Tests::VectorOperator_Equality_Tuple()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Equality_Tuple"); }
 
 			if (RayTracer::Tests::VectorOperator_Equality_Vector()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Equality_Vector"); }
 
-			if (RayTracer::Tests::VectorOperator_Equality_Point()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_Equality_Point"); }
-
 			if (RayTracer::Tests::VectorOperator_Inequality_Tuple()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Inequality_Tuple"); }
 
 			if (RayTracer::Tests::VectorOperator_Inequality_Vector()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Inequality_Vector"); }
-
-			if (RayTracer::Tests::VectorOperator_Inequality_Point()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_Inequality_Point"); }
 
 			if (RayTracer::Tests::VectorOperator_PlusEquals_Tuple()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_PlusEquals_Tuple"); }
@@ -343,13 +334,7 @@ namespace RayTracer
 			else { failedTests.push_back("VectorOperator_DividedByEquals_Scalar"); }
 
 			if (RayTracer::Tests::VectorOperator_DividedBy_Scalar()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_DividedBy_Scalar"); }
-
-			if (RayTracer::Tests::VectorIsPoint()) { numPassed++; }
-			else { failedTests.push_back("VectorIsPoint"); }
-
-			if (RayTracer::Tests::VectorIsVector()) { numPassed++; }
-			else { failedTests.push_back("VectorIsVector"); }
+			else { failedTests.push_back("VectorOperator_DividedBy_Scalar"); }			
 
 			if (RayTracer::Tests::VectorMagnitude()) { numPassed++; }
 			else { failedTests.push_back("VectorMagnitude"); }
