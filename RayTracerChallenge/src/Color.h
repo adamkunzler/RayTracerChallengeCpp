@@ -78,7 +78,7 @@ namespace RayTracer
 			return *this;
 		}
 
-		Color& hadamardProduct(Color& a, const Color& b)
+		Color hadamardProduct(Color& a, const Color& b)
 		{
 			Color c(a.r * b.r, a.g * b.g, a.b * b.b);			
 			return c;

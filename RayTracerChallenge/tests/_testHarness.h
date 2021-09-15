@@ -14,6 +14,7 @@
 #include "tests\utilsTests.h"
 #include "tests\colorTests.h"
 #include "tests\canvasTests.h"
+#include "tests\matrixTests.h"
 
 namespace RayTracer
 {
@@ -32,21 +33,24 @@ namespace RayTracer
 		TestResults RunPointTests();
 		TestResults RunColorTests();
 		TestResults RunCanvasTests();
+		TestResults RunMatrixTests();
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
 		bool RunTests()
 		{
-			//bool runTupleTests = false;
-			bool runTupleTests = true;
-			//bool runVectorTests = false;
-			bool runVectorTests = true;
-			//bool runPointTests = false;
-			bool runPointTests = true;
-			//bool runColorTests = false;
-			bool runColorTests = true;
-			//bool runCanvasTests = false;
-			bool runCanvasTests = true;
+			bool runTupleTests = false;
+			//bool runTupleTests = true;
+			bool runVectorTests = false;
+			//bool runVectorTests = true;
+			bool runPointTests = false;
+			//bool runPointTests = true;
+			bool runColorTests = false;
+			//bool runColorTests = true;
+			bool runCanvasTests = false;
+			//bool runCanvasTests = true;
+			//bool runMatrixTests = false;
+			bool runMatrixTests = true;
 
 			int numPassed(0);
 			std::vector<std::string> failedTests;
@@ -86,6 +90,13 @@ namespace RayTracer
 			if (runCanvasTests)
 			{
 				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunCanvasTests();
+				numPassed += testResults.numPassed;
+				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
+			}
+
+			if (runMatrixTests)
+			{
+				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunMatrixTests();
 				numPassed += testResults.numPassed;
 				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
 			}
@@ -601,7 +612,49 @@ namespace RayTracer
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
+		TestResults RunMatrixTests()
+		{
+			std::cout << "\n\nBEGIN Matrix4x4 Tests...\n";
 
+			int numPassed(0);
+			std::vector<std::string> failedTests;
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			if (RayTracer::Tests::MatrixConstructor_Default()) { numPassed++; }
+			else { failedTests.push_back("Matrix4x4Constructor_Default"); }
+			
+			if (RayTracer::Tests::MatrixConstructor_ParametersNoValues()) { numPassed++; }
+			else { failedTests.push_back("MatrixConstructor_ParametersNoValues"); }
+
+			if (RayTracer::Tests::MatrixConstructor_ParametersWithValues()) { numPassed++; }
+			else { failedTests.push_back("MatrixConstructor_ParametersWithValues"); }
+
+			if (RayTracer::Tests::MatrixConstructor_Copy()) { numPassed++; }
+			else { failedTests.push_back("Matrix4x4Constructor_Copy"); }
+
+			if (RayTracer::Tests::MatrixOperator_Assignment()) { numPassed++; }
+			else { failedTests.push_back("Matrix4x4Operator_Assignment"); }			
+			
+			if (RayTracer::Tests::MatrixOperator_Equality()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_Equality"); }
+
+			if (RayTracer::Tests::MatrixOperator_Inequality()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_Inequality"); }
+
+			if (RayTracer::Tests::MatrixOperator_InequalityDifferentDimensions()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_InequalityDifferentDimensions"); }
+
+			auto stop = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+			std::cout << "END Matrix4x4 Tests (" << duration.count() << "ms)";
+
+			TestResults result;
+			result.failedTests = failedTests;
+			result.numPassed = numPassed;
+			return result;
+		}
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 

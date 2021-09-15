@@ -65,5 +65,11 @@
     <ClInclude Include="tests\tupleTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Matrix.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\matrixTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
