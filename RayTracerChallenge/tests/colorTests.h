@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <string>
-#include "../src/Tuple.h"
 #include "../src/Color.h"
 #include "../src/Utils.h"
 
@@ -12,7 +11,9 @@ namespace RayTracer
 	{
 		bool ColorConstructor_Default()
 		{
-			bool result = false;
+			Color c;
+
+			bool result = FloatEquals(c.r, 0.0f) && FloatEquals(c.g, 0.0f) && FloatEquals(c.b, 0.0f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorConstructor_Default\n";
@@ -22,8 +23,10 @@ namespace RayTracer
 
 		bool ColorConstructor_Values()
 		{
-			bool result = false;
+			Color c(0.1f, 0.2f, 0.3f);
 
+			bool result = FloatEquals(c.r, 0.1f) && FloatEquals(c.g, 0.2f) && FloatEquals(c.b, 0.3f);
+			
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorConstructor_Values\n";
 
@@ -32,7 +35,10 @@ namespace RayTracer
 
 		bool ColorConstructor_Copy()
 		{
-			bool result = false;
+			Color c1(0.1f, 0.2f, 0.3f);
+			Color c(c1);
+
+			bool result = FloatEquals(c.r, 0.1f) && FloatEquals(c.g, 0.2f) && FloatEquals(c.b, 0.3f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorConstructor_Copy\n";
@@ -42,7 +48,10 @@ namespace RayTracer
 
 		bool ColorOperator_Assignment()
 		{
-			bool result = false;
+			Color c1(0.1f, 0.2f, 0.3f);
+			Color c = c1;
+
+			bool result = FloatEquals(c.r, 0.1f) && FloatEquals(c.g, 0.2f) && FloatEquals(c.b, 0.3f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_Assignment\n";
@@ -52,7 +61,10 @@ namespace RayTracer
 
 		bool ColorOperator_Equality()
 		{
-			bool result = false;
+			Color c1(0.1f, 0.2f, 0.3f);
+			Color c2(0.1f, 0.2f, 0.3f);
+
+			bool result = c1 == c2;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_Equality\n";
@@ -62,7 +74,10 @@ namespace RayTracer
 
 		bool ColorOperator_Inequality()
 		{
-			bool result = false;
+			Color c1(0.1f, 0.2f, 0.3f);
+			Color c2(0.4f, 0.5f, 0.6f);
+
+			bool result = c1 != c2;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_Inequality\n";
@@ -72,7 +87,12 @@ namespace RayTracer
 
 		bool ColorOperator_PlusEquals()
 		{
-			bool result = false;
+			Color c1(0.1f, 0.2f, 0.3f);
+			Color c2(0.4f, 0.5f, 0.6f);
+
+			c1 += c2;
+
+			bool result = FloatEquals(c1.r, 0.5f) && FloatEquals(c1.g, 0.7f) && FloatEquals(c1.b, 0.9f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_PlusEquals\n";
@@ -82,7 +102,12 @@ namespace RayTracer
 
 		bool ColorOperator_Plus()
 		{
-			bool result = false;
+			Color c1(0.1f, 0.2f, 0.3f);
+			Color c2(0.4f, 0.5f, 0.6f);
+			
+			Color c3 = c1 + c2;
+
+			bool result = FloatEquals(c3.r, 0.5f) && FloatEquals(c3.g, 0.7f) && FloatEquals(c3.b, 0.9f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_Plus\n";
@@ -92,7 +117,12 @@ namespace RayTracer
 
 		bool ColorOperator_MinusEquals()
 		{
-			bool result = false;
+			Color c1(0.1f, 0.2f, 0.3f);
+			Color c2(0.4f, 0.5f, 0.6f);
+
+			c2 -= c1;
+
+			bool result = FloatEquals(c2.r, 0.3f) && FloatEquals(c2.g, 0.3f) && FloatEquals(c2.b, 0.3f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_MinusEquals\n";
@@ -102,27 +132,27 @@ namespace RayTracer
 
 		bool ColorOperator_Minus()
 		{
-			bool result = false;
+			Color c1(0.1f, 0.2f, 0.3f);
+			Color c2(0.4f, 0.5f, 0.6f);
+
+			Color c3 = c2 - c1;
+
+			bool result = FloatEquals(c3.r, 0.3f) && FloatEquals(c3.g, 0.3f) && FloatEquals(c3.b, 0.3f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_Minus\n";
 
 			return result;
 		}
-
-		bool ColorOperator_Negate()
-		{
-			bool result = false;
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t ColorOperator_Negate\n";
-
-			return result;
-		}
-
+		
 		bool ColorOperator_MultiplyByEquals_Color()
 		{
-			bool result = false;
+			Color c1(1.0f, 0.2f, 0.4f);
+			Color c2(0.9f, 1.0f, 0.1f);
+			
+			c1 *= c2;
+
+			bool result = FloatEquals(c1.r, 0.9f) && FloatEquals(c1.g, 0.2f) && FloatEquals(c1.b, 0.04f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_MultiplyByEquals_Color\n";
@@ -132,7 +162,12 @@ namespace RayTracer
 
 		bool ColorOperator_MultiplyBy_Color()
 		{
-			bool result = false;
+			Color c2(1.0f, 0.2f, 0.4f);
+			Color c3(0.9f, 1.0f, 0.1f);
+
+			Color c1 = c2 * c3;
+
+			bool result = FloatEquals(c1.r, 0.9f) && FloatEquals(c1.g, 0.2f) && FloatEquals(c1.b, 0.04f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_MultiplyBy_Color\n";
@@ -142,7 +177,12 @@ namespace RayTracer
 
 		bool ColorOperator_MultiplyByEquals_Scalar()
 		{
-			bool result = false;
+			Color c1(0.2f, 0.4f, 0.6f);
+			float s = 2;
+
+			c1 *= s;
+
+			bool result = FloatEquals(c1.r, 0.4f) && FloatEquals(c1.g, 0.8f) && FloatEquals(c1.b, 1.2f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_MultiplyByEquals_Scalar\n";
@@ -152,7 +192,12 @@ namespace RayTracer
 
 		bool ColorOperator_MultiplyBy_Scalar()
 		{
-			bool result = false;
+			Color c(0.2f, 0.4f, 0.6f);
+			float s = 2;
+
+			Color c1 = c * s;
+
+			bool result = FloatEquals(c1.r, 0.4f) && FloatEquals(c1.g, 0.8f) && FloatEquals(c1.b, 1.2f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_MultiplyBy_Scalar\n";
@@ -162,7 +207,12 @@ namespace RayTracer
 
 		bool ColorOperator_DividedByEquals_Scalar()
 		{
-			bool result = false;
+			Color c1(0.2f, 0.4f, 0.6f);
+			float s = 2;
+
+			c1 /= s;
+
+			bool result = FloatEquals(c1.r, 0.1f) && FloatEquals(c1.g, 0.2f) && FloatEquals(c1.b, 0.3f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_DividedByEquals_Scalar\n";
@@ -172,7 +222,12 @@ namespace RayTracer
 
 		bool ColorOperator_DividedBy_Scalar()
 		{
-			bool result = false;
+			Color c(0.2f, 0.4f, 0.6f);
+			float s = 2;
+
+			Color c1 = c / s;
+
+			bool result = FloatEquals(c1.r, 0.1f) && FloatEquals(c1.g, 0.2f) && FloatEquals(c1.b, 0.3f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorOperator_DividedBy_Scalar\n";
@@ -182,7 +237,9 @@ namespace RayTracer
 
 		bool ColorIsBlack()
 		{
-			bool result = false;
+			Color c(0.0f);
+
+			bool result = c.isBlack();
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorIsBlack\n";
@@ -192,7 +249,8 @@ namespace RayTracer
 
 		bool ColorIsWhite()
 		{
-			bool result = false;
+			Color c(1.0f);
+			bool result = c.isWhite();
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorIsWhite\n";
@@ -202,7 +260,9 @@ namespace RayTracer
 
 		bool ColorFromRGB()
 		{
-			bool result = false;
+			Color c = Color::fromRGB(128, 64, 192);
+
+			bool result = FloatEquals(c.r, 0.5f) && FloatEquals(c.g, 0.25f) && FloatEquals(c.b, 0.75f);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t ColorFromRGB\n";

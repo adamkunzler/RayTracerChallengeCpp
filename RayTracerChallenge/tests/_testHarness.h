@@ -37,10 +37,15 @@ namespace RayTracer
 
 		bool RunTests()
 		{
+			//bool runTupleTests = false;
 			bool runTupleTests = true;
+			//bool runVectorTests = false;
 			bool runVectorTests = true;
+			//bool runPointTests = false;
 			bool runPointTests = true;
+			//bool runColorTests = false;
 			bool runColorTests = true;
+			//bool runCanvasTests = false;
 			bool runCanvasTests = true;
 
 			int numPassed(0);
@@ -582,10 +587,7 @@ namespace RayTracer
 
 			if (RayTracer::Tests::ColorOperator_Minus()) { numPassed++; }
 			else { failedTests.push_back("ColorOperator_Minus"); }
-
-			if (RayTracer::Tests::ColorOperator_Negate()) { numPassed++; }
-			else { failedTests.push_back("ColorOperator_Negate"); }
-
+			
 			if (RayTracer::Tests::ColorOperator_MultiplyByEquals_Color()) { numPassed++; }
 			else { failedTests.push_back("ColorOperator_MultiplyByEquals_Color"); }
 

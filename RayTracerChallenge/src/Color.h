@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <algorithm>
 
 namespace RayTracer
 {
@@ -16,6 +17,10 @@ namespace RayTracer
 
 	public:
 		Color() : r(0.0f), g(0.0f), b(0.0f)
+		{
+		}
+
+		Color(float gray) : r(gray), g(gray), b(gray)
 		{
 		}
 
@@ -46,7 +51,10 @@ namespace RayTracer
 		//
 		static Color fromRGB(const int r, const int g, const int b)
 		{
-			Color c(r / 255.0f, g / 255.0f, b / 255.0f);
+			Color c(
+				std::clamp(r / 256.0f, 0.0f, 1.0f),
+				std::clamp(g / 256.0f, 0.0f, 1.0f),
+				std::clamp(b / 256.0f, 0.0f, 1.0f));
 			return c;
 		}
 
