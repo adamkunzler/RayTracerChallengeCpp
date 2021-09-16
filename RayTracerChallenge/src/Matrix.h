@@ -16,10 +16,10 @@ namespace RayTracer
 	class Matrix
 	{				
 	private:
-		float* data;
-		int width;
-		int height;
-		int maxIndex;
+		float* data;		
+		int columns;
+		int rows;
+		int maxIndex;		
 
 	public:
 		~Matrix()
@@ -29,20 +29,20 @@ namespace RayTracer
 		}
 
 		// default constructor
-		Matrix() : width(4), height(4)
+		Matrix() : columns(4), rows(4)
 		{			
-			maxIndex = width * height;
+			maxIndex = columns * rows;
 			data = new float[maxIndex];
 
 			clear();
 		}		
 
 		// parameter constructor
-		Matrix(int lWidth, int lHeight, float* values = 0)
+		Matrix(int lColumns, int lRows, float* values = 0)
 		{
-			width = lWidth;
-			height = lHeight;
-			maxIndex = width * height;
+			columns = lColumns;
+			rows = lRows;
+			maxIndex = columns * rows;
 
 			if (values == NULL)
 			{
@@ -55,11 +55,16 @@ namespace RayTracer
 			}
 		}
 		
+		// Tuple to Matrix constructor
+		Matrix(const Tuple& t) : Matrix(1, 4, new float[4] { t.x, t.y, t.z, t.w })
+		{
+		}
+
 		// copy constructur
 		Matrix(const Matrix&other) {
-			width = other.width;
-			height = other.height;
-			maxIndex = width * height;
+			columns = other.columns;
+			rows = other.rows;
+			maxIndex = columns * rows;
 			data = new float[maxIndex];
 
 			for (int i = 0; i < maxIndex; i++)
@@ -74,9 +79,9 @@ namespace RayTracer
 			if (this == &other)
 				return *this;
 
-			width = other.width;
-			height = other.height;
-			maxIndex = width * height;
+			columns = other.columns;
+			rows = other.rows;
+			maxIndex = columns * rows;
 			data = new float[maxIndex];
 
 			for (int i = 0; i < maxIndex; i++)
@@ -99,25 +104,25 @@ namespace RayTracer
 		// () overload to access matrix data
 		float operator()(const int& x, const int& y) const
 		{
-			if (x < 0 || x > width - 1 || y < 0 || y > height - 1)				
+			if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
 				throw std::invalid_argument("invalid matrix coord");
 
-			int index = x + y * width;
+			int index = x + y * columns;
 			return data[index];
 		}
 
 		// () overload to set matrix data
 		void operator()(const int& x, const int& y, const float& value) const
 		{
-			if (x < 0 || x > width - 1 || y < 0 || y > height - 1)
+			if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
 				throw std::invalid_argument("invalid matrix coord");
 
-			int index = x + y * width;
+			int index = x + y * columns;
 			data[index] = value;
 		}
 
-		int getWidth() const { return width; }
-		int getHeight() const { return height; }
+		int getNumColumns() const { return columns; }
+		int getNumRows() const { return rows; }
 
 		// all elements are 0.0f
 		bool isZeroMatrix()
@@ -130,10 +135,22 @@ namespace RayTracer
 			return true;
 		}
 
+		// get 4x4 identity matrix
+		static Matrix get4x4IdentiyMatrix()
+		{			
+			Matrix m(4, 4, new float[16]{
+				1, 0, 0, 0,
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0 ,0 ,0, 1
+				});
+			return m;
+		}
+
 		// equality
 		bool operator==(const Matrix& m)
 		{
-			if (m.width != width || m.height != height) 
+			if (m.columns != columns || m.rows != rows)
 				return false;
 
 			for (int i = 0; i < maxIndex; i++)
@@ -150,6 +167,36 @@ namespace RayTracer
 			return !(*this == m);
 		}
 
+		//             C   R   C   R
+		// multiply => K x N * M x K = N x M
+		//             4 x 4 * 4 x 4 = 4 x 4
+		//             4 x 4 * 1 x 4 = 4 x 1
+		Matrix operator*=(const Matrix& b)
+		{				
+			if(getNumColumns() != b.getNumRows())
+				throw std::invalid_argument("invalid matrix dimensions for multiply");
+
+			int cols = b.getNumColumns();
+			int rows = getNumRows();
+			Matrix m(cols, rows);
+
+			for (int r = 0; r < rows; r++)
+			{
+				for (int c = 0; c < cols; c++)
+				{
+					float sum = 0.0f;
+					for (int i = 0; i < rows; i++)
+					{
+						sum += ((*this)(i, r) * b(c, i));						
+					}	
+					m(c, r, sum);
+				}				
+			}			
+
+			*this = m; // ??? better way to do this than copying to *this
+			return *this;
+		}
+
 	private:
 		void clear(float value = 0.0f)
 		{
@@ -159,15 +206,29 @@ namespace RayTracer
 			}
 		}
 	};
+
+	Matrix operator*(Matrix& a, Matrix const& b) { return a *= b; }
+
+	Matrix operator*(Matrix& a, Tuple const& t) 
+	{
+		Matrix b(t);
+		return a *= b;
+	}
+
+	Matrix operator*=(Matrix& a, Tuple const& t)
+	{
+		Matrix b(t);
+		return a *= b;
+	}
 }
 
 std::ostream& operator<<(std::ostream& os, const RayTracer::Matrix& matrix)
 {
 	os << std::fixed << std::setprecision(2);
 	
-	for (int y = 0; y < matrix.getHeight(); y++)
+	for (int y = 0; y < matrix.getNumRows(); y++)
 	{
-		for (int x = 0; x < matrix.getWidth(); x++)
+		for (int x = 0; x < matrix.getNumColumns(); x++)
 		{
 			os << "   |" << std::setw(8) << matrix(x, y);
 		}

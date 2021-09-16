@@ -623,6 +623,12 @@ namespace RayTracer
 
 			if (RayTracer::Tests::MatrixConstructor_Default()) { numPassed++; }
 			else { failedTests.push_back("Matrix4x4Constructor_Default"); }
+
+			if (RayTracer::Tests::MatrixConstructor_Tuple()) { numPassed++; }
+			else { failedTests.push_back("MatrixConstructor_Tuple"); }
+
+			if (RayTracer::Tests::MatrixConstructor_Vector()) { numPassed++; }
+			else { failedTests.push_back("MatrixConstructor_Vector"); }
 			
 			if (RayTracer::Tests::MatrixConstructor_ParametersNoValues()) { numPassed++; }
 			else { failedTests.push_back("MatrixConstructor_ParametersNoValues"); }
@@ -644,6 +650,33 @@ namespace RayTracer
 
 			if (RayTracer::Tests::MatrixOperator_InequalityDifferentDimensions()) { numPassed++; }
 			else { failedTests.push_back("MatrixOperator_InequalityDifferentDimensions"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_4x4()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_4x4"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyBy_4x4()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyBy_4x4"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_3x3()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_3x3"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyBy_3x3()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyBy_3x3"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyByIdentity_4x4()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyByIdentity_4x4"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyBy_Tuple()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyBy_Tuple"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_Tuple()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_Tuple"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyBy_Vector()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyBy_Vector"); }
+
+			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_Vector()) { numPassed++; }
+			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_Vector"); }
 
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
