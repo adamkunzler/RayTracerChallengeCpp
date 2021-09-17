@@ -22,6 +22,9 @@ namespace RayTracer
 	{		
 		struct TestResults
 		{
+			TestResults() : numPassed(0)
+			{}
+
 			int numPassed;
 			std::vector<std::string> failedTests;
 		};
@@ -39,16 +42,16 @@ namespace RayTracer
 
 		bool RunTests()
 		{
-			bool runTupleTests = false;
-			//bool runTupleTests = true;
-			bool runVectorTests = false;
-			//bool runVectorTests = true;
-			bool runPointTests = false;
-			//bool runPointTests = true;
-			bool runColorTests = false;
-			//bool runColorTests = true;
-			bool runCanvasTests = false;
-			//bool runCanvasTests = true;
+			//bool runTupleTests = false;
+			bool runTupleTests = true;
+			//bool runVectorTests = false;
+			bool runVectorTests = true;
+			//bool runPointTests = false;
+			bool runPointTests = true;
+			//bool runColorTests = false;
+			bool runColorTests = true;
+			//bool runCanvasTests = false;
+			bool runCanvasTests = true;
 			//bool runMatrixTests = false;
 			bool runMatrixTests = true;
 
@@ -250,7 +253,7 @@ namespace RayTracer
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-			std::cout << "END Tuple Tests (" << duration.count() << "ms)";
+			std::cout << "END Tuple Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
 
 			TestResults result;
 			result.failedTests = failedTests;
@@ -374,7 +377,7 @@ namespace RayTracer
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-			std::cout << "END Vector Tests (" << duration.count() << "ms)";
+			std::cout << "END Vector Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
 
 			TestResults result;
 			result.failedTests = failedTests;
@@ -477,7 +480,7 @@ namespace RayTracer
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-			std::cout << "END Point Tests (" << duration.count() << "ms)";
+			std::cout << "END Point Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
 
 			TestResults result;
 			result.failedTests = failedTests;
@@ -523,7 +526,7 @@ namespace RayTracer
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-			std::cout << "END Canvas Tests (" << duration.count() << "ms)";
+			std::cout << "END Canvas Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
 
 			TestResults result;
 			result.failedTests = failedTests;
@@ -602,7 +605,7 @@ namespace RayTracer
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-			std::cout << "END Color Tests (" << duration.count() << "ms)";
+			std::cout << "END Color Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
 
 			TestResults result;
 			result.failedTests = failedTests;
@@ -678,10 +681,61 @@ namespace RayTracer
 			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_Vector()) { numPassed++; }
 			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_Vector"); }
 
+			if (RayTracer::Tests::Matrix_Transpose_4x4()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transpose_4x4"); }
+
+			if (RayTracer::Tests::Matrix_Transpose_Identity()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transpose_Identity"); }
+
+			if (RayTracer::Tests::Matrix_Determinant_2x2()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Determinant_2x2"); }
+
+			if (RayTracer::Tests::Matrix_Submatrix_3x3()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Submatrix_3x3"); }
+
+			if (RayTracer::Tests::Matrix_Submatrix_4x4()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Submatrix_4x4"); }
+
+			if (RayTracer::Tests::Matrix_Minor_3x3()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Minor_3x3"); }
+
+			if (RayTracer::Tests::Matrix_Cofactor_3x3_1()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Cofactor_3x3_1"); }
+
+			if (RayTracer::Tests::Matrix_Cofactor_3x3_2()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Cofactor_3x3_2"); }
+
+			if (RayTracer::Tests::Matrix_Determinant_3x3()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Determinant_3x3"); }
+
+			if (RayTracer::Tests::Matrix_Determinant_4x4()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Determinant_4x4"); }
+
+			if (RayTracer::Tests::Matrix_IsInvertible()) { numPassed++; }
+			else { failedTests.push_back("Matrix_IsInvertible"); }
+
+			if (RayTracer::Tests::Matrix_IsNotInvertible()) { numPassed++; }
+			else { failedTests.push_back("Matrix_IsNotInvertible"); }
+			
+			if (RayTracer::Tests::Matrix_Inverse_1()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Inverse_1"); }
+
+			if (RayTracer::Tests::Matrix_Inverse_2()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Inverse_2"); }
+
+			if (RayTracer::Tests::Matrix_Inverse_3()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Inverse_3"); }
+
+			if (RayTracer::Tests::Matrix_Inverse_Proof()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Inverse_Proof"); }
+
+			if (RayTracer::Tests::Matrix_Inverse_Test()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Inverse_Test"); }
+
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 
-			std::cout << "END Matrix4x4 Tests (" << duration.count() << "ms)";
+			std::cout << "END Matrix4x4 Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
 
 			TestResults result;
 			result.failedTests = failedTests;

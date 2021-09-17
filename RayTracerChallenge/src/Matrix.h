@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <algorithm>
 #include <stdexcept>
+#include "Tuple.h"
 
 namespace RayTracer
 {
@@ -95,8 +96,11 @@ namespace RayTracer
 		// () overload to access matrix data
 		float operator()(const int& index) const
 		{
-			if (index < 0  || index > maxIndex - 1)
+			if (index < 0 || index > maxIndex - 1)
+			{
+				std::cout << "invalid matrix coord\n";
 				throw std::invalid_argument("invalid matrix coord");
+			}
 			
 			return data[index];
 		}
@@ -105,7 +109,10 @@ namespace RayTracer
 		float operator()(const int& x, const int& y) const
 		{
 			if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
+			{
+				std::cout << "invalid matrix coord\n";
 				throw std::invalid_argument("invalid matrix coord");
+			}
 
 			int index = x + y * columns;
 			return data[index];
@@ -115,7 +122,10 @@ namespace RayTracer
 		void operator()(const int& x, const int& y, const float& value) const
 		{
 			if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
+			{
+				std::cout << "invalid matrix coord\n";
 				throw std::invalid_argument("invalid matrix coord");
+			}
 
 			int index = x + y * columns;
 			data[index] = value;
@@ -171,10 +181,13 @@ namespace RayTracer
 		// multiply => K x N * M x K = N x M
 		//             4 x 4 * 4 x 4 = 4 x 4
 		//             4 x 4 * 1 x 4 = 4 x 1
-		Matrix operator*=(const Matrix& b)
+		Matrix& operator*=(const Matrix& b)
 		{				
 			if(getNumColumns() != b.getNumRows())
+			{
+				std::cout << "invalid matrix dimensions for multiply\n";
 				throw std::invalid_argument("invalid matrix dimensions for multiply");
+			}				
 
 			int cols = b.getNumColumns();
 			int rows = getNumRows();
@@ -195,6 +208,129 @@ namespace RayTracer
 
 			*this = m; // ??? better way to do this than copying to *this
 			return *this;
+			//return m;
+		}
+
+		// multiply by tuple
+		Matrix& operator*=(Tuple const& t)
+		{			
+			Matrix b(t);
+			return *this *= b;
+		}
+
+		Matrix transpose() const
+		{
+			Matrix mt(getNumColumns(), getNumRows());
+
+			for (int r = 0; r < getNumRows(); r++)
+			{
+				for (int c = 0; c < getNumColumns(); c++)
+				{
+					mt(r, c, (*this)(c, r));
+				}
+			}
+
+			return mt;
+		}
+
+		// calculate determinant of a matrix
+		float determinant() const
+		{
+			float d = 0;
+			if (getNumColumns() == 2 && getNumRows() == 2)
+			{
+				d = ((*this)(0, 0) * (*this)(1, 1)) - ((*this)(1, 0) * (*this)(0, 1));				
+			}
+			else
+			{
+				for (int c = 0; c < getNumColumns(); c++)
+				{
+					d += (*this)(c, 0) * cofactor(0, c);
+				}
+			}
+
+			return d;
+		}
+
+		Matrix submatrix(int row, int col) const
+		{
+			Matrix m(*this);
+			Matrix sub(m.getNumColumns() - 1, m.getNumRows() - 1);
+
+			int ir = 0;
+			int ic = 0;
+			for (int r = 0; r < m.getNumRows(); r++)
+			{
+				if (r == row) continue;
+
+				for (int c = 0; c < m.getNumColumns(); c++)
+				{
+					if (c == col) continue;
+
+					sub(ic, ir, m(c, r));
+					ic++;
+				}
+
+				ic = 0;
+				ir++;
+			}
+
+			return sub;
+		}
+
+		float minor(int row, int col) const
+		{
+			Matrix b = submatrix(row, col);
+			float d = b.determinant();
+			return d;		
+		}
+
+		float cofactor(int row, int col) const
+		{
+			float m = minor(row, col);
+			float cf = ((row + col) % 2 == 0) ? m : -m;
+			return cf;
+		}
+
+		Matrix inverse() const
+		{
+			float d = determinant();
+			if (FloatEquals(d, 0)) {
+				std::cout << "matrix cannot be inverted\n";
+				throw std::invalid_argument("matrix cannot be inverted");
+			}
+
+			Matrix m(*this);
+
+			for (int r = 0; r < m.getNumRows(); r++)
+			{
+				for (int c = 0; c < m.getNumColumns(); c++)
+				{
+					// note: not m.cofactor...since we're updating that guy
+					float cof = cofactor(r, c);					
+					
+					// (r, c) in matrix on purpose to perform transpose
+					m(r, c, cof / d);
+				}
+			}
+
+			return m;
+		}
+
+		static void print(const Matrix& matrix)
+		{
+			std::cout << std::fixed << std::setprecision(2);
+
+			for (int y = 0; y < matrix.getNumRows(); y++)
+			{
+				for (int x = 0; x < matrix.getNumColumns(); x++)
+				{
+					std::cout << "   |" << std::setw(8) << matrix(x, y);
+				}
+				std::cout << "   |\n";
+			}
+
+			std::cout.unsetf(std::ios::fixed);
 		}
 
 	private:
@@ -207,19 +343,20 @@ namespace RayTracer
 		}
 	};
 
-	Matrix operator*(Matrix& a, Matrix const& b) { return a *= b; }
+	Matrix operator*(Matrix const& a, Matrix const& b) 
+	{ 
+		// create temp so that "this" isn't changed
+		Matrix temp(a);
+		return temp *= b; 
+	}
 
 	Matrix operator*(Matrix& a, Tuple const& t) 
 	{
+		// create temp so that "this" isn't changed
+		Matrix temp(a);
 		Matrix b(t);
-		return a *= b;
-	}
-
-	Matrix operator*=(Matrix& a, Tuple const& t)
-	{
-		Matrix b(t);
-		return a *= b;
-	}
+		return temp *= b;
+	}	
 }
 
 std::ostream& operator<<(std::ostream& os, const RayTracer::Matrix& matrix)
