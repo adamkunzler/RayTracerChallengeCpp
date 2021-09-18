@@ -5,6 +5,7 @@
 
 #include "Exercises\Chapter1\VirtualCannon.h"
 #include "Exercises\Chapter2\ProjectilePPM.h"
+#include "Exercises\Chapter4\Clock.h"
 
 void RunRayTracer();
 
@@ -14,8 +15,9 @@ int main()
 	
 	//Exercises::Chapter1::FireCannon();
 	//Exercises::Chapter2::ProjectilePPM();
+	Exercises::Chapter4::Clock();
 			
-	bool result = RayTracer::Tests::RunTests();
+	//bool result = RayTracer::Tests::RunTests();
 	//if(result) RunRayTracer();
 
 	std::cout << "\n\n\n";

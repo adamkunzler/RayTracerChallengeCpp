@@ -71,5 +71,8 @@
     <ClInclude Include="tests\matrixTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Exercises\Chapter4\Clock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
