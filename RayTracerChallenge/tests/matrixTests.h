@@ -5,6 +5,7 @@
 #include "../src/Matrix.h"
 #include "../src/Utils.h"
 #include "..\src\Vector.h"
+#include "..\src\Point.h"
 
 namespace RayTracer
 {
@@ -301,7 +302,7 @@ namespace RayTracer
 				5, 4, 3, 2
 				});
 
-			Matrix identity = Matrix::get4x4IdentiyMatrix();
+			Matrix identity = Matrix::get4x4IdentityMatrix();
 			
 			m1 *= identity;
 
@@ -497,7 +498,7 @@ namespace RayTracer
 
 		bool Matrix_Transpose_Identity()
 		{			
-			Matrix m2 = Matrix::get4x4IdentiyMatrix();
+			Matrix m2 = Matrix::get4x4IdentityMatrix();
 
 			Matrix m3 = m2.transpose();
 
@@ -727,10 +728,10 @@ namespace RayTracer
 			});
 
 			Matrix expected(4, 4, new float[16]{
-				0.21805,  0.45113, 0.24060,-0.04511,
-				-0.80827,-1.45677,-0.44361, 0.52068,
-				-0.07895,-0.22368,-0.05263, 0.19737,
-				-0.52256,-0.81391,-0.30075, 0.30639
+				0.21805f,  0.45113f, 0.24060f,-0.04511f,
+				-0.80827f,-1.45677f,-0.44361f, 0.52068f,
+				-0.07895f,-0.22368f,-0.05263f, 0.19737f,
+				-0.52256f,-0.81391f,-0.30075f, 0.30639f
 			});
 
 			Matrix b = m.inverse();
@@ -745,8 +746,8 @@ namespace RayTracer
 				FloatEquals(d, 532)
 				&& FloatEquals(cof1, -160)
 				&& FloatEquals(cof2, 105)
-				&& FloatEquals(v1, -0.30075)
-				&& FloatEquals(v2, 0.19737)
+				&& FloatEquals(v1, -0.30075f)
+				&& FloatEquals(v2, 0.19737f)
 				&& b == expected;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
@@ -765,10 +766,10 @@ namespace RayTracer
 			});
 
 			Matrix expected(4, 4, new float[16]{
-				-0.15385, -0.15385, -0.28205, -0.53846,
-				-0.07692,  0.12308,  0.02564,  0.03077,
-				 0.35897,  0.35897,  0.43590,  0.92308,
-				-0.69231, -0.69231, -0.76923, -1.92308
+				-0.15385f, -0.15385f, -0.28205f, -0.53846f,
+				-0.07692f,  0.12308f,  0.02564f,  0.03077f,
+				 0.35897f,  0.35897f,  0.43590f,  0.92308f,
+				-0.69231f, -0.69231f, -0.76923f, -1.92308f
 			});
 
 			Matrix b = m.inverse();
@@ -791,10 +792,10 @@ namespace RayTracer
 			});
 
 			Matrix expected(4, 4, new float[16]{
-				-0.04074, -0.07778,  0.14444, -0.22222,
-				-0.07778,  0.03333,  0.36667, -0.33333,
-				-0.02901, -0.14630, -0.10926,  0.12963,
-				 0.17778,  0.06667, -0.26667,  0.33333
+				-0.04074f, -0.07778f,  0.14444f, -0.22222f,
+				-0.07778f,  0.03333f,  0.36667f, -0.33333f,
+				-0.02901f, -0.14630f, -0.10926f,  0.12963f,
+				 0.17778f,  0.06667f, -0.26667f,  0.33333f
 			});
 
 			Matrix b = m.inverse();
@@ -848,10 +849,345 @@ namespace RayTracer
 
 			Matrix c = a * b;
 			
-			bool result = c == Matrix::get4x4IdentiyMatrix();
+			bool result = c == Matrix::get4x4IdentityMatrix();
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t Matrix_Inverse_Test\n";
+
+			return result;
+		}
+
+		// -------------------------------------------------------------------------------------------------------------------------------
+
+		bool Matrix_Transformations_Translation()
+		{
+			Matrix transform = Matrix::get4x4TranslationMatrix(5, -3, 2);
+			Point p(-3, 4, 5);
+
+			Point expected(2, 1, 7);
+
+			Point p1 = (transform * p).toPoint();					
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Translation\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Translation_Inverse()
+		{
+			Matrix transform = Matrix::get4x4TranslationMatrix(5, -3, 2);
+			Matrix inv = transform.inverse();
+			Point p(-3, 4, 5);
+
+			Point expected(-8, 7, 3);
+
+			Point p1 = (inv * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Translation_Inverse\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Translation_Vector()
+		{
+			Matrix transform = Matrix::get4x4TranslationMatrix(5, -3, 2);
+			Vector v(-3, 4, 5);
+
+			Vector v1 = (transform * v).toVector();
+
+			bool result = v1 == v;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Translation_Vector\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Scaling_Point()
+		{
+			Matrix transform = Matrix::get4x4ScalingMatrix(2, 3, 4);
+			Point p(-4, 6, 8);
+			Point expected(-8, 18, 32);
+
+			Point p1 = (transform * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Scaling_Point\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Scaling_Vector()
+		{
+			Matrix transform = Matrix::get4x4ScalingMatrix(2, 3, 4);
+			Vector v(-4, 6, 8);
+			Vector expected(-8, 18, 32);
+
+			Vector v1 = (transform * v).toVector();
+
+			bool result = v1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Scaling_Vector\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Scaling_VectorInverse()
+		{
+			Matrix transform = Matrix::get4x4ScalingMatrix(2, 3, 4);
+			Matrix inv = transform.inverse();
+			Vector v(-4, 6, 8);
+			Vector expected(-2, 2, 2);
+
+			Vector v1 = (inv * v).toVector();
+
+			bool result = v1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Scaling_VectorInverse\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Scaling_NegativeValue()
+		{
+			Matrix transform = Matrix::get4x4ScalingMatrix(-1, 1, 1);
+			Point p(2, 3, 4);
+			Point expected(-2, 3, 4);
+
+			Point p1 = (transform * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Scaling_NegativeValue\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Rotation_X()
+		{
+			Point p(0, 1, 0);
+			Matrix halfQuarter = Matrix::get4x4RotationMatrix_X(PI / 4);
+			Matrix fullQuarter = Matrix::get4x4RotationMatrix_X(PI / 2);
+
+			Point ep1(0, std::sqrtf(2) / 2, std::sqrtf(2) / 2);
+			Point ep2(0, 0, 1);
+
+			Point p1 = (halfQuarter * p).toPoint();
+			Point p2 = (fullQuarter * p).toPoint();
+
+			bool result = (p1 == ep1) && (p2 == ep2);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Rotation_X\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Rotation_XInverse()
+		{
+			Point p(0, 1, 0);
+			Matrix halfQuarter = Matrix::get4x4RotationMatrix_X(PI / 4);
+			Matrix inv = halfQuarter.inverse();
+			
+			Point ep1(0, std::sqrtf(2) / 2, -std::sqrtf(2) / 2);
+			
+			Point p1 = (inv * p).toPoint();
+			
+			bool result = (p1 == ep1);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Rotation_XInverse\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Rotation_Y()
+		{
+			Point p(0, 0, 1);
+			Matrix halfQuarter = Matrix::get4x4RotationMatrix_Y(PI / 4);
+			Matrix fullQuarter = Matrix::get4x4RotationMatrix_Y(PI / 2);
+
+			Point ep1(std::sqrtf(2) / 2, 0, std::sqrtf(2) / 2);
+			Point ep2(1, 0, 0);
+
+			Point p1 = (halfQuarter * p).toPoint();
+			Point p2 = (fullQuarter * p).toPoint();
+
+			bool result = (p1 == ep1) && (p2 == ep2);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Rotation_Y\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Rotation_Z()
+		{
+			Point p(0, 1, 0);
+			Matrix halfQuarter = Matrix::get4x4RotationMatrix_Z(PI / 4);
+			Matrix fullQuarter = Matrix::get4x4RotationMatrix_Z(PI / 2);
+
+			Point ep1(-std::sqrtf(2) / 2, std::sqrtf(2) / 2, 0);
+			Point ep2(-1, 0, 0);
+
+			Point p1 = (halfQuarter * p).toPoint();
+			Point p2 = (fullQuarter * p).toPoint();
+
+			bool result = (p1 == ep1) && (p2 == ep2);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Rotation_Z\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Shearing_XY()
+		{
+			Matrix transform = Matrix::get4x4ShearingMatrix(1, 0, 0, 0, 0, 0);
+			Point p(2, 3, 4);
+			Point expected(5, 3, 4);
+
+			Point p1 = (transform * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Shearing_XY\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Shearing_XZ()
+		{
+			Matrix transform = Matrix::get4x4ShearingMatrix(0, 1, 0, 0, 0, 0);
+			Point p(2, 3, 4);
+			Point expected(6, 3, 4);
+
+			Point p1 = (transform * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Shearing_XZ\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Shearing_YX()
+		{
+			Matrix transform = Matrix::get4x4ShearingMatrix(0, 0, 1, 0, 0, 0);
+			Point p(2, 3, 4);
+			Point expected(2, 5, 4);
+
+			Point p1 = (transform * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Shearing_YX\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Shearing_YZ()
+		{
+			Matrix transform = Matrix::get4x4ShearingMatrix(0, 0, 0, 1, 0, 0);
+			Point p(2, 3, 4);
+			Point expected(2, 7, 4);
+
+			Point p1 = (transform * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Shearing_YZ\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Shearing_ZX()
+		{
+			Matrix transform = Matrix::get4x4ShearingMatrix(0, 0, 0, 0, 1, 0);
+			Point p(2, 3, 4);
+			Point expected(2, 3, 6);
+
+			Point p1 = (transform * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Shearing_ZX\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Shearing_ZY()
+		{
+			Matrix transform = Matrix::get4x4ShearingMatrix(0, 0, 0, 0, 0, 1);
+			Point p(2, 3, 4);
+			Point expected(2, 3, 7);
+
+			Point p1 = (transform * p).toPoint();
+
+			bool result = p1 == expected;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Shearing_ZY\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Sequenced()
+		{
+			Point p(1, 0, 1);
+			Matrix a = Matrix::get4x4RotationMatrix_X(PI / 2);
+			Matrix b = Matrix::get4x4ScalingMatrix(5, 5, 5);
+			Matrix c = Matrix::get4x4TranslationMatrix(10, 5, 7);
+
+			Point p2 = (a * p).toPoint();
+			Point p2e(1, -1, 0);
+
+			Point p3 = (b * p2).toPoint();
+			Point p3e(5, -5, 0);
+
+			Point p4 = (c * p3).toPoint();
+			Point p4e(15, 0, 7);
+
+			bool result = (p2 == p2e) && (p3 == p3e) && (p4 == p4e);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Sequenced\n";
+
+			return result;
+		}
+
+		bool Matrix_Transformations_Chained()
+		{
+			Point p(1, 0, 1);
+			Matrix a = Matrix::get4x4RotationMatrix_X(PI / 2);
+			Matrix b = Matrix::get4x4ScalingMatrix(5, 5, 5);
+			Matrix c = Matrix::get4x4TranslationMatrix(10, 5, 7);
+
+			Matrix t = c * b * a;
+
+			Point p2 = (t * p).toPoint();
+			Point p2e(15, 0, 7);
+
+			bool result = p2 == p2e;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t Matrix_Transformations_Chained\n";
 
 			return result;
 		}

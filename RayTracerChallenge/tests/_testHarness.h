@@ -42,16 +42,16 @@ namespace RayTracer
 
 		bool RunTests()
 		{
-			//bool runTupleTests = false;
-			bool runTupleTests = true;
-			//bool runVectorTests = false;
-			bool runVectorTests = true;
-			//bool runPointTests = false;
-			bool runPointTests = true;
-			//bool runColorTests = false;
-			bool runColorTests = true;
-			//bool runCanvasTests = false;
-			bool runCanvasTests = true;
+			bool runTupleTests = false;
+			//bool runTupleTests = true;
+			bool runVectorTests = false;
+			//bool runVectorTests = true;
+			bool runPointTests = false;
+			//bool runPointTests = true;
+			bool runColorTests = false;
+			//bool runColorTests = true;
+			bool runCanvasTests = false;
+			//bool runCanvasTests = true;
 			//bool runMatrixTests = false;
 			bool runMatrixTests = true;
 
@@ -731,6 +731,63 @@ namespace RayTracer
 
 			if (RayTracer::Tests::Matrix_Inverse_Test()) { numPassed++; }
 			else { failedTests.push_back("Matrix_Inverse_Test"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Translation()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Translation"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Translation_Inverse()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Translation_Inverse"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Translation_Vector()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Translation_Vector"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Scaling_Point()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Scaling_Point"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Scaling_Vector()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Scaling_Vector"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Scaling_VectorInverse()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Scaling_VectorInverse"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Scaling_NegativeValue()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Scaling_NegativeValue"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Rotation_X()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Rotation_X"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Rotation_XInverse()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Rotation_XInverse"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Rotation_Y()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Rotation_Y"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Rotation_Z()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Rotation_Z"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Shearing_XY()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Shearing_XY"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Shearing_XZ()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Shearing_XZ"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Shearing_YX()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Shearing_YX"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Shearing_YZ()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Shearing_YZ"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Shearing_ZX()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Shearing_ZX"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Shearing_ZY()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Shearing_ZY"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Sequenced()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Sequenced"); }
+
+			if (RayTracer::Tests::Matrix_Transformations_Chained()) { numPassed++; }
+			else { failedTests.push_back("Matrix_Transformations_Chained"); }
 
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);

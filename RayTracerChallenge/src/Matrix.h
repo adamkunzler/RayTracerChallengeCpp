@@ -134,6 +134,33 @@ namespace RayTracer
 		int getNumColumns() const { return columns; }
 		int getNumRows() const { return rows; }
 
+		// converts the first column of a matrix to a point
+		// TODO...maybe add parameter to specify the column
+		// TODO...don't assume to be 4 rows
+		Tuple toTuple() const
+		{
+			Tuple t((*this)(0, 0), (*this)(0, 1), (*this)(0, 2), (*this)(0, 3));
+			return t;
+		}
+
+		// converts the first column of a matrix to a point
+		// TODO...maybe add parameter to specify the column
+		// TODO...don't assume to be 4 rows
+		Point toPoint() const
+		{
+			Point p((*this)(0, 0), (*this)(0, 1), (*this)(0, 2));
+			return p;
+		}
+
+		// converts the first column of a matrix to a vector
+		// TODO...maybe add parameter to specify the column
+		// TODO...don't assume to be 4 rows
+		Vector toVector() const
+		{
+			Vector v((*this)(0, 0), (*this)(0, 1), (*this)(0, 2));
+			return v;
+		}
+
 		// all elements are 0.0f
 		bool isZeroMatrix()
 		{
@@ -144,15 +171,90 @@ namespace RayTracer
 
 			return true;
 		}
-
-		// get 4x4 identity matrix
-		static Matrix get4x4IdentiyMatrix()
+		
+		static Matrix get4x4IdentityMatrix()
 		{			
 			Matrix m(4, 4, new float[16]{
 				1, 0, 0, 0,
 				0, 1, 0, 0,
 				0, 0, 1, 0,
 				0 ,0 ,0, 1
+				});
+			return m;
+		}
+
+		static Matrix get4x4TranslationMatrix(const float x, const float y, const float z)
+		{
+			Matrix m(4, 4, new float[16]{
+				1, 0, 0, x,
+				0, 1, 0, y,
+				0, 0, 1, z,
+				0, 0, 0, 1
+			});
+			return m;
+		}
+		
+
+		static Matrix get4x4ScalingMatrix(const float x, const float y, const float z)
+		{
+			Matrix m(4, 4, new float[16]{
+				x, 0, 0, 0,
+				0, y, 0, 0,
+				0, 0, z, 0,
+				0, 0, 0, 1
+				});
+			return m;
+		}
+
+		static Matrix get4x4RotationMatrix_X(const float r)
+		{
+			float cosr = std::cos(r);
+			float sinr = std::sin(r);
+
+			Matrix m(4, 4, new float[16]{
+				1, 0, 0, 0,
+				0, cosr, -sinr, 0,
+				0, sinr, cosr, 0,
+				0, 0, 0, 1
+				});
+			return m;
+		}
+
+		static Matrix get4x4RotationMatrix_Y(const float r)
+		{
+			float cosr = std::cos(r);
+			float sinr = std::sin(r);
+
+			Matrix m(4, 4, new float[16]{
+				cosr, 0, sinr, 0,
+				0, 1, 0, 0,
+				-sinr, 0, cosr, 0,
+				0, 0, 0, 1
+				});
+			return m;
+		}
+
+		static Matrix get4x4RotationMatrix_Z(const float r)
+		{
+			float cosr = std::cos(r);
+			float sinr = std::sin(r);
+
+			Matrix m(4, 4, new float[16]{
+				cosr, -sinr, 0, 0,
+				sinr, cosr, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1
+				});
+			return m;
+		}
+
+		static Matrix get4x4ShearingMatrix(const float xy, const float xz, const float yx, const float yz, const float zx, const float zy)
+		{
+			Matrix m(4, 4, new float[16]{
+				1,  xy, xz, 0,
+				yx, 1,  yz, 0,
+				zx, zy, 1, 0,
+				0, 0, 0, 1
 				});
 			return m;
 		}
@@ -331,7 +433,7 @@ namespace RayTracer
 			}
 
 			std::cout.unsetf(std::ios::fixed);
-		}
+		}		
 
 	private:
 		void clear(float value = 0.0f)
