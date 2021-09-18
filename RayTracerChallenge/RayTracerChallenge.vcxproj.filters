@@ -74,5 +74,14 @@
     <ClInclude Include="Exercises\Chapter4\Clock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tests\raySphereIntersectionTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Ray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Sphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

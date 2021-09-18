@@ -15,9 +15,9 @@ int main()
 	
 	//Exercises::Chapter1::FireCannon();
 	//Exercises::Chapter2::ProjectilePPM();
-	Exercises::Chapter4::Clock();
-			
-	//bool result = RayTracer::Tests::RunTests();
+	//Exercises::Chapter4::Clock();
+				
+	bool result = RayTracer::Tests::RunTests();
 	//if(result) RunRayTracer();
 
 	std::cout << "\n\n\n";

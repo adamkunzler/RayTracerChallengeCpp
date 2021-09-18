@@ -150,6 +150,8 @@
     <ClInclude Include="src\Color.h" />
     <ClInclude Include="src\Matrix.h" />
     <ClInclude Include="src\Point.h" />
+    <ClInclude Include="src\Ray.h" />
+    <ClInclude Include="src\Sphere.h" />
     <ClInclude Include="src\Tuple.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="src\Vector.h" />
@@ -157,6 +159,7 @@
     <ClInclude Include="tests\colorTests.h" />
     <ClInclude Include="tests\matrixTests.h" />
     <ClInclude Include="tests\pointTests.h" />
+    <ClInclude Include="tests\raySphereIntersectionTests.h" />
     <ClInclude Include="tests\tupleTests.h" />
     <ClInclude Include="tests\utilsTests.h" />
     <ClInclude Include="tests\vectorTests.h" />

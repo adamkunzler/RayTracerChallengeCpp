@@ -15,6 +15,7 @@
 #include "tests\colorTests.h"
 #include "tests\canvasTests.h"
 #include "tests\matrixTests.h"
+#include "tests\raySphereIntersectionTests.h"
 
 namespace RayTracer
 {
@@ -37,6 +38,7 @@ namespace RayTracer
 		TestResults RunColorTests();
 		TestResults RunCanvasTests();
 		TestResults RunMatrixTests();
+		TestResults RunRaySphereIntersectionTests();
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
@@ -52,8 +54,10 @@ namespace RayTracer
 			//bool runColorTests = true;
 			bool runCanvasTests = false;
 			//bool runCanvasTests = true;
-			//bool runMatrixTests = false;
-			bool runMatrixTests = true;
+			bool runMatrixTests = false;
+			//bool runMatrixTests = true;
+			//bool runRaySphereIntersectionTests = false;
+			bool runRaySphereIntersectionTests = true;
 
 			int numPassed(0);
 			std::vector<std::string> failedTests;
@@ -100,6 +104,13 @@ namespace RayTracer
 			if (runMatrixTests)
 			{
 				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunMatrixTests();
+				numPassed += testResults.numPassed;
+				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
+			}
+			
+			if (runRaySphereIntersectionTests)
+			{
+				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunRaySphereIntersectionTests();
 				numPassed += testResults.numPassed;
 				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
 			}
@@ -802,7 +813,74 @@ namespace RayTracer
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
+		TestResults RunRaySphereIntersectionTests()
+		{
+			std::cout << "\n\nBEGIN Ray Sphere Intersection Tests...\n";
 
+			int numPassed(0);
+			std::vector<std::string> failedTests;
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			else { failedTests.push_back("Ray_Create"); }
+
+			if (RayTracer::Tests::Ray_Position()) { numPassed++; }
+			else { failedTests.push_back("Ray_Position"); }
+
+			if (RayTracer::Tests::Sphere_Create()) { numPassed++; }
+			else { failedTests.push_back("Sphere_Create"); }
+
+			if (RayTracer::Tests::Ray_Sphere_Intersect()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersect"); }
+
+			if (RayTracer::Tests::Ray_Sphere_Intersect_Tangent()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersect_Tangent"); }
+
+			if (RayTracer::Tests::Ray_Sphere_Intersect_Misses()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersect_Misses"); }
+
+			if (RayTracer::Tests::Ray_Sphere_Intersect_Inside()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersect_Inside"); }
+
+			if (RayTracer::Tests::Ray_Sphere_Intersect_Behind()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersect_Behind"); }
+
+			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			//else { failedTests.push_back("Ray_Create"); }
+
+			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			//else { failedTests.push_back("Ray_Create"); }
+
+			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			//else { failedTests.push_back("Ray_Create"); }
+
+			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			//else { failedTests.push_back("Ray_Create"); }
+
+			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			//else { failedTests.push_back("Ray_Create"); }
+
+			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			//else { failedTests.push_back("Ray_Create"); }
+
+			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			//else { failedTests.push_back("Ray_Create"); }
+
+			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
+			//else { failedTests.push_back("Ray_Create"); }
+
+			
+			auto stop = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+			std::cout << "END Ray Sphere Intersection Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
+
+			TestResults result;
+			result.failedTests = failedTests;
+			result.numPassed = numPassed;
+			return result;
+		}
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 

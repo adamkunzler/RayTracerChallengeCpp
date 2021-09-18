@@ -19,7 +19,7 @@ namespace Exercises
 
 			const bool isDebug = false;
 
-			const int size = 250;
+			const int size = 500;
 			float radius = size * (7.0f / 16.0f);
 			const int hours = 12;
 			const float stepSize = (2 * RayTracer::PI) / hours;

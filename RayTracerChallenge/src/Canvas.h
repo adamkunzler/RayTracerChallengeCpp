@@ -8,7 +8,7 @@
 
 #include "Utils.h"
 #include "Color.h"
-
+ 
 namespace RayTracer
 {
 	class Canvas
@@ -68,7 +68,7 @@ namespace RayTracer
 		// PPM "plain"
 		//
 		const std::string toPPM()
-		{
+		{			
 			std::ostringstream ss;
 			
 			//
@@ -108,21 +108,63 @@ namespace RayTracer
 			// end file with newline
 			ss << "\n";
 
-			std::string ppm = ss.str();			
+			std::string ppm = ss.str();
 			return ppm;
-		}
+		}	
 
 		//
 		// writes out the PPM data to a file
-		//
+		//		
 		const void toPPM(const std::string& filename)
-		{
-			std::string data(toPPM());
-			std::ofstream stream(filename, std::ios::out);
+		{			
+			auto start1 = std::chrono::high_resolution_clock::now();
+
+			const std::string space = " ";
+
+			std::ofstream ss(filename, std::ios::out);			
 						
-			stream << data;
-			
-			stream.close();
+			//
+			// write out the header
+			//			
+			ss << "P3\n";							// P3 - magic number / identifier			
+			ss << width << " " << height << "\n";	// width height			
+			ss << "255\n";							// maximum color value
+
+			//
+			// write out the pixel data
+			//
+			for (int y = 0; y < height; y++)
+			{
+				std::string data;
+				for (int x = 0; x < width; x++)
+				{
+					const int index = x + y * width;
+					Color c = pixelAt(index);
+
+					const int r = std::clamp((int)(c.r * 256.0f), 0, 255);
+					const int g = std::clamp((int)(c.g * 256.0f), 0, 255);
+					const int b = std::clamp((int)(c.b * 256.0f), 0, 255);
+										
+					data.append(std::to_string(r));
+					data.append(" ");
+					data.append(std::to_string(g));
+					data.append(" ");
+					data.append(std::to_string(b));
+					data.append(" ");
+				}
+				ss << data;
+
+				ss << "\n";
+			}
+
+			// end file with newline
+			ss << "\n";
+
+			ss.close();
+
+			auto stop1 = std::chrono::high_resolution_clock::now();
+			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
+			std::cout << "\nPPM File Completed in " << duration1.count() << "ms.\n";
 		}
 
 	private:
