@@ -146,6 +146,7 @@
     <ClInclude Include="Exercises\Chapter1\VirtualCannon.h" />
     <ClInclude Include="Exercises\Chapter2\ProjectilePPM.h" />
     <ClInclude Include="Exercises\Chapter4\Clock.h" />
+    <ClInclude Include="Exercises\Chapter5\RayTraceSphere.h" />
     <ClInclude Include="src\Canvas.h" />
     <ClInclude Include="src\Color.h" />
     <ClInclude Include="src\Intersection.h" />
