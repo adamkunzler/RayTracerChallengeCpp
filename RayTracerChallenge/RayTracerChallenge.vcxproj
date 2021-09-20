@@ -148,6 +148,8 @@
     <ClInclude Include="Exercises\Chapter4\Clock.h" />
     <ClInclude Include="src\Canvas.h" />
     <ClInclude Include="src\Color.h" />
+    <ClInclude Include="src\Intersection.h" />
+    <ClInclude Include="src\IShape.h" />
     <ClInclude Include="src\Matrix.h" />
     <ClInclude Include="src\Point.h" />
     <ClInclude Include="src\Ray.h" />

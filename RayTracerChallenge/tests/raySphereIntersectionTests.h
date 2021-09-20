@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "../src/Ray.h"
 #include "../src/Sphere.h"
 #include "../src/Point.h"
@@ -71,16 +72,16 @@ namespace RayTracer
 			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
 			Sphere s;
 			
-			float* xs = r.intersects(s);
+			std::vector<Intersection> inters = r.intersects(s);
 
-			bool result = FloatEquals(xs[0], 4) && FloatEquals(xs[1], 6);
+			bool result = inters.size() == 2
+				&& (inters[0].object == &s)
+				&& FloatEquals(inters[0].t, 4) 
+				&& FloatEquals(inters[1].t, 6);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Ray_Sphere_Intersect()\n";
-
-			delete[] xs;
-			xs = 0;
-
+			
 			return result;
 		}
 
@@ -89,16 +90,16 @@ namespace RayTracer
 			Ray r(Point(0, 1, -5), Vector(0, 0, 1));
 			Sphere s;
 
-			float* xs = r.intersects(s);
+			std::vector<Intersection> inters = r.intersects(s);
 
-			bool result = FloatEquals(xs[0], 5) && FloatEquals(xs[1], 5);
+			bool result = inters.size() == 2
+				&& (inters[0].object == &s)
+				&& FloatEquals(inters[0].t, 5)
+				&& FloatEquals(inters[1].t, 5);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Ray_Sphere_Intersect_Tangent()\n";
-
-			delete[] xs;
-			xs = 0;
-
+			
 			return result;
 		}
 
@@ -107,15 +108,12 @@ namespace RayTracer
 			Ray r(Point(0, 2, -5), Vector(0, 0, 1));
 			Sphere s;
 
-			float* xs = r.intersects(s);
+			std::vector<Intersection> inters = r.intersects(s);
 
-			bool result = xs == NULL;
+			bool result = inters.size() == 0;
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Ray_Sphere_Intersect_Misses()\n";
-
-			delete[] xs;
-			xs = 0;
 
 			return result;
 		}
@@ -125,15 +123,15 @@ namespace RayTracer
 			Ray r(Point(0, 0, 0), Vector(0, 0, 1));
 			Sphere s;
 
-			float* xs = r.intersects(s);
+			std::vector<Intersection> inters = r.intersects(s);
 
-			bool result = FloatEquals(xs[0], -1) && FloatEquals(xs[1], 1);
+			bool result = inters.size() == 2
+				&& (inters[0].object == &s)
+				&& FloatEquals(inters[0].t, -1)
+				&& FloatEquals(inters[1].t, 1);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Ray_Sphere_Intersect_Inside()\n";
-
-			delete[] xs;
-			xs = 0;
 
 			return result;
 		}
@@ -143,15 +141,206 @@ namespace RayTracer
 			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
 			Sphere s;
 
-			float* xs = r.intersects(s);
+			std::vector<Intersection> inters = r.intersects(s);
 
-			bool result = FloatEquals(xs[0], 4) && FloatEquals(xs[1], 6);
+			bool result = (inters.size() == 2)
+				&& (inters[0].object == &s)
+				&& FloatEquals(inters[0].t, 4)
+				&& FloatEquals(inters[1].t, 6);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Ray_Sphere_Intersect_Behind()\n";
 
-			delete[] xs;
-			xs = 0;
+			return result;
+		}
+
+		bool Ray_Sphere_Intersect_Intersection()
+		{			
+			Sphere s;
+			Intersection i(3.5f, &s);
+			
+			bool result = FloatEquals(i.t, 3.5f) && (i.object == &s);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_Intersect_Intersection()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_Intersection_AllPositive()
+		{
+			Sphere s;
+			Intersection i1(1, &s);
+			Intersection i2(2, &s);
+			std::vector<Intersection> inters;
+			inters.push_back(i2);
+			inters.push_back(i1);
+
+			Intersection i = Intersection::hit(inters);
+			
+			bool result = (i == i1);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_Intersection_AllPositive()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_Intersection_SomeNegative()
+		{
+			Sphere s;
+			Intersection i1(-1, &s);
+			Intersection i2(1, &s);
+			std::vector<Intersection> inters;
+			inters.push_back(i2);
+			inters.push_back(i1);
+
+			Intersection i = Intersection::hit(inters);
+
+			bool result = (i == i2);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_Intersection_SomeNegative()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_Intersection_AllNegative()
+		{
+			Sphere s;
+			Intersection i1(-2, &s);
+			Intersection i2(-1, &s);
+			std::vector<Intersection> inters;
+			inters.push_back(i2);
+			inters.push_back(i1);
+
+			Intersection i = Intersection::hit(inters);
+
+			bool result = i.isNull();
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_Intersection_AllNegative()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_Intersection_LowestNonNegative()
+		{
+			Sphere s;
+			Intersection i1(5, &s);
+			Intersection i2(7, &s);
+			Intersection i3(-3, &s);
+			Intersection i4(2, &s);
+			
+			std::vector<Intersection> inters;
+			inters.push_back(i1);
+			inters.push_back(i2);
+			inters.push_back(i3);
+			inters.push_back(i4);
+
+			Intersection i = Intersection::hit(inters);
+
+			bool result = (i == i4);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_Intersection_LowestNonNegative()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_TranslateRay()
+		{
+			Ray r(Point(1, 2, 3), Vector(0, 1, 0));
+			Matrix m = Matrix::get4x4TranslationMatrix(3, 4, 5);
+			Ray r2 = r.transform(m);
+			
+			Point pe(4, 6, 8);
+			Vector ve(0, 1, 0);
+
+			bool result = (r2.origin == pe) 
+				&& (r2.direction == ve);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_TranslateRay()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_ScaleRay()
+		{
+			Ray r(Point(1, 2, 3), Vector(0, 1, 0));
+			Matrix m = Matrix::get4x4ScalingMatrix(2, 3, 4);
+			Ray r2 = r.transform(m);
+
+			Point pe(2, 6, 12);
+			Vector ve(0, 3, 0);
+
+			bool result = (r2.origin == pe)
+				&& (r2.direction == ve);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_ScaleRay()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_DefaultSphereTransform()
+		{
+			Sphere s;
+			Matrix m = Matrix::get4x4IdentityMatrix();
+
+			bool result = (s.transform == m);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_DefaultSphereTransform()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_ChangeSphereTransform()
+		{
+			Sphere s;
+			Matrix t = Matrix::get4x4TranslationMatrix(2, 3, 4);
+			s.transform = t;
+
+			bool result = (s.transform == t);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_ChangeSphereTransform()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_Intersect_ScaledSphere()
+		{
+			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+			Sphere s;
+			s.transform = Matrix::get4x4ScalingMatrix(2, 2, 2);
+
+			std::vector<Intersection> inters = r.intersects(s);
+			
+			bool result = (inters.size() == 2)
+				&& FloatEquals(inters[0].t, 3)
+				&& FloatEquals(inters[1].t, 7);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_Intersect_ScaledSphere()\n";
+
+			return result;
+		}
+
+		bool Ray_Sphere_Intersect_TranslatedSphere()
+		{
+			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+			Sphere s;
+			s.transform = Matrix::get4x4TranslationMatrix(5, 0, 0);
+
+			std::vector<Intersection> inters = r.intersects(s);
+
+			bool result = (inters.size() == 0);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Ray_Sphere_Intersect_TranslatedSphere()\n";
 
 			return result;
 		}

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Point.h"
+#include "IShape.h"
 
 namespace RayTracer
 {
-	struct Sphere
+	struct Sphere : public IShape
 	{
 		Point origin;
 		float radius;

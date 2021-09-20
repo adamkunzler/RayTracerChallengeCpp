@@ -846,20 +846,38 @@ namespace RayTracer
 			if (RayTracer::Tests::Ray_Sphere_Intersect_Behind()) { numPassed++; }
 			else { failedTests.push_back("Ray_Sphere_Intersect_Behind"); }
 
-			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
-			//else { failedTests.push_back("Ray_Create"); }
+			if (RayTracer::Tests::Ray_Sphere_Intersect_Intersection()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersect_Intersection"); }
 
-			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
-			//else { failedTests.push_back("Ray_Create"); }
+			if (RayTracer::Tests::Ray_Sphere_Intersection_AllPositive()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersection_AllPositive"); }
 
-			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
-			//else { failedTests.push_back("Ray_Create"); }
+			if (RayTracer::Tests::Ray_Sphere_Intersection_SomeNegative()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersection_SomeNegative"); }
 
-			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
-			//else { failedTests.push_back("Ray_Create"); }
+			if (RayTracer::Tests::Ray_Sphere_Intersection_AllNegative()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersection_AllNegative"); }
 
-			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
-			//else { failedTests.push_back("Ray_Create"); }
+			if (RayTracer::Tests::Ray_Sphere_Intersection_LowestNonNegative()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersection_LowestNonNegative"); }
+
+			if (RayTracer::Tests::Ray_Sphere_TranslateRay()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_TranslateRay"); }
+
+			if (RayTracer::Tests::Ray_Sphere_ScaleRay()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_ScaleRay"); }
+
+			if (RayTracer::Tests::Ray_Sphere_DefaultSphereTransform()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_DefaultSphereTransform"); }
+
+			if (RayTracer::Tests::Ray_Sphere_ChangeSphereTransform()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_ChangeSphereTransform"); }
+
+			if (RayTracer::Tests::Ray_Sphere_Intersect_ScaledSphere()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersect_ScaledSphere"); }
+
+			if (RayTracer::Tests::Ray_Sphere_Intersect_TranslatedSphere()) { numPassed++; }
+			else { failedTests.push_back("Ray_Sphere_Intersect_TranslatedSphere"); }
 
 			//if (RayTracer::Tests::Ray_Create()) { numPassed++; }
 			//else { failedTests.push_back("Ray_Create"); }
