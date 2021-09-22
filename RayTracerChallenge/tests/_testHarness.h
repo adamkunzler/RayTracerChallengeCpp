@@ -16,6 +16,7 @@
 #include "tests\canvasTests.h"
 #include "tests\matrixTests.h"
 #include "tests\raySphereIntersectionTests.h"
+#include "tests\lightAndShadingTests.h"
 
 namespace RayTracer
 {
@@ -39,6 +40,7 @@ namespace RayTracer
 		TestResults RunCanvasTests();
 		TestResults RunMatrixTests();
 		TestResults RunRaySphereIntersectionTests();
+		TestResults RunLightAndShadingTests();
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
@@ -56,8 +58,10 @@ namespace RayTracer
 			//bool runCanvasTests = true;
 			bool runMatrixTests = false;
 			//bool runMatrixTests = true;
-			//bool runRaySphereIntersectionTests = false;
-			bool runRaySphereIntersectionTests = true;
+			bool runRaySphereIntersectionTests = false;
+			//bool runRaySphereIntersectionTests = true;
+			//bool runLightAndShadingTests = false;
+			bool runLightAndShadingTests = true;
 
 			int numPassed(0);
 			std::vector<std::string> failedTests;
@@ -111,6 +115,13 @@ namespace RayTracer
 			if (runRaySphereIntersectionTests)
 			{
 				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunRaySphereIntersectionTests();
+				numPassed += testResults.numPassed;
+				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
+			}
+
+			if (runLightAndShadingTests)
+			{
+				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunLightAndShadingTests();
 				numPassed += testResults.numPassed;
 				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
 			}
@@ -902,7 +913,80 @@ namespace RayTracer
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
+		TestResults RunLightAndShadingTests()
+		{
+			std::cout << "\n\nBEGIN Light and Shading Tests...\n";
 
+			int numPassed(0);
+			std::vector<std::string> failedTests;
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			
+			if (RayTracer::Tests::LightShading_Normal_YAxis()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Normal_YAxis"); }
+
+			if (RayTracer::Tests::LightShading_Normal_ZAxis()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Normal_ZAxis"); }
+
+			if (RayTracer::Tests::LightShading_Normal_NonAxial()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Normal_NonAxial"); }
+
+			if (RayTracer::Tests::LightShading_Normal_Normalized()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Normal_Normalized"); }
+
+			if (RayTracer::Tests::LightShading_Normal_Sphere_Translated()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Normal_Sphere_Translated"); }
+
+			if (RayTracer::Tests::LightShading_Normal_Sphere_Transformed()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Normal_Sphere_Transformed"); }
+
+			if (RayTracer::Tests::LightShading_Reflect_45()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Reflect_45"); }
+
+			if (RayTracer::Tests::LightShading_Reflect_Slanted()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Reflect_Slanted"); }
+
+			if (RayTracer::Tests::LightShading_PointLight()) { numPassed++; }
+			else { failedTests.push_back("LightShading_PointLight"); }
+
+			if (RayTracer::Tests::LightShading_Material_Default()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Material_Default"); }
+
+			if (RayTracer::Tests::LightShading_Material_SphereDefault()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Material_SphereDefault"); }
+
+			if (RayTracer::Tests::LightShading_Material_SphereAssigned()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Material_SphereAssigned"); }
+
+			if (RayTracer::Tests::LightShading_Light_EyeBetweenLightAndSurface()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Light_EyeBetweenLightAndSurface"); }
+
+			if (RayTracer::Tests::LightShading_Light_EyeBetweenLightAndSurface45()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Light_EyeBetweenLightAndSurface45"); }
+
+			if (RayTracer::Tests::LightShading_Light_EyeOppositeSurface()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Light_EyeOppositeSurface"); }
+
+			if (RayTracer::Tests::LightShading_Light_EyeInPath()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Light_EyeInPath"); }
+
+			if (RayTracer::Tests::LightShading_Light_BehindSurface()) { numPassed++; }
+			else { failedTests.push_back("LightShading_Light_BehindSurface"); }
+
+
+			auto stop = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+			std::cout << "END Light and Shading Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
+
+			TestResults result;
+			result.failedTests = failedTests;
+			result.numPassed = numPassed;
+			return result;
+		}
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 

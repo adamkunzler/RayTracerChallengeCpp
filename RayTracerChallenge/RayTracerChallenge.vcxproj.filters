@@ -92,5 +92,14 @@
     <ClInclude Include="Exercises\Chapter5\RayTraceSphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tests\lightAndShadingTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\PointLight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

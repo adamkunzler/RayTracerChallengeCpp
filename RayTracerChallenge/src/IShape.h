@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Matrix.h"
+#include "Material.h"
 
 namespace RayTracer
 {
@@ -8,6 +9,7 @@ namespace RayTracer
 	{
 	public:
 		Matrix transform;
+		Material material;
 
 	public:
 		IShape() 
