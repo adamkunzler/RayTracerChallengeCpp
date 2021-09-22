@@ -46,20 +46,20 @@ namespace RayTracer
 
 		bool RunTests()
 		{
-			bool runTupleTests = false;
-			//bool runTupleTests = true;
-			bool runVectorTests = false;
-			//bool runVectorTests = true;
-			bool runPointTests = false;
-			//bool runPointTests = true;
-			bool runColorTests = false;
-			//bool runColorTests = true;
-			bool runCanvasTests = false;
-			//bool runCanvasTests = true;
-			bool runMatrixTests = false;
-			//bool runMatrixTests = true;
-			bool runRaySphereIntersectionTests = false;
-			//bool runRaySphereIntersectionTests = true;
+			//bool runTupleTests = false;
+			bool runTupleTests = true;
+			//bool runVectorTests = false;
+			bool runVectorTests = true;
+			//bool runPointTests = false;
+			bool runPointTests = true;
+			//bool runColorTests = false;
+			bool runColorTests = true;
+			//bool runCanvasTests = false;
+			bool runCanvasTests = true;
+			//bool runMatrixTests = false;
+			bool runMatrixTests = true;
+			//bool runRaySphereIntersectionTests = false;
+			bool runRaySphereIntersectionTests = true;
 			//bool runLightAndShadingTests = false;
 			bool runLightAndShadingTests = true;
 

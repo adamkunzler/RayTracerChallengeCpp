@@ -134,15 +134,35 @@ namespace RayTracer
 	};
 	
 	
-	Color operator+(Color a, Color const& b) { return a += b; }
+	Color operator+(Color a, Color const& b) 
+	{ 
+		Color temp(a);
+		return temp += b; 
+	}
 	
-	Color operator-(Color a, Color const& b) { return a -= b; }
+	Color operator-(Color a, Color const& b) 
+	{ 
+		Color temp(a);
+		return temp -= b; 
+	}
 
-	Color operator*(Color& a, Color const& b) { return a *= b; }
+	Color operator*(Color& a, Color const& b) 
+	{
+		Color temp(a);
+		return temp *= b; 
+	}
 
-	Color operator*(Color a, float const& scalar) { return a *= scalar; }
+	Color operator*(Color a, float const& scalar) 
+	{ 
+		Color temp(a);
+		return temp *= scalar; 
+	}
 	
-	Color operator/(Color a, float const& scalar) { return a /= scalar; }
+	Color operator/(Color a, float const& scalar) 
+	{ 
+		Color temp(a);
+		return temp /= scalar; 
+	}
 }
 
 std::ostream& operator<<(std::ostream& os, const RayTracer::Color& color)

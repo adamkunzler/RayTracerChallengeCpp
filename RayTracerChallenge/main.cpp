@@ -7,6 +7,7 @@
 #include "Exercises\Chapter2\ProjectilePPM.h"
 #include "Exercises\Chapter4\Clock.h"
 #include "Exercises\Chapter5\RayTraceSphere.h"
+#include "Exercises\Chapter6\RayTraceSphere.h"
 
 void RunRayTracer();
 
@@ -14,12 +15,15 @@ int main()
 {
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
+	//bool result = RayTracer::Tests::RunTests();
+
 	//Exercises::Chapter1::FireCannon();
 	//Exercises::Chapter2::ProjectilePPM();
 	//Exercises::Chapter4::Clock();
 	//Exercises::Chapter5::RayTraceSphere();
+	Exercises::Chapter6::RayTraceSphere();
 
-	bool result = RayTracer::Tests::RunTests();
+	
 	//if(result) RunRayTracer();
 
 	std::cout << "\n\n\n";

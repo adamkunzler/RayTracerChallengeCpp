@@ -101,5 +101,8 @@
     <ClInclude Include="src\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Exercises\Chapter6\RayTraceSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,7 +16,7 @@ namespace RayTracer
 		{
 		}	
 
-		Color phong(const Material& m, const Point& p, const Vector& eye, const Vector& normalV)
+		Color phong(const Material& m, const Point& p, const Vector& eye, Vector& normalV)
 		{
 			Color ambient;
 			Color diffuse;
@@ -24,7 +24,7 @@ namespace RayTracer
 
 			// combine surface color with lights color/intensity
 			Color effectiveColor = intensity * m.color;
-
+			
 			// find the direction to the light source
 			Vector lightV = (position - p).normalize();
 
@@ -47,8 +47,8 @@ namespace RayTracer
 
 				// reflectDotEye represents the cosine of the angle between the reflection
 				// vector and the eye vector. A negative number means the light reflects 
-				// away from the eye
-				Vector reflectV = -lightV.reflect(normalV);
+				// away from the eye					
+				Vector reflectV = lightV.reflect(normalV);
 				float reflectDotEye = reflectV.dot(eye);
 				if (reflectDotEye <= 0) 
 				{
@@ -57,12 +57,17 @@ namespace RayTracer
 				else
 				{
 					// compute specular contribution
-					float factor = std::powf(reflectDotEye, m.shininess);
-					specular = intensity * m.specular * factor;
+					float factor = std::pow(reflectDotEye, m.shininess);					
+					specular = intensity * (m.specular * factor);
+					//std::cout << "  s->" << specular.r;
 				}
 			}
 
-			return ambient + diffuse + specular;
+			//Color finalColor = specular;
+			Color finalColor = ambient + diffuse + specular;
+			//std::cout << "\n" << finalColor;
+			return finalColor;
+			//return specular;
 		}
 	};
 }
