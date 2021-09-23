@@ -1,24 +1,26 @@
 #pragma once
 
 #include "IShape.h"
-#include "Intersection.h"
 
 namespace RayTracer
 {
-	struct Intersection
+	class IShape;
+
+	class Intersection
 	{	
+	public:
 		float t;
 		IShape* object;
 	
 		Intersection()
-		{
+		{			
 			object = NULL;
 		}
 
 		Intersection(const float lT, IShape* lObject) : t(lT), object(lObject)
 		{
 		}		
-
+		
 		bool isNull()
 		{
 			return object == NULL;

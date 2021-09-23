@@ -1,7 +1,7 @@
 #pragma once
-
-#include <iostream>
 #include <algorithm>
+#include "..\Utils.h"
+#include <ostream>
 
 namespace RayTracer
 {

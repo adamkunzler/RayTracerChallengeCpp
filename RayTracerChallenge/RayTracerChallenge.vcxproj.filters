@@ -20,7 +20,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Tuple.h">
+    <ClInclude Include="src\DataStructs\Tuple.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils.h">
@@ -32,13 +32,13 @@
     <ClInclude Include="Exercises\Chapter1\VirtualCannon.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Color.h">
+    <ClInclude Include="src\DataStructs\Color.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tests\colorTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Canvas.h">
+    <ClInclude Include="src\Engine\Canvas.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tests\canvasTests.h">
@@ -47,10 +47,10 @@
     <ClInclude Include="Exercises\Chapter2\ProjectilePPM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Vector.h">
+    <ClInclude Include="src\DataStructs\Vector.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Point.h">
+    <ClInclude Include="src\DataStructs\Point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tests\vectorTests.h">
@@ -65,7 +65,7 @@
     <ClInclude Include="tests\tupleTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Matrix.h">
+    <ClInclude Include="src\DataStructs\Matrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="tests\matrixTests.h">
@@ -77,16 +77,16 @@
     <ClInclude Include="tests\raySphereIntersectionTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Ray.h">
+    <ClInclude Include="src\Geometry\Ray.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Sphere.h">
+    <ClInclude Include="src\Geometry\Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Intersection.h">
+    <ClInclude Include="src\Geometry\Intersection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\IShape.h">
+    <ClInclude Include="src\Geometry\IShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Exercises\Chapter5\RayTraceSphere.h">
@@ -95,13 +95,22 @@
     <ClInclude Include="tests\lightAndShadingTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\PointLight.h">
+    <ClInclude Include="src\Geometry\PointLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Material.h">
+    <ClInclude Include="src\Geometry\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Exercises\Chapter6\RayTraceSphere.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="tests\worldAndCameraTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\World.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Camera.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

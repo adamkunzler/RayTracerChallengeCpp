@@ -2,10 +2,6 @@
 
 #include <iostream>
 #include <string>
-#include "../src/Tuple.h"
-#include "../src/Color.h"
-#include "../src/Utils.h"
-#include "../src/Canvas.h"
 
 namespace RayTracer
 {

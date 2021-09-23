@@ -1,9 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-#include "../src/Color.h"
-#include "../src/Utils.h"
 
 namespace RayTracer
 {

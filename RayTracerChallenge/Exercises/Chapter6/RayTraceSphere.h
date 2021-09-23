@@ -1,15 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <chrono>
-#include <vector>
-#include "../../src/Canvas.h"
-#include "../../src/Color.h"
-#include "../../src/Sphere.h"
-#include "../../src/Point.h"
-#include "../../src/Ray.h"
-#include "../../src/Intersection.h"
-
 namespace Exercises
 {
 	namespace Chapter6
@@ -20,7 +10,7 @@ namespace Exercises
 
 			const bool isDebug = false;
 
-			const int size = 256;
+			const int size = 64;
 
 			std::cout << size << " x " << size << " => " << (size * size) << " pixels";
 
@@ -37,7 +27,7 @@ namespace Exercises
 			//RayTracer::Color missColor = RayTracer::Color::fromRGB(253, 242, 231); // light orange
 			RayTracer::Color missColor(0.01f, 0.01f, 0.01f);
 
-			RayTracer::Point lightPosition(10, -10, -10);
+			RayTracer::Point lightPosition(-10, 10, -10);
 			RayTracer::Color lightColor(1, 1, 1);
 			RayTracer::PointLight light(lightPosition, lightColor);
 
@@ -79,14 +69,14 @@ namespace Exercises
 					RayTracer::Ray r(rayOrigin, v.normalize());
 
 					// check for intersections with sphere
-					std::vector<RayTracer::Intersection> inters = r.intersects(s);
+					std::vector<RayTracer::Intersection> inters = s.intersects(r);
 					RayTracer::Intersection hit = RayTracer::Intersection::hit(inters);
 					if (!hit.isNull())
 					{
 						// hit the object...set the pixel
 
 						RayTracer::Point p = r.position(hit.t);
-						RayTracer::Vector n = dynamic_cast<RayTracer::Sphere*>(hit.object)->normalAt(p);						
+						RayTracer::Vector n = hit.object->normalAt(p);
 						RayTracer::Vector eye = r.direction;
 
 						RayTracer::Color color = light.phong(hit.object->material, p, eye, n);

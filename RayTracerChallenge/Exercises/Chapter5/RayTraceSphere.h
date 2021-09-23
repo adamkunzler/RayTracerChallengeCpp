@@ -65,7 +65,7 @@ namespace Exercises
 					RayTracer::Ray r(rayOrigin, v.normalize());
 
 					// check for intersections with sphere
-					std::vector<RayTracer::Intersection> inters = r.intersects(s);
+					std::vector<RayTracer::Intersection> inters = s.intersects(r);
 					RayTracer::Intersection hit = RayTracer::Intersection::hit(inters);
 					if (!hit.isNull())
 					{

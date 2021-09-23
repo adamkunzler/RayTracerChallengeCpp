@@ -1,10 +1,11 @@
 #pragma once
-
-#include <iostream>
-#include <iomanip>
-#include <algorithm>
-#include <stdexcept>
 #include "Tuple.h"
+#include <stdexcept>
+#include <iostream>
+#include "Point.h"
+#include "Vector.h"
+#include "..\Utils.h"
+#include <iomanip>
 
 namespace RayTracer
 {
@@ -26,7 +27,7 @@ namespace RayTracer
 		~Matrix()
 		{
 			delete[] data;
-			data = NULL;
+			data = 0;
 		}
 
 		// default constructor
@@ -45,7 +46,7 @@ namespace RayTracer
 			rows = lRows;
 			maxIndex = columns * rows;
 
-			if (values == NULL)
+			if (values == 0)
 			{
 				data = new float[maxIndex];
 				clear();

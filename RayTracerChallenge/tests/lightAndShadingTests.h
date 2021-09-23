@@ -1,15 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-#include "../src/Utils.h"
-#include "../src/Point.h"
-#include "../src/Vector.h"
-#include "../src/Sphere.h"
-#include "../src/Matrix.h"
-#include "../src/PointLight.h"
-#include "..\src\Color.h"
-#include "..\src\Material.h"
 
 namespace RayTracer
 {

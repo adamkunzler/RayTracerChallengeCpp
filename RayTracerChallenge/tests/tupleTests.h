@@ -1,11 +1,5 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-#include "../src/Tuple.h"
-#include "../src/Point.h"
-#include "../src/Vector.h"
-
 namespace RayTracer
 {
 	namespace Tests

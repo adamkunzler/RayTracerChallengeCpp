@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cmath>
-
 namespace RayTracer
 {
 	const float PI(3.14159265358979323846264338327950288419716939937510f); // 50 digits

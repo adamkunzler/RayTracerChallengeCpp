@@ -1,6 +1,5 @@
 #pragma once
-
-#include "Color.h"
+#include "..\DataStructs\Color.h"
 
 namespace RayTracer
 {
@@ -31,7 +30,7 @@ namespace RayTracer
 		bool operator==(const Material& m)
 		{
 			return (color == m.color)
-				&& FloatEquals(ambient, m.ambient)
+				&& RayTracer::FloatEquals(ambient, m.ambient)
 				&& FloatEquals(diffuse, m.diffuse)
 				&& FloatEquals(specular, m.specular)
 				&& FloatEquals(shininess, m.shininess);

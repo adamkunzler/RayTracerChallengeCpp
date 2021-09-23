@@ -1,14 +1,11 @@
 #pragma once
-
-#include <iostream>
-#include <fstream>
+#include "..\DataStructs\Color.h"
 #include <string>
+#include <chrono>
+#include <iostream>
 #include <sstream>
-#include <algorithm>
+#include <fstream>
 
-#include "Utils.h"
-#include "Color.h"
- 
 namespace RayTracer
 {
 	class Canvas
