@@ -129,5 +129,22 @@ namespace RayTracer
 			Color color = shadeHit(comp);
 			return color;
 		}
+
+		Canvas render(const Camera& camera)
+		{
+			Canvas image(camera.hSize, camera.vSize);
+
+			for (int y = 0; y < camera.vSize; y++)
+			{
+				for (int x = 0; x < camera.hSize; x++)
+				{
+					Ray r = camera.rayForPixel(x, y);
+					Color c = colorAt(r);
+					image.setPixel(x, y, c);
+				}
+			}
+
+			return image;
+		}
 	};
 }

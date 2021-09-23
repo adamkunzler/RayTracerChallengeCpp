@@ -1066,27 +1066,26 @@ namespace RayTracer
 			if (RayTracer::Tests::World_ViewTransform_Arbitrary()) { numPassed++; }
 			else { failedTests.push_back("World_ViewTransform_Arbitrary"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::Camera_Create()) { numPassed++; }
+			else { failedTests.push_back("Camera_Create"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::Camera_PixelSize_Horizontal()) { numPassed++; }
+			else { failedTests.push_back("Camera_PixelSize_Horizontal"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::Camera_PixelSize_Vertical()) { numPassed++; }
+			else { failedTests.push_back("Camera_PixelSize_Vertical"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::Camera_CenterOfCanvas()) { numPassed++; }
+			else { failedTests.push_back("Camera_CenterOfCanvas"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::Camera_CornerOfCanvas()) { numPassed++; }
+			else { failedTests.push_back("Camera_CornerOfCanvas"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::Camera_Transformed()) { numPassed++; }
+			else { failedTests.push_back("Camera_Transformed"); }
 
-
-
-			
+			if (RayTracer::Tests::RenderWorld()) { numPassed++; }
+			else { failedTests.push_back("RenderWorld"); }					
 
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
