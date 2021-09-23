@@ -34,22 +34,6 @@ namespace RayTracer
 
 			Ray r(newOrigin, newDirection);
 			return r;
-		}
-
-		//std::vector<Intersection> intersectWorld(const World& w)
-		//{
-		//	std::vector<Intersection> intersections;
-
-		//	for (std::vector<IShape>::const_iterator iter = w.objects.begin(); iter != w.objects.end(); iter++)
-		//	{							
-		//		//IShape ishape = *iter;
-		//		//Sphere s = (Sphere)ishape;
-		//		//std::vector<Intersection> shapeIntersects = intersects(s);
-		//	}
-
-		//	std::sort(intersections.begin(), intersections.end(), Intersection::comparer);
-
-		//	return intersections;			
-		//}
+		}		
 	};
 }

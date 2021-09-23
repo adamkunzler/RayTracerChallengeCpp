@@ -19,7 +19,7 @@
 //#include "Exercises\Chapter2\ProjectilePPM.h"
 //#include "Exercises\Chapter4\Clock.h"
 //#include "Exercises\Chapter5\RayTraceSphere.h"
-#include "Exercises\Chapter6\RayTraceSphere.h"
+//#include "Exercises\Chapter6\RayTraceSphere.h"
 
 void RunRayTracer();
 
@@ -33,7 +33,7 @@ int main()
 	//Exercises::Chapter2::ProjectilePPM();
 	//Exercises::Chapter4::Clock();
 	//Exercises::Chapter5::RayTraceSphere();
-	Exercises::Chapter6::RayTraceSphere();
+	//Exercises::Chapter6::RayTraceSphere();
 
 	
 	//if(result) RunRayTracer();

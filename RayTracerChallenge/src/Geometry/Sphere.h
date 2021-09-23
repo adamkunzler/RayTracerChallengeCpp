@@ -24,7 +24,7 @@ namespace RayTracer
 			return worldNormal.normalize();
 		}
 
-		std::vector<Intersection> intersects(const Ray& r)
+		std::vector<Intersection> intersectBy(const Ray& r)
 		{			
 			Matrix inverse = transform.inverse();
 			Ray newRay(r);

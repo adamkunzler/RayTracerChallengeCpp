@@ -18,6 +18,7 @@
 #include "../src/Geometry/PointLight.h"
 #include "../src/Geometry/Ray.h"
 #include "../src/Geometry/Sphere.h"
+#include "../src/Geometry/Computation.h"
 
 #include "tests\tupleTests.h"
 #include "tests\vectorTests.h"
@@ -1029,29 +1030,29 @@ namespace RayTracer
 			if (RayTracer::Tests::World_RayIntersect()) { numPassed++; }
 			else { failedTests.push_back("World_RayIntersect"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_RayIntersect_Precompute()) { numPassed++; }
+			else { failedTests.push_back("World_RayIntersect_Precompute"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_RayIntersect_Precompute_Outside()) { numPassed++; }
+			else { failedTests.push_back("World_RayIntersect_Precompute_Outside"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_RayIntersect_Precompute_Inside()) { numPassed++; }
+			else { failedTests.push_back("World_RayIntersect_Precompute_Inside"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_Shade_Intersection()) { numPassed++; }
+			else { failedTests.push_back("World_Shade_Intersection"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_Shade_Intersection_Inside()) { numPassed++; }
+			else { failedTests.push_back("World_Shade_Intersection_Inside"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_Shade_RayMiss()) { numPassed++; }
+			else { failedTests.push_back("World_Shade_RayMiss"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_Shade_RayHit()) { numPassed++; }
+			else { failedTests.push_back("World_Shade_RayHit"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_Shade_IntersectionBehindRay()) { numPassed++; }
+			else { failedTests.push_back("World_Shade_IntersectionBehindRay"); }
 
 			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
 			//else { failedTests.push_back("LightShading_Normal_XAxis"); }

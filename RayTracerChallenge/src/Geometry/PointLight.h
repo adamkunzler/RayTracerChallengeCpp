@@ -16,7 +16,7 @@ namespace RayTracer
 		{
 		}	
 
-		Color phong(const Material& m, const Point& p, const Vector& eye, Vector& normalV)
+		Color phong(const Material& m, const Point& p, const Vector& eye, const Vector& normalV)
 		{
 			Color ambient;
 			Color diffuse;

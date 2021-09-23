@@ -6,17 +6,19 @@
 #include "..\Geometry\IShape.h"
 #include "..\Geometry\Sphere.h"
 #include "..\Geometry\PointLight.h"
+#include "..\Geometry\Computation.h"
 
 namespace RayTracer
 {
 	class IShape;
 	class PointLight;
+	class Computation;
 
 	class World
 	{
 	public:
 		std::vector<IShape*> objects;
-		std::vector<PointLight> lights;
+		std::vector<PointLight> lights; // TODO ILight interface to support different types of lights
 
 		World()
 		{			
@@ -28,18 +30,84 @@ namespace RayTracer
 			
 			w.lights.push_back(PointLight(Point(-10, 10, -10), Color(1, 1, 1)));
 
-			Sphere s1;			
-			s1.material.color = Color(0.8f, 1.0f, 0.6f);
-			s1.material.diffuse = 0.7f;
-			s1.material.specular = 0.2f;
+			Sphere* s1 = new Sphere();
+			s1->material.color = Color(0.8f, 1.0f, 0.6f);
+			s1->material.diffuse = 0.7f;
+			s1->material.specular = 0.2f;
 
-			Sphere s2;
-			s2.transform = Matrix::get4x4ScalingMatrix(0.5f, 0.5f, 0.5f);
+			Sphere* s2 = new Sphere();
+			s2->transform = Matrix::get4x4ScalingMatrix(0.5f, 0.5f, 0.5f);
 
-			w.objects.push_back(&s1);
-			w.objects.push_back(&s2);
+			w.objects.push_back(s1);
+			w.objects.push_back(s2);
 
 			return w;
+		}
+
+		std::vector<Intersection> intersectBy(const Ray& r)
+		{
+			std::vector<Intersection> intersections;
+
+			for (std::vector<IShape*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+			{															
+				std::vector<Intersection> shapeIntersects = (*iter)->intersectBy(r);
+				intersections.insert(intersections.end(), shapeIntersects.begin(), shapeIntersects.end());
+			}
+			
+			std::sort(intersections.begin(), intersections.end(), Intersection::comparer);
+
+			return intersections;
+		}
+
+		Computation prepareComputations(const Intersection& i, const Ray& r)
+		{
+			Computation c;
+
+			Vector dir(r.direction);
+
+			c.t = i.t;
+			c.object = i.object;
+			c.point = r.position(i.t);
+			c.eyeV = -dir;
+			c.normalV = i.object->normalAt(c.point);
+			c.isInside = false;
+
+			float d = c.normalV.dot(c.eyeV);
+			if(d < 0)
+			{
+				c.isInside = true;
+				c.normalV = -c.normalV;
+			}
+
+			return c;
+		}
+
+		Color shadeHit(const Computation& c)
+		{
+			Color finalColor;
+			for (std::vector<PointLight>::iterator iter = lights.begin(); iter != lights.end(); iter++)
+			{
+				Color color = iter->phong(c.object->material, c.point, c.eyeV, c.normalV);
+				finalColor = finalColor + color;
+			}
+						
+			return finalColor;
+		}
+
+		Color colorAt(const Ray& ray)
+		{
+			// get all the intersections for this ray
+			std::vector<Intersection> intersections = intersectBy(ray);
+			
+			// get the closest intersection and return black if no hit
+			Intersection hit = Intersection::hit(intersections);
+			if (hit.isNull()) return Color(0, 0, 0);
+
+			// get the compuations for the hit to calculate lighting
+			Computation comp = prepareComputations(hit, ray);
+
+			Color color = shadeHit(comp);
+			return color;
 		}
 	};
 }

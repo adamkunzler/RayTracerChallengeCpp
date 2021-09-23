@@ -151,6 +151,7 @@
     <ClInclude Include="src\Engine\Camera.h" />
     <ClInclude Include="src\Engine\Canvas.h" />
     <ClInclude Include="src\DataStructs\Color.h" />
+    <ClInclude Include="src\Geometry\Computation.h" />
     <ClInclude Include="src\Geometry\Intersection.h" />
     <ClInclude Include="src\Geometry\IShape.h" />
     <ClInclude Include="src\Geometry\Material.h" />

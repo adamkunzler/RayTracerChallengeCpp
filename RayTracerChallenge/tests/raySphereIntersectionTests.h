@@ -66,7 +66,7 @@ namespace RayTracer
 			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
 			Sphere s;
 			
-			std::vector<Intersection> inters = s.intersects(r);
+			std::vector<Intersection> inters = s.intersectBy(r);
 
 			bool result = inters.size() == 2
 				&& (inters[0].object == &s)
@@ -84,7 +84,7 @@ namespace RayTracer
 			Ray r(Point(0, 1, -5), Vector(0, 0, 1));
 			Sphere s;
 
-			std::vector<Intersection> inters = s.intersects(r);
+			std::vector<Intersection> inters = s.intersectBy(r);
 
 			bool result = inters.size() == 2
 				&& (inters[0].object == &s)
@@ -102,7 +102,7 @@ namespace RayTracer
 			Ray r(Point(0, 2, -5), Vector(0, 0, 1));
 			Sphere s;
 
-			std::vector<Intersection> inters = s.intersects(r);
+			std::vector<Intersection> inters = s.intersectBy(r);
 
 			bool result = inters.size() == 0;
 
@@ -117,7 +117,7 @@ namespace RayTracer
 			Ray r(Point(0, 0, 0), Vector(0, 0, 1));
 			Sphere s;
 
-			std::vector<Intersection> inters = s.intersects(r);
+			std::vector<Intersection> inters = s.intersectBy(r);
 
 			bool result = inters.size() == 2
 				&& (inters[0].object == &s)
@@ -135,7 +135,7 @@ namespace RayTracer
 			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
 			Sphere s;
 
-			std::vector<Intersection> inters = s.intersects(r);
+			std::vector<Intersection> inters = s.intersectBy(r);
 
 			bool result = (inters.size() == 2)
 				&& (inters[0].object == &s)
@@ -311,7 +311,7 @@ namespace RayTracer
 			Sphere s;
 			s.transform = Matrix::get4x4ScalingMatrix(2, 2, 2);
 
-			std::vector<Intersection> inters = s.intersects(r);
+			std::vector<Intersection> inters = s.intersectBy(r);
 			
 			bool result = (inters.size() == 2)
 				&& FloatEquals(inters[0].t, 3)
@@ -329,7 +329,7 @@ namespace RayTracer
 			Sphere s;
 			s.transform = Matrix::get4x4TranslationMatrix(5, 0, 0);
 
-			std::vector<Intersection> inters = s.intersects(r);
+			std::vector<Intersection> inters = s.intersectBy(r);
 
 			bool result = (inters.size() == 0);
 

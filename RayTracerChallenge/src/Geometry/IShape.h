@@ -27,6 +27,6 @@ namespace RayTracer
 
 		virtual Vector normalAt(const Point& worldPoint) = 0;
 
-		virtual std::vector<Intersection> intersects(const Ray& r) = 0;
+		virtual std::vector<Intersection> intersectBy(const Ray& r) = 0;
 	};
 }
