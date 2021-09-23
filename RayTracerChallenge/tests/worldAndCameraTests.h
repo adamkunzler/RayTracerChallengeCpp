@@ -186,5 +186,84 @@ namespace RayTracer
 
 			return result;
 		}
+
+		bool World_ViewTransform_Default()
+		{
+			Point from(0, 0, 0);
+			Point to(0, 0, -1);
+			Vector up(0, 1, 0);
+
+			Matrix vt = World::viewTransform(from, to, up);
+			Matrix identity = Matrix::get4x4IdentityMatrix();
+
+			bool result = (vt == identity);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "World_ViewTransform_Default()\n";
+
+			return result;
+		}
+
+		bool World_ViewTransform_PositiveZ()
+		{
+			Point from(0, 0, 0);
+			Point to(0, 0, 1);
+			Vector up(0, 1, 0);
+
+			Matrix vt = World::viewTransform(from, to, up);
+
+			Matrix expected = Matrix::get4x4ScalingMatrix(-1, 1, -1);
+
+			bool result = (vt == expected);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "World_ViewTransform_PositiveZ()\n";
+
+			return result;
+		}
+
+		bool World_ViewTransform_WorldMoves()
+		{
+			Point from(0, 0, 8);
+			Point to(0, 0, 0);
+			Vector up(0, 1, 0);
+
+			Matrix vt = World::viewTransform(from, to, up);
+
+			Matrix expected = Matrix::get4x4TranslationMatrix(0, 0, -8);
+
+			bool result = (vt == expected);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "World_ViewTransform_WorldMoves()\n";
+
+			return result;
+		}
+
+		bool World_ViewTransform_Arbitrary()
+		{
+			Point from(1, 3, 2);
+			Point to(4, -2, 8);
+			Vector up(1, 1, 0);
+
+			Matrix vt = World::viewTransform(from, to, up);
+
+			Matrix expected(4, 4, new float[] {
+				-0.50709, 0.50709,  0.67612, -2.36643,
+				 0.76772, 0.60609,  0.12122, -2.82843,
+				-0.35857, 0.59761, -0.71714,  0,
+				 0,       0,        0,        1
+			});
+
+			std::cout << "\nActual:\n" << vt << "\n";
+			std::cout << "\nExpected:\n" << expected << "\n";
+
+			bool result = (vt == expected);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "World_ViewTransform_Arbitrary()\n";
+
+			return result;
+		}
 	}
 }

@@ -1054,17 +1054,17 @@ namespace RayTracer
 			if (RayTracer::Tests::World_Shade_IntersectionBehindRay()) { numPassed++; }
 			else { failedTests.push_back("World_Shade_IntersectionBehindRay"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_ViewTransform_Default()) { numPassed++; }
+			else { failedTests.push_back("World_ViewTransform_Default"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_ViewTransform_PositiveZ()) { numPassed++; }
+			else { failedTests.push_back("World_ViewTransform_PositiveZ"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_ViewTransform_WorldMoves()) { numPassed++; }
+			else { failedTests.push_back("World_ViewTransform_WorldMoves"); }
 
-			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
-			//else { failedTests.push_back("LightShading_Normal_XAxis"); }
+			if (RayTracer::Tests::World_ViewTransform_Arbitrary()) { numPassed++; }
+			else { failedTests.push_back("World_ViewTransform_Arbitrary"); }
 
 			//if (RayTracer::Tests::LightShading_Normal_XAxis()) { numPassed++; }
 			//else { failedTests.push_back("LightShading_Normal_XAxis"); }

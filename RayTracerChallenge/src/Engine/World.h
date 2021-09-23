@@ -44,6 +44,26 @@ namespace RayTracer
 			return w;
 		}
 
+		static Matrix viewTransform(const Point& from, const Point& to, const Vector& up)
+		{
+			Vector forward = Vector::normalize(to - from);
+			Vector nUp = Vector::normalize(up);
+			Vector left = forward.cross(nUp);
+			Vector trueUp = left.cross(forward);
+			
+			Matrix orientation(4, 4, new float[] {
+				 left.x,      left.y,     left.z,    0,
+				 trueUp.x,    trueUp.y,   trueUp.z,  0,
+				-forward.x,  -forward.y, -forward.z, 0,
+				 0,           0,          0,         1
+			});
+
+			Matrix translation = Matrix::get4x4TranslationMatrix(-from.x, -from.y, -from.z);
+			Matrix vt = orientation * translation;
+
+			return vt;
+		}
+
 		std::vector<Intersection> intersectBy(const Ray& r)
 		{
 			std::vector<Intersection> intersections;
