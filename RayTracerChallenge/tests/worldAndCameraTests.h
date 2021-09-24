@@ -364,7 +364,7 @@ namespace RayTracer
 		bool RenderWorld()
 		{
 			World w = World::defaultWorld();
-			Camera c(110, 110, PI / 2.0f);
+			Camera c(11, 11, PI / 2.0f);
 			Point from(0, 0, -5);
 			Point to(0, 0, 0);
 			Vector up(0, 1, 0);

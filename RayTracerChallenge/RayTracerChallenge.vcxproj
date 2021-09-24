@@ -148,6 +148,8 @@
     <ClInclude Include="Exercises\Chapter4\Clock.h" />
     <ClInclude Include="Exercises\Chapter5\RayTraceSphere.h" />
     <ClInclude Include="Exercises\Chapter6\RayTraceSphere.h" />
+    <ClInclude Include="Exercises\Chapter7\RayTraceScene.h" />
+    <ClInclude Include="Exercises\Chapter7\RayTraceSphere.h" />
     <ClInclude Include="src\Engine\Camera.h" />
     <ClInclude Include="src\Engine\Canvas.h" />
     <ClInclude Include="src\DataStructs\Color.h" />

@@ -132,7 +132,7 @@ namespace RayTracer
 
 		Canvas render(const Camera& camera)
 		{
-			Canvas image(camera.hSize, camera.vSize);
+			Canvas image((int)camera.hSize, (int)camera.vSize);
 
 			for (int y = 0; y < camera.vSize; y++)
 			{

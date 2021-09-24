@@ -49,7 +49,7 @@ namespace RayTracer
 				// vector and the eye vector. A negative number means the light reflects 
 				// away from the eye
 				//Vector negLightV = -lightV; // doesn't work...specular highlight doesn't show up
-				Vector negLightV = lightV;
+				Vector negLightV = -lightV;
 				Vector reflectV = negLightV.reflect(normalV);
 				float reflectDotEye = reflectV.dot(eye);
 				if (reflectDotEye <= 0) 

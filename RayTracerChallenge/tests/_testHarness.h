@@ -60,7 +60,7 @@ namespace RayTracer
 
 		bool RunTests()
 		{
-			bool runAllTests = false;
+			bool runAllTests = true;
 
 			bool runTupleTests = false;
 			//bool runTupleTests = true;
