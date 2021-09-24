@@ -172,6 +172,7 @@
     <ClInclude Include="tests\matrixTests.h" />
     <ClInclude Include="tests\pointTests.h" />
     <ClInclude Include="tests\raySphereIntersectionTests.h" />
+    <ClInclude Include="tests\shadowTests.h" />
     <ClInclude Include="tests\tupleTests.h" />
     <ClInclude Include="tests\utilsTests.h" />
     <ClInclude Include="tests\vectorTests.h" />

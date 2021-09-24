@@ -29,7 +29,7 @@ int main()
 {
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
-	//bool result = RayTracer::Tests::RunTests();
+	bool result = RayTracer::Tests::RunTests(true);
 
 	//Exercises::Chapter1::FireCannon();
 	//Exercises::Chapter2::ProjectilePPM();
@@ -37,7 +37,7 @@ int main()
 	//Exercises::Chapter5::RayTraceSphere();
 	//Exercises::Chapter6::RayTraceSphere();
 	//Exercises::Chapter7::RayTraceSphere();
-	Exercises::Chapter7::RayTraceScene();
+	//Exercises::Chapter7::RayTraceScene();
 
 	
 	//if(result) RunRayTracer();

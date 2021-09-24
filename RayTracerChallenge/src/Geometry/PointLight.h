@@ -16,7 +16,7 @@ namespace RayTracer
 		{
 		}	
 
-		Color phong(const Material& m, const Point& p, const Vector& eye, const Vector& normalV)
+		Color phong(const Material& m, const Point& p, const Vector& eye, const Vector& normalV, bool inShadow)
 		{
 			Color ambient;
 			Color diffuse;
@@ -30,6 +30,11 @@ namespace RayTracer
 
 			// compute the ambient contriubtion
 			ambient = effectiveColor * m.ambient;
+			if (inShadow)
+			{
+				// skip diffuse and specular if in shadow
+				return ambient;
+			}
 
 			// lightDotNormal represents the cosine of the angle betwen
 			// the light vector and the normal vector. A negative number 

@@ -13,6 +13,7 @@ namespace RayTracer
 		Vector eyeV;
 		Vector normalV;
 		bool isInside;
+		Point overPoint;
 		
 		Computation()
 		{		

@@ -30,6 +30,7 @@
 #include "tests\raySphereIntersectionTests.h"
 #include "tests\lightAndShadingTests.h"
 #include "tests\worldAndCameraTests.h"
+#include "tests\shadowTests.h"
 
 namespace RayTracer
 {
@@ -55,13 +56,12 @@ namespace RayTracer
 		TestResults RunRaySphereIntersectionTests();
 		TestResults RunLightAndShadingTests();
 		TestResults RunWorldAndCameraTests();
+		TestResults RunShadowTests();
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
-		bool RunTests()
-		{
-			bool runAllTests = true;
-
+		bool RunTests(bool runAllTests)
+		{			
 			bool runTupleTests = false;
 			//bool runTupleTests = true;
 			bool runVectorTests = false;
@@ -78,8 +78,10 @@ namespace RayTracer
 			//bool runRaySphereIntersectionTests = true;
 			bool runLightAndShadingTests = false;
 			//bool runLightAndShadingTests = true;
-			//bool runWorldAndCameraTests = false;
-			bool runWorldAndCameraTests = true;
+			bool runWorldAndCameraTests = false;
+			//bool runWorldAndCameraTests = true;
+			//bool runShadowTests = false;
+			bool runShadowTests = true;
 
 			int numPassed(0);
 			std::vector<std::string> failedTests;
@@ -147,6 +149,13 @@ namespace RayTracer
 			if (runWorldAndCameraTests || runAllTests)
 			{
 				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunWorldAndCameraTests();
+				numPassed += testResults.numPassed;
+				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
+			}
+
+			if (runShadowTests || runAllTests)
+			{
+				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunShadowTests();
 				numPassed += testResults.numPassed;
 				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
 			}
@@ -1097,6 +1106,65 @@ namespace RayTracer
 			result.numPassed = numPassed;
 			return result;
 		}
+
+		//------------------------------------------------------------------------------------------------------------------------------------
+
+		TestResults RunShadowTests()
+		{
+			std::cout << "\n\nBEGIN Shadow Tests...\n";
+
+			int numPassed(0);
+			std::vector<std::string> failedTests;
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			if (RayTracer::Tests::Shadows_NoShadowWhenNothingColinearWithPointAndLight()) { numPassed++; }
+			else { failedTests.push_back("Shadows_NoShadowWhenNothingColinearWithPointAndLight"); }
+
+			if (RayTracer::Tests::Shadows_ObjectBetweenPointAndLight()) { numPassed++; }
+			else { failedTests.push_back("Shadows_ObjectBetweenPointAndLight"); }
+
+			if (RayTracer::Tests::Shadows_ObjectBehindLight()) { numPassed++; }
+			else { failedTests.push_back("Shadows_ObjectBehindLight"); }
+
+			if (RayTracer::Tests::Shadows_ObjectBehindPoint()) { numPassed++; }
+			else { failedTests.push_back("Shadows_ObjectBehindPoint"); }
+
+			if (RayTracer::Tests::Shadows_ShadeHit_IntersectionInShadow()) { numPassed++; }
+			else { failedTests.push_back("Shadows_ShadeHit_IntersectionInShadow"); }
+
+			if (RayTracer::Tests::Shadows_HitShouldOffsetPoint()) { numPassed++; }
+			else { failedTests.push_back("Shadows_HitShouldOffsetPoint"); }
+			
+			auto stop = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+			std::cout << "END Shadow Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
+
+			TestResults result;
+			result.failedTests = failedTests;
+			result.numPassed = numPassed;
+			return result;
+		}
+
+		//------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+		//------------------------------------------------------------------------------------------------------------------------------------
+
+
+		
+		//------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+		//------------------------------------------------------------------------------------------------------------------------------------
+
+
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 

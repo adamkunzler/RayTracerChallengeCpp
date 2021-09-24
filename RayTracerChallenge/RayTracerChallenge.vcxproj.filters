@@ -122,5 +122,8 @@
     <ClInclude Include="Exercises\Chapter7\RayTraceScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tests\shadowTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -78,7 +78,7 @@ namespace RayTracer
 
 			return intersections;
 		}
-
+		
 		Computation prepareComputations(const Intersection& i, const Ray& r)
 		{
 			Computation c;
@@ -91,9 +91,10 @@ namespace RayTracer
 			c.eyeV = -dir;
 			c.normalV = i.object->normalAt(c.point);
 			c.isInside = false;
+			c.overPoint = c.point + (c.normalV * EPSILON);
 
 			float d = c.normalV.dot(c.eyeV);
-			if(d < 0)
+			if (d < 0)
 			{
 				c.isInside = true;
 				c.normalV = -c.normalV;
@@ -107,7 +108,8 @@ namespace RayTracer
 			Color finalColor;
 			for (std::vector<PointLight>::iterator iter = lights.begin(); iter != lights.end(); iter++)
 			{
-				Color color = iter->phong(c.object->material, c.point, c.eyeV, c.normalV);
+				bool isInShadow = isShadowed(*iter, c.overPoint);
+				Color color = iter->phong(c.object->material, c.point, c.eyeV, c.normalV, isInShadow);
 				finalColor = finalColor + color;
 			}
 						
@@ -145,6 +147,24 @@ namespace RayTracer
 			}
 
 			return image;
+		}
+
+		bool isShadowed(const PointLight& light, const Point& p)
+		{
+			Vector v = light.position - p;
+			float distance = v.magnitude();
+			Vector direction = Vector::normalize(v);
+
+			Ray r(p, direction);
+			std::vector<Intersection> intersections = intersectBy(r);
+
+			Intersection hit = Intersection::hit(intersections);
+			if (!hit.isNull() && hit.t < distance)
+			{
+				return true;
+			}
+
+			return false;
 		}
 	};
 }
