@@ -21,7 +21,8 @@
 //#include "Exercises\Chapter5\RayTraceSphere.h"
 //#include "Exercises\Chapter6\RayTraceSphere.h"
 //#include "Exercises\Chapter7\RayTraceSphere.h"
-#include "Exercises\Chapter7\RayTraceScene.h"
+//#include "Exercises\Chapter7\RayTraceScene.h"
+#include "Exercises\Chapter9\RayTraceScene.h"
 
 void RunRayTracer();
 
@@ -29,7 +30,7 @@ int main()
 {
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
-	bool result = RayTracer::Tests::RunTests(true);
+	//bool result = RayTracer::Tests::RunTests(false);
 
 	//Exercises::Chapter1::FireCannon();
 	//Exercises::Chapter2::ProjectilePPM();
@@ -37,7 +38,8 @@ int main()
 	//Exercises::Chapter5::RayTraceSphere();
 	//Exercises::Chapter6::RayTraceSphere();
 	//Exercises::Chapter7::RayTraceSphere();
-	Exercises::Chapter7::RayTraceScene();
+	//Exercises::Chapter7::RayTraceScene();
+	Exercises::Chapter9::RayTraceScene();
 
 	
 	//if(result) RunRayTracer();

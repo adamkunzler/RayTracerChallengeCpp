@@ -19,6 +19,7 @@
 #include "../src/Geometry/Ray.h"
 #include "../src/Geometry/Sphere.h"
 #include "../src/Geometry/Computation.h"
+#include "../src/Geometry/Plane.h"
 
 #include "tests\tupleTests.h"
 #include "tests\vectorTests.h"
@@ -31,6 +32,7 @@
 #include "tests\lightAndShadingTests.h"
 #include "tests\worldAndCameraTests.h"
 #include "tests\shadowTests.h"
+#include "tests\shapeTests.h"
 
 namespace RayTracer
 {
@@ -57,6 +59,7 @@ namespace RayTracer
 		TestResults RunLightAndShadingTests();
 		TestResults RunWorldAndCameraTests();
 		TestResults RunShadowTests();
+		TestResults RunShapeTests();
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
@@ -80,8 +83,10 @@ namespace RayTracer
 			//bool runLightAndShadingTests = true;
 			bool runWorldAndCameraTests = false;
 			//bool runWorldAndCameraTests = true;
-			//bool runShadowTests = false;
-			bool runShadowTests = true;
+			bool runShadowTests = false;
+			//bool runShadowTests = true;
+			//bool runShapeTests = false;
+			bool runShapeTests = true;
 
 			int numPassed(0);
 			std::vector<std::string> failedTests;
@@ -156,6 +161,13 @@ namespace RayTracer
 			if (runShadowTests || runAllTests)
 			{
 				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunShadowTests();
+				numPassed += testResults.numPassed;
+				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
+			}
+
+			if (runShapeTests || runAllTests)
+			{
+				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunShapeTests();
 				numPassed += testResults.numPassed;
 				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
 			}
@@ -1152,7 +1164,85 @@ namespace RayTracer
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
+		TestResults RunShapeTests()
+		{
+			std::cout << "\n\nBEGIN Shape Tests...\n";
 
+			int numPassed(0);
+			std::vector<std::string> failedTests;
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			if (RayTracer::Tests::Shape_Plane_NormalIsConstantEverywhere()) { numPassed++; }
+			else { failedTests.push_back("Shape_Plane_NormalIsConstantEverywhere"); }
+
+			if (RayTracer::Tests::Shape_Plane_IntersectParallelRay()) { numPassed++; }
+			else { failedTests.push_back("Shape_Plane_IntersectParallelRay"); }
+
+			if (RayTracer::Tests::Shape_Plane_IntersectCoplanarRay()) { numPassed++; }
+			else { failedTests.push_back("Shape_Plane_IntersectCoplanarRay"); }
+
+			if (RayTracer::Tests::Shape_Plane_RayIntersectPlaneAbove()) { numPassed++; }
+			else { failedTests.push_back("Shape_Plane_RayIntersectPlaneAbove"); }
+
+			if (RayTracer::Tests::Shape_Plane_RayIntersectPlaneBelow()) { numPassed++; }
+			else { failedTests.push_back("Shape_Plane_RayIntersectPlaneBelow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+
+			//if (RayTracer::Tests::Shadows_LightWithSurfaceInShadow()) { numPassed++; }
+			//else { failedTests.push_back("Shadows_LightWithSurfaceInShadow"); }
+			
+			auto stop = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+			std::cout << "END Shape Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
+
+			TestResults result;
+			result.failedTests = failedTests;
+			result.numPassed = numPassed;
+			return result;
+		}
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 

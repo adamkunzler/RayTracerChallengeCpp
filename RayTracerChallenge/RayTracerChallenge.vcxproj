@@ -150,6 +150,7 @@
     <ClInclude Include="Exercises\Chapter6\RayTraceSphere.h" />
     <ClInclude Include="Exercises\Chapter7\RayTraceScene.h" />
     <ClInclude Include="Exercises\Chapter7\RayTraceSphere.h" />
+    <ClInclude Include="Exercises\Chapter9\RayTraceScene.h" />
     <ClInclude Include="src\Engine\Camera.h" />
     <ClInclude Include="src\Engine\Canvas.h" />
     <ClInclude Include="src\DataStructs\Color.h" />
@@ -159,6 +160,7 @@
     <ClInclude Include="src\Geometry\Material.h" />
     <ClInclude Include="src\DataStructs\Matrix.h" />
     <ClInclude Include="src\DataStructs\Point.h" />
+    <ClInclude Include="src\Geometry\Plane.h" />
     <ClInclude Include="src\Geometry\PointLight.h" />
     <ClInclude Include="src\Geometry\Ray.h" />
     <ClInclude Include="src\Geometry\Sphere.h" />
@@ -173,6 +175,7 @@
     <ClInclude Include="tests\pointTests.h" />
     <ClInclude Include="tests\raySphereIntersectionTests.h" />
     <ClInclude Include="tests\shadowTests.h" />
+    <ClInclude Include="tests\shapeTests.h" />
     <ClInclude Include="tests\tupleTests.h" />
     <ClInclude Include="tests\utilsTests.h" />
     <ClInclude Include="tests\vectorTests.h" />
