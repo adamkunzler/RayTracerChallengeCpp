@@ -13,7 +13,7 @@ namespace Exercises
 
 			const bool isDebug = false;
 			
-			const int hsize = 500;
+			const int hsize = 100;
 			const int vsize = hsize / 2;
 			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels";
 
@@ -85,7 +85,8 @@ namespace Exercises
 			std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
 
 			// save the image to disk
-			image.toPPM("images/chapter7.ppm");
+			std::string filename = "images/chapter7_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
+			image.toPPM(filename);
 		}
 	}
 }

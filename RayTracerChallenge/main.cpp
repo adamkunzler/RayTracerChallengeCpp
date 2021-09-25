@@ -37,7 +37,7 @@ int main()
 	//Exercises::Chapter5::RayTraceSphere();
 	//Exercises::Chapter6::RayTraceSphere();
 	//Exercises::Chapter7::RayTraceSphere();
-	//Exercises::Chapter7::RayTraceScene();
+	Exercises::Chapter7::RayTraceScene();
 
 	
 	//if(result) RunRayTracer();

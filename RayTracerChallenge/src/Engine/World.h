@@ -134,6 +134,8 @@ namespace RayTracer
 
 		Canvas render(const Camera& camera)
 		{
+			auto start1 = std::chrono::high_resolution_clock::now();
+
 			Canvas image((int)camera.hSize, (int)camera.vSize);
 
 			for (int y = 0; y < camera.vSize; y++)
@@ -146,9 +148,13 @@ namespace RayTracer
 				}
 			}
 
+			auto stop1 = std::chrono::high_resolution_clock::now();
+			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
+			std::cout << "\nrender() completed in " << duration1.count() << "ms.";
+
 			return image;
 		}
-
+				
 		bool isShadowed(const PointLight& light, const Point& p)
 		{
 			Vector v = light.position - p;
