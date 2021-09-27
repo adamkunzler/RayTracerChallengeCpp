@@ -152,5 +152,8 @@
     <ClInclude Include="src\Patterns\CheckerPattern.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="tests\reflectionRefractionTests.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

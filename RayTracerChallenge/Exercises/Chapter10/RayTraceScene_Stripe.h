@@ -14,7 +14,7 @@ namespace Exercises
 
 			const bool isDebug = false;
 
-			const int hsize = 200;
+			const int hsize = 100;
 			const int vsize = hsize / 2;
 			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels";
 

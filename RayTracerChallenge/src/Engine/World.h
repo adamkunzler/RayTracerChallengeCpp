@@ -13,7 +13,7 @@ namespace RayTracer
 	class IShape;
 	class PointLight;
 	class Computation;
-
+	
 	class World
 	{
 	public:
@@ -157,9 +157,12 @@ namespace RayTracer
 
 					processedPixels++;
 				}
-
-				showProgressBar((float)processedPixels / (float)totalPixels);
+				if (y % 5 == 0)
+				{
+					showProgressBar((float)processedPixels / (float)totalPixels);
+				}
 			}
+			showProgressBar(1);
 
 			auto stop1 = std::chrono::high_resolution_clock::now();
 			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
@@ -167,22 +170,7 @@ namespace RayTracer
 
 			return image;
 		}
-		
-		void showProgressBar(float progress)
-		{
-			int barWidth = 70;
-
-			std::cout << "[";
-			int pos = barWidth * progress;
-			for (int i = 0; i < barWidth; ++i) {
-				if (i < pos) std::cout << "=";
-				else if (i == pos) std::cout << ">";
-				else std::cout << " ";
-			}
-			std::cout << "] " << int(progress * 100.0) << " %\r";
-			std::cout.flush();
-		}
-
+				
 		bool isShadowed(const PointLight& light, const Point& p)
 		{
 			Vector v = light.position - p;

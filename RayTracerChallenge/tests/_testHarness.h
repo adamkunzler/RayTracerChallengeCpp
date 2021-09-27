@@ -40,6 +40,7 @@
 #include "tests\worldAndCameraTests.h"
 #include "tests\shadowTests.h"
 #include "tests\shapeTests.h"
+#include "tests\reflectionRefractionTests.h"
 
 namespace RayTracer
 {
@@ -67,6 +68,7 @@ namespace RayTracer
 		TestResults RunWorldAndCameraTests();
 		TestResults RunShadowTests();
 		TestResults RunShapeTests();
+		TestResults RunReflectionRefractionTests();
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
@@ -92,8 +94,10 @@ namespace RayTracer
 			//bool runWorldAndCameraTests = true;
 			bool runShadowTests = false;
 			//bool runShadowTests = true;
-			//bool runShapeTests = false;
-			bool runShapeTests = true;
+			bool runShapeTests = false;
+			//bool runShapeTests = true;
+			//bool runReflectionRefractionTests = false;
+			bool runReflectionRefractionTests = true;
 
 			int numPassed(0);
 			std::vector<std::string> failedTests;
@@ -175,6 +179,13 @@ namespace RayTracer
 			if (runShapeTests || runAllTests)
 			{
 				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunShapeTests();
+				numPassed += testResults.numPassed;
+				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
+			}
+
+			if (runReflectionRefractionTests || runAllTests)
+			{
+				RayTracer::Tests::TestResults testResults = RayTracer::Tests::RunReflectionRefractionTests();
 				numPassed += testResults.numPassed;
 				failedTests.insert(failedTests.end(), testResults.failedTests.begin(), testResults.failedTests.end());
 			}
@@ -1253,7 +1264,103 @@ namespace RayTracer
 
 		//------------------------------------------------------------------------------------------------------------------------------------
 
+		TestResults RunReflectionRefractionTests()
+		{
+			std::cout << "\n\nBEGIN Reflection Refraction Tests...\n";
 
+			int numPassed(0);
+			std::vector<std::string> failedTests;
+
+			auto start = std::chrono::high_resolution_clock::now();
+
+			if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
+			//else { failedTests.push_back("Reflection_"); }
+
+			auto stop = std::chrono::high_resolution_clock::now();
+			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+			std::cout << "END Reflection Refraction Tests (" << (failedTests.size() + numPassed) << " tests in " << duration.count() << "ms)";
+
+			TestResults result;
+			result.failedTests = failedTests;
+			result.numPassed = numPassed;
+			return result;
+		}
 		
 		//------------------------------------------------------------------------------------------------------------------------------------
 
