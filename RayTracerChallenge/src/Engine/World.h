@@ -69,11 +69,11 @@ namespace RayTracer
 			return vt;
 		}
 
-		std::vector<Intersection> intersectBy(const Ray& r)
+		std::vector<Intersection> intersectBy(const Ray& r) const
 		{
 			std::vector<Intersection> intersections;
 
-			for (std::vector<IShape*>::iterator iter = objects.begin(); iter != objects.end(); iter++)
+			for (std::vector<IShape*>::const_iterator iter = objects.begin(); iter != objects.end(); iter++)
 			{															
 				std::vector<Intersection> shapeIntersects = (*iter)->intersectBy(r);
 				intersections.insert(intersections.end(), shapeIntersects.begin(), shapeIntersects.end());
@@ -84,7 +84,7 @@ namespace RayTracer
 			return intersections;
 		}
 		
-		Computation prepareComputations(const Intersection& i, const Ray& r)
+		Computation prepareComputations(const Intersection& i, const Ray& r) const
 		{
 			Computation c;
 
@@ -97,49 +97,66 @@ namespace RayTracer
 			c.normalV = i.object->normalAt(c.point);
 			c.isInside = false;
 			c.overPoint = c.point + (c.normalV * EPSILON);
+			c.reflectV = dir.reflect(c.normalV);
 
 			float d = c.normalV.dot(c.eyeV);
 			if (d < 0)
 			{
 				c.isInside = true;
 				c.normalV = -c.normalV;
+				c.reflectV = -c.reflectV;
 			}
 
 			return c;
 		}
 
-		Color shadeHit(const Computation& c)
+		Color shadeHit(const Computation& c, const int remaining) const
 		{
 			Color finalColor;
-			for (std::vector<PointLight>::iterator iter = lights.begin(); iter != lights.end(); iter++)
+			for (std::vector<PointLight>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
 			{
 				bool isInShadow = isShadowed(*iter, c.overPoint);
-				Color color = iter->phong(c.object->material, *c.object, c.overPoint, c.eyeV, c.normalV, isInShadow);
-				finalColor = finalColor + color;
+				Color surface = iter->phong(c.object->material, *c.object, c.overPoint, c.eyeV, c.normalV, isInShadow);
+				Color reflected = reflectedColor(c, remaining);
+				finalColor = finalColor + surface + reflected;
 			}
 						
 			return finalColor;
 		}
 
-		Color colorAt(const Ray& ray)
+		Color colorAt(const Ray& ray, const int remaining) const
 		{
+			Ray rayCopy(ray);
+
 			// get all the intersections for this ray
-			std::vector<Intersection> intersections = intersectBy(ray);
+			std::vector<Intersection> intersections = intersectBy(rayCopy);
 			
 			// get the closest intersection and return black if no hit
 			Intersection hit = Intersection::hit(intersections);
 			if (hit.isNull()) return Color(0, 0, 0);
 
 			// get the compuations for the hit to calculate lighting
-			Computation comp = prepareComputations(hit, ray);
+			Computation comp = prepareComputations(hit, rayCopy);
 
-			Color color = shadeHit(comp);
+			Color color = shadeHit(comp, remaining);
 			return color;
+		}
+		
+		Color reflectedColor(const Computation& comps, const int remaining) const
+		{
+			if (FloatEquals(comps.object->material.reflective, 0.0f) || remaining < 1)
+			{
+				return Color::black();
+			}
+
+			Ray reflectRay(comps.overPoint, comps.reflectV);
+			Color c = colorAt(reflectRay, remaining - 1);
+
+			return c * comps.object->material.reflective;
 		}
 
 		Canvas render(const Camera& camera)
-		{
-			std::cout << "\n";
+		{			
 			auto start1 = std::chrono::high_resolution_clock::now();
 
 			Canvas image((int)camera.hSize, (int)camera.vSize);
@@ -152,12 +169,12 @@ namespace RayTracer
 				for (int x = 0; x < camera.hSize; x++)
 				{
 					Ray r = camera.rayForPixel(x, y);
-					Color c = colorAt(r);
+					Color c = colorAt(r, MAX_RECURSION);
 					image.setPixel(x, y, c);					
 
 					processedPixels++;
 				}
-				if (y % 5 == 0)
+				//if (y % 3 == 0)
 				{
 					showProgressBar((float)processedPixels / (float)totalPixels);
 				}
@@ -171,7 +188,7 @@ namespace RayTracer
 			return image;
 		}
 				
-		bool isShadowed(const PointLight& light, const Point& p)
+		bool isShadowed(const PointLight& light, const Point& p) const
 		{
 			Vector v = light.position - p;
 			float distance = v.magnitude();

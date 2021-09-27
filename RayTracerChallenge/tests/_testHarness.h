@@ -1273,26 +1273,26 @@ namespace RayTracer
 
 			auto start = std::chrono::high_resolution_clock::now();
 
-			if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Reflection_DefaultMaterial()) { numPassed++; }
+			else { failedTests.push_back("Reflection_DefaultMaterial"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Reflection_PrecomputeReflectionVector()) { numPassed++; }
+			else { failedTests.push_back("Reflection_PrecomputeReflectionVector"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Reflection_ReflectedColorForNonReflectiveMaterial()) { numPassed++; }
+			else { failedTests.push_back("Reflection_ReflectedColorForNonReflectiveMaterial"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Reflection_ReflectedColorForReflectiveMaterial()) { numPassed++; }
+			else { failedTests.push_back("Reflection_ReflectedColorForReflectiveMaterial"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Reflection_ShadeHitWithReflectiveMaterial()) { numPassed++; }
+			else { failedTests.push_back("Reflection_ShadeHitWithReflectiveMaterial"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Reflection_ColorAtWithMutuallyReflectiveSurfaces()) { numPassed++; }
+			else { failedTests.push_back("Reflection_ColorAtWithMutuallyReflectiveSurfaces"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Reflection_ReflectedColorAtMaximumRecursiveDepth()) { numPassed++; }
+			else { failedTests.push_back("Reflection_ReflectedColorAtMaximumRecursiveDepth"); }
 
 			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
 			//else { failedTests.push_back("Reflection_"); }

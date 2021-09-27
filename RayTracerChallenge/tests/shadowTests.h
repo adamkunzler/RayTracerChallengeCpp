@@ -100,7 +100,7 @@ namespace RayTracer
 			Intersection i(4, &s2);
 
 			Computation comps = w.prepareComputations(i, r);
-			Color c = w.shadeHit(comps);
+			Color c = w.shadeHit(comps, 0);
 
 			Color expected(0.1f, 0.1f, 0.1f);
 

@@ -14,6 +14,7 @@ namespace RayTracer
 		Vector normalV;
 		bool isInside;
 		Point overPoint;
+		Vector reflectV;
 		
 		Computation()
 		{		

@@ -104,7 +104,7 @@ namespace RayTracer
 			Ray r(Point(0, 0, -5), Vector(0, 0, 1));			
 			Intersection i(4, w.objects[0]);
 			Computation c = w.prepareComputations(i, r);
-			Color color = w.shadeHit(c);
+			Color color = w.shadeHit(c, 0);
 			Color ce = Color(0.38066f, 0.47583f, 0.2855f);
 
 			bool result = (color == ce);
@@ -122,7 +122,7 @@ namespace RayTracer
 			Ray r(Point(0, 0, 0), Vector(0, 0, 1));
 			Intersection i(0.5f, w.objects[1]);
 			Computation c = w.prepareComputations(i, r);
-			Color color = w.shadeHit(c);
+			Color color = w.shadeHit(c, 0);
 			Color ce = Color(0.90498f, 0.90498f, 0.90498f);
 			
 			bool result = (color == ce);
@@ -139,7 +139,7 @@ namespace RayTracer
 		{
 			World w = World::defaultWorld();
 			Ray r(Point(0, 0, -5), Vector(0, 1, 0));
-			Color c = w.colorAt(r);
+			Color c = w.colorAt(r, 0);
 			
 			bool result = c.isBlack();
 
@@ -153,7 +153,7 @@ namespace RayTracer
 		{
 			World w = World::defaultWorld();
 			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
-			Color c = w.colorAt(r);
+			Color c = w.colorAt(r, 0);
 
 			Color ce(0.38066f, 0.47583f, 0.2855f);
 
@@ -177,7 +177,7 @@ namespace RayTracer
 
 			Ray r(Point(0, 0, 0.75f), Vector(0, 0, -1));
 			
-			Color c = w.colorAt(r);
+			Color c = w.colorAt(r, 0);
 			
 			bool result = (c == inner->material.color);
 

@@ -16,7 +16,7 @@ namespace Exercises
 
 			const int hsize = 100;
 			const int vsize = hsize / 2;
-			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels";
+			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 			World w;
 

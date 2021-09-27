@@ -149,7 +149,7 @@ namespace RayTracer
 		return temp -= b; 
 	}
 
-	Color operator*(Color& a, Color const& b) 
+	Color operator*(const Color& a, Color const& b)
 	{
 		Color temp(a);
 		return temp *= b; 

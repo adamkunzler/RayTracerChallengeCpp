@@ -11,13 +11,7 @@ namespace RayTracer
 	public:
 		float t;
 		IShape* object;
-	
-		/*Intersection()
-		{	
-			t = 0;
-			object = NULL;
-		}*/
-
+			
 		Intersection(const float lT, IShape* lObject) : t(lT), object(lObject)
 		{
 		}		
