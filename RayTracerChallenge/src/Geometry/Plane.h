@@ -12,6 +12,11 @@ namespace RayTracer
 			material = Material();
 		}
 		
+		~Plane()
+		{
+			//std::cout << "\nplane destructor";
+		}
+
 		Vector localNormalAt(const Point& localPoint) const
 		{
 			Vector localNormal(0,1,0);

@@ -30,10 +30,10 @@ namespace RayTracer
 
 		bool MatrixConstructor_ParametersWithValues()
 		{
-			Matrix m(2, 2, new float[4]{ 
+			Matrix m(2, 2, std::unique_ptr<float[]>(new float[4]{
 				1, 2, 
 				3, 4
-			});
+			}));
 
 			bool result = m.getNumRows() == 2 && m.getNumColumns() == 2 
 				&& FloatEquals(m(0, 0), 1)
@@ -49,10 +49,10 @@ namespace RayTracer
 		
 		bool MatrixConstructor_Copy()
 		{
-			Matrix m1(2, 2, new float[4]{
+			Matrix m1(2, 2, std::unique_ptr<float[]>(new float[4]{
 				1, 2,
 				3, 4
-				});
+				}));
 
 			Matrix m(m1);
 
@@ -70,10 +70,10 @@ namespace RayTracer
 
 		bool MatrixOperator_Assignment()
 		{
-			Matrix m1(2, 2, new float[4]{
+			Matrix m1(2, 2, std::unique_ptr<float[]>(new float[4]{
 				1, 2,
 				3, 4
-				});
+				}));
 
 			Matrix m = m1;
 
@@ -94,15 +94,15 @@ namespace RayTracer
 
 		bool MatrixOperator_Equality()
 		{
-			Matrix m1(2, 2, new float[4]{
+			Matrix m1(2, 2, std::unique_ptr<float[]>(new float[4]{
 				1, 2,
 				3, 4
-			});
+			}));
 
-			Matrix m2(2, 2, new float[4]{
+			Matrix m2(2, 2, std::unique_ptr<float[]>(new float[4]{
 				1, 2,
 				3, 4
-			});			
+			}));			
 
 			bool result = m1 == m2;
 
@@ -114,15 +114,15 @@ namespace RayTracer
 
 		bool MatrixOperator_Inequality()
 		{
-			Matrix m1(2, 2, new float[4]{
+			Matrix m1(2, 2, std::unique_ptr<float[]>(new float[4]{
 				1, 2,
 				3, 4
-				});
+				}));
 
-			Matrix m2(2, 2, new float[4]{
+			Matrix m2(2, 2, std::unique_ptr<float[]>(new float[4]{
 				4, 5,
 				6, 7
-				});
+				}));
 
 			bool result = m1 != m2;
 
@@ -134,16 +134,16 @@ namespace RayTracer
 
 		bool MatrixOperator_InequalityDifferentDimensions()
 		{
-			Matrix m1(3, 3, new float[9]{
+			Matrix m1(3, 3, std::unique_ptr<float[]>(new float[9]{
 				1, 2, 7,
 				3, 4, 9,
 				5, 6, 8
-				});
+				}));
 
-			Matrix m2(2, 2, new float[4]{
+			Matrix m2(2, 2, std::unique_ptr<float[]>(new float[4]{
 				4, 5,
 				6, 7
-				});
+				}));
 
 			bool result = m1 != m2;
 
@@ -155,26 +155,26 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyByEquals_4x4()
 		{
-			Matrix m1(4, 4, new float[16]{
+			Matrix m1(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 8, 7, 6,
 				5, 4, 3, 2
-				});
+				}));
 
-			Matrix m2(4, 4, new float[16]{
+			Matrix m2(4, 4, std::unique_ptr<float[]>(new float[16]{
 				-2, 1, 2, 3,
 				3, 2, 1, -1,
 				4, 3, 6, 5,
 				1, 2, 7, 8
-				});
+				}));
 
-			Matrix m3(4, 4, new float[16]{
+			Matrix m3(4, 4, std::unique_ptr<float[]>(new float[16]{
 				20,22,50,48,
 				44,54,114,108,
 				40,58,110,102,
 				16,26,46,42
-				});
+				}));
 
 			m1 *= m2;
 			
@@ -188,26 +188,26 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyBy_4x4()
 		{
-			Matrix m1(4, 4, new float[16]{
+			Matrix m1(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 8, 7, 6,
 				5, 4, 3, 2
-				});
+				}));
 
-			Matrix m2(4, 4, new float[16]{
+			Matrix m2(4, 4, std::unique_ptr<float[]>(new float[16]{
 				-2, 1, 2, 3,
 				3, 2, 1, -1,
 				4, 3, 6, 5,
 				1, 2, 7, 8
-				});
+				}));
 
-			Matrix m3(4, 4, new float[16]{
+			Matrix m3(4, 4, std::unique_ptr<float[]>(new float[16]{
 				20,22,50,48,
 				44,54,114,108,
 				40,58,110,102,
 				16,26,46,42
-				});
+				}));
 
 			Matrix m4 = m1 * m2;
 			
@@ -221,23 +221,23 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyByEquals_3x3()
 		{
-			Matrix m1(3, 3, new float[9]{
+			Matrix m1(3, 3, std::unique_ptr<float[]>(new float[9]{
 				1, 2, 3,
 				5, 6, 7,
 				9, 8, 7
-				});
+				}));
 
-			Matrix m2(3, 3, new float[9]{
+			Matrix m2(3, 3, std::unique_ptr<float[]>(new float[9]{
 				-2, 1, 2,
 				3, 2, 1,
 				4, 3, 6
-				});
+				}));
 
-			Matrix m3(3, 3, new float[9]{
+			Matrix m3(3, 3, std::unique_ptr<float[]>(new float[9]{
 				16, 14, 22,
 				36, 38, 58,
 				34, 46, 68
-				});
+				}));
 
 			m1 *= m2;
 
@@ -251,23 +251,23 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyBy_3x3()
 		{
-			Matrix m1(3, 3, new float[9]{
+			Matrix m1(3, 3, std::unique_ptr<float[]>(new float[9]{
 				1, 2, 3,
 				5, 6, 7,
 				9, 8, 7				
-				});
+				}));
 
-			Matrix m2(3, 3, new float[9]{
+			Matrix m2(3, 3, std::unique_ptr<float[]>(new float[9]{
 				-2, 1, 2,
 				3, 2, 1,
 				4, 3, 6				
-				});
+				}));
 
-			Matrix m3(3, 3, new float[9]{
+			Matrix m3(3, 3, std::unique_ptr<float[]>(new float[9]{
 				16, 14, 22, 
 				36, 38, 58, 
 				34, 46, 68
-				});
+				}));
 
 			Matrix m4 = m1 * m2;
 
@@ -281,19 +281,19 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyByIdentity_4x4()
 		{
-			Matrix m1(4, 4, new float[16]{
+			Matrix m1(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 8, 7, 6,
 				5, 4, 3, 2
-				});
+				}));
 
-			Matrix m2(4, 4, new float[16]{
+			Matrix m2(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 2, 3, 4,
 				5, 6, 7, 8,
 				9, 8, 7, 6,
 				5, 4, 3, 2
-				});
+				}));
 
 			Matrix identity = Matrix::get4x4IdentityMatrix();
 			
@@ -311,21 +311,21 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyBy_Tuple()
 		{
-			Matrix m1(4, 4, new float[16]{
+			Matrix m1(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 2, 3, 4,
 				2, 4, 4, 2,
 				8, 6, 4, 1,
 				0, 0, 0, 1
-				});
+				}));
 
 			Tuple t(1, 2, 3, 1);
 
-			Matrix r(1, 4, new float[4]{
+			Matrix r(1, 4, std::unique_ptr<float[]>(new float[4]{
 				18,
 				24,
 				33,
 				1
-				});
+				}));
 						
 			Matrix m2 = m1 * t;								
 
@@ -339,21 +339,21 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyByEquals_Tuple()
 		{
-			Matrix m1(4, 4, new float[16]{
+			Matrix m1(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 2, 3, 4,
 				2, 4, 4, 2,
 				8, 6, 4, 1,
 				0, 0, 0, 1
-				});
+				}));
 
 			Tuple t(1, 2, 3, 1);
 
-			Matrix r(1, 4, new float[4]{
+			Matrix r(1, 4, std::unique_ptr<float[]>(new float[4]{
 				18,
 				24,
 				33,
 				1
-				});			
+				}));			
 
 			m1 *= t;
 			
@@ -371,12 +371,12 @@ namespace RayTracer
 
 			Matrix m(t);
 
-			Matrix r(1, 4, new float[4]{
+			Matrix r(1, 4, std::unique_ptr<float[]>(new float[4]{
 				1,
 				2,
 				3,
 				4
-				});
+				}));
 						
 			bool result = m == r;
 
@@ -392,12 +392,12 @@ namespace RayTracer
 
 			Matrix m(t);
 
-			Matrix r(1, 4, new float[4]{
+			Matrix r(1, 4, std::unique_ptr<float[]>(new float[4]{
 				1,
 				2,
 				3,
 				0
-				});
+				}));
 
 			bool result = m == r;
 
@@ -409,21 +409,21 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyBy_Vector()
 		{
-			Matrix m1(4, 4, new float[16]{
+			Matrix m1(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 2, 3, 4,
 				2, 4, 4, 2,
 				8, 6, 4, 1,
 				0, 0, 0, 1
-				});
+				}));
 
 			Vector t(1, 2, 3);
 
-			Matrix r(1, 4, new float[4]{
+			Matrix r(1, 4, std::unique_ptr<float[]>(new float[4]{
 				14,
 				22,
 				32,
 				0
-				});
+				}));
 
 			Matrix m2 = m1 * t;
 
@@ -437,21 +437,21 @@ namespace RayTracer
 
 		bool MatrixOperator_MultiplyByEquals_Vector()
 		{
-			Matrix m1(4, 4, new float[16]{
+			Matrix m1(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 2, 3, 4,
 				2, 4, 4, 2,
 				8, 6, 4, 1,
 				0, 0, 0, 1
-				});
+				}));
 
 			Vector t(1, 2, 3);
 
-			Matrix r(1, 4, new float[4]{
+			Matrix r(1, 4, std::unique_ptr<float[]>(new float[4]{
 				14,
 				22,
 				32,
 				0
-				});
+				}));
 
 			m1 *= t;
 
@@ -465,19 +465,19 @@ namespace RayTracer
 
 		bool Matrix_Transpose_4x4()
 		{
-			Matrix m1(4, 4, new float[16]{
+			Matrix m1(4, 4, std::unique_ptr<float[]>(new float[16]{
 				0,9,3,0,
 				9,8,0,8,
 				1,8,5,3,
 				0,0,5,8
-				});
+				}));
 
-			Matrix m2(4, 4, new float[16]{
+			Matrix m2(4, 4, std::unique_ptr<float[]>(new float[16]{
 				0,9,1,0,
 				9,8,8,0,
 				3,0,5,5,
 				0,8,3,8
-				});
+				}));
 
 			Matrix m3 = m1.transpose();
 			
@@ -505,10 +505,10 @@ namespace RayTracer
 
 		bool Matrix_Determinant_2x2()
 		{
-			Matrix m(2, 2, new float[4]{
+			Matrix m(2, 2, std::unique_ptr<float[]>(new float[4]{
 				1, 5,
 				-3, 2
-			});
+			}));
 
 			float d = m.determinant();
 
@@ -522,18 +522,18 @@ namespace RayTracer
 
 		bool Matrix_Submatrix_3x3()
 		{
-			Matrix m(3, 3, new float[9]{
+			Matrix m(3, 3, std::unique_ptr<float[]>(new float[9]{
 				1, 5, 0,
 				-3, 2, 7,
 				0, 6, -3
-			});
+			}));
 
 			Matrix sub = m.submatrix(0, 2);
 			
-			Matrix expected(2, 2, new float[4]{
+			Matrix expected(2, 2, std::unique_ptr<float[]>(new float[4]{
 				-3, 2,
 				0, 6
-				});
+				}));
 
 			bool result = sub == expected;
 
@@ -545,20 +545,20 @@ namespace RayTracer
 
 		bool Matrix_Submatrix_4x4()
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				-6,1,1,6,
 				-8,5,8,6,
 				-1,0,8,2,
 				-7,1,-1,1
-				});
+				}));
 
 			Matrix sub = m.submatrix(2, 1);
 			
-			Matrix expected(3, 3, new float[9]{
+			Matrix expected(3, 3, std::unique_ptr<float[]>(new float[9]{
 				-6,1,6,
 				-8,8,6,
 				-7,-1,1
-				});
+				}));
 
 			bool result = sub == expected;
 
@@ -570,11 +570,11 @@ namespace RayTracer
 
 		bool Matrix_Minor_3x3()
 		{
-			Matrix m(3, 3, new float[9]{
+			Matrix m(3, 3, std::unique_ptr<float[]>(new float[9]{
 				3, 5, 0,
 				2, -1, -7,
 				6, -1, 5
-				});
+				}));
 
 			float minor = m.minor(1, 0);
 
@@ -588,11 +588,11 @@ namespace RayTracer
 
 		bool Matrix_Cofactor_3x3_1()
 		{
-			Matrix m(3, 3, new float[9]{
+			Matrix m(3, 3, std::unique_ptr<float[]>(new float[9]{
 				3, 5, 0,
 				2, -1, -7,
 				6, -1, 5
-				});
+				}));
 
 			float cofactor = m.cofactor(0, 0);
 
@@ -606,11 +606,11 @@ namespace RayTracer
 
 		bool Matrix_Cofactor_3x3_2()
 		{
-			Matrix m(3, 3, new float[9]{
+			Matrix m(3, 3, std::unique_ptr<float[]>(new float[9]{
 				3, 5, 0,
 				2, -1, -7,
 				6, -1, 5
-				});
+				}));
 
 			float cofactor = m.cofactor(1, 0);
 
@@ -624,11 +624,11 @@ namespace RayTracer
 
 		bool Matrix_Determinant_3x3()
 		{
-			Matrix m(3, 3, new float[9]{
+			Matrix m(3, 3, std::unique_ptr<float[]>(new float[9]{
 				1,2,6,
 				-5,8,-4,
 				2,6,4
-				});
+				}));
 
 			float c1 = m.cofactor(0, 0);
 			float c2 = m.cofactor(0, 1);
@@ -648,12 +648,12 @@ namespace RayTracer
 
 		bool Matrix_Determinant_4x4()
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				-2,-8,3,5,
 				-3,1,7,3,
 				1,2,-9,6,
 				-6,7,7,-9
-				});
+				}));
 
 			float c1 = m.cofactor(0, 0);
 			float c2 = m.cofactor(0, 1);
@@ -675,12 +675,12 @@ namespace RayTracer
 
 		bool Matrix_IsInvertible()
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				6,4,4,4,
 				5,5,7,6,
 				4,-9,3,-7,
 				9,1,7,-6
-				});
+				}));
 			
 			float d = m.determinant();
 
@@ -694,12 +694,12 @@ namespace RayTracer
 
 		bool Matrix_IsNotInvertible()
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				-4,2,-2,-3,
 				9,6,2,6,
 				0,-5,1,-5,
 				0,0,0,0
-				});
+				}));
 
 			float d = m.determinant();
 
@@ -713,19 +713,19 @@ namespace RayTracer
 
 		bool Matrix_Inverse_1()
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				-5,2,6,-8,
 				1,-5,1,8,
 				7,7,-6,-7,
 				1,-3,7,4
-			});
+			}));
 
-			Matrix expected(4, 4, new float[16]{
+			Matrix expected(4, 4, std::unique_ptr<float[]>(new float[16]{
 				0.21805f,  0.45113f, 0.24060f,-0.04511f,
 				-0.80827f,-1.45677f,-0.44361f, 0.52068f,
 				-0.07895f,-0.22368f,-0.05263f, 0.19737f,
 				-0.52256f,-0.81391f,-0.30075f, 0.30639f
-			});
+			}));
 
 			Matrix b = m.inverse();
 
@@ -751,19 +751,19 @@ namespace RayTracer
 
 		bool Matrix_Inverse_2()
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				8,-5,9,2,
 				7,5,6,1,
 				-6,0,9,6,
 				-3,0,-9,-4
-			});
+			}));
 
-			Matrix expected(4, 4, new float[16]{
+			Matrix expected(4, 4, std::unique_ptr<float[]>(new float[16]{
 				-0.15385f, -0.15385f, -0.28205f, -0.53846f,
 				-0.07692f,  0.12308f,  0.02564f,  0.03077f,
 				 0.35897f,  0.35897f,  0.43590f,  0.92308f,
 				-0.69231f, -0.69231f, -0.76923f, -1.92308f
-			});
+			}));
 
 			Matrix b = m.inverse();
 			
@@ -777,20 +777,20 @@ namespace RayTracer
 
 		bool Matrix_Inverse_3()
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				9,3,0,9,
 				-5,-2,-6,-3,
 				-4,9,6,4,
 				-7,6,6,2	
-			});
-
-			Matrix expected(4, 4, new float[16]{
+			}));
+			
+			Matrix expected(4, 4, std::unique_ptr<float[]>(new float[16]{
 				-0.04074f, -0.07778f,  0.14444f, -0.22222f,
 				-0.07778f,  0.03333f,  0.36667f, -0.33333f,
 				-0.02901f, -0.14630f, -0.10926f,  0.12963f,
 				 0.17778f,  0.06667f, -0.26667f,  0.33333f
-			});
-
+				}));
+			
 			Matrix b = m.inverse();
 			
 			bool result = b == expected;
@@ -803,19 +803,19 @@ namespace RayTracer
 
 		bool Matrix_Inverse_Proof()
 		{
-			Matrix a(4, 4, new float[16]{
+			Matrix a(4, 4, std::unique_ptr<float[]>(new float[16]{
 				3,-9,7,3,
 				3,-8,2,-9,
 				-4,4,4,1,
 				-6,5,-1,1	
-			});
+			}));
 			
-			Matrix b(4, 4, new float[16]{
+			Matrix b(4, 4, std::unique_ptr<float[]>(new float[16]{
 				8,2,2,2,
 				3,-1,7,0,
 				7,0,5,4,
 				6,-2,0,5	
-			});
+			}));
 						
 			Matrix c = a * b;					
 
@@ -831,12 +831,12 @@ namespace RayTracer
 
 		bool Matrix_Inverse_Test()
 		{
-			Matrix a(4, 4, new float[16]{
+			Matrix a(4, 4, std::unique_ptr<float[]>(new float[16]{
 				3,-9,7,3,
 				3,-8,2,-9,
 				-4,4,4,1,
 				-6,5,-1,1
-				});
+				}));
 			
 			Matrix b = a.inverse();
 

@@ -24,6 +24,11 @@ namespace RayTracer
 		{			
 		}
 
+		~World()
+		{
+			objects.clear();
+		}
+
 		static World defaultWorld()
 		{
 			World w;
@@ -51,12 +56,12 @@ namespace RayTracer
 			Vector left = forward.cross(nUp);
 			Vector trueUp = left.cross(forward);
 			
-			Matrix orientation(4, 4, new float[] {
+			Matrix orientation(4, 4, std::unique_ptr<float[]>(new float[] {
 				 left.x,      left.y,     left.z,    0,
 				 trueUp.x,    trueUp.y,   trueUp.z,  0,
 				-forward.x,  -forward.y, -forward.z, 0,
 				 0,           0,          0,         1
-			});
+			}));
 
 			Matrix translation = Matrix::get4x4TranslationMatrix(-from.x, -from.y, -from.z);
 			Matrix vt = orientation * translation;
@@ -109,7 +114,7 @@ namespace RayTracer
 			for (std::vector<PointLight>::iterator iter = lights.begin(); iter != lights.end(); iter++)
 			{
 				bool isInShadow = isShadowed(*iter, c.overPoint);
-				Color color = iter->phong(c.object->material, c.point, c.eyeV, c.normalV, isInShadow);
+				Color color = iter->phong(c.object->material, *c.object, c.overPoint, c.eyeV, c.normalV, isInShadow);
 				finalColor = finalColor + color;
 			}
 						
@@ -134,9 +139,13 @@ namespace RayTracer
 
 		Canvas render(const Camera& camera)
 		{
+			std::cout << "\n";
 			auto start1 = std::chrono::high_resolution_clock::now();
 
 			Canvas image((int)camera.hSize, (int)camera.vSize);
+						
+			int totalPixels = camera.vSize * camera.hSize;
+			int processedPixels = 0;
 
 			for (int y = 0; y < camera.vSize; y++)
 			{
@@ -144,8 +153,12 @@ namespace RayTracer
 				{
 					Ray r = camera.rayForPixel(x, y);
 					Color c = colorAt(r);
-					image.setPixel(x, y, c);
+					image.setPixel(x, y, c);					
+
+					processedPixels++;
 				}
+
+				showProgressBar((float)processedPixels / (float)totalPixels);
 			}
 
 			auto stop1 = std::chrono::high_resolution_clock::now();
@@ -154,7 +167,22 @@ namespace RayTracer
 
 			return image;
 		}
-				
+		
+		void showProgressBar(float progress)
+		{
+			int barWidth = 70;
+
+			std::cout << "[";
+			int pos = barWidth * progress;
+			for (int i = 0; i < barWidth; ++i) {
+				if (i < pos) std::cout << "=";
+				else if (i == pos) std::cout << ">";
+				else std::cout << " ";
+			}
+			std::cout << "] " << int(progress * 100.0) << " %\r";
+			std::cout.flush();
+		}
+
 		bool isShadowed(const PointLight& light, const Point& p)
 		{
 			Vector v = light.position - p;

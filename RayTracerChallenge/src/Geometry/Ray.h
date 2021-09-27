@@ -27,7 +27,7 @@ namespace RayTracer
 			return p;
 		}
 		
-		Ray transform(Matrix& matrix)
+		Ray transform(Matrix& matrix) const
 		{
 			Point newOrigin = (matrix * origin).toPoint();
 			Vector newDirection = (matrix * direction).toVector();

@@ -10,21 +10,30 @@ namespace RayTracer
 {
 	class Canvas
 	{
+	private:
+		const int width;
+		const int height;
+		const int maxIndex;
+		//Color* pixels;
+		std::vector<Color> pixels;
+
 	public:
 		Canvas(int lWidth, int lHeight) : width(lWidth), height(lHeight), maxIndex(lWidth * lHeight - 1)
-		{
-			pixels = new Color[width * height];
+		{			
+			pixels.reserve(width * height);
 						
 			// set all pixels to black
 			Color black(0, 0, 0);
 			fillCanvas(black);			
 		}
 		
+		~Canvas() { }
+
 		const void fillCanvas(const Color& color)
 		{
 			for (int i = 0; i < width * height; i++)
 			{
-				pixels[i] = color;
+				pixels.push_back(Color(color));
 			}
 		}
 
@@ -163,11 +172,5 @@ namespace RayTracer
 			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
 			std::cout << "\nPPM File Completed in " << duration1.count() << "ms.\n";
 		}
-
-	private:
-		const int width;
-		const int height;
-		const int maxIndex;
-		Color* pixels;
 	};
 }

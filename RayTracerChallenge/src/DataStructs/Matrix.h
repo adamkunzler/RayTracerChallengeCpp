@@ -11,36 +11,34 @@ namespace RayTracer
 {
 	// for future not hardcoded dimension matrix and how to overload () operator
 	//https://isocpp.org/wiki/faq/operator-overloading#matrix-subscript-op
-
+	
 	/// <summary>
 	/// A matrix implementation (defaults to 4x4)
 	/// </summary>
 	class Matrix
 	{				
-	private:
-		float* data;		
+	private:		
+		std::unique_ptr<float[]> data;
 		int columns;
 		int rows;
 		int maxIndex;		
 
 	public:
 		~Matrix()
-		{
-			delete[] data;
-			data = 0;
+		{			
 		}
 
 		// default constructor
 		Matrix() : columns(4), rows(4)
 		{			
 			maxIndex = columns * rows;
-			data = new float[maxIndex];
+			data = std::make_unique<float[]>(maxIndex);
 
 			clear();
 		}		
 
 		// parameter constructor
-		Matrix(int lColumns, int lRows, float* values = 0)
+		Matrix(int lColumns, int lRows, std::unique_ptr<float[]> values = 0)
 		{
 			columns = lColumns;
 			rows = lRows;
@@ -48,31 +46,36 @@ namespace RayTracer
 
 			if (values == 0)
 			{
-				data = new float[maxIndex];
+				data = std::make_unique<float[]>(maxIndex);
 				clear();
 			}
 			else
 			{
-				data = values;
+				data = std::make_unique<float[]>(maxIndex);				
+				for (int i = 0; i < maxIndex; i++)
+				{
+					data[i] = values[i];
+				}				
 			}
 		}
 		
 		// Tuple to Matrix constructor
-		Matrix(const Tuple& t) : Matrix(1, 4, new float[4] { t.x, t.y, t.z, t.w })
+		Matrix(const Tuple& t)
 		{
+			columns = 1;
+			rows = 4;
+			maxIndex = 4;
+			
+			data = std::make_unique<float[]>(maxIndex);
+			data[0] = t.x;
+			data[1] = t.y;
+			data[2] = t.z;
+			data[3] = t.w;
 		}
 
 		// copy constructur
-		Matrix(const Matrix&other) {
-			columns = other.columns;
-			rows = other.rows;
-			maxIndex = columns * rows;
-			data = new float[maxIndex];
-
-			for (int i = 0; i < maxIndex; i++)
-			{
-				data[i] = other.data[i];
-			}
+		Matrix(const Matrix&other) {			
+			*this = other;
 		}
 
 		// assignment operator
@@ -84,8 +87,8 @@ namespace RayTracer
 			columns = other.columns;
 			rows = other.rows;
 			maxIndex = columns * rows;
-			data = new float[maxIndex];
-
+			
+			data = std::make_unique<float[]>(maxIndex);
 			for (int i = 0; i < maxIndex; i++)
 			{
 				data[i] = other.data[i];
@@ -175,35 +178,35 @@ namespace RayTracer
 		
 		static Matrix get4x4IdentityMatrix()
 		{			
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 0, 0, 0,
 				0, 1, 0, 0,
 				0, 0, 1, 0,
 				0 ,0 ,0, 1
-				});
+				}));
 			return m;
 		}
 
 		static Matrix get4x4TranslationMatrix(const float x, const float y, const float z)
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 0, 0, x,
 				0, 1, 0, y,
 				0, 0, 1, z,
 				0, 0, 0, 1
-			});
+			}));
 			return m;
 		}
 		
 
 		static Matrix get4x4ScalingMatrix(const float x, const float y, const float z)
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				x, 0, 0, 0,
 				0, y, 0, 0,
 				0, 0, z, 0,
 				0, 0, 0, 1
-				});
+				}));
 			return m;
 		}
 
@@ -212,12 +215,12 @@ namespace RayTracer
 			float cosr = std::cos(r);
 			float sinr = std::sin(r);
 
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1, 0, 0, 0,
 				0, cosr, -sinr, 0,
 				0, sinr, cosr, 0,
 				0, 0, 0, 1
-				});
+				}));
 			return m;
 		}
 
@@ -226,12 +229,12 @@ namespace RayTracer
 			float cosr = std::cos(r);
 			float sinr = std::sin(r);
 
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				cosr, 0, sinr, 0,
 				0, 1, 0, 0,
 				-sinr, 0, cosr, 0,
 				0, 0, 0, 1
-				});
+				}));
 			return m;
 		}
 
@@ -240,23 +243,23 @@ namespace RayTracer
 			float cosr = std::cos(r);
 			float sinr = std::sin(r);
 
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				cosr, -sinr, 0, 0,
 				sinr, cosr, 0, 0,
 				0, 0, 1, 0,
 				0, 0, 0, 1
-				});
+				}));
 			return m;
 		}
 
 		static Matrix get4x4ShearingMatrix(const float xy, const float xz, const float yx, const float yz, const float zx, const float zy)
 		{
-			Matrix m(4, 4, new float[16]{
+			Matrix m(4, 4, std::unique_ptr<float[]>(new float[16]{
 				1,  xy, xz, 0,
 				yx, 1,  yz, 0,
 				zx, zy, 1, 0,
 				0, 0, 0, 1
-				});
+				}));
 			return m;
 		}
 
@@ -294,7 +297,7 @@ namespace RayTracer
 
 			int cols = b.getNumColumns();
 			int rows = getNumRows();
-			Matrix m(cols, rows);
+			Matrix m(cols, rows, nullptr);
 
 			for (int r = 0; r < rows; r++)
 			{

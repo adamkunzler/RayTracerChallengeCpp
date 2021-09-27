@@ -248,12 +248,12 @@ namespace RayTracer
 
 			Matrix vt = World::viewTransform(from, to, up);
 
-			Matrix expected(4, 4, new float[] {
+			Matrix expected(4, 4, std::unique_ptr<float[]>(new float[] {
 				-0.50709f, 0.50709f,  0.67612f, -2.36643f,
 				 0.76772f, 0.60609f,  0.12122f, -2.82843f,
 				-0.35857f, 0.59761f, -0.71714f,  0,
 				 0,       0,        0,        1
-			});
+			}));
 
 			//std::cout << "\nActual:\n" << vt << "\n";
 			//std::cout << "\nExpected:\n" << expected << "\n";

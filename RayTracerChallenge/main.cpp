@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <array>
 #include <algorithm>
 #include <iostream>
 #include <fstream>
@@ -22,7 +23,8 @@
 //#include "Exercises\Chapter6\RayTraceSphere.h"
 //#include "Exercises\Chapter7\RayTraceSphere.h"
 //#include "Exercises\Chapter7\RayTraceScene.h"
-#include "Exercises\Chapter9\RayTraceScene.h"
+//#include "Exercises\Chapter9\RayTraceScene.h"
+#include "Exercises\Chapter10\RayTraceScene_Stripe.h"
 
 void RunRayTracer();
 
@@ -39,7 +41,8 @@ int main()
 	//Exercises::Chapter6::RayTraceSphere();
 	//Exercises::Chapter7::RayTraceSphere();
 	//Exercises::Chapter7::RayTraceScene();
-	Exercises::Chapter9::RayTraceScene();
+	//Exercises::Chapter9::RayTraceScene();
+	Exercises::Chapter10::RayTraceScene_Stripe();
 
 	
 	//if(result) RunRayTracer();

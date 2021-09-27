@@ -10,6 +10,7 @@
 namespace RayTracer
 {
 	class Intersection;
+	class IPattern;
 
 	class IShape
 	{
@@ -23,7 +24,10 @@ namespace RayTracer
 			transform = Matrix::get4x4IdentityMatrix();
 		}
 
-		virtual ~IShape() {}		
+		virtual ~IShape() 
+		{
+			//std::cout << "\nshape destructor";
+		}
 		
 		//
 		// INTERSECTIONS

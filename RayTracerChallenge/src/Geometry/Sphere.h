@@ -15,6 +15,11 @@ namespace RayTracer
 		Sphere(const Point& lOrigin, const float lRadius) : origin(lOrigin), radius(lRadius)
 		{}
 
+		~Sphere()
+		{
+			//std::cout << "\nsphere destructor";
+		}
+
 		Vector localNormalAt(const Point& localPoint) const
 		{			
 			Vector localNormal = localPoint - origin;

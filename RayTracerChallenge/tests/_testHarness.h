@@ -17,9 +17,16 @@
 #include "../src/Geometry/Material.h"
 #include "../src/Geometry/PointLight.h"
 #include "../src/Geometry/Ray.h"
-#include "../src/Geometry/Sphere.h"
 #include "../src/Geometry/Computation.h"
+
+#include "../src/Geometry/Sphere.h"
 #include "../src/Geometry/Plane.h"
+
+#include "../src/Patterns/IPattern.h"
+#include "../src/Patterns/StripePattern.h"
+#include "../src/Patterns/GradientPattern.h"
+#include "../src/Patterns/RingPattern.h"
+#include "../src/Patterns/CheckerPattern.h"
 
 #include "tests\tupleTests.h"
 #include "tests\vectorTests.h"

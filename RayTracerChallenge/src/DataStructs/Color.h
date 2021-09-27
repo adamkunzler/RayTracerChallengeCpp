@@ -32,7 +32,10 @@ namespace RayTracer
 			g = other.g;
 			b = other.b;
 		}
-			
+		
+		static Color white() { return Color(1, 1, 1); }
+		static Color black() { return Color(0, 0, 0); }
+
 		// assignment operator
 		Color& operator=(const Color& other)
 		{

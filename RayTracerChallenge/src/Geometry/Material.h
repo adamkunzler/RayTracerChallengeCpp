@@ -2,7 +2,9 @@
 #include "..\DataStructs\Color.h"
 
 namespace RayTracer
-{
+{	
+	class IPattern;
+
 	class Material
 	{
 	public:		
@@ -11,6 +13,7 @@ namespace RayTracer
 		float diffuse;
 		float specular;
 		float shininess;
+		IPattern* pattern;
 
 	public:		
 		Material()
@@ -20,11 +23,26 @@ namespace RayTracer
 			diffuse = 0.9f;
 			specular = 0.9f;
 			shininess = 200.0f;
+			pattern = NULL;
 		}
 
 		Material(const Color& lColor, const float& lAmbient, const float& lDiffuse, const float& lSpecular, const float& lShininess) :
-			color(lColor), ambient(lAmbient), diffuse(lDiffuse), specular(lSpecular), shininess(lShininess)
+			color(lColor), ambient(lAmbient), diffuse(lDiffuse), specular(lSpecular), shininess(lShininess), pattern(NULL)
+		{			
+		}
+
+		Material(const Material& m)
 		{
+			color = Color(m.color.r, m.color.g, m.color.b);
+			ambient = m.ambient;
+			diffuse = m.diffuse;
+			specular = m.specular;
+			shininess = m.shininess;
+			pattern = m.pattern;
+		}
+
+		~Material() 
+		{			
 		}
 
 		bool operator==(const Material& m)

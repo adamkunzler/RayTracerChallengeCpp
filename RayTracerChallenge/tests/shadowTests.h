@@ -13,7 +13,8 @@ namespace RayTracer
 			PointLight light(Point(0, 0, -10), Color(1, 1, 1));
 			bool inShadow = true;
 
-			Color c = light.phong(m, position, eyev, normalv, inShadow);
+			Sphere s;
+			Color c = light.phong(m, s, position, eyev, normalv, inShadow);
 
 			Color expected(0.1f, 0.1f, 0.1f);
 

@@ -12,10 +12,11 @@ namespace RayTracer
 		float t;
 		IShape* object;
 	
-		Intersection()
-		{			
+		/*Intersection()
+		{	
+			t = 0;
 			object = NULL;
-		}
+		}*/
 
 		Intersection(const float lT, IShape* lObject) : t(lT), object(lObject)
 		{
@@ -51,7 +52,7 @@ namespace RayTracer
 			}
 			
 			// return 'null' intersection
-			Intersection h;
+			Intersection h(0, 0);
 			return h;
 		}
 

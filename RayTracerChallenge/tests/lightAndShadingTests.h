@@ -222,7 +222,8 @@ namespace RayTracer
 			Vector normalV(0, 0, -1);
 			PointLight light(Point(0, 0, -10), Color(1, 1, 1));
 
-			Color r = light.phong(m, position, eye, normalV, false);
+			Sphere s;
+			Color r = light.phong(m, s, position, eye, normalV, false);
 
 			Color expected(1.9f, 1.9f, 1.9f);
 
@@ -244,8 +245,9 @@ namespace RayTracer
 			Vector eye(0, sqrt2over2, -sqrt2over2);
 			Vector normalV(0, 0, -1);
 			PointLight light(Point(0, 0, -10), Color(1, 1, 1));
-
-			Color r = light.phong(m, position, eye, normalV, false);
+			
+			Sphere s;
+			Color r = light.phong(m, s, position, eye, normalV, false);
 
 			Color expected(1.0f, 1.0f, 1.0f);
 
@@ -266,7 +268,8 @@ namespace RayTracer
 			Vector normalV(0, 0, -1);
 			PointLight light(Point(0, 10, -10), Color(1, 1, 1));
 
-			Color r = light.phong(m, position, eye, normalV, false);
+			Sphere s;
+			Color r = light.phong(m, s, position, eye, normalV, false);
 
 			Color expected(0.7364f, 0.7364f, 0.7364f);
 
@@ -289,7 +292,8 @@ namespace RayTracer
 			Vector normalV(0, 0, -1);
 			PointLight light(Point(0, 10, -10), Color(1, 1, 1));
 
-			Color r = light.phong(m, position, eye, normalV, false);
+			Sphere s;
+			Color r = light.phong(m, s, position, eye, normalV, false);
 
 			Color expected(1.63639f, 1.63639f, 1.63639f);
 			
@@ -310,7 +314,8 @@ namespace RayTracer
 			Vector normalV(0, 0, -1);
 			PointLight light(Point(0, 0, 10), Color(1, 1, 1));
 
-			Color r = light.phong(m, position, eye, normalV, false);
+			Sphere s;
+			Color r = light.phong(m, s, position, eye, normalV, false);
 
 			Color expected(0.1f, 0.1f, 0.1f);
 

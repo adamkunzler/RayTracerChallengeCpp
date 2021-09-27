@@ -1,7 +1,9 @@
 #pragma once
 
+#include "../Patterns/IPattern.h"
+
 namespace RayTracer
-{	
+{			
 	class PointLight
 	{
 	public:
@@ -16,14 +18,21 @@ namespace RayTracer
 		{
 		}	
 
-		Color phong(const Material& m, const Point& p, const Vector& eye, const Vector& normalV, bool inShadow)
+		Color phong(const Material& m, const IShape& shape, const Point& p, const Vector& eye, const Vector& normalV, bool inShadow)
 		{
 			Color ambient;
 			Color diffuse;
 			Color specular;
 
+			Color baseColor = m.color;
+
+			if(m.pattern)
+			{ 
+				baseColor = m.pattern->patternAt(shape, p);
+			}
+
 			// combine surface color with lights color/intensity
-			Color effectiveColor = intensity * m.color;
+			Color effectiveColor = intensity * baseColor;
 			
 			// find the direction to the light source
 			Vector lightV = (position - p).normalize();
