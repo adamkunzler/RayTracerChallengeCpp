@@ -21,8 +21,7 @@ namespace RayTracer
 			Point objectPoint = (shape.transform.inverse() * p).toPoint();
 			Point patternPoint = (transform.inverse() * objectPoint).toPoint();
 
-			return patternAt(patternPoint);
-			//return patternAt(p);
-		}
+			return patternAt(patternPoint);			
+		}		
 	};
 }

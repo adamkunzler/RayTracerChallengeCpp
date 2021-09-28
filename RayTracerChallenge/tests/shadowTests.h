@@ -99,7 +99,7 @@ namespace RayTracer
 			Ray r(Point(0, 0, 5), Vector(0, 0, 1));
 			Intersection i(4, &s2);
 
-			Computation comps = w.prepareComputations(i, r);
+			Computation comps = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			Color c = w.shadeHit(comps, 0);
 
 			Color expected(0.1f, 0.1f, 0.1f);
@@ -120,7 +120,7 @@ namespace RayTracer
 			Intersection i(5.0f, &s);
 			
 			World w;
-			Computation comps = w.prepareComputations(i, r);
+			Computation comps = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			
 			bool result = (comps.overPoint.z < -EPSILON/2)
 				&& (comps.point.z > comps.overPoint.z);

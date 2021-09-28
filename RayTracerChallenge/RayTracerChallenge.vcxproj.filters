@@ -161,5 +161,11 @@
     <ClInclude Include="Exercises\Chapter11\RayTraceScene_Book.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Patterns\TestPattern.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exercises\Chapter11\RayTraceScene_NestedGlassSpheres.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

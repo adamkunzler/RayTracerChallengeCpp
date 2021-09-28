@@ -12,13 +12,34 @@ namespace RayTracer
 		float t;
 		IShape* object;
 			
+		Intersection() :t(0), object(0) {}
+
 		Intersection(const float lT, IShape* lObject) : t(lT), object(lObject)
 		{
 		}		
 		
+		/*Intersection(const Intersection& copy) : t(copy.t), object(copy.object)
+		{}*/
+
+		/*Intersection& operator=(const Intersection& other)
+		{
+			if (this == &other)
+				return *this;
+
+			t = other.t;
+			object = other.object;
+
+			return *this;
+		}*/
+
 		bool isNull()
 		{
 			return object == NULL;
+		}
+
+		static bool areEqual(const Intersection& lhs, const Intersection& rhs)
+		{
+			return FloatEquals(lhs.t, rhs.t) && (lhs.object == rhs.object);
 		}
 
 		// equality
@@ -37,12 +58,12 @@ namespace RayTracer
 		{			
 			std::sort(intersections.begin(), intersections.end(), Intersection::comparer);
 
-			for (std::vector<Intersection>::const_iterator iter = intersections.begin(); iter != intersections.end(); iter++)
+			for (std::vector<Intersection>::const_iterator iter = intersections.begin(); iter != intersections.end(); iter++)			
 			{
-				if ((*iter).t < 0) continue;
+				if ((*iter).t < 0) continue;				
 
 				// first non-negative intersection
-				return(*iter);
+				return(*iter);				
 			}
 			
 			// return 'null' intersection
@@ -55,4 +76,6 @@ namespace RayTracer
 			return (i1.t < i2.t);
 		}
 	};
+
+	
 }

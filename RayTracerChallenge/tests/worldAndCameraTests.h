@@ -39,7 +39,7 @@ namespace RayTracer
 			Sphere s;
 			Intersection i(4, &s);
 
-			Computation c = w.prepareComputations(i, r);
+			Computation c = w.prepareComputations(i, r, std::vector<Intersection> { i });
 
 			Point pe(0, 0, -1);
 			Vector ve1(0, 0, -1);
@@ -64,7 +64,7 @@ namespace RayTracer
 			Sphere s;
 			Intersection i(4, &s);
 
-			Computation c = w.prepareComputations(i, r);
+			Computation c = w.prepareComputations(i, r, std::vector<Intersection> { i });
 
 			bool result = !c.isInside;
 
@@ -81,7 +81,7 @@ namespace RayTracer
 			Sphere s;
 			Intersection i(1, &s);
 
-			Computation c = w.prepareComputations(i, r);
+			Computation c = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			
 			Point pe(0, 0, 1);
 			Vector ve1(0, 0, -1);
@@ -103,7 +103,7 @@ namespace RayTracer
 			World w = World::defaultWorld();
 			Ray r(Point(0, 0, -5), Vector(0, 0, 1));			
 			Intersection i(4, w.objects[0]);
-			Computation c = w.prepareComputations(i, r);
+			Computation c = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			Color color = w.shadeHit(c, 0);
 			Color ce = Color(0.38066f, 0.47583f, 0.2855f);
 
@@ -121,7 +121,7 @@ namespace RayTracer
 			PointLight l(Point(0, 0.25f, 0), Color(1, 1, 1));
 			Ray r(Point(0, 0, 0), Vector(0, 0, 1));
 			Intersection i(0.5f, w.objects[1]);
-			Computation c = w.prepareComputations(i, r);
+			Computation c = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			Color color = w.shadeHit(c, 0);
 			Color ce = Color(0.90498f, 0.90498f, 0.90498f);
 			

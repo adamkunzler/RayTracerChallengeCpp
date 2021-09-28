@@ -10,10 +10,11 @@ namespace RayTracer
 		IShape* object;
 		float t;
 		Point point;
+		Point overPoint;
+		Point underPoint;
 		Vector eyeV;
 		Vector normalV;
-		bool isInside;
-		Point overPoint;
+		bool isInside;		
 		Vector reflectV;
 		float n1;
 		float n2;

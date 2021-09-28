@@ -27,7 +27,7 @@ namespace RayTracer
 			Plane p;
 			Ray r(Point(0, 1, -1), Vector(0, -sqrt2over2, sqrt2over2));
 			Intersection i(sqrt2, &p);
-			Computation comps = w.prepareComputations(i, r);
+			Computation comps = w.prepareComputations(i, r, std::vector<Intersection> { i });
 
 			Vector expected(0, sqrt2over2, sqrt2over2);
 
@@ -46,7 +46,7 @@ namespace RayTracer
 			Sphere* s = (Sphere*)w.objects[1];
 			s->material.ambient = 1;
 			Intersection i(1, s);
-			Computation comps = w.prepareComputations(i, r);
+			Computation comps = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			Color c = w.reflectedColor(comps, 0);
 
 			Color expected(0, 0, 0);
@@ -71,7 +71,7 @@ namespace RayTracer
 			w.objects.push_back(&shape);
 			Ray r(Point(0, 0, -3), Vector(0, -sqrt2over2, sqrt2over2));
 			Intersection i(sqrt2, &shape);
-			Computation comps = w.prepareComputations(i, r);
+			Computation comps = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			Color c = w.reflectedColor(comps, MAX_RECURSION);
 
 			Color expected(0.19032f, 0.2379f, 0.14274f);
@@ -96,7 +96,7 @@ namespace RayTracer
 			w.objects.push_back(&shape);
 			Ray r(Point(0, 0, -3), Vector(0, -sqrt2over2, sqrt2over2));
 			Intersection i(sqrt2, &shape);
-			Computation comps = w.prepareComputations(i, r);
+			Computation comps = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			Color c = w.shadeHit(comps, MAX_RECURSION);
 
 			Color expected(0.87677f, 0.92436f, 0.82918f);
@@ -151,7 +151,7 @@ namespace RayTracer
 
 			Ray r(Point(0, 0, -3), Vector(0, -sqrt2over2, sqrt2over2));
 			Intersection i(sqrt2, &shape);
-			Computation comps = w.prepareComputations(i, r);
+			Computation comps = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			Color c = w.reflectedColor(comps, 0);
 
 			Color expected(0, 0, 0);
@@ -228,11 +228,11 @@ namespace RayTracer
 			Computation c5 = w.prepareComputations(intersections[5], r, intersections);
 
 			bool result = FloatEquals(c0.n1, 1.0f) && FloatEquals(c0.n2, 1.5f)
-				&& FloatEquals(c0.n1, 1.5f) && FloatEquals(c0.n2, 2.0f)
-				&& FloatEquals(c0.n1, 2.0f) && FloatEquals(c0.n2, 2.5f)
-				&& FloatEquals(c0.n1, 2.5f) && FloatEquals(c0.n2, 2.5f)
-				&& FloatEquals(c0.n1, 2.5f) && FloatEquals(c0.n2, 1.5f)
-				&& FloatEquals(c0.n1, 1.5f) && FloatEquals(c0.n2, 1.0f);
+				&& FloatEquals(c1.n1, 1.5f) && FloatEquals(c1.n2, 2.0f)
+				&& FloatEquals(c2.n1, 2.0f) && FloatEquals(c2.n2, 2.5f)
+				&& FloatEquals(c3.n1, 2.5f) && FloatEquals(c3.n2, 2.5f)
+				&& FloatEquals(c4.n1, 2.5f) && FloatEquals(c4.n2, 1.5f)
+				&& FloatEquals(c5.n1, 1.5f) && FloatEquals(c5.n2, 1.0f);
 			
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Refraction_N1_N2()\n";
@@ -242,7 +242,16 @@ namespace RayTracer
 
 		bool Refraction_ComputeUnderPoint()
 		{
-			bool result = false;
+			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+			Sphere s = Sphere::GlassSphere();
+			s.transform = Matrix::get4x4TranslationMatrix(0, 0, 1);
+			Intersection i(5, &s);
+			std::vector<Intersection> xs = { i };
+			World w;
+			Computation comps = w.prepareComputations(i, r, xs);
+
+			bool result = (comps.underPoint.z > EPSILON / 2) 
+				&& (comps.point.z < comps.underPoint.z);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Refraction_ComputeUnderPoint()\n";
@@ -252,7 +261,18 @@ namespace RayTracer
 
 		bool Refraction_RefractedColor_Opaque()
 		{
-			bool result = false;
+			World w = World::defaultWorld();
+			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+			std::vector<Intersection> xs = {
+				Intersection(4, w.objects[0]),
+				Intersection(6, w.objects[0])
+			};
+			Computation comps = w.prepareComputations(xs[0], r, xs);
+			Color c = w.refractedColor(comps, 5);
+
+			Color expected(0, 0, 0);
+			
+			bool result = (c == expected);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Refraction_RefractedColor_Opaque()\n";
@@ -262,7 +282,20 @@ namespace RayTracer
 
 		bool Refraction_RefractedColor_MaximumRecursiveDepth()
 		{
-			bool result = false;
+			World w = World::defaultWorld();
+			w.objects[0]->material.transparency = 1.0f;
+			w.objects[0]->material.refractiveIndex = 1.5f;
+			Ray r(Point(0, 0, -5), Vector(0, 0, 1));
+			std::vector<Intersection> xs = {
+				Intersection(4, w.objects[0]),
+				Intersection(6, w.objects[0])
+			};
+			Computation comps = w.prepareComputations(xs[0], r, xs);
+			Color c = w.refractedColor(comps, 0);
+
+			Color expected(0, 0, 0);
+
+			bool result = (c == expected);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Refraction_RefractedColor_MaximumRecursiveDepth()\n";
@@ -272,7 +305,22 @@ namespace RayTracer
 
 		bool Refraction_RefractedColor_TotalInternalReflection()
 		{
-			bool result = false;
+			float sqrt2over2 = std::sqrtf(2) / 2.0f;
+
+			World w = World::defaultWorld();
+			w.objects[0]->material.transparency = 1.0f;
+			w.objects[0]->material.refractiveIndex = 1.5f;
+			Ray r(Point(0, 0, sqrt2over2), Vector(0, 1, 0));
+			std::vector<Intersection> xs = {
+				Intersection(-sqrt2over2, w.objects[0]),
+				Intersection(sqrt2over2, w.objects[0])
+			};
+			Computation comps = w.prepareComputations(xs[1], r, xs);
+			Color c = w.refractedColor(comps, 5);
+
+			Color expected(0, 0, 0);
+
+			bool result = (c == expected);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Refraction_RefractedColor_TotalInternalReflection()\n";
@@ -282,7 +330,27 @@ namespace RayTracer
 
 		bool Refraction_RefractedColorWithARefractedRay()
 		{
-			bool result = false;
+			World w = World::defaultWorld();
+			IShape* a = w.objects[0];
+			a->material.ambient = 1.0f;
+			TestPattern pattern;
+			a->material.pattern = &pattern;
+			IShape* b = w.objects[1];
+			b->material.transparency = 1.0f;
+			b->material.refractiveIndex = 1.5f;
+			Ray r(Point(0, 0, 0.1f), Vector(0, 1, 0));
+			std::vector<Intersection> xs = {
+				Intersection(-0.9899f, a),
+				Intersection(-0.4899f, b),
+				Intersection(0.4899f, b),
+				Intersection(0.9899f, a)
+			};
+			Computation comps = w.prepareComputations(xs[2], r, xs);
+			Color c = w.refractedColor(comps, 5);
+
+			Color expected(0, 0.99888f, 0.04725f); // close but not quite??? Color(0, 0.98875f 0.04975f)
+
+			bool result = (c == expected);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Refraction_RefractedColorWithARefractedRay()\n";
@@ -292,7 +360,31 @@ namespace RayTracer
 
 		bool Refraction_ShadeHit_TransparentMaterial()
 		{
-			bool result = false;
+			float sqrt2over2 = std::sqrtf(2) / 2.0f;
+			float sqrt2 = std::sqrtf(2);
+
+			World w = World::defaultWorld();
+			Plane floor;
+			floor.transform = Matrix::get4x4TranslationMatrix(0, -1, 0);
+			floor.material.transparency = 0.5f;
+			floor.material.refractiveIndex = 1.5f;
+			w.objects.push_back(&floor);
+			Sphere ball;
+			ball.transform = Matrix::get4x4TranslationMatrix(0, -3.5f, -0.5f);
+			ball.material.color = Color(1, 0, 0);
+			ball.material.ambient = 0.5f;
+			w.objects.push_back(&ball);
+			
+			Ray r(Point(0, 0, -3), Vector(0, -sqrt2over2, sqrt2over2));
+			std::vector<Intersection> xs{
+				Intersection(sqrt2, &floor)
+			};
+			Computation comps = w.prepareComputations(xs[0], r, xs);
+			Color c = w.shadeHit(comps, 5);
+
+			Color expected(0.92642f, 0.68642f, 0.68642f);
+
+			bool result = (c == expected);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Refraction_ShadeHit_TransparentMaterial()\n";

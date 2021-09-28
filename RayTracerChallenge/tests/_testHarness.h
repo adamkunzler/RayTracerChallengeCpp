@@ -27,6 +27,7 @@
 #include "../src/Patterns/GradientPattern.h"
 #include "../src/Patterns/RingPattern.h"
 #include "../src/Patterns/CheckerPattern.h"
+#include "../src/Patterns/TestPattern.h"
 
 #include "tests\tupleTests.h"
 #include "tests\vectorTests.h"
@@ -192,7 +193,7 @@ namespace RayTracer
 
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-			int totalTests = numPassed + failedTests.size();
+			int totalTests = numPassed + (int)failedTests.size();
 
 			std::cout << "\n\n-------------------------------------------------------------------";
 			std::cout << "\n\n" << totalTests << " tests Completed in " << duration.count() << "ms.\n";

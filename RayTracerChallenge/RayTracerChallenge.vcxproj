@@ -148,6 +148,7 @@
   <ItemGroup>
     <ClInclude Include="Exercises\Chapter10\RayTraceScene_Stripe.h" />
     <ClInclude Include="Exercises\Chapter11\RayTraceScene_Book.h" />
+    <ClInclude Include="Exercises\Chapter11\RayTraceScene_NestedGlassSpheres.h" />
     <ClInclude Include="Exercises\Chapter11\RayTraceScene_reflection.h" />
     <ClInclude Include="Exercises\Chapter1\VirtualCannon.h" />
     <ClInclude Include="Exercises\Chapter2\ProjectilePPM.h" />
@@ -176,6 +177,7 @@
     <ClInclude Include="src\DataStructs\Tuple.h" />
     <ClInclude Include="src\Patterns\RingPattern.h" />
     <ClInclude Include="src\Patterns\StripePattern.h" />
+    <ClInclude Include="src\Patterns\TestPattern.h" />
     <ClInclude Include="src\Utils.h" />
     <ClInclude Include="src\DataStructs\Vector.h" />
     <ClInclude Include="src\Engine\World.h" />

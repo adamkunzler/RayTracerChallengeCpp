@@ -84,12 +84,12 @@ namespace RayTracer
 			return intersections;
 		}
 		
-		Computation prepareComputations(const Intersection& i, const Ray& r) const
+		/*Computation prepareComputations(const Intersection& i, const Ray& r) const
 		{
 			std::vector<Intersection> intersections;
 			intersections.push_back(i);
 			return prepareComputations(i, r, intersections);
-		}
+		}*/
 
 		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection>& intersections) const
 		{
@@ -97,13 +97,59 @@ namespace RayTracer
 
 			Vector dir(r.direction);
 
+			//
+			// calculate n1, n2
+			//			
+			std::vector<IShape*> container;
+
+			for (std::vector<Intersection>::const_iterator iter = intersections.begin(); iter != intersections.end(); iter++)
+			{
+				if (Intersection::areEqual(*iter, i))
+				{
+					if (container.size() == 0)
+					{
+						c.n1 = 1.0f;
+					}
+					else
+					{
+						c.n1 = container[container.size() - 1]->material.refractiveIndex;
+					}
+				}
+				
+				std::vector<IShape*>::iterator found = std::find(container.begin(), container.end(), iter->object);
+				if (found != container.end())
+				{
+					container.erase(found);
+				}
+				else
+				{
+					container.push_back(iter->object);
+				}
+
+				if (Intersection::areEqual(*iter, i))
+				{
+					if (container.size() == 0)
+					{
+						c.n2 = 1.0f;
+					}
+					else
+					{
+						c.n2 = container[container.size() - 1]->material.refractiveIndex;
+					}
+
+					break;
+				}
+			} // end for
+
+			//
+			// calculate everything else
+			//
 			c.t = i.t;
 			c.object = i.object;
 			c.point = r.position(i.t);
 			c.eyeV = -dir;
 			c.normalV = i.object->normalAt(c.point);
-			c.isInside = false;
-			c.overPoint = c.point + (c.normalV * EPSILON);
+			c.isInside = false;			
 			c.reflectV = dir.reflect(c.normalV);
 
 			float d = c.normalV.dot(c.eyeV);
@@ -111,8 +157,11 @@ namespace RayTracer
 			{
 				c.isInside = true;
 				c.normalV = -c.normalV;
-				c.reflectV = -c.reflectV;
+				//c.reflectV = -c.reflectV;
 			}
+
+			c.overPoint = c.point + (c.normalV * EPSILON);
+			c.underPoint = c.point - (c.normalV * EPSILON);
 
 			return c;
 		}
@@ -123,9 +172,12 @@ namespace RayTracer
 			for (std::vector<PointLight>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
 			{
 				bool isInShadow = isShadowed(*iter, c.overPoint);
+				
 				Color surface = iter->phong(c.object->material, *c.object, c.overPoint, c.eyeV, c.normalV, isInShadow);
 				Color reflected = reflectedColor(c, remaining);
-				finalColor = finalColor + surface + reflected;
+				Color refracted = refractedColor(c, remaining);
+				
+				finalColor = finalColor + surface + reflected + refracted;
 			}
 						
 			return finalColor;
@@ -143,7 +195,7 @@ namespace RayTracer
 			if (hit.isNull()) return Color(0, 0, 0);
 
 			// get the compuations for the hit to calculate lighting
-			Computation comp = prepareComputations(hit, rayCopy);
+			Computation comp = prepareComputations(hit, rayCopy, intersections);
 
 			Color color = shadeHit(comp, remaining);
 			return color;
@@ -160,6 +212,29 @@ namespace RayTracer
 			Color c = colorAt(reflectRay, remaining - 1);
 
 			return c * comps.object->material.reflective;
+		}
+
+		Color refractedColor(const Computation& comps, const int remaining) const
+		{
+			if (FloatEquals(comps.object->material.transparency, 0) || remaining < 1)
+			{
+				return Color::black();
+			}
+
+			float ratio = comps.n1 / comps.n2;
+			float cos_i = Vector::dot(comps.eyeV, comps.normalV);
+			float sin2_t = (ratio * ratio) * (1 - (cos_i * cos_i));
+			if (sin2_t > 1) {
+				// total internal reflection!!
+				return Color::black();
+			}
+
+			float cost_t = std::sqrtf(1.0f - sin2_t);
+			Vector direction = comps.normalV * (ratio * cos_i - cost_t) - comps.eyeV * ratio;
+			Ray refractRay(comps.underPoint, direction);
+
+			Color c = colorAt(refractRay, remaining - 1) * comps.object->material.transparency;
+			return c;
 		}
 
 		Canvas render(const Camera& camera)

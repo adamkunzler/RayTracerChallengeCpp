@@ -15,7 +15,7 @@ namespace Exercises
 			const bool isDebug = false;
 
 			// 400/200
-			const int hsize = 512;
+			const int hsize = 200;
 			const int vsize = hsize / 2;
 			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
@@ -134,8 +134,8 @@ namespace Exercises
 			blueMarble.material.specular = 0.9f;
 			blueMarble.material.shininess = 300;
 			blueMarble.material.reflective = 0.4f;
-			//blueMarble.material.transparency = 0.9f;
-			//blueMarble.material.refractiveIndex = 1.5f;			
+			blueMarble.material.transparency = 0.9f;
+			blueMarble.material.refractiveIndex = 1.5f;			
 			w.objects.push_back(&blueMarble);
 			
 			Sphere greenMarble;
@@ -147,8 +147,8 @@ namespace Exercises
 			greenMarble.material.specular = 0.9f;
 			greenMarble.material.shininess = 300;
 			greenMarble.material.reflective = 0.9f;
-			//greenMarble.material.transparency = 0.9f;
-			//greenMarble.material.refractiveIndex = 1.5f;			
+			greenMarble.material.transparency = 0.9f;
+			greenMarble.material.refractiveIndex = 1.5f;			
 			w.objects.push_back(&greenMarble);
 									
 			//
@@ -193,7 +193,7 @@ namespace Exercises
 			std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
 
 			// save the image to disk
-			std::string filename = "images/ch11BookScene_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
+			std::string filename = "images/ch11BookScene_refraction_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
 			image.toPPM(filename);
 		}
 	}
