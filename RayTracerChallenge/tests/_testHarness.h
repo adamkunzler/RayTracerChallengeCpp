@@ -1294,32 +1294,32 @@ namespace RayTracer
 			if (RayTracer::Tests::Reflection_ReflectedColorAtMaximumRecursiveDepth()) { numPassed++; }
 			else { failedTests.push_back("Reflection_ReflectedColorAtMaximumRecursiveDepth"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_DefaultMaterial()) { numPassed++; }
+			else { failedTests.push_back("Refraction_DefaultMaterial"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_GlassSphere()) { numPassed++; }
+			else { failedTests.push_back("Refraction_GlassSphere"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_N1_N2()) { numPassed++; }
+			else { failedTests.push_back("Refraction_N1_N2"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_ComputeUnderPoint()) { numPassed++; }
+			else { failedTests.push_back("Refraction_ComputeUnderPoint"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_RefractedColor_Opaque()) { numPassed++; }
+			else { failedTests.push_back("Refraction_RefractedColor_Opaque"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_RefractedColor_MaximumRecursiveDepth()) { numPassed++; }
+			else { failedTests.push_back("Refraction_RefractedColor_MaximumRecursiveDepth"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_RefractedColor_TotalInternalReflection()) { numPassed++; }
+			else { failedTests.push_back("Refraction_RefractedColor_TotalInternalReflection"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_RefractedColorWithARefractedRay()) { numPassed++; }
+			else { failedTests.push_back("Refraction_RefractedColorWithARefractedRay"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Refraction_ShadeHit_TransparentMaterial()) { numPassed++; }
+			else { failedTests.push_back("Refraction_ShadeHit_TransparentMaterial"); }
 
 			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
 			//else { failedTests.push_back("Reflection_"); }

@@ -86,6 +86,13 @@ namespace RayTracer
 		
 		Computation prepareComputations(const Intersection& i, const Ray& r) const
 		{
+			std::vector<Intersection> intersections;
+			intersections.push_back(i);
+			return prepareComputations(i, r, intersections);
+		}
+
+		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection>& intersections) const
+		{
 			Computation c;
 
 			Vector dir(r.direction);
@@ -161,7 +168,7 @@ namespace RayTracer
 
 			Canvas image((int)camera.hSize, (int)camera.vSize);
 						
-			int totalPixels = camera.vSize * camera.hSize;
+			int totalPixels = (int)(camera.vSize * camera.hSize);
 			int processedPixels = 0;
 
 			for (int y = 0; y < camera.vSize; y++)

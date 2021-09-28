@@ -15,7 +15,7 @@ namespace Exercises
 			const bool isDebug = false;
 
 			// 400/200
-			const int hsize = 400;
+			const int hsize = 512;
 			const int vsize = hsize / 2;
 			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
@@ -176,7 +176,7 @@ namespace Exercises
 			w.objects.push_back(&s3);
 
 			Sphere s4;
-			s4.transform = Matrix::get4x4TranslationMatrix(-1.7f, 0.3f, 4.7)
+			s4.transform = Matrix::get4x4TranslationMatrix(-1.7f, 0.3f, 4.7f)
 				* Matrix::get4x4ScalingMatrix(0.3f, 0.3f, 0.3f);
 			s4.material.color = Color(0.4f, 0.6f, 0.9f);
 			s4.material.shininess = 50;

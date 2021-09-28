@@ -15,6 +15,8 @@ namespace RayTracer
 		float shininess;
 		IPattern* pattern;
 		float reflective; // 0 non reflective, 1 mirror
+		float transparency;
+		float refractiveIndex;
 
 	public:		
 		Material()
@@ -26,6 +28,8 @@ namespace RayTracer
 			shininess = 200.0f;
 			pattern = NULL;
 			reflective = 0.0f;
+			transparency = 0.0f;
+			refractiveIndex = 1.0f;
 		}
 		
 		Material(const Material& m)
@@ -37,6 +41,8 @@ namespace RayTracer
 			shininess = m.shininess;
 			pattern = m.pattern;
 			reflective = m.reflective;
+			transparency = m.transparency;
+			refractiveIndex = m.refractiveIndex;
 		}
 
 		~Material() 
@@ -50,7 +56,9 @@ namespace RayTracer
 				&& FloatEquals(diffuse, m.diffuse)
 				&& FloatEquals(specular, m.specular)
 				&& FloatEquals(shininess, m.shininess)
-				&& FloatEquals(reflective, m.reflective);
+				&& FloatEquals(reflective, m.reflective)
+				&& FloatEquals(transparency, m.transparency)
+				&& FloatEquals(refractiveIndex, m.refractiveIndex);
 		}
 
 		bool operator!=(const Material& m)

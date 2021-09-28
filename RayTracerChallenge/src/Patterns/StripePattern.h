@@ -20,7 +20,7 @@ namespace RayTracer
 
 		Color patternAt(const Point& p) const
 		{
-			int x = std::floorf(p.x);
+			int x = (int)std::floorf(p.x);
 			if (x % 2 == 0)
 			{
 				return color1;

@@ -47,6 +47,15 @@ namespace RayTracer
 			intersections.push_back(Intersection(t2, (IShape*)this));
 
 			return intersections;
-		}		
+		}	
+
+		static Sphere GlassSphere()
+		{
+			Sphere s;
+			s.transform = Matrix::get4x4IdentityMatrix();
+			s.material.transparency = 1.0f;
+			s.material.refractiveIndex = 1.5f;
+			return s;
+		}
 	};
 }

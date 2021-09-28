@@ -167,5 +167,137 @@ namespace RayTracer
 		//
 		// Refraction
 		//
+
+		bool Refraction_DefaultMaterial()
+		{
+			Material m;
+
+			bool result = FloatEquals(m.transparency, 0)
+				&& FloatEquals(m.refractiveIndex, 1);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_DefaultMaterial()\n";
+
+			return result;
+		}
+
+		bool Refraction_GlassSphere()
+		{
+			Sphere s = Sphere::GlassSphere();
+
+			bool result = FloatEquals(s.material.transparency, 1)
+				&& FloatEquals(s.material.refractiveIndex, 1.5)
+				&& (s.transform == Matrix::get4x4IdentityMatrix());
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_GlassSphere()\n";
+
+			return result;
+		}
+
+		bool Refraction_N1_N2()
+		{
+			Sphere a = Sphere::GlassSphere();
+			a.transform = Matrix::get4x4ScalingMatrix(2, 2, 2);
+			a.material.refractiveIndex = 1.5f;
+
+			Sphere b = Sphere::GlassSphere();
+			b.transform = Matrix::get4x4TranslationMatrix(0, 0, -0.25);
+			b.material.refractiveIndex = 2.0f;
+
+			Sphere c = Sphere::GlassSphere();
+			c.transform = Matrix::get4x4TranslationMatrix(0, 0, 0.25f);
+			c.material.refractiveIndex = 2.5f;
+
+			Ray r(Point(0, 0, -4), Vector(0, 0, 1));
+			
+			std::vector<Intersection> intersections;
+			intersections.push_back(Intersection(2, &a));
+			intersections.push_back(Intersection(2.75f, &b));
+			intersections.push_back(Intersection(3.25f, &c));
+			intersections.push_back(Intersection(4.75f, &b));
+			intersections.push_back(Intersection(5.25f, &c));
+			intersections.push_back(Intersection(6, &a));
+
+			World w;			
+			Computation c0 = w.prepareComputations(intersections[0], r, intersections);
+			Computation c1 = w.prepareComputations(intersections[1], r, intersections);
+			Computation c2 = w.prepareComputations(intersections[2], r, intersections);
+			Computation c3 = w.prepareComputations(intersections[3], r, intersections);
+			Computation c4 = w.prepareComputations(intersections[4], r, intersections);
+			Computation c5 = w.prepareComputations(intersections[5], r, intersections);
+
+			bool result = FloatEquals(c0.n1, 1.0f) && FloatEquals(c0.n2, 1.5f)
+				&& FloatEquals(c0.n1, 1.5f) && FloatEquals(c0.n2, 2.0f)
+				&& FloatEquals(c0.n1, 2.0f) && FloatEquals(c0.n2, 2.5f)
+				&& FloatEquals(c0.n1, 2.5f) && FloatEquals(c0.n2, 2.5f)
+				&& FloatEquals(c0.n1, 2.5f) && FloatEquals(c0.n2, 1.5f)
+				&& FloatEquals(c0.n1, 1.5f) && FloatEquals(c0.n2, 1.0f);
+			
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_N1_N2()\n";
+
+			return result;
+		}
+
+		bool Refraction_ComputeUnderPoint()
+		{
+			bool result = false;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_ComputeUnderPoint()\n";
+
+			return result;
+		}
+
+		bool Refraction_RefractedColor_Opaque()
+		{
+			bool result = false;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_RefractedColor_Opaque()\n";
+
+			return result;
+		}
+
+		bool Refraction_RefractedColor_MaximumRecursiveDepth()
+		{
+			bool result = false;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_RefractedColor_MaximumRecursiveDepth()\n";
+
+			return result;
+		}
+
+		bool Refraction_RefractedColor_TotalInternalReflection()
+		{
+			bool result = false;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_RefractedColor_TotalInternalReflection()\n";
+
+			return result;
+		}
+
+		bool Refraction_RefractedColorWithARefractedRay()
+		{
+			bool result = false;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_RefractedColorWithARefractedRay()\n";
+
+			return result;
+		}
+
+		bool Refraction_ShadeHit_TransparentMaterial()
+		{
+			bool result = false;
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Refraction_ShadeHit_TransparentMaterial()\n";
+
+			return result;
+		}
 	}
 }
