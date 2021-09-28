@@ -121,60 +121,7 @@ namespace RayTracer
 
 			return result;
 		}
-		
-		bool VectorOperator_PlusEquals_Tuple()
-		{
-			Vector t1(1.0f, 2.0f, 3.0f);
-			Tuple t2(2.0f, 3.0f, 4.0f, 0.0f);
-
-			t1 += t2;
-
-			bool result = FloatEquals(t1.x, 3.0f)
-				&& FloatEquals(t1.y, 5.0f)
-				&& FloatEquals(t1.z, 7.0f)
-				&& t1.isVector();
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t VectorOperator_PlusEquals_Tuple\n";
-
-			return result;
-		}
-
-		bool VectorOperator_PlusEquals_Vector()
-		{
-			Vector t1(1.0f, 2.0f, 3.0f);
-			Vector t2(2.0f, 3.0f, 4.0f);
-
-			t1 += t2;
-
-			bool result = FloatEquals(t1.x, 3.0f)
-				&& FloatEquals(t1.y, 5.0f)
-				&& FloatEquals(t1.z, 7.0f)
-				&& t1.isVector();
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t VectorOperator_PlusEquals_Vector\n";
-
-			return result;
-		}
-
-		bool VectorOperator_PlusEquals_Point()
-		{
-			Vector t1(1.0f, 2.0f, 3.0f);
-			Point t2(2.0f, 3.0f, 4.0f);
-
-			t1 += t2;
-
-			bool result = FloatEquals(t1.x, 3.0f)
-				&& FloatEquals(t1.y, 5.0f)
-				&& FloatEquals(t1.z, 7.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t VectorOperator_PlusEquals_Point\n";
-
-			return result;
-		}
-
+				
 		bool VectorOperator_Plus_Tuple()
 		{
 			Vector t1(1.0f, 2.0f, 3.0f);
@@ -227,60 +174,7 @@ namespace RayTracer
 
 			return result;
 		}
-
-		bool VectorOperator_MinusEquals_Tuple()
-		{
-			Vector t1(2.0f, 3.0f, 4.0f);
-			Tuple t2(1.0f, 2.0f, 3.0f, 0.0f);
-
-			t1 -= t2;
-
-			bool result = FloatEquals(t1.x, 1.0f)
-				&& FloatEquals(t1.y, 1.0f)
-				&& FloatEquals(t1.z, 1.0f)
-				&& t1.isVector();
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t VectorOperator_MinusEquals_Tuple\n";
-
-			return result;
-		}
-
-		bool VectorOperator_MinusEquals_Vector()
-		{
-			Vector t1(2.0f, 3.0f, 4.0f);
-			Vector t2(1.0f, 2.0f, 3.0f);
-
-			t1 -= t2;
-
-			bool result = FloatEquals(t1.x, 1.0f)
-				&& FloatEquals(t1.y, 1.0f)
-				&& FloatEquals(t1.z, 1.0f)
-				&& t1.isVector();
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t VectorOperator_MinusEquals_Vector\n";
-
-			return result;
-		}
-
-		bool VectorOperator_MinusEquals_Point()
-		{
-			Vector t1(2.0f, 3.0f, 4.0f);
-			Point t2(1.0f, 2.0f, 3.0f);
-
-			t1 -= t2;
-
-			bool result = FloatEquals(t1.x, 1.0f)
-				&& FloatEquals(t1.y, 1.0f)
-				&& FloatEquals(t1.z, 1.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t VectorOperator_MinusEquals_Point\n";
-
-			return result;
-		}
-
+		
 		bool VectorOperator_Minus_Tuple()
 		{
 			Vector t1(2.0f, 3.0f, 4.0f);
@@ -349,25 +243,7 @@ namespace RayTracer
 
 			return result;
 		}
-
-		bool VectorOperator_MultiplyByEquals_Scalar()
-		{
-			Vector t1(2.0f, 3.0f, 4.0f);
-			float s = 2.0f;
-
-			t1 *= s;
-
-			bool result = FloatEquals(t1.x, 4.0f)
-				&& FloatEquals(t1.y, 6.0f)
-				&& FloatEquals(t1.z, 8.0f)
-				&& t1.isVector();
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t VectorOperator_MultiplyByEquals_Scalar\n";
-
-			return result;
-		}
-
+		
 		bool VectorOperator_MultiplyBy_Scalar()
 		{
 			Vector t1(2.0f, 3.0f, 4.0f);
@@ -385,25 +261,7 @@ namespace RayTracer
 
 			return result;
 		}
-
-		bool VectorOperator_DividedByEquals_Scalar()
-		{
-			Vector t1(2.0f, 3.0f, 4.0f);
-			float s = 2.0f;
-
-			t1 /= s;
-
-			bool result = FloatEquals(t1.x, 1.0f)
-				&& FloatEquals(t1.y, 1.5f)
-				&& FloatEquals(t1.z, 2.0f)
-				&& t1.isVector();
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t VectorOperator_DividedByEquals_Scalar\n";
-
-			return result;
-		}
-
+		
 		bool VectorOperator_DividedBy_Scalar()
 		{
 			Vector t1(2.0f, 3.0f, 4.0f);
@@ -426,7 +284,7 @@ namespace RayTracer
 		{
 			Vector t(1.0f, 2.0f, 3.0f);
 
-			bool result = FloatEquals(t.magnitude(), std::sqrt(14.0f));
+			bool result = FloatEquals(Vector::magnitude(t), std::sqrt(14.0f));
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t VectorMagnitude\n";
@@ -449,8 +307,8 @@ namespace RayTracer
 		bool VectorNormalize()
 		{
 			Vector p(4.0f, 0.0f, 0.0f);
-			p = p.normalize();
-			float m = p.magnitude();
+			p = Vector::normalize(p);
+			float m = Vector::magnitude(p);
 
 			bool result = FloatEquals(p.x, 1.0f)
 				&& FloatEquals(p.y, 0.0f)
@@ -468,7 +326,7 @@ namespace RayTracer
 		{
 			Vector p(1.0f, 2.0f, 3.0f);
 			p = Vector::normalize(p);
-			float m = p.magnitude();
+			float m = Vector::magnitude(p);
 
 			bool result = FloatEquals(p.x, 0.26726f)
 				&& FloatEquals(p.y, 0.53452f)
@@ -487,7 +345,7 @@ namespace RayTracer
 			Vector a(1.0f, 2.0f, 3.0f);
 			Vector b(2.0f, 3.0f, 4.0f);
 
-			float dot = a.dot(b);
+			float dot = Vector::dot(a, b);
 
 			bool result = FloatEquals(dot, 20.0f);
 
@@ -517,8 +375,8 @@ namespace RayTracer
 			Vector a(1.0f, 2.0f, 3.0f);
 			Vector b(2.0f, 3.0f, 4.0f);
 
-			Vector c = a.cross(b);
-			Vector d = b.cross(a);
+			Vector c = Vector::cross(a, b);
+			Vector d = Vector::cross(b, a);
 
 			Vector cp1(-1.0f, 2.0f, -1.0f);
 			Vector cp2(1.0f, -2.0f, 1.0f);

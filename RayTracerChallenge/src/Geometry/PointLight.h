@@ -35,7 +35,7 @@ namespace RayTracer
 			Color effectiveColor = intensity * baseColor;
 			
 			// find the direction to the light source
-			Vector lightV = (position - p).normalize();
+			Vector lightV = Vector::normalize(position - p);
 
 			// compute the ambient contriubtion
 			ambient = effectiveColor * m.ambient;
@@ -48,7 +48,7 @@ namespace RayTracer
 			// lightDotNormal represents the cosine of the angle betwen
 			// the light vector and the normal vector. A negative number 
 			// means the light is on the other side of the surface
-			float lightDotNormal = lightV.dot(normalV);
+			float lightDotNormal = Vector::dot(lightV, normalV);
 			if (lightDotNormal < 0)
 			{
 				diffuse = Color(0, 0, 0);
@@ -64,7 +64,7 @@ namespace RayTracer
 				// away from the eye				
 				Vector negLightV = -lightV;
 				Vector reflectV = negLightV.reflect(normalV);
-				float reflectDotEye = reflectV.dot(eye);
+				float reflectDotEye = Vector::dot(reflectV, eye);
 				if (reflectDotEye <= 0) 
 				{
 					specular = Color(0, 0, 0);

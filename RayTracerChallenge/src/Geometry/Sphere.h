@@ -32,9 +32,9 @@ namespace RayTracer
 
 			Vector sphereToRay = localRay.origin - origin;
 
-			float a = localRay.direction.dot(localRay.direction);
-			float b = 2 * localRay.direction.dot(sphereToRay);
-			float c = sphereToRay.dot(sphereToRay) - 1;
+			float a = Vector::dot(localRay.direction, localRay.direction);
+			float b = 2 * Vector::dot(localRay.direction, sphereToRay);
+			float c = Vector::dot(sphereToRay, sphereToRay) - 1;
 
 			float discriminant = (b * b) - (4 * a) * c;
 			if (discriminant < 0) // MISS

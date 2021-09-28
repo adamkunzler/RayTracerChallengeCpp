@@ -53,8 +53,8 @@ namespace RayTracer
 		{
 			Vector forward = Vector::normalize(to - from);
 			Vector nUp = Vector::normalize(up);
-			Vector left = forward.cross(nUp);
-			Vector trueUp = left.cross(forward);
+			Vector left = Vector::cross(forward, nUp);
+			Vector trueUp = Vector::cross(left, forward);
 			
 			Matrix orientation(4, 4, std::unique_ptr<float[]>(new float[] {
 				 left.x,      left.y,     left.z,    0,
@@ -307,7 +307,7 @@ namespace RayTracer
 		bool isShadowed(const PointLight& light, const Point& p) const
 		{
 			Vector v = light.position - p;
-			float distance = v.magnitude();
+			float distance = Vector::magnitude(v);
 			Vector direction = Vector::normalize(v);
 
 			Ray r(p, direction);

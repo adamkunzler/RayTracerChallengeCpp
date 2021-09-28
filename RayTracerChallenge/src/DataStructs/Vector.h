@@ -20,7 +20,7 @@ namespace RayTracer
 
 		Vector reflect(const Vector& v)
 		{
-			Vector r = (*this) - v * 2 * (*this).dot(v);
+			Vector r = (*this) - v * 2 * Vector::dot(*this, v);
 			return r;
 		}
 	};

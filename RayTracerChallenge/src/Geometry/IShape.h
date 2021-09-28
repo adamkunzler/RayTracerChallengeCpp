@@ -63,7 +63,7 @@ namespace RayTracer
 			// normal from local space to world space
 			Vector worldNormal = (transform.inverse().transpose() * localNormal).toVector();
 			worldNormal.w = 0;
-			return worldNormal.normalize();
+			return Vector::normalize(worldNormal);
 		}
 	};
 }

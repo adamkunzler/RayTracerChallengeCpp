@@ -256,15 +256,6 @@ namespace RayTracer
 			if (RayTracer::Tests::TupleOperator_Inequality_Point()) { numPassed++; }
 			else { failedTests.push_back("TupleOperator_Inequality_Point"); }
 
-			if (RayTracer::Tests::TupleOperator_PlusEquals_Tuple()) { numPassed++; }
-			else { failedTests.push_back("TupleOperator_PlusEquals_Tuple"); }
-
-			if (RayTracer::Tests::TupleOperator_PlusEquals_Vector()) { numPassed++; }
-			else { failedTests.push_back("TupleOperator_PlusEquals_Vector"); }
-
-			if (RayTracer::Tests::TupleOperator_PlusEquals_Point()) { numPassed++; }
-			else { failedTests.push_back("TupleOperator_PlusEquals_Point"); }
-
 			if (RayTracer::Tests::TupleOperator_Plus_Tuple()) { numPassed++; }
 			else { failedTests.push_back("TupleOperator_Plus_Tuple"); }
 
@@ -273,15 +264,6 @@ namespace RayTracer
 
 			if (RayTracer::Tests::TupleOperator_Plus_Point()) { numPassed++; }
 			else { failedTests.push_back("TupleOperator_Plus_Point"); }
-
-			if (RayTracer::Tests::TupleOperator_MinusEquals_Tuple()) { numPassed++; }
-			else { failedTests.push_back("TupleOperator_MinusEquals_Tuple"); }
-
-			if (RayTracer::Tests::TupleOperator_MinusEquals_Vector()) { numPassed++; }
-			else { failedTests.push_back("TupleOperator_MinusEquals_Vector"); }
-
-			if (RayTracer::Tests::TupleOperator_MinusEquals_Point()) { numPassed++; }
-			else { failedTests.push_back("TupleOperator_MinusEquals_Point"); }
 
 			if (RayTracer::Tests::TupleOperator_Minus_Tuple()) { numPassed++; }
 			else { failedTests.push_back("TupleOperator_Minus_Tuple"); }
@@ -295,14 +277,8 @@ namespace RayTracer
 			if (RayTracer::Tests::TupleOperator_Negate()) { numPassed++; }
 			else { failedTests.push_back("TupleOperator_Negate"); }
 
-			if (RayTracer::Tests::TupleOperator_MultiplyByEquals_Scalar()) { numPassed++; }
-			else { failedTests.push_back("TupleOperator_MultiplyByEquals_Scalar"); }
-
 			if (RayTracer::Tests::TupleOperator_MultiplyBy_Scalar()) { numPassed++; }
 			else { failedTests.push_back("TupleOperator_MultiplyBy_Scalar"); }
-
-			if (RayTracer::Tests::TupleOperator_DividedByEquals_Scalar()) { numPassed++; }
-			else { failedTests.push_back("TupleOperator_DividedByEquals_Scalar"); }
 
 			if (RayTracer::Tests::TupleOperator_DividedBy_Scalar()) { numPassed++; }
 			else { failedTests.push_back("TupleOperator_DividedBy_Scalar"); }
@@ -386,15 +362,6 @@ namespace RayTracer
 			if (RayTracer::Tests::VectorOperator_Inequality_Vector()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Inequality_Vector"); }
 
-			if (RayTracer::Tests::VectorOperator_PlusEquals_Tuple()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_PlusEquals_Tuple"); }
-
-			if (RayTracer::Tests::VectorOperator_PlusEquals_Vector()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_PlusEquals_Vector"); }
-
-			if (RayTracer::Tests::VectorOperator_PlusEquals_Point()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_PlusEquals_Point"); }
-
 			if (RayTracer::Tests::VectorOperator_Plus_Tuple()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Plus_Tuple"); }
 
@@ -403,15 +370,6 @@ namespace RayTracer
 
 			if (RayTracer::Tests::VectorOperator_Plus_Point()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Plus_Point"); }
-
-			if (RayTracer::Tests::VectorOperator_MinusEquals_Tuple()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_MinusEquals_Tuple"); }
-
-			if (RayTracer::Tests::VectorOperator_MinusEquals_Vector()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_MinusEquals_Vector"); }
-
-			if (RayTracer::Tests::VectorOperator_MinusEquals_Point()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_MinusEquals_Point"); }
 
 			if (RayTracer::Tests::VectorOperator_Minus_Tuple()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Minus_Tuple"); }
@@ -425,15 +383,9 @@ namespace RayTracer
 			if (RayTracer::Tests::VectorOperator_Negate()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_Negate"); }
 
-			if (RayTracer::Tests::VectorOperator_MultiplyByEquals_Scalar()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_MultiplyByEquals_Scalar"); }
-
 			if (RayTracer::Tests::VectorOperator_MultiplyBy_Scalar()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_MultiplyBy_Scalar"); }
-
-			if (RayTracer::Tests::VectorOperator_DividedByEquals_Scalar()) { numPassed++; }
-			else { failedTests.push_back("VectorOperator_DividedByEquals_Scalar"); }
-
+						
 			if (RayTracer::Tests::VectorOperator_DividedBy_Scalar()) { numPassed++; }
 			else { failedTests.push_back("VectorOperator_DividedBy_Scalar"); }			
 
@@ -512,16 +464,7 @@ namespace RayTracer
 
 			if (RayTracer::Tests::PointOperator_Inequality_Point()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_Inequality_Point"); }
-
-			if (RayTracer::Tests::PointOperator_PlusEquals_Tuple()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_PlusEquals_Tuple"); }
-
-			if (RayTracer::Tests::PointOperator_PlusEquals_Vector()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_PlusEquals_Vector"); }
-
-			if (RayTracer::Tests::PointOperator_PlusEquals_Point()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_PlusEquals_Point"); }
-
+			
 			if (RayTracer::Tests::PointOperator_Plus_Tuple()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_Plus_Tuple"); }
 
@@ -530,16 +473,7 @@ namespace RayTracer
 
 			if (RayTracer::Tests::PointOperator_Plus_Point()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_Plus_Point"); }
-
-			if (RayTracer::Tests::PointOperator_MinusEquals_Tuple()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_MinusEquals_Tuple"); }
-
-			if (RayTracer::Tests::PointOperator_MinusEquals_Vector()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_MinusEquals_Vector"); }
-
-			if (RayTracer::Tests::PointOperator_MinusEquals_Point()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_MinusEquals_Point"); }
-
+			
 			if (RayTracer::Tests::PointOperator_Minus_Tuple()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_Minus_Tuple"); }
 
@@ -551,16 +485,10 @@ namespace RayTracer
 
 			if (RayTracer::Tests::PointOperator_Negate()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_Negate"); }
-
-			if (RayTracer::Tests::PointOperator_MultiplyByEquals_Scalar()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_MultiplyByEquals_Scalar"); }
-
+			
 			if (RayTracer::Tests::PointOperator_MultiplyBy_Scalar()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_MultiplyBy_Scalar"); }
-
-			if (RayTracer::Tests::PointOperator_DividedByEquals_Scalar()) { numPassed++; }
-			else { failedTests.push_back("PointOperator_DividedByEquals_Scalar"); }
-
+			
 			if (RayTracer::Tests::PointOperator_DividedBy_Scalar()) { numPassed++; }
 			else { failedTests.push_back("PointOperator_DividedBy_Scalar"); }
 			

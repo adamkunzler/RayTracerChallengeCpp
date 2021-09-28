@@ -133,58 +133,7 @@ namespace RayTracer
 
 			return result;
 		}
-
-		bool PointOperator_PlusEquals_Tuple()
-		{
-			Point t1(1.0f, 2.0f, 3.0f);
-			Tuple t2(2.0f, 3.0f, 4.0f, 1.0f);
-
-			t1 += t2;
-
-			bool result = FloatEquals(t1.x, 3.0f)
-				&& FloatEquals(t1.y, 5.0f)
-				&& FloatEquals(t1.z, 7.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t PointOperator_PlusEquals_Tuple\n";
-
-			return result;
-		}
-
-		bool PointOperator_PlusEquals_Vector()
-		{
-			Point t1(1.0f, 2.0f, 3.0f);
-			Vector t2(2.0f, 3.0f, 4.0f);
-
-			t1 += t2;
-
-			bool result = FloatEquals(t1.x, 3.0f)
-				&& FloatEquals(t1.y, 5.0f)
-				&& FloatEquals(t1.z, 7.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t PointOperator_PlusEquals_Vector\n";
-
-			return result;
-		}
-
-		bool PointOperator_PlusEquals_Point()
-		{
-			Point t1(1.0f, 2.0f, 3.0f);
-			Point t2(2.0f, 3.0f, 4.0f);
-
-			t1 += t2;
-
-			bool result = FloatEquals(t1.x, 3.0f)
-				&& FloatEquals(t1.y, 5.0f)
-				&& FloatEquals(t1.z, 7.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t PointOperator_PlusEquals_Point\n";
-
-			return result;
-		}
-
+				
 		bool PointOperator_Plus_Tuple()
 		{
 			Point t1(1.0f, 2.0f, 3.0f);
@@ -235,58 +184,7 @@ namespace RayTracer
 
 			return result;
 		}
-
-		bool PointOperator_MinusEquals_Tuple()
-		{
-			Point t1(2.0f, 3.0f, 4.0f);
-			Tuple t2(1.0f, 2.0f, 3.0f, 1.0f);
-
-			t1 -= t2;
-
-			bool result = FloatEquals(t1.x, 1.0f)
-				&& FloatEquals(t1.y, 1.0f)
-				&& FloatEquals(t1.z, 1.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t PointOperator_MinusEquals_Tuple\n";
-
-			return result;
-		}
-
-		bool PointOperator_MinusEquals_Vector()
-		{
-			Point t1(2.0f, 3.0f, 4.0f);
-			Vector t2(1.0f, 2.0f, 3.0f);
-
-			t1 -= t2;
-
-			bool result = FloatEquals(t1.x, 1.0f)
-				&& FloatEquals(t1.y, 1.0f)
-				&& FloatEquals(t1.z, 1.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t PointOperator_MinusEquals_Vector\n";
-
-			return result;
-		}
-
-		bool PointOperator_MinusEquals_Point()
-		{
-			Point t1(2.0f, 3.0f, 4.0f);
-			Point t2(1.0f, 2.0f, 3.0f);
-
-			t1 -= t2;
-
-			bool result = FloatEquals(t1.x, 1.0f)
-				&& FloatEquals(t1.y, 1.0f)
-				&& FloatEquals(t1.z, 1.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t PointOperator_MinusEquals_Point\n";
-
-			return result;
-		}
-
+		
 		bool PointOperator_Minus_Tuple()
 		{
 			Point t1(2.0f, 3.0f, 4.0f);
@@ -352,24 +250,7 @@ namespace RayTracer
 
 			return result;
 		}
-
-		bool PointOperator_MultiplyByEquals_Scalar()
-		{
-			Point t1(2.0f, 3.0f, 4.0f);
-			float s = 2.0f;
-
-			t1 *= s;
-
-			bool result = FloatEquals(t1.x, 4.0f)
-				&& FloatEquals(t1.y, 6.0f)
-				&& FloatEquals(t1.z, 8.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t PointOperator_MultiplyByEquals_Scalar\n";
-
-			return result;
-		}
-
+		
 		bool PointOperator_MultiplyBy_Scalar()
 		{
 			Point t1(2.0f, 3.0f, 4.0f);
@@ -386,24 +267,7 @@ namespace RayTracer
 
 			return result;
 		}
-
-		bool PointOperator_DividedByEquals_Scalar()
-		{
-			Point t1(2.0f, 3.0f, 4.0f);
-			float s = 2.0f;
-
-			t1 /= s;
-
-			bool result = FloatEquals(t1.x, 1.0f)
-				&& FloatEquals(t1.y, 1.5f)
-				&& FloatEquals(t1.z, 2.0f);
-
-			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t PointOperator_DividedByEquals_Scalar\n";
-
-			return result;
-		}
-
+		
 		bool PointOperator_DividedBy_Scalar()
 		{
 			Point t1(2.0f, 3.0f, 4.0f);

@@ -26,7 +26,7 @@
 //#include "Exercises\Chapter9\RayTraceScene.h"
 //#include "Exercises\Chapter10\RayTraceScene_Stripe.h"
 //#include "Exercises\Chapter11\RayTraceScene_reflection.h"
-//#include "Exercises\Chapter11\RayTraceScene_Book.h"
+#include "Exercises\Chapter11\RayTraceScene_Book.h"
 #include "Exercises\Chapter11\RayTraceScene_NestedGlassSpheres.h"
 
 void RunRayTracer();
@@ -50,8 +50,8 @@ int main()
 	//Exercises::Chapter9::RayTraceScene();
 	//Exercises::Chapter10::RayTraceScene_Stripe();
 	//Exercises::Chapter11::RayTraceScene_Reflection();
-	//Exercises::Chapter11::RayTraceScene_Book();
-	Exercises::Chapter11::RayTraceScene_NestedGlassSpheres();
+	Exercises::Chapter11::RayTraceScene_Book();
+	//Exercises::Chapter11::RayTraceScene_NestedGlassSpheres();
 	
 	//if(result) RunRayTracer();
 

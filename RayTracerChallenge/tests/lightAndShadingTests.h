@@ -72,7 +72,7 @@ namespace RayTracer
 			Sphere s;
 			Vector v = s.normalAt(Point(sqrt3Div3, sqrt3Div3, sqrt3Div3));
 
-			Vector e = v.normalize();
+			Vector e = Vector::normalize(v);
 
 			bool result = (v == e);
 
