@@ -144,6 +144,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Exercises\Chapter10\RayTraceScene_Stripe.h" />
+    <ClInclude Include="Exercises\Chapter11\RayTraceScene_Book.h" />
+    <ClInclude Include="Exercises\Chapter11\RayTraceScene_reflection.h" />
     <ClInclude Include="Exercises\Chapter1\VirtualCannon.h" />
     <ClInclude Include="Exercises\Chapter2\ProjectilePPM.h" />
     <ClInclude Include="Exercises\Chapter4\Clock.h" />

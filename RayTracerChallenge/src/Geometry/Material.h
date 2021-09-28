@@ -40,7 +40,7 @@ namespace RayTracer
 		}
 
 		~Material() 
-		{			
+		{				
 		}
 
 		bool operator==(const Material& m)

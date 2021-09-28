@@ -155,5 +155,11 @@
     <ClInclude Include="tests\reflectionRefractionTests.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Exercises\Chapter11\RayTraceScene_reflection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Exercises\Chapter11\RayTraceScene_Book.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
