@@ -6,7 +6,7 @@ namespace RayTracer
 	const float EPSILON(0.01f);
 	const int MAX_RECURSION(5);
 
-	bool FloatEquals(float a, float b)
+	inline bool FloatEquals(float a, float b)
 	{
 		return std::abs(a - b) < EPSILON;
 	}

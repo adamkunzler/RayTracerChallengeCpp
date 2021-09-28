@@ -150,9 +150,8 @@ namespace RayTracer
 			c.eyeV = -dir;
 			c.normalV = i.object->normalAt(c.point);
 			c.isInside = false;			
-			c.reflectV = dir.reflect(c.normalV);
-
-			float d = c.normalV.dot(c.eyeV);
+			
+			float d = Vector::dot(c.normalV, c.eyeV);
 			if (d < 0)
 			{
 				c.isInside = true;
@@ -160,6 +159,7 @@ namespace RayTracer
 				//c.reflectV = -c.reflectV;
 			}
 
+			c.reflectV = dir.reflect(c.normalV);
 			c.overPoint = c.point + (c.normalV * EPSILON);
 			c.underPoint = c.point - (c.normalV * EPSILON);
 
@@ -177,7 +177,18 @@ namespace RayTracer
 				Color reflected = reflectedColor(c, remaining);
 				Color refracted = refractedColor(c, remaining);
 				
-				finalColor = finalColor + surface + reflected + refracted;
+				Material m(c.object->material);
+				if (m.reflective > 0 && m.transparency > 0)
+				{
+					float reflectance = schlick(c);
+					finalColor = finalColor + surface 
+						+ (reflected * reflectance)
+						+ (refracted * (1 - reflectance));
+				}
+				else
+				{
+					finalColor = finalColor + surface + reflected + refracted;
+				}
 			}
 						
 			return finalColor;
@@ -235,6 +246,29 @@ namespace RayTracer
 
 			Color c = colorAt(refractRay, remaining - 1) * comps.object->material.transparency;
 			return c;
+		}
+
+		float schlick(const Computation& comps) const
+		{
+			// find cos of angle between eye and normal
+			float cos = Vector::dot(comps.eyeV, comps.normalV);
+
+			// total internal reflection if n1 > n2
+			if (comps.n1 > comps.n2)
+			{
+				float n = comps.n1 / comps.n2;
+				float sin2_t = (n * n) * (1.0f - (cos * cos));
+				if (sin2_t > 1.0f) return 1.0f;
+
+				// compute cos of thetaT  using trig identity
+				float cos_t = std::sqrtf(1.0f - sin2_t);
+
+				// when n1 > n2, use cos of thetaT
+				cos = cos_t;
+			}
+			float r0 = ((comps.n1 - comps.n2) / (comps.n1 + comps.n2)) * ((comps.n1 - comps.n2) / (comps.n1 + comps.n2));
+			float oneMinusCosPower5 = (1 - cos) * (1 - cos) * (1 - cos) * (1 - cos) * (1 - cos);
+			return r0 + (1 - r0) * oneMinusCosPower5;
 		}
 
 		Canvas render(const Camera& camera)

@@ -1322,36 +1322,18 @@ namespace RayTracer
 			if (RayTracer::Tests::Refraction_ShadeHit_TransparentMaterial()) { numPassed++; }
 			else { failedTests.push_back("Refraction_ShadeHit_TransparentMaterial"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Schlick_TotalInternalReflection()) { numPassed++; }
+			else { failedTests.push_back("Schlick_TotalInternalReflection"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Schlick_PerpendicularViewingAngle()) { numPassed++; }
+			else { failedTests.push_back("Schlick_PerpendicularViewingAngle"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
+			if (RayTracer::Tests::Schlick_SmallAngleAndN2GtN1()) { numPassed++; }
+			else { failedTests.push_back("Schlick_SmallAngleAndN2GtN1"); }
 
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
-
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
-
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
-
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
-
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
-
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
-
-			//if (RayTracer::Tests::Reflection_()) { numPassed++; }
-			//else { failedTests.push_back("Reflection_"); }
-
+			if (RayTracer::Tests::Schlick_ShadeHit_ReflectiveTransparentMaterial()) { numPassed++; }
+			else { failedTests.push_back("Schlick_ShadeHit_ReflectiveTransparentMaterial"); }
+			
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 

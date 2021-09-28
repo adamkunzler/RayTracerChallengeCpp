@@ -117,20 +117,23 @@ namespace RayTracer
 
 		bool World_Shade_Intersection_Inside()
 		{
+			// bottom of page 95 - Shading an intersection from the inside
 			World w = World::defaultWorld();
 			PointLight l(Point(0, 0.25f, 0), Color(1, 1, 1));
+			w.lights.clear();
+			w.lights.push_back(l);
+
 			Ray r(Point(0, 0, 0), Vector(0, 0, 1));
 			Intersection i(0.5f, w.objects[1]);
 			Computation c = w.prepareComputations(i, r, std::vector<Intersection> { i });
 			Color color = w.shadeHit(c, 0);
-			Color ce = Color(0.90498f, 0.90498f, 0.90498f);
+			
+			Color ce = Color(0.90498f, 0.90498f, 0.90498f);			
 			
 			bool result = (color == ce);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
-			std::cout << pf << "\t" << "World_Shade_Intersection_Inside()\n";
-
-			std::cout << "\t NEED TO FIGURE OUT WHY NOT PASSING\n";
+			std::cout << pf << "\t" << "World_Shade_Intersection_Inside()\n";			
 
 			return result;
 		}

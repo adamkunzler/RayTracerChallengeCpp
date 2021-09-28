@@ -348,6 +348,9 @@ namespace RayTracer
 			Computation comps = w.prepareComputations(xs[2], r, xs);
 			Color c = w.refractedColor(comps, 5);
 
+			std::cout << "\n" << c << "\n";
+
+			//            (0, 0.988749, 0.0497454)
 			Color expected(0, 0.99888f, 0.04725f); // close but not quite??? Color(0, 0.98875f 0.04975f)
 
 			bool result = (c == expected);
@@ -381,13 +384,118 @@ namespace RayTracer
 			};
 			Computation comps = w.prepareComputations(xs[0], r, xs);
 			Color c = w.shadeHit(comps, 5);
-
-			Color expected(0.92642f, 0.68642f, 0.68642f);
+			
+			Color expected(0.93642f, 0.68642f, 0.68642f);
 
 			bool result = (c == expected);
 
 			std::string pf = (result) ? "PASS" : "FAIL";
 			std::cout << pf << "\t" << "Refraction_ShadeHit_TransparentMaterial()\n";
+
+			return result;
+		}
+
+		bool Schlick_TotalInternalReflection()
+		{
+			float sqrt2over2 = std::sqrtf(2) / 2.0f;
+			float sqrt2 = std::sqrtf(2);
+
+			World w;
+			Sphere s = Sphere::GlassSphere();
+			Ray r(Point(0, 0, sqrt2over2), Vector(0, 1, 0));
+			std::vector<Intersection> xs = {
+				Intersection(-sqrt2over2, &s),
+				Intersection(sqrt2over2, &s)
+			};
+			Computation comps = w.prepareComputations(xs[1], r, xs);
+			float reflectance = w.schlick(comps);
+
+			bool result = FloatEquals(reflectance, 1.0f);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Schlick_TotalInternalReflection()\n";
+
+			return result;
+		}
+
+		bool Schlick_PerpendicularViewingAngle()
+		{
+			float sqrt2over2 = std::sqrtf(2) / 2.0f;
+			float sqrt2 = std::sqrtf(2);
+
+			Sphere s = Sphere::GlassSphere();
+			Ray r(Point(0, 0, 0), Vector(0, 1, 0));
+			std::vector<Intersection> xs = {
+				Intersection(-1, &s),
+				Intersection(1, &s)
+			};
+			World w;
+			Computation comps = w.prepareComputations(xs[1], r, xs);
+			float reflectance = w.schlick(comps);
+
+			bool result = FloatEquals(reflectance, 0.04f);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Schlick_PerpendicularViewingAngle()\n";
+
+			return result;
+		}
+
+		bool Schlick_SmallAngleAndN2GtN1()
+		{
+			float sqrt2over2 = std::sqrtf(2) / 2.0f;
+			float sqrt2 = std::sqrtf(2);
+
+			World w;
+			Sphere s = Sphere::GlassSphere();
+			Ray r(Point(0, 0.99f, -2), Vector(0, 0, 1));
+			std::vector<Intersection> xs = {
+				Intersection(1.8589f, &s)
+			};
+			Computation comps = w.prepareComputations(xs[0], r, xs);
+			float reflectance = w.schlick(comps);
+
+			bool result = FloatEquals(reflectance, 0.48873f);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Schlick_SmallAngleAndN2GtN1()\n";
+
+			return result;
+		}
+
+		bool Schlick_ShadeHit_ReflectiveTransparentMaterial()
+		{
+			float sqrt2over2 = std::sqrtf(2) / 2.0f;
+			float sqrt2 = std::sqrtf(2);
+
+			World w = World::defaultWorld();
+			Ray r(Point(0, 0, -3), Vector(0, -sqrt2over2, sqrt2over2));
+			
+			Plane floor;
+			floor.transform = Matrix::get4x4TranslationMatrix(0, -1, 0);
+			floor.material.reflective = 0.5f;
+			floor.material.transparency = 0.5f;
+			floor.material.refractiveIndex = 1.5f;
+			w.objects.push_back(&floor);
+			
+			Sphere ball;
+			ball.transform = Matrix::get4x4TranslationMatrix(0, -3.5f, -0.5f);
+			ball.material.color = Color(1, 0, 0);
+			ball.material.ambient = 0.5f;
+			w.objects.push_back(&ball);
+						
+			std::vector<Intersection> xs{
+				Intersection(sqrt2, &floor)
+			};
+			Computation comps = w.prepareComputations(xs[0], r, xs);
+			Color c = w.shadeHit(comps, 5);
+
+			Color expected(0.93391f, 0.69643f, 0.69243f);
+
+			bool result = (c == expected);
+
+			std::string pf = (result) ? "PASS" : "FAIL";
+			std::cout << pf << "\t" << "Schlick_ShadeHit_ReflectiveTransparentMaterial()\n";
 
 			return result;
 		}

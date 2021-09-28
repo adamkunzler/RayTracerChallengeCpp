@@ -36,6 +36,9 @@ int main()
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
 	//bool result = RayTracer::Tests::RunTests(false);
+	
+	//RayTracer::Tests::Refraction_RefractedColorWithARefractedRay();
+	//RayTracer::Tests::Refraction_ShadeHit_TransparentMaterial();
 
 	//Exercises::Chapter1::FireCannon();
 	//Exercises::Chapter2::ProjectilePPM();
