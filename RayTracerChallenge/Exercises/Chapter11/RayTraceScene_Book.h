@@ -81,10 +81,10 @@ namespace Exercises
 			const bool isDebug = false;
 
 			// 400/200
-			//const int hsize = 3840;
-			//const int vsize = 2160;// hsize / 2;
-			const int hsize = 384;
-			const int vsize = 216;// hsize / 2;
+			//const int hsize = 384;
+			//const int vsize = 216;// hsize / 2;
+			const int hsize = 192;
+			const int vsize = 108;// hsize / 2;
 			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 			World w;
@@ -100,13 +100,7 @@ namespace Exercises
 			//
 			PointLight light(Point(-4.9f, 4.9f, -1.0f), Color(1, 1, 1));
 			w.lights.push_back(light);
-			
-			//
-			// pre-define materials
-			//
-			
-			
-
+					
 			//
 			// floors, ceiling, and walls
 			//

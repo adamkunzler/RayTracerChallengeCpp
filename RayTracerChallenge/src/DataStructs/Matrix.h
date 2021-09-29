@@ -99,41 +99,37 @@ namespace RayTracer
 		}
 
 		// () overload to access matrix data
-		float operator()(const int& index) const
+		inline float operator()(const int& index) const
 		{
-			if (index < 0 || index > maxIndex - 1)
+			/*if (index < 0 || index > maxIndex - 1)
 			{
 				std::cout << "invalid matrix coord\n";
 				throw std::invalid_argument("invalid matrix coord");
-			}
+			}*/
 			
 			return data[index];
 		}
 
 		// () overload to access matrix data
-		float operator()(const int& x, const int& y) const
+		inline float operator()(const int& x, const int& y) const
 		{
-			if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
+			/*if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
 			{
 				std::cout << "invalid matrix coord\n";
 				throw std::invalid_argument("invalid matrix coord");
-			}
-
-			int index = x + y * columns;
-			return data[index];
+			}*/			
+			return data[x + y * columns];
 		}
 
 		// () overload to set matrix data
-		void operator()(const int& x, const int& y, const float& value) const
+		inline void operator()(const int& x, const int& y, const float& value) const
 		{
-			if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
+			/*if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
 			{
 				std::cout << "invalid matrix coord\n";
 				throw std::invalid_argument("invalid matrix coord");
-			}
-
-			int index = x + y * columns;
-			data[index] = value;
+			}*/			
+			data[x + y * columns] = value;
 		}
 
 		inline int getNumColumns() const { return columns; }
@@ -145,6 +141,7 @@ namespace RayTracer
 		Tuple toTuple() const
 		{
 			Tuple t((*this)(0, 0), (*this)(0, 1), (*this)(0, 2), (*this)(0, 3));
+			//Tuple t(data[0], data[4], data[8], data[12]);
 			return t;
 		}
 
@@ -154,6 +151,7 @@ namespace RayTracer
 		Point toPoint() const
 		{
 			Point p((*this)(0, 0), (*this)(0, 1), (*this)(0, 2));
+			//Point p(data[0], data[4], data[8]);
 			return p;
 		}
 
@@ -163,6 +161,7 @@ namespace RayTracer
 		Vector toVector() const
 		{
 			Vector v((*this)(0, 0), (*this)(0, 1), (*this)(0, 2));
+			//Vector v(data[0], data[4], data[8]);
 			return v;
 		}
 
@@ -288,7 +287,7 @@ namespace RayTracer
 		// multiply => K x N * M x K = N x M
 		//             4 x 4 * 4 x 4 = 4 x 4
 		//             4 x 4 * 1 x 4 = 4 x 1
-		Matrix& operator*=(const Matrix& b)
+		Matrix& operator*(const Matrix& b)
 		{				
 			if(getNumColumns() != b.getNumRows())
 			{
@@ -319,10 +318,11 @@ namespace RayTracer
 		}
 
 		// multiply by tuple
-		Matrix& operator*=(Tuple const& t)
+		Matrix& operator*(Tuple const& t)
 		{			
-			Matrix b(t);
-			return *this *= b;
+			Matrix a(t);
+			Matrix b(*this);
+			return b * a;
 		}
 
 		Matrix transpose() const
@@ -462,20 +462,20 @@ namespace RayTracer
 
 	std::map<std::string, Matrix*> Matrix::_cacheInverses;
 
-	Matrix operator*(Matrix const& a, Matrix const& b) 
-	{ 
-		// create temp so that "this" isn't changed
-		Matrix temp(a);
-		return temp *= b; 
-	}
+	//Matrix operator*(Matrix const& a, Matrix const& b) 
+	//{ 
+	//	// create temp so that "this" isn't changed
+	//	Matrix temp(a);
+	//	return temp * b; 
+	//}
 
-	Matrix operator*(Matrix& a, Tuple const& t) 
-	{
-		// create temp so that "this" isn't changed
-		Matrix temp(a);
-		Matrix b(t);
-		return temp *= b;
-	}	
+	//Matrix operator*(Matrix& a, Tuple const& t) 
+	//{
+	//	// create temp so that "this" isn't changed
+	//	Matrix temp(a);
+	//	Matrix b(t);
+	//	return temp * b;
+	//}	
 }
 
 std::ostream& operator<<(std::ostream& os, const RayTracer::Matrix& matrix)

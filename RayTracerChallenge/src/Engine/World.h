@@ -315,7 +315,7 @@ namespace RayTracer
 					image.setPixel(x, y, c);
 
 					processedPixels++;
-					if (x % 80 == 0)showProgressBar((float)processedPixels / (float)totalPixels);
+					//if (x % 80 == 0)showProgressBar((float)processedPixels / (float)totalPixels);
 				}				
 				showProgressBar((float)processedPixels / (float)totalPixels);				
 			}

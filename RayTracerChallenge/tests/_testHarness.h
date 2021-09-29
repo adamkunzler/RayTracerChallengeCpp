@@ -668,33 +668,18 @@ namespace RayTracer
 
 			if (RayTracer::Tests::MatrixOperator_InequalityDifferentDimensions()) { numPassed++; }
 			else { failedTests.push_back("MatrixOperator_InequalityDifferentDimensions"); }
-
-			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_4x4()) { numPassed++; }
-			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_4x4"); }
-
+			
 			if (RayTracer::Tests::MatrixOperator_MultiplyBy_4x4()) { numPassed++; }
 			else { failedTests.push_back("MatrixOperator_MultiplyBy_4x4"); }
-
-			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_3x3()) { numPassed++; }
-			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_3x3"); }
 
 			if (RayTracer::Tests::MatrixOperator_MultiplyBy_3x3()) { numPassed++; }
 			else { failedTests.push_back("MatrixOperator_MultiplyBy_3x3"); }
 
-			if (RayTracer::Tests::MatrixOperator_MultiplyByIdentity_4x4()) { numPassed++; }
-			else { failedTests.push_back("MatrixOperator_MultiplyByIdentity_4x4"); }
-
 			if (RayTracer::Tests::MatrixOperator_MultiplyBy_Tuple()) { numPassed++; }
 			else { failedTests.push_back("MatrixOperator_MultiplyBy_Tuple"); }
 
-			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_Tuple()) { numPassed++; }
-			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_Tuple"); }
-
 			if (RayTracer::Tests::MatrixOperator_MultiplyBy_Vector()) { numPassed++; }
 			else { failedTests.push_back("MatrixOperator_MultiplyBy_Vector"); }
-
-			if (RayTracer::Tests::MatrixOperator_MultiplyByEquals_Vector()) { numPassed++; }
-			else { failedTests.push_back("MatrixOperator_MultiplyByEquals_Vector"); }
 
 			if (RayTracer::Tests::Matrix_Transpose_4x4()) { numPassed++; }
 			else { failedTests.push_back("Matrix_Transpose_4x4"); }

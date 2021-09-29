@@ -18,7 +18,7 @@ namespace RayTracer
 		Vector(const Tuple& t) : Tuple(t)
 		{}
 
-		Vector reflect(const Vector& v)
+		inline Vector reflect(const Vector& v)
 		{
 			Vector r = (*this) - v * 2 * Vector::dot(*this, v);
 			return r;
