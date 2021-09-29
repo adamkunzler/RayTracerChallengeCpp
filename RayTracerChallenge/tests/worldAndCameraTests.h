@@ -196,7 +196,7 @@ namespace RayTracer
 			Point to(0, 0, -1);
 			Vector up(0, 1, 0);
 
-			Matrix vt = World::viewTransform(from, to, up);
+			Matrix vt = viewTransform(from, to, up);
 			Matrix identity = Matrix::get4x4IdentityMatrix();
 
 			bool result = (vt == identity);
@@ -213,7 +213,7 @@ namespace RayTracer
 			Point to(0, 0, 1);
 			Vector up(0, 1, 0);
 
-			Matrix vt = World::viewTransform(from, to, up);
+			Matrix vt = viewTransform(from, to, up);
 
 			Matrix expected = Matrix::get4x4ScalingMatrix(-1, 1, -1);
 
@@ -231,7 +231,7 @@ namespace RayTracer
 			Point to(0, 0, 0);
 			Vector up(0, 1, 0);
 
-			Matrix vt = World::viewTransform(from, to, up);
+			Matrix vt = viewTransform(from, to, up);
 
 			Matrix expected = Matrix::get4x4TranslationMatrix(0, 0, -8);
 
@@ -249,7 +249,7 @@ namespace RayTracer
 			Point to(4, -2, 8);
 			Vector up(1, 1, 0);
 
-			Matrix vt = World::viewTransform(from, to, up);
+			Matrix vt = viewTransform(from, to, up);
 
 			Matrix expected(4, 4, std::unique_ptr<float[]>(new float[] {
 				-0.50709f, 0.50709f,  0.67612f, -2.36643f,
@@ -371,9 +371,9 @@ namespace RayTracer
 			Point from(0, 0, -5);
 			Point to(0, 0, 0);
 			Vector up(0, 1, 0);
-			c.transform = World::viewTransform(from, to, up);
+			c.transform = viewTransform(from, to, up);
 
-			Canvas image = w.render(c);
+			Canvas image = render(c, w);
 			image.toPPM("images/tests_RenderWorld.ppm");
 			
 			Color e(0.38066f, 0.47583f, 0.2855f);

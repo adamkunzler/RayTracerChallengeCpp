@@ -56,8 +56,12 @@ namespace RayTracer
 			float wx = halfWidth - xOffset;
 			float wy = halfHeight - yOffset;
 			
-			Point pixel = (transform.inverse() * Point(wx, wy, -1)).toPoint();
-			Point origin = (transform.inverse() * Point(0,0,0)).toPoint();
+			Matrix pixelTransform = transform.inverse() * Point(wx, wy, -1);
+			Point pixel = pixelTransform.toPoint();
+
+			Matrix originTransform = transform.inverse() * Point(0, 0, 0);
+			Point origin = originTransform.toPoint();
+			
 			Vector direction = Vector::normalize(pixel - origin);
 
 			Ray r(origin, direction);

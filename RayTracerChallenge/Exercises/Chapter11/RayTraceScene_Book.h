@@ -83,8 +83,8 @@ namespace Exercises
 			// 400/200
 			//const int hsize = 384;
 			//const int vsize = 216;// hsize / 2;
-			const int hsize = 192;
-			const int vsize = 108;// hsize / 2;
+			const int hsize = 96;
+			const int vsize = 54;// hsize / 2;
 			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 			World w;
@@ -93,7 +93,7 @@ namespace Exercises
 			// calculate view transform and setup camera			
 			//
 			Camera camera(hsize, vsize, 1.152f);
-			camera.transform = World::viewTransform(Point(-2.6f, 1.5f, -3.9f), Point(-0.6f, 1.0f, -0.8f), Vector(0, 1, 0));
+			camera.transform = viewTransform(Point(-2.6f, 1.5f, -3.9f), Point(-0.6f, 1.0f, -0.8f), Vector(0, 1, 0));
 						
 			//
 			// add the light sources
@@ -247,7 +247,7 @@ namespace Exercises
 			// run the ray tracer...
 			auto start = std::chrono::high_resolution_clock::now();
 
-			Canvas image = w.render(camera);
+			Canvas image = render(camera, w);
 			//Canvas image = renderMultiThread(camera, w);
 
 			auto stop = std::chrono::high_resolution_clock::now();

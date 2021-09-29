@@ -25,7 +25,7 @@ namespace Exercises
 			// calculate view transform and setup camera			
 			//
 			Camera camera(hsize, vsize, 0.45f);
-			camera.transform = World::viewTransform(Point(0, 0, -5), Point(0, 0, 0), Vector(0, 1, 0));
+			camera.transform = viewTransform(Point(0, 0, -5), Point(0, 0, 0), Vector(0, 1, 0));
 
 			//
 			// add the light sources
@@ -70,7 +70,7 @@ namespace Exercises
 			// run the ray tracer...
 			auto start = std::chrono::high_resolution_clock::now();
 
-			Canvas image = w.render(camera);
+			Canvas image = render(camera, w);
 
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);

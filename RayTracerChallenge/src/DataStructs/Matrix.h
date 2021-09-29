@@ -123,45 +123,31 @@ namespace RayTracer
 
 		// () overload to set matrix data
 		inline void operator()(const int& x, const int& y, const float& value) const
-		{
-			/*if (x < 0 || x > columns - 1 || y < 0 || y > rows - 1)
-			{
-				std::cout << "invalid matrix coord\n";
-				throw std::invalid_argument("invalid matrix coord");
-			}*/			
+		{			
 			data[x + y * columns] = value;
 		}
 
 		inline int getNumColumns() const { return columns; }
 		inline int getNumRows() const { return rows; }
 
-		// converts the first column of a matrix to a point
-		// TODO...maybe add parameter to specify the column
-		// TODO...don't assume to be 4 rows
-		Tuple toTuple() const
-		{
-			Tuple t((*this)(0, 0), (*this)(0, 1), (*this)(0, 2), (*this)(0, 3));
-			//Tuple t(data[0], data[4], data[8], data[12]);
+		// converts the first column of a matrix to a point (assumes a 1x4 matrix)		
+		inline Tuple toTuple() const
+		{			
+			Tuple t(data[0], data[1], data[2], data[3]);
 			return t;
 		}
 
-		// converts the first column of a matrix to a point
-		// TODO...maybe add parameter to specify the column
-		// TODO...don't assume to be 4 rows
-		Point toPoint() const
-		{
-			Point p((*this)(0, 0), (*this)(0, 1), (*this)(0, 2));
-			//Point p(data[0], data[4], data[8]);
+		// converts the first column of a matrix to a point	(assumes a 1x4 matrix)	
+		inline Point toPoint() const
+		{			
+			Point p(data[0], data[1], data[2]);
 			return p;
 		}
 
-		// converts the first column of a matrix to a vector
-		// TODO...maybe add parameter to specify the column
-		// TODO...don't assume to be 4 rows
-		Vector toVector() const
-		{
-			Vector v((*this)(0, 0), (*this)(0, 1), (*this)(0, 2));
-			//Vector v(data[0], data[4], data[8]);
+		// converts the first column of a matrix to a vector (assumes a 1x4 matrix)
+		inline Vector toVector() const
+		{			
+			Vector v(data[0], data[1], data[2]);
 			return v;
 		}
 
@@ -287,7 +273,7 @@ namespace RayTracer
 		// multiply => K x N * M x K = N x M
 		//             4 x 4 * 4 x 4 = 4 x 4
 		//             4 x 4 * 1 x 4 = 4 x 1
-		Matrix& operator*(const Matrix& b)
+		Matrix operator*(const Matrix& b)
 		{				
 			if(getNumColumns() != b.getNumRows())
 			{
@@ -318,7 +304,7 @@ namespace RayTracer
 		}
 
 		// multiply by tuple
-		Matrix& operator*(Tuple const& t)
+		Matrix operator*(Tuple const& t)
 		{			
 			Matrix a(t);
 			Matrix b(*this);
@@ -341,12 +327,16 @@ namespace RayTracer
 		}
 
 		// calculate determinant of a matrix
-		float determinant() const
+		inline float determinant() const
 		{
+			if (columns < 2 || rows < 2) {
+				int ted = 0;
+			}
+
 			float d = 0;
 			if (getNumColumns() == 2 && getNumRows() == 2)
 			{
-				d = ((*this)(0, 0) * (*this)(1, 1)) - ((*this)(1, 0) * (*this)(0, 1));				
+				d = (data[0] * data[3]) - (data[1] * data[2]);
 			}
 			else
 			{
@@ -374,7 +364,10 @@ namespace RayTracer
 				{
 					if (c == col) continue;
 
-					sub(ic, ir, m(c, r));
+					//sub(ic, ir, m(c, r));
+					//sub(ic, ir, m.data[c + r * m.columns]);
+					float val = m.data[c + r * m.columns];
+					sub.data[ic + ir * sub.columns] = val;
 					ic++;
 				}
 
@@ -385,14 +378,14 @@ namespace RayTracer
 			return sub;
 		}
 
-		float minor(int row, int col) const
+		inline float minor(int row, int col) const
 		{
 			Matrix b = submatrix(row, col);
 			float d = b.determinant();
 			return d;		
 		}
 
-		float cofactor(int row, int col) const
+		inline float cofactor(int row, int col) const
 		{
 			float m = minor(row, col);
 			float cf = ((row + col) % 2 == 0) ? m : -m;
@@ -403,12 +396,12 @@ namespace RayTracer
 
 		Matrix inverse() const
 		{
-			std::string id;
+			/*std::string id;
 			for (int i = 0; i < maxIndex; i++) id.append(std::to_string(data[i]));
 			if (_cacheInverses.find(id) != _cacheInverses.end())
 			{
 				return *_cacheInverses.at(id);
-			}
+			}*/
 
 			float d = determinant();
 			if (FloatEquals(d, 0)) {
@@ -429,10 +422,10 @@ namespace RayTracer
 					m(r, c, cof / d);
 				}
 			}
-
-			_cacheInverses[id] = new Matrix(m);
+		
+			//_cacheInverses[id] = new Matrix(m);
 			return m;
-		}
+		}		
 
 		static void print(const Matrix& matrix)
 		{

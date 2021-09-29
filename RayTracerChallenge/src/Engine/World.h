@@ -12,6 +12,26 @@
 
 namespace RayTracer
 {
+	Matrix viewTransform(const Point& from, const Point& to, const Vector& up)
+	{
+		Vector forward = Vector::normalize(to - from);
+		Vector nUp = Vector::normalize(up);
+		Vector left = Vector::cross(forward, nUp);
+		Vector trueUp = Vector::cross(left, forward);
+
+		Matrix orientation(4, 4, std::unique_ptr<float[]>(new float[] {
+			left.x, left.y, left.z, 0,
+				trueUp.x, trueUp.y, trueUp.z, 0,
+				-forward.x, -forward.y, -forward.z, 0,
+				0, 0, 0, 1
+		}));
+
+		Matrix translation = Matrix::get4x4TranslationMatrix(-from.x, -from.y, -from.z);
+		Matrix vt = orientation * translation;
+
+		return vt;
+	}
+			
 	class IShape;
 	class PointLight;
 	class Computation;
@@ -63,27 +83,7 @@ namespace RayTracer
 
 			return w;
 		}
-
-		static Matrix viewTransform(const Point& from, const Point& to, const Vector& up)
-		{
-			Vector forward = Vector::normalize(to - from);
-			Vector nUp = Vector::normalize(up);
-			Vector left = Vector::cross(forward, nUp);
-			Vector trueUp = Vector::cross(left, forward);
-
-			Matrix orientation(4, 4, std::unique_ptr<float[]>(new float[] {
-				left.x, left.y, left.z, 0,
-					trueUp.x, trueUp.y, trueUp.z, 0,
-					-forward.x, -forward.y, -forward.z, 0,
-					0, 0, 0, 1
-			}));
-
-			Matrix translation = Matrix::get4x4TranslationMatrix(-from.x, -from.y, -from.z);
-			Matrix vt = orientation * translation;
-
-			return vt;
-		}
-
+		
 		std::vector<Intersection> intersectBy(const Ray& r) const
 		{
 			std::vector<Intersection> intersections;
@@ -295,37 +295,37 @@ namespace RayTracer
 			}
 
 			return false;
-		}
+		}				
+	};	
 
-		Canvas render(const Camera& camera)
+	Canvas render(const Camera& camera, const World& world)
+	{
+		auto start1 = std::chrono::high_resolution_clock::now();
+
+		Canvas image((int)camera.hSize, (int)camera.vSize);
+
+		int totalPixels = (int)(camera.vSize * camera.hSize);
+		int processedPixels = 0;
+
+		for (int y = 0; y < camera.vSize; y++)
 		{
-			auto start1 = std::chrono::high_resolution_clock::now();
-
-			Canvas image((int)camera.hSize, (int)camera.vSize);
-
-			int totalPixels = (int)(camera.vSize * camera.hSize);
-			int processedPixels = 0;
-
-			for (int y = 0; y < camera.vSize; y++)
+			for (int x = 0; x < camera.hSize; x++)
 			{
-				for (int x = 0; x < camera.hSize; x++)
-				{
-					Ray r = camera.rayForPixel(x, y);
-					Color c = colorAt(r, MAX_RECURSION);
-					image.setPixel(x, y, c);
+				Ray r = camera.rayForPixel(x, y);
+				Color c = world.colorAt(r, MAX_RECURSION);
+				image.setPixel(x, y, c);
 
-					processedPixels++;
-					//if (x % 80 == 0)showProgressBar((float)processedPixels / (float)totalPixels);
-				}				
-				showProgressBar((float)processedPixels / (float)totalPixels);				
+				processedPixels++;
+				//if (x % 80 == 0)showProgressBar((float)processedPixels / (float)totalPixels);
 			}
-			showProgressBar(1);
+			showProgressBar((float)processedPixels / (float)totalPixels);
+		}
+		showProgressBar(1);
 
-			auto stop1 = std::chrono::high_resolution_clock::now();
-			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
-			std::cout << "\nrender() completed in " << duration1.count() << "ms.";
+		auto stop1 = std::chrono::high_resolution_clock::now();
+		auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
+		std::cout << "\nrender() completed in " << duration1.count() << "ms.";
 
-			return image;
-		}		
-	};			
+		return image;
+	}
 }
