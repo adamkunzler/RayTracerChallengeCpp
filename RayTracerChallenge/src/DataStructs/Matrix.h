@@ -136,8 +136,8 @@ namespace RayTracer
 			data[index] = value;
 		}
 
-		int getNumColumns() const { return columns; }
-		int getNumRows() const { return rows; }
+		inline int getNumColumns() const { return columns; }
+		inline int getNumRows() const { return rows; }
 
 		// converts the first column of a matrix to a point
 		// TODO...maybe add parameter to specify the column

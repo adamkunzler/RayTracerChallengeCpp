@@ -5,7 +5,7 @@ namespace RayTracer
 	const float PI(3.14159265358979323846264338327950288419716939937510f); // 50 digits
 	const float EPSILON(0.01f);
 	const int MAX_RECURSION(5);
-
+	
 	inline bool FloatEquals(float a, float b)
 	{
 		return std::abs(a - b) < EPSILON;

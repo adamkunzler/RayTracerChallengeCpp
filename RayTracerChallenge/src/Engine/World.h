@@ -1,5 +1,7 @@
 #pragma once
+
 #include <vector>
+
 #include "..\DataStructs\Point.h"
 #include "..\DataStructs\Color.h"
 #include "..\DataStructs\Matrix.h"
@@ -13,7 +15,7 @@ namespace RayTracer
 	class IShape;
 	class PointLight;
 	class Computation;
-	
+
 	class World
 	{
 	public:
@@ -21,8 +23,21 @@ namespace RayTracer
 		std::vector<PointLight> lights; // TODO ILight interface to support different types of lights
 
 		World()
-		{			
+		{
 		}
+
+		/*World(World& other)
+		{
+			for (std::vector<IShape*>::iterator iter = other.objects.begin(); iter != other.objects.end(); iter++)
+			{
+				other.objects.push_back(*iter);
+			}
+
+			for (std::vector<PointLight>::iterator iter1 = other.lights.begin(); iter1 != other.lights.end(); iter1++)
+			{
+				other.lights.push_back(*iter1);
+			}
+		}*/
 
 		~World()
 		{
@@ -32,7 +47,7 @@ namespace RayTracer
 		static World defaultWorld()
 		{
 			World w;
-			
+
 			w.lights.push_back(PointLight(Point(-10, 10, -10), Color(1, 1, 1)));
 
 			Sphere* s1 = new Sphere();
@@ -55,12 +70,12 @@ namespace RayTracer
 			Vector nUp = Vector::normalize(up);
 			Vector left = Vector::cross(forward, nUp);
 			Vector trueUp = Vector::cross(left, forward);
-			
+
 			Matrix orientation(4, 4, std::unique_ptr<float[]>(new float[] {
-				 left.x,      left.y,     left.z,    0,
-				 trueUp.x,    trueUp.y,   trueUp.z,  0,
-				-forward.x,  -forward.y, -forward.z, 0,
-				 0,           0,          0,         1
+				left.x, left.y, left.z, 0,
+					trueUp.x, trueUp.y, trueUp.z, 0,
+					-forward.x, -forward.y, -forward.z, 0,
+					0, 0, 0, 1
 			}));
 
 			Matrix translation = Matrix::get4x4TranslationMatrix(-from.x, -from.y, -from.z);
@@ -74,22 +89,15 @@ namespace RayTracer
 			std::vector<Intersection> intersections;
 
 			for (std::vector<IShape*>::const_iterator iter = objects.begin(); iter != objects.end(); iter++)
-			{															
+			{
 				std::vector<Intersection> shapeIntersects = (*iter)->intersectBy(r);
 				intersections.insert(intersections.end(), shapeIntersects.begin(), shapeIntersects.end());
 			}
-			
+
 			std::sort(intersections.begin(), intersections.end(), Intersection::comparer);
 
 			return intersections;
 		}
-		
-		/*Computation prepareComputations(const Intersection& i, const Ray& r) const
-		{
-			std::vector<Intersection> intersections;
-			intersections.push_back(i);
-			return prepareComputations(i, r, intersections);
-		}*/
 
 		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection>& intersections) const
 		{
@@ -115,7 +123,7 @@ namespace RayTracer
 						c.n1 = container[container.size() - 1]->material.refractiveIndex;
 					}
 				}
-				
+
 				std::vector<IShape*>::iterator found = std::find(container.begin(), container.end(), iter->object);
 				if (found != container.end())
 				{
@@ -149,8 +157,8 @@ namespace RayTracer
 			c.point = r.position(i.t);
 			c.eyeV = -dir;
 			c.normalV = i.object->normalAt(c.point);
-			c.isInside = false;			
-			
+			c.isInside = false;
+
 			float d = Vector::dot(c.normalV, c.eyeV);
 			if (d < 0)
 			{
@@ -172,16 +180,16 @@ namespace RayTracer
 			for (std::vector<PointLight>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
 			{
 				bool isInShadow = isShadowed(*iter, c.overPoint);
-				
+
 				Color surface = iter->phong(c.object->material, *c.object, c.overPoint, c.eyeV, c.normalV, isInShadow);
 				Color reflected = reflectedColor(c, remaining);
 				Color refracted = refractedColor(c, remaining);
-				
+
 				Material m(c.object->material);
 				if (m.reflective > 0 && m.transparency > 0)
 				{
 					float reflectance = schlick(c);
-					finalColor = finalColor + surface 
+					finalColor = finalColor + surface
 						+ (reflected * reflectance)
 						+ (refracted * (1 - reflectance));
 				}
@@ -190,7 +198,7 @@ namespace RayTracer
 					finalColor = finalColor + surface + reflected + refracted;
 				}
 			}
-						
+
 			return finalColor;
 		}
 
@@ -200,7 +208,7 @@ namespace RayTracer
 
 			// get all the intersections for this ray
 			std::vector<Intersection> intersections = intersectBy(rayCopy);
-			
+
 			// get the closest intersection and return black if no hit
 			Intersection hit = Intersection::hit(intersections);
 			if (hit.isNull()) return Color(0, 0, 0);
@@ -211,7 +219,7 @@ namespace RayTracer
 			Color color = shadeHit(comp, remaining);
 			return color;
 		}
-		
+
 		Color reflectedColor(const Computation& comps, const int remaining) const
 		{
 			if (FloatEquals(comps.object->material.reflective, 0.0f) || remaining < 1)
@@ -271,39 +279,6 @@ namespace RayTracer
 			return r0 + (1 - r0) * oneMinusCosPower5;
 		}
 
-		Canvas render(const Camera& camera)
-		{			
-			auto start1 = std::chrono::high_resolution_clock::now();
-
-			Canvas image((int)camera.hSize, (int)camera.vSize);
-						
-			int totalPixels = (int)(camera.vSize * camera.hSize);
-			int processedPixels = 0;
-
-			for (int y = 0; y < camera.vSize; y++)
-			{
-				for (int x = 0; x < camera.hSize; x++)
-				{
-					Ray r = camera.rayForPixel(x, y);
-					Color c = colorAt(r, MAX_RECURSION);
-					image.setPixel(x, y, c);					
-
-					processedPixels++;
-				}
-				//if (y % 3 == 0)
-				{
-					showProgressBar((float)processedPixels / (float)totalPixels);
-				}
-			}
-			showProgressBar(1);
-
-			auto stop1 = std::chrono::high_resolution_clock::now();
-			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
-			std::cout << "\nrender() completed in " << duration1.count() << "ms.";
-
-			return image;
-		}
-				
 		bool isShadowed(const PointLight& light, const Point& p) const
 		{
 			Vector v = light.position - p;
@@ -321,5 +296,36 @@ namespace RayTracer
 
 			return false;
 		}
-	};
+
+		Canvas render(const Camera& camera)
+		{
+			auto start1 = std::chrono::high_resolution_clock::now();
+
+			Canvas image((int)camera.hSize, (int)camera.vSize);
+
+			int totalPixels = (int)(camera.vSize * camera.hSize);
+			int processedPixels = 0;
+
+			for (int y = 0; y < camera.vSize; y++)
+			{
+				for (int x = 0; x < camera.hSize; x++)
+				{
+					Ray r = camera.rayForPixel(x, y);
+					Color c = colorAt(r, MAX_RECURSION);
+					image.setPixel(x, y, c);
+
+					processedPixels++;
+					if (x % 80 == 0)showProgressBar((float)processedPixels / (float)totalPixels);
+				}				
+				showProgressBar((float)processedPixels / (float)totalPixels);				
+			}
+			showProgressBar(1);
+
+			auto stop1 = std::chrono::high_resolution_clock::now();
+			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
+			std::cout << "\nrender() completed in " << duration1.count() << "ms.";
+
+			return image;
+		}		
+	};			
 }

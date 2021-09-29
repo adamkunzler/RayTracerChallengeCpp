@@ -1,5 +1,5 @@
 #pragma once
-
+#include <thread>
 #include "vector"
 
 using namespace RayTracer;
@@ -8,6 +8,72 @@ namespace Exercises
 {
 	namespace Chapter11
 	{
+		void renderThreadFunc(Camera& camera, World& world, int width, int startY, int endY, Color* data)
+		{
+			int height = endY - startY;
+			for (int y = 0; y < height; y++)
+			{
+				for (int x = 0; x < width; x++)
+				{
+					int yy = startY + y;
+					Ray r = camera.rayForPixel(x, yy);
+					Color c = world.colorAt(r, MAX_RECURSION);
+					data[x + y * width] = c;
+				}
+			}
+		}
+
+		Canvas renderMultiThread(Camera& camera, World& world, int numThreads = 8)
+		{
+			auto start1 = std::chrono::high_resolution_clock::now();
+
+			int totalPixels = (int)(camera.hSize * camera.vSize);
+
+			std::vector<std::thread> threads;
+			std::vector<Color*> datas;
+
+			// set up and kick off threads
+			int yStart = 0;
+			int yStep = (int)camera.vSize / numThreads;
+			for (int i = 0; i < numThreads; i++)
+			{
+				//std::cout << "\n Creating thread...\n";
+				//std::cout << "\n yStart: " << yStart << "\t yStep: " << yStep
+				Color* data = new Color[(int)camera.hSize * yStep];
+				std::thread t(renderThreadFunc, std::ref(camera), std::ref(world), (int)camera.hSize, yStart, yStart + yStep, data);
+
+				threads.push_back(std::move(t));
+				datas.push_back(data);
+
+				yStart += yStep;
+			}
+
+			// wait for threads to finish working	
+			for (std::thread& th : threads)
+			{
+				if (th.joinable())
+					th.join();
+			}
+
+			// concat data from each thread into single data structure
+			Canvas image((int)camera.hSize, (int)camera.vSize);
+			int index = 0;
+			for (int i = 0; i < datas.size(); i++) // each threads data
+			{
+				for (int j = 0; j < camera.hSize * yStep; j++) // each color in each data
+				{
+					image.setPixel(index, datas[i][j]);
+					index++;
+				}
+			}
+
+			auto stop1 = std::chrono::high_resolution_clock::now();
+			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
+			std::cout << "\nrender() completed in " << duration1.count() << "ms.";
+
+			return image;
+		}
+
 		void RayTraceScene_Book()
 		{
 			std::cout << "\nRay Trace Scene Chapter 11 - Book\n";
@@ -15,8 +81,10 @@ namespace Exercises
 			const bool isDebug = false;
 
 			// 400/200
-			const int hsize = 200;
-			const int vsize = hsize / 2;
+			//const int hsize = 3840;
+			//const int vsize = 2160;// hsize / 2;
+			const int hsize = 384;
+			const int vsize = 216;// hsize / 2;
 			std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 			World w;
@@ -186,6 +254,7 @@ namespace Exercises
 			auto start = std::chrono::high_resolution_clock::now();
 
 			Canvas image = w.render(camera);
+			//Canvas image = renderMultiThread(camera, w);
 
 			auto stop = std::chrono::high_resolution_clock::now();
 			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);

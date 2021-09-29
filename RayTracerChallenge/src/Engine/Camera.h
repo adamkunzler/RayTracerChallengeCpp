@@ -40,6 +40,14 @@ namespace RayTracer
 			pixelSize = (halfWidth * 2) / hSize;
 		}
 
+		/*Camera(Camera& other):
+			hSize(other.hSize), vSize(other.vSize), fov(other.fov), 
+			transform(other.transform), 
+			pixelSize(other.pixelSize), 
+			halfWidth(other.halfWidth), halfHeight(other.halfHeight)
+		{			
+		}*/
+
 		Ray rayForPixel(int x, int y) const
 		{
 			float xOffset = (x + 0.5f) * pixelSize;
