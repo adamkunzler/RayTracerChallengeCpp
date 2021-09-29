@@ -32,17 +32,17 @@ namespace RayTracer
 			return *this;
 		}
 		
-		bool isPoint() const { return FloatEquals(w, 1.0f); }
+		inline bool isPoint() const { return FloatEquals(w, 1.0f); }
 		bool isVector() const { return FloatEquals(w, 0.0f); }
 						
 		// Computes the magnitude of a Tuple		
-		static float magnitude(const Tuple& t)
+		inline static float magnitude(const Tuple& t)
 		{
 			return std::sqrt(t.x * t.x + t.y * t.y + t.z * t.z + t.w * t.w);
 		}
 						
 		// Normalize a tuple so that it has a magnitude of 1.0.		
-		static Tuple normalize(const Tuple& t)
+		inline static Tuple normalize(const Tuple& t)
 		{			
 			float m = magnitude(t);			
 			Tuple tn(t.x / m, t.y / m, t.z / m, t.w / m);
@@ -54,7 +54,7 @@ namespace RayTracer
 		// Given a unit vector (magnitude of 1):
 		//	-1 = pointing in opposite directions
 		//   1 = identical vectors		
-		static float dot(const Tuple& a, const Tuple& b)
+		inline static float dot(const Tuple& a, const Tuple& b)
 		{			
 			return a.x * b.x +
 				   a.y * b.y +
@@ -64,7 +64,7 @@ namespace RayTracer
 		
 		// Calculate Cross Product between two Vectors.		
 		//		The Cross Product is a Vector that is perpendicular to both input Vectors
-		static Tuple cross(const Tuple& a, const Tuple& b)
+		inline static Tuple cross(const Tuple& a, const Tuple& b)
 		{			
 			Tuple t(
 				a.y * b.z - a.z * b.y,
@@ -74,7 +74,7 @@ namespace RayTracer
 			return t;
 		}
 				
-		bool operator==(const Tuple& other) const
+		inline bool operator==(const Tuple& other) const
 		{									
 			return FloatEquals(x, other.x) && 
 				   FloatEquals(y, other.y) && 
@@ -82,36 +82,36 @@ namespace RayTracer
 				   FloatEquals(w, other.w);
 		}
 				
-		bool operator!=(const Tuple& other) const
+		inline bool operator!=(const Tuple& other) const
 		{						
 			return !(*this == other);
 		}						
 
-		Tuple operator+(const Tuple& other) const
+		inline Tuple operator+(const Tuple& other) const
 		{ 
 			Tuple t(x + other.x, y + other.y, z + other.z, w + other.w);
 			return t;
 		}
 		
-		Tuple operator-(const Tuple& other) const
+		inline Tuple operator-(const Tuple& other) const
 		{ 
 			Tuple t(x - other.x, y - other.y, z - other.z, w - other.w);
 			return t;
 		}
 		
-		Tuple operator-() const
+		inline Tuple operator-() const
 		{
 			Tuple t(-x, -y, -z, -w);
 			return t;
 		}
 						
-		Tuple operator*(const float& scalar) const
+		inline Tuple operator*(const float& scalar) const
 		{ 
 			Tuple t(x * scalar, y * scalar, z * scalar, w * scalar);
 			return t;
 		}
 
-		Tuple operator/(const float& scalar) const
+		inline Tuple operator/(const float& scalar) const
 		{ 
 			Tuple t(x / scalar, y / scalar, z / scalar, w / scalar);			
 			return t;

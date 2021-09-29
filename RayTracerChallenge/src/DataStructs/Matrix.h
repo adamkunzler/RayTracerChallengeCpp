@@ -6,6 +6,7 @@
 #include "Vector.h"
 #include "..\Utils.h"
 #include <iomanip>
+#include <map>
 
 namespace RayTracer
 {
@@ -398,8 +399,17 @@ namespace RayTracer
 			return cf;
 		}
 
+		static std::map<std::string, Matrix*> _cacheInverses;
+
 		Matrix inverse() const
 		{
+			std::string id;
+			for (int i = 0; i < maxIndex; i++) id.append(std::to_string(data[i]));
+			if (_cacheInverses.find(id) != _cacheInverses.end())
+			{
+				return *_cacheInverses.at(id);
+			}
+
 			float d = determinant();
 			if (FloatEquals(d, 0)) {
 				std::cout << "matrix cannot be inverted\n";
@@ -420,6 +430,7 @@ namespace RayTracer
 				}
 			}
 
+			_cacheInverses[id] = new Matrix(m);
 			return m;
 		}
 
@@ -448,6 +459,8 @@ namespace RayTracer
 			}
 		}
 	};
+
+	std::map<std::string, Matrix*> Matrix::_cacheInverses;
 
 	Matrix operator*(Matrix const& a, Matrix const& b) 
 	{ 
