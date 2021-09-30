@@ -29,12 +29,16 @@
 #include "Exercises\Chapter11\RayTraceScene_Book.h"
 #include "Exercises\Chapter11\RayTraceScene_NestedGlassSpheres.h"
 
+#include "Benchmarks\benchmark.h"
+
 void RunRayTracer();
 
 int main()
 {
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
+	benchmarkVector(10000000);
+
 	//bool result = RayTracer::Tests::RunTests(false);
 	
 	//RayTracer::Tests::Refraction_RefractedColorWithARefractedRay();
@@ -50,7 +54,7 @@ int main()
 	//Exercises::Chapter9::RayTraceScene();
 	//Exercises::Chapter10::RayTraceScene_Stripe();
 	//Exercises::Chapter11::RayTraceScene_Reflection();
-	Exercises::Chapter11::RayTraceScene_Book();
+	//Exercises::Chapter11::RayTraceScene_Book();
 	//Exercises::Chapter11::RayTraceScene_NestedGlassSpheres();
 	
 	//if(result) RunRayTracer();

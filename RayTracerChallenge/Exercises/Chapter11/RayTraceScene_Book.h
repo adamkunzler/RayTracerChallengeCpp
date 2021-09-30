@@ -256,7 +256,7 @@ namespace Exercises
 			std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
 
 			// save the image to disk
-			std::string filename = "images/ch11BookScene_refraction_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
+			std::string filename = "images/ch11BookScene_refraction_maxRecursion15_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
 			image.toPPM(filename);
 		}
 	}

@@ -167,5 +167,8 @@
     <ClInclude Include="Exercises\Chapter11\RayTraceScene_NestedGlassSpheres.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Benchmarks\benchmark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
