@@ -167,6 +167,7 @@
     <ClInclude Include="src\Patterns\IPattern.h" />
     <ClInclude Include="src\Patterns\RingPattern.h" />
     <ClInclude Include="src\Patterns\StripePattern.h" />
+    <ClInclude Include="src\Utils.h" />
     <ClInclude Include="tests\_testHarness.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

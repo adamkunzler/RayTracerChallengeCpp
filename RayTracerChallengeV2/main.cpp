@@ -17,6 +17,7 @@ void DoSomething();
 #include <cmath>
 #include <cassert>
 
+#include "src/Utils.h"
 #include "src/DataStructs/Color.h"
 #include "src/DataStructs/Matrix4x4.h"
 #include "src/DataStructs/Vector4.h"
@@ -58,7 +59,7 @@ int main()
 
 	RayTracer::Tests::RunTests();
 	
-	RayTraceScene_Book();
+	//RayTraceScene_Book();
 
 	return 0;
 }

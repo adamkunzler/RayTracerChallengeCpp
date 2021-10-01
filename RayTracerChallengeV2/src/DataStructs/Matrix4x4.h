@@ -62,6 +62,15 @@ namespace RayTracer
 				&& m30 == m.m30 && m31 == m.m31 && m32 == m.m32 && m33 == m.m33;
 		}
 
+		// approximate equality
+		bool equals(const Matrix4x4& m)
+		{
+			return feq(m00, m.m00) && feq(m01, m.m01) && feq(m02, m.m02) && feq(m03, m.m03)
+				&& feq(m10, m.m10) && feq(m11, m.m11) && feq(m12, m.m12) && feq(m13, m.m13)
+				&& feq(m20, m.m20) && feq(m21, m.m21) && feq(m22, m.m22) && feq(m23, m.m23)
+				&& feq(m30, m.m30) && feq(m31, m.m31) && feq(m32, m.m32) && feq(m33, m.m33);
+		}
+
 		// inequality
 		bool operator!=(const Matrix4x4& m)
 		{
@@ -95,12 +104,7 @@ namespace RayTracer
 	}
 
 	// determinant
-	/*float determinant(const Matrix4x4& m)
-	{
-		return m.m00 * (m.m11 * m.m22 - m.m12 * m.m21)
-			+  m.m01 * (m.m12 * m.m20 - m.m10 * m.m22)
-			+  m.m02 * (m.m10 * m.m21 - m.m11 * m.m20);
-	}*/
+	
 	
 	// inverse (https://stackoverflow.com/a/44446912) thank you god
 	Matrix4x4 inverse(const Matrix4x4& m)
@@ -162,6 +166,12 @@ namespace RayTracer
 		);
 	}
 
+	// multiply Vector4 by matrix4x4
+	Vector4 operator*(const Matrix4x4& m, const Vector4& v)
+	{
+		return v * m;
+	}
+
 	// multiply matrix4x4 by matrix4x4
 	Matrix4x4 operator*(const Matrix4x4& a, const Matrix4x4& b)
 	{
@@ -194,7 +204,7 @@ namespace RayTracer
 		v = v * m;
 		return v;
 	}
-
+	
 	// multiply matrix4x4 by matrix4x4 (modify lhs)
 	Matrix4x4& operator*=(Matrix4x4& a, const Matrix4x4& b)
 	{
