@@ -15,6 +15,10 @@
 
 namespace RayTracer
 {	
+	// TODO - probably bad that this is global
+	std::atomic<int> processedPixelsCount;
+	std::atomic<bool> processingDone;
+
 	Canvas render(const Camera& camera, const World& world)
 	{
 		auto start1 = std::chrono::high_resolution_clock::now();
@@ -118,8 +122,24 @@ namespace RayTracer
 				Ray r = camera.rayForPixel(x, yy);
 				Color c = world.colorAt(r, MAX_RECURSION);
 				data[x + y * width] = c;
+
+				processedPixelsCount++;
 			}
 		}
+	}
+
+	void threadProgressBarFunc(int totalPixels)
+	{
+		int modVal = 10;
+		while (processedPixelsCount < totalPixels && !processingDone)
+		{
+			if (processedPixelsCount % modVal == 0)
+			{
+				showProgressBar((float)processedPixelsCount / (float)totalPixels);
+			}
+		}
+		
+		showProgressBar(1);
 	}
 
 	Canvas renderMultiThread(Camera& camera, World& world, int numThreads = 8)
@@ -148,12 +168,18 @@ namespace RayTracer
 			yStart += yStep;
 		}
 
+		// progress bar thread
+		std::thread progBarThread(threadProgressBarFunc, totalPixels);
+
 		// wait for threads to finish working	
 		for (std::thread& th : threads)
 		{
 			if (th.joinable())
 				th.join();
 		}
+		
+		processingDone = true;
+		progBarThread.join();
 
 		// concat data from each thread into single data structure
 		Canvas image((int)camera.hSize, (int)camera.vSize);

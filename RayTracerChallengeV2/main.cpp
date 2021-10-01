@@ -83,10 +83,10 @@ void RayTraceScene_Book()
 {
 	std::cout << " --- Ray Trace Scene --- ";
 	
-	const int hsize = 400;
-	const int vsize = 200;
-	//const int hsize = 384 * 10;
-	//const int vsize = 216 * 10;
+	//const int hsize = 400;
+	//const int vsize = 200;
+	const int hsize = 384 * 1;
+	const int vsize = 216 * 1;
 	std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 	RayTracer::World w;
