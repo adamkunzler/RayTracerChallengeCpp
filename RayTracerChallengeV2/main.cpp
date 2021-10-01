@@ -55,13 +55,11 @@ int main()
 	//benchmarkVector4(10000000); // 1.6s
 	//benchmarkMatrix4x4(10000000); // 6.7s
 	//benchmarkMatrix4x4Inversions(10000000); // 5.8s
-
-	RayTracer::Tests::RunTests();
+	// 
+	//RayTracer::Tests::RunTests();
 
 	RayTraceScene_Book();
-
-	//Clock();
-
+	
 	return 0;
 }
 
@@ -84,13 +82,11 @@ void DoSomething()
 void RayTraceScene_Book()
 {
 	std::cout << " --- Ray Trace Scene --- ";
-
-	const int hsize = 192;
-	const int vsize = 108;
-	//const int hsize = 1920 * 1;
-	//const int vsize = 1080 * 1;
-	//const int hsize = 384 * 2;
-	//const int vsize = 216 * 2;
+	
+	const int hsize = 400;
+	const int vsize = 200;
+	//const int hsize = 384 * 10;
+	//const int vsize = 216 * 10;
 	std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 	RayTracer::World w;
@@ -121,6 +117,60 @@ void RayTraceScene_Book()
 		floor.material.specular = 0.0f;
 		floor.material.reflective = 0.4f;
 		w.objects.push_back(&floor);
+
+		RayTracer::Plane westWall;
+		westWall.transform = RayTracer::translation(-5, 0, 0)
+			* RayTracer::zRotation4x4(1.5708f)
+			* RayTracer::yRotation4x4(1.5708f);
+		RayTracer::StripePattern stripePatternWW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
+		stripePatternWW.transform = RayTracer::yRotation4x4(1.5708f)
+			* RayTracer::scaling(0.25f, 0.25f, 0.25f);
+		westWall.material.pattern = &stripePatternWW;
+		westWall.material.ambient = 0;
+		westWall.material.diffuse = 0.4f;
+		westWall.material.specular = 0;
+		westWall.material.reflective = 0.3f;
+		w.objects.push_back(&westWall);
+
+		RayTracer::Plane eastWall;
+		eastWall.transform = RayTracer::translation(5, 0, 0)
+			* RayTracer::zRotation4x4(1.5708f)
+			* RayTracer::yRotation4x4(1.5708f);
+		RayTracer::StripePattern stripePatternEW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
+		stripePatternEW.transform = RayTracer::yRotation4x4(1.5708f)
+			* RayTracer::scaling(0.25f, 0.25f, 0.25f);
+		eastWall.material.pattern = &stripePatternEW;
+		eastWall.material.ambient = 0;
+		eastWall.material.diffuse = 0.4f;
+		eastWall.material.specular = 0;
+		eastWall.material.reflective = 0.3f;
+		w.objects.push_back(&eastWall);
+
+		RayTracer::Plane northWall;
+		northWall.transform = RayTracer::translation(0, 0, 5)
+			* RayTracer::xRotation4x4(-1.5708f);
+		RayTracer::StripePattern stripePatternNW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
+		stripePatternNW.transform = RayTracer::yRotation4x4(1.5708f)
+			* RayTracer::scaling(0.25f, 0.25f, 0.25f);
+		northWall.material.pattern = &stripePatternNW;
+		northWall.material.ambient = 0;
+		northWall.material.diffuse = 0.4f;
+		northWall.material.specular = 0;
+		northWall.material.reflective = 0.3f;
+		w.objects.push_back(&northWall);
+
+		RayTracer::Plane southWall;
+		southWall.transform = RayTracer::translation(0, 0, -5)
+			* RayTracer::xRotation4x4(1.5708f);
+		RayTracer::StripePattern stripePatternSW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
+		stripePatternSW.transform = RayTracer::yRotation4x4(1.5708f)
+			* RayTracer::scaling(0.25f, 0.25f, 0.25f);
+		southWall.material.pattern = &stripePatternSW;
+		southWall.material.ambient = 0;
+		southWall.material.diffuse = 0.4f;
+		southWall.material.specular = 0;
+		southWall.material.reflective = 0.3f;
+		w.objects.push_back(&southWall);
 
 		//
 		// Big Red Ball
@@ -197,7 +247,8 @@ void RayTraceScene_Book()
 	// run the ray tracer...
 	auto start = std::chrono::high_resolution_clock::now();
 
-	RayTracer::Canvas image = render(camera, w);
+	//RayTracer::Canvas image = render(camera, w);
+	RayTracer::Canvas image = RayTracer::renderMultiThread(camera, w, 16);
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
@@ -205,10 +256,9 @@ void RayTraceScene_Book()
 	std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
 
 	// save the image to disk
-	std::string filename = "images/redSphere_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
+	std::string filename = "images/redSphere_multithread_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
 	image.toPPM(filename);
 }
-
 
 //
 // Chapter 4 Exercise

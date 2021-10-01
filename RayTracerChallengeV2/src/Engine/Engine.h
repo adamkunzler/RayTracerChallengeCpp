@@ -1,23 +1,16 @@
 #pragma once
 
-#include "../DataStructs/Color.h"
-//#include "../DataStructs/Matrix4x4.h"
-#include "../DataStructs/Vector4.h"
+#include <thread>
 
+#include "../DataStructs/Color.h"
+#include "../DataStructs/Vector4.h"
 #include "Camera.h"
 #include "Canvas.h"
 #include "World.h"
-
-//#include "../Geometry/Intersection.h"
 #include "../Geometry/Material.h"
 #include "../Geometry/PointLight.h"
 #include "../Geometry/Ray.h"
-//#include "../Geometry/Computation.h"
-
 #include "../Shapes/IShape.h"
-//#include "../Shapes/Sphere.h"
-//#include "../Shapes/Plane.h"
-
 #include "../Patterns/IPattern.h"
 
 namespace RayTracer
@@ -112,5 +105,72 @@ namespace RayTracer
 		}
 		
 		return ambient + diffuse + specular;;
+	}
+
+	void renderThreadFunc(Camera& camera, World& world, int width, int startY, int endY, Color* data)
+	{
+		int height = endY - startY;
+		for (int y = 0; y < height; y++)
+		{
+			for (int x = 0; x < width; x++)
+			{
+				int yy = startY + y;
+				Ray r = camera.rayForPixel(x, yy);
+				Color c = world.colorAt(r, MAX_RECURSION);
+				data[x + y * width] = c;
+			}
+		}
+	}
+
+	Canvas renderMultiThread(Camera& camera, World& world, int numThreads = 8)
+	{
+		auto start1 = std::chrono::high_resolution_clock::now();
+
+		int totalPixels = (int)(camera.hSize * camera.vSize);
+
+		std::vector<std::thread> threads;
+		std::vector<Color*> datas;
+
+		// set up and kick off threads
+		int yStart = 0;
+		int yStep = (int)camera.vSize / numThreads;
+		for (int i = 0; i < numThreads; i++)
+		{
+			//std::cout << "\n Creating thread...\n";
+			//std::cout << "\n yStart: " << yStart << "\t yStep: " << yStep
+			Color* data = new Color[(int)camera.hSize * yStep];
+			int yEnd = yStart + yStep > camera.vSize ? yEnd = camera.vSize : yStart + yStep;
+			std::thread t(renderThreadFunc, std::ref(camera), std::ref(world), (int)camera.hSize, yStart, yEnd, data);
+
+			threads.push_back(std::move(t));
+			datas.push_back(data);
+
+			yStart += yStep;
+		}
+
+		// wait for threads to finish working	
+		for (std::thread& th : threads)
+		{
+			if (th.joinable())
+				th.join();
+		}
+
+		// concat data from each thread into single data structure
+		Canvas image((int)camera.hSize, (int)camera.vSize);
+		int index = 0;
+		for (int i = 0; i < datas.size(); i++) // each threads data
+		{
+			for (int j = 0; j < camera.hSize * yStep; j++) // each color in each data
+			{
+				image.setPixel(index, datas[i][j]);
+				index++;
+			}
+		}
+
+		auto stop1 = std::chrono::high_resolution_clock::now();
+		auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
+		std::cout << "\nrender() completed in " << duration1.count() << "ms.";
+
+		return image;
 	}
 }
