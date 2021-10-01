@@ -37,7 +37,9 @@ int main()
 {
 	std::cout << "\nThe Ray Tracer Challenge\n\n\n";
 	
-	benchmarkVector(10000000);
+	//benchmarkVector(10000000); //3.6s
+	//benchmarkMatrix(10000000); //6.2min
+	//benchmarkMatrixInversions(10000000); //53.9min
 
 	//bool result = RayTracer::Tests::RunTests(false);
 	

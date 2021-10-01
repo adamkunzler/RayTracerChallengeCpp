@@ -147,7 +147,26 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Benchmarks\benchmarks.h" />
-    <ClInclude Include="src\DataStructs\Vector3.h" />
+    <ClInclude Include="src\DataStructs\Color.h" />
+    <ClInclude Include="src\DataStructs\Matrix4x4.h" />
+    <ClInclude Include="src\DataStructs\Vector4.h" />
+    <ClInclude Include="src\Engine\Camera.h" />
+    <ClInclude Include="src\Engine\Canvas.h" />
+    <ClInclude Include="src\Engine\Engine.h" />
+    <ClInclude Include="src\Engine\World.h" />
+    <ClInclude Include="src\Geometry\Computation.h" />
+    <ClInclude Include="src\Geometry\Intersection.h" />
+    <ClInclude Include="src\Shapes\IShape.h" />
+    <ClInclude Include="src\Geometry\Material.h" />
+    <ClInclude Include="src\Shapes\Plane.h" />
+    <ClInclude Include="src\Geometry\PointLight.h" />
+    <ClInclude Include="src\Geometry\Ray.h" />
+    <ClInclude Include="src\Shapes\Sphere.h" />
+    <ClInclude Include="src\Patterns\CheckerPattern.h" />
+    <ClInclude Include="src\Patterns\GradientPattern.h" />
+    <ClInclude Include="src\Patterns\IPattern.h" />
+    <ClInclude Include="src\Patterns\RingPattern.h" />
+    <ClInclude Include="src\Patterns\StripePattern.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
