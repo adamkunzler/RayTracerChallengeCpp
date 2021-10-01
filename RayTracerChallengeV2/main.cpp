@@ -44,6 +44,8 @@ void DoSomething();
 
 #include "Benchmarks\benchmarks.h"
 
+#include "tests/_testHarness.h"
+
 void RayTraceScene_Book();
 
 int main()
@@ -54,12 +56,8 @@ int main()
 	//benchmarkMatrix4x4(10000000); // 6.7s
 	//benchmarkMatrix4x4Inversions(10000000); // 5.8s
 
-	/*RayTracer::Sphere red;
-	red.transform = RayTracer::translation(-0.6f, 1, 0.6f);
-	red.material.color = RayTracer::Color(1, 0.3f, 0.2f);
-	red.material.specular = 0.4f;
-	red.material.shininess = 5;*/
-
+	RayTracer::Tests::RunTests();
+	
 	RayTraceScene_Book();
 
 	return 0;
@@ -107,15 +105,10 @@ void showProgressBar(float progress)
 
 void RayTraceScene_Book()
 {
-	std::cout << "\n --- Ray Trace Scene --- \n";
-
-	const bool isDebug = false;
-
-	// 400/200
-	//const int hsize = 384;
-	//const int vsize = 216;// hsize / 2;
-	const int hsize = 96;
-	const int vsize = 54;// hsize / 2;
+	std::cout << " --- Ray Trace Scene --- ";
+	
+	const int hsize = 384;
+	const int vsize = 216;
 	std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 	RayTracer::World w;
@@ -127,7 +120,7 @@ void RayTraceScene_Book()
 	camera.transform = RayTracer::viewTransform(
 		RayTracer::Vector4(-2.6f, 1.5f, -3.9f, 1.0f), 
 		RayTracer::Vector4(-0.6f, 1.0f, -0.8f, 1.0f), 
-		RayTracer::Vector4(0.0f, 1.0f, 0.0f, 1.0f));
+		RayTracer::Vector4(0.0f, 1.0f, 0.0f, 0.0f));
 
 	//
 	// add the light sources
@@ -146,137 +139,12 @@ void RayTraceScene_Book()
 	floor.material.reflective = 0.4f;
 	w.objects.push_back(&floor);
 
-	/*Plane ceiling;
-	ceiling.transform = Matrix::get4x4TranslationMatrix(0, 5, 0);
-	ceiling.material.color = Color(0.8f, 0.8f, 0.8f);
-	ceiling.material.ambient = 0.3f;
-	ceiling.material.specular = 0;
-	w.objects.push_back(&ceiling);*/
-
-	RayTracer::Plane westWall;
-	westWall.transform = RayTracer::translation(-5.0f, 0.0f, 0.0f)
-		* RayTracer::zRotation4x4(1.5708f)
-		* RayTracer::yRotation4x4(1.5708f);
-	RayTracer::StripePattern stripePatternWW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
-	stripePatternWW.transform = RayTracer::yRotation4x4(1.5708f)
-		* RayTracer::scaling(0.25f, 0.25f, 0.25f);
-	westWall.material.pattern = &stripePatternWW;
-	westWall.material.ambient = 0;
-	westWall.material.diffuse = 0.4f;
-	westWall.material.specular = 0;
-	westWall.material.reflective = 0.3f;
-	w.objects.push_back(&westWall);
-
-	RayTracer::Plane eastWall;
-	eastWall.transform = RayTracer::translation(5, 0, 0)
-		* RayTracer::zRotation4x4(1.5708f)
-		* RayTracer::yRotation4x4(1.5708f);
-	RayTracer::StripePattern stripePatternEW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
-	stripePatternEW.transform = RayTracer::yRotation4x4(1.5708f)
-		* RayTracer::scaling(0.25f, 0.25f, 0.25f);
-	eastWall.material.pattern = &stripePatternEW;
-	eastWall.material.ambient = 0;
-	eastWall.material.diffuse = 0.4f;
-	eastWall.material.specular = 0;
-	eastWall.material.reflective = 0.3f;
-	w.objects.push_back(&eastWall);
-
-	RayTracer::Plane northWall;
-	northWall.transform = RayTracer::translation(0, 0, 5)
-		* RayTracer::xRotation4x4(-1.5708f);
-	RayTracer::StripePattern stripePatternNW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
-	stripePatternNW.transform = RayTracer::yRotation4x4(1.5708f)
-		* RayTracer::scaling(0.25f, 0.25f, 0.25f);
-	northWall.material.pattern = &stripePatternNW;
-	northWall.material.ambient = 0;
-	northWall.material.diffuse = 0.4f;
-	northWall.material.specular = 0;
-	northWall.material.reflective = 0.3f;
-	w.objects.push_back(&northWall);
-
-	RayTracer::Plane southWall;
-	southWall.transform = RayTracer::translation(0, 0, -5)
-		* RayTracer::xRotation4x4(1.5708f);
-	RayTracer::StripePattern stripePatternSW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
-	stripePatternSW.transform = RayTracer::yRotation4x4(1.5708f)
-		* RayTracer::scaling(0.25f, 0.25f, 0.25f);
-	southWall.material.pattern = &stripePatternSW;
-	southWall.material.ambient = 0;
-	southWall.material.diffuse = 0.4f;
-	southWall.material.specular = 0;
-	southWall.material.reflective = 0.3f;
-	w.objects.push_back(&southWall);
-
-	//
-	// Big Red Ball
-	// 
-	RayTracer::Sphere red;
-	red.transform = RayTracer::translation(-0.6f, 1, 0.6f);
-	red.material.color = RayTracer::Color(1, 0.3f, 0.2f);
-	red.material.specular = 0.4f;
-	red.material.shininess = 5;
-	w.objects.push_back(&red);
-
-	//
-	// Glass Marbles
-	// 
-
-	RayTracer::Sphere blueMarble;
-	blueMarble.transform = RayTracer::translation(0.6f, 0.7f, -0.6f)
-		* RayTracer::scaling(0.7f, 0.7f, 0.7f);
-	blueMarble.material.color = RayTracer::Color(0, 0, 0.2f);
-	blueMarble.material.ambient = 0.0f;
-	blueMarble.material.diffuse = 0.4f;
-	blueMarble.material.specular = 0.9f;
-	blueMarble.material.shininess = 300;
-	blueMarble.material.reflective = 0.4f;
-	blueMarble.material.transparency = 0.9f;
-	blueMarble.material.refractiveIndex = 1.5f;
-	w.objects.push_back(&blueMarble);
-
-	RayTracer::Sphere greenMarble;
-	greenMarble.transform = RayTracer::translation(-0.7f, 0.5f, -0.8f)
-		* RayTracer::scaling(0.5f, 0.5f, 0.5f);
-	greenMarble.material.color = RayTracer::Color(0, 0.2f, 0);
-	greenMarble.material.ambient = 0.0f;
-	greenMarble.material.diffuse = 0.4f;
-	greenMarble.material.specular = 0.9f;
-	greenMarble.material.shininess = 300;
-	greenMarble.material.reflective = 0.9f;
-	greenMarble.material.transparency = 0.9f;
-	greenMarble.material.refractiveIndex = 1.5f;
-	w.objects.push_back(&greenMarble);
-
-	////
-	//// Background balls
-	////
-	//RayTracer::Sphere s1;
-	//s1.transform = Matrix::get4x4TranslationMatrix(4.6f, 0.4f, 1)
-	//	* Matrix::get4x4ScalingMatrix(0.4f, 0.4f, 0.4f);
-	//s1.material.color = RayTracer::Color(0.8f, 0.5f, 0.3f);
-	//s1.material.shininess = 50;
-	//w.objects.push_back(&s1);
-
-	//RayTracer::Sphere s2;
-	//s2.transform = Matrix::get4x4TranslationMatrix(4.7f, 0.3f, 0.4f)
-	//	* Matrix::get4x4ScalingMatrix(0.3f, 0.3f, 0.3f);
-	//s2.material.color = Color(0.9f, 0.4f, 0.5f);
-	//s2.material.shininess = 50;
-	//w.objects.push_back(&s2);
-
-	//RayTracer::Sphere s3;
-	//s3.transform = Matrix::get4x4TranslationMatrix(-1.0f, 0.5f, 4.5f)
-	//	* Matrix::get4x4ScalingMatrix(0.5f, 0.5f, 0.5f);
-	//s3.material.color = RayTracer::Color(0.4f, 0.9f, 0.6f);
-	//s3.material.shininess = 50;
-	//w.objects.push_back(&s3);
-
-	//RayTracer::Sphere s4;
-	//s4.transform = Matrix::get4x4TranslationMatrix(-1.7f, 0.3f, 4.7f)
-	//	* Matrix::get4x4ScalingMatrix(0.3f, 0.3f, 0.3f);
-	//s4.material.color = RayTracer::Color(0.4f, 0.6f, 0.9f);
-	//s4.material.shininess = 50;
-	//w.objects.push_back(&s4);
+	RayTracer::Sphere redSphere;
+	redSphere.transform = RayTracer::translation(-0.6f, 1.0f, 0.6f);
+	redSphere.material.color = RayTracer::Color(1.0f, 0.3f, 0.2f);
+	redSphere.material.specular = 0.4f;
+	redSphere.material.shininess = 5;
+	w.objects.push_back(&redSphere);
 
 	// run the ray tracer...
 	auto start = std::chrono::high_resolution_clock::now();
@@ -289,6 +157,6 @@ void RayTraceScene_Book()
 	std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
 
 	// save the image to disk
-	std::string filename = "images/refactored_chapter11Scene_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
+	std::string filename = "images/redSphere_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
 	image.toPPM(filename);
 }

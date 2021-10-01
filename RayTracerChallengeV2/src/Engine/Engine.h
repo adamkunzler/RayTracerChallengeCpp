@@ -47,7 +47,7 @@ namespace RayTracer
 
 		auto stop1 = std::chrono::high_resolution_clock::now();
 		auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
-		std::cout << "\nrender() completed in " << duration1.count() << "ms.";
+		std::cout << "\n\nrender() completed in " << duration1.count() << "ms.";
 
 		return image;
 	}
