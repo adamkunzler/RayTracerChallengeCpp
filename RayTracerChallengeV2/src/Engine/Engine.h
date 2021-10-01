@@ -130,19 +130,19 @@ namespace RayTracer
 
 	void threadProgressBarFunc(int totalPixels)
 	{
-		int modVal = 10;
+		//int modVal = 100;
 		while (processedPixelsCount < totalPixels && !processingDone)
 		{
-			if (processedPixelsCount % modVal == 0)
-			{
-				showProgressBar((float)processedPixelsCount / (float)totalPixels);
-			}
+			//if (processedPixelsCount % modVal == 0)
+			//{
+			showProgressBar((float)processedPixelsCount / (float)totalPixels);
+			//}
 		}
 		
 		showProgressBar(1);
 	}
 
-	Canvas renderMultiThread(Camera& camera, World& world, int numThreads = 8)
+	Canvas renderMultiThread(Camera& camera, World& world, int numThreads = 16)
 	{
 		auto start1 = std::chrono::high_resolution_clock::now();
 

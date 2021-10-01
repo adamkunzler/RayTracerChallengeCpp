@@ -82,11 +82,9 @@ void DoSomething()
 void RayTraceScene_Book()
 {
 	std::cout << " --- Ray Trace Scene --- ";
-	
-	//const int hsize = 400;
-	//const int vsize = 200;
-	const int hsize = 384 * 1;
-	const int vsize = 216 * 1;
+		
+	const int hsize = 384 * 2;
+	const int vsize = 216 * 2;
 	std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 	RayTracer::World w;
@@ -94,11 +92,13 @@ void RayTraceScene_Book()
 	//
 	// calculate view transform and setup camera			
 	//
-	RayTracer::Camera camera(hsize, vsize, 1.152f);
+	RayTracer::Camera camera(hsize, vsize, 1.152f);	
 	camera.transform = RayTracer::viewTransform(
 		RayTracer::Vector4(-2.6f, 1.5f, -3.9f, 1.0f),
 		RayTracer::Vector4(-0.6f, 1.0f, -0.8f, 1.0f),
 		RayTracer::Vector4(0.0f, 1.0f, 0.0f, 0.0f));
+	
+	camera.transform *= RayTracer::yRotation4x4(PI / 2.0f);
 
 	//
 	// add the light sources
@@ -123,7 +123,7 @@ void RayTraceScene_Book()
 			* RayTracer::zRotation4x4(1.5708f)
 			* RayTracer::yRotation4x4(1.5708f);
 		RayTracer::StripePattern stripePatternWW(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
-		stripePatternWW.transform = RayTracer::yRotation4x4(1.5708f)
+		stripePatternWW.transform = RayTracer::yRotation4x4(-1.5708f)
 			* RayTracer::scaling(0.25f, 0.25f, 0.25f);
 		westWall.material.pattern = &stripePatternWW;
 		westWall.material.ambient = 0;
@@ -248,7 +248,7 @@ void RayTraceScene_Book()
 	auto start = std::chrono::high_resolution_clock::now();
 
 	//RayTracer::Canvas image = render(camera, w);
-	RayTracer::Canvas image = RayTracer::renderMultiThread(camera, w, 16);
+	RayTracer::Canvas image = RayTracer::renderMultiThread(camera, w, 32);
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
