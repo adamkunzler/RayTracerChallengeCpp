@@ -15,7 +15,7 @@ namespace RayTracer
 		GradientPattern(Color c1, Color c2) : color1(c1), color2(c2) {}
 		~GradientPattern() {}
 
-		Color patternAt(const Vector4& p) const
+		Color patternAt(const Point4& p) const
 		{
 			Color distance = color2 - color1;
 			float fraction = p.x - std::floorf(p.x);

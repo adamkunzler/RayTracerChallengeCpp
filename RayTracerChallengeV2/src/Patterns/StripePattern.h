@@ -16,7 +16,7 @@ namespace RayTracer
 		StripePattern(Color c1, Color c2) : color1(c1), color2(c2) {}
 		~StripePattern() {}
 
-		Color patternAt(const Vector4& p) const
+		Color patternAt(const Point4& p) const
 		{
 			int x = (int)std::floorf(p.x);
 			if (x % 2 == 0)

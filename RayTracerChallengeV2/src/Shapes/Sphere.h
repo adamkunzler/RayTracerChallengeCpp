@@ -6,13 +6,13 @@ namespace RayTracer
 {
 	struct Sphere : public IShape
 	{
-		Vector4 origin;
+		Point4 origin;
 		float radius;
 
 		Sphere() : origin(Vector4(0.0f, 0.0f, 0.0f, 1.0f)), radius(1.0f) { }
-		Sphere(const Vector4& lOrigin, const float lRadius) : origin(lOrigin), radius(lRadius) { }
+		Sphere(const Point4& lOrigin, const float lRadius) : origin(lOrigin), radius(lRadius) { }
 		
-		Vector4 localNormalAt(const Vector4& localPoint) const
+		Vector4 localNormalAt(const Point4& localPoint) const
 		{						
 			return localPoint - origin;
 		}

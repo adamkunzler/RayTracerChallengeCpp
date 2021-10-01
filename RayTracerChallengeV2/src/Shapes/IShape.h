@@ -42,12 +42,12 @@ namespace RayTracer
 		// NORMALS
 		//
 
-		virtual Vector4 localNormalAt(const Vector4& localPoint) const = 0;
+		virtual Vector4 localNormalAt(const Point4& localPoint) const = 0;
 
-		Vector4 normalAt(const Vector4& worldPoint) const
+		Vector4 normalAt(const Point4& worldPoint) const
 		{
 			// point in world space to local space
-			Vector4 localPoint = worldPoint * inverse(transform);
+			Point4 localPoint = worldPoint * inverse(transform);
 
 			// shape figures out it's normal
 			Vector4 localNormal = localNormalAt(localPoint); // TODO update to return reference

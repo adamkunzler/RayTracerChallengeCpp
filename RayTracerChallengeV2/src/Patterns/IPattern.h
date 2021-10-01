@@ -19,11 +19,11 @@ namespace RayTracer
 
 		virtual ~IPattern() {}
 
-		virtual Color patternAt(const Vector4& p) const = 0;
+		virtual Color patternAt(const Point4& p) const = 0;
 
-		Color patternAt(const IShape& shape, const Vector4& p) const
+		Color patternAt(const IShape& shape, const Point4& p) const
 		{			
-			Vector4 objectPoint = p * inverse(shape.transform);			
+			Point4 objectPoint = p * inverse(shape.transform);
 			return patternAt(objectPoint * inverse(transform));
 		}		
 	};

@@ -50,8 +50,8 @@ namespace RayTracer
 			float wx = halfWidth - xOffset;
 			float wy = halfHeight - yOffset;
 			
-			Vector4 pixel = Vector4(wx, wy, -1.0f) * inverse(transform);			
-			Vector4 origin = Vector4(0.0f, 0.0f, 0.0f) * inverse(transform);
+			Point4 pixel = Point4(wx, wy, -1.0f) * inverse(transform);			
+			Point4 origin = Point4(0.0f, 0.0f, 0.0f) * inverse(transform);
 			Vector4 direction = normalize(pixel - origin);
 
 			return Ray(origin, direction);

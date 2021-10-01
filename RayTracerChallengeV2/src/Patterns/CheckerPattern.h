@@ -16,7 +16,7 @@ namespace RayTracer
 
 		~CheckerPattern() {}
 
-		Color patternAt(const Vector4& p) const
+		Color patternAt(const Point4& p) const
 		{
 			int val = (int)(std::floor(p.x) + std::floor(p.y) + std::floor(p.z));
 			if (val % 2 == 0)

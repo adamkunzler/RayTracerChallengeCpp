@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../Shapes/IShape.h"
-//#include "../DataStructs/Vector4.h"
 
 namespace RayTracer
 {	
@@ -10,9 +9,9 @@ namespace RayTracer
 		IShape* object;
 		float t;
 		
-		Vector4 point;
-		Vector4 overPoint;
-		Vector4 underPoint;
+		Point4 point;
+		Point4 overPoint;
+		Point4 underPoint;
 		
 		bool isInside;
 		Vector4 eyeV;

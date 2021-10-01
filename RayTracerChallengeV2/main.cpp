@@ -1,7 +1,6 @@
-extern const int MAX_RECURSION(5);
-
 void showProgressBar(float progress);
 void DoSomething();
+void Clock();
 
 #include <chrono>
 #include <iostream>
@@ -59,7 +58,9 @@ int main()
 
 	RayTracer::Tests::RunTests();
 	
-	//RayTraceScene_Book();
+	RayTraceScene_Book();
+
+	//Clock();
 
 	return 0;
 }
@@ -108,8 +109,10 @@ void RayTraceScene_Book()
 {
 	std::cout << " --- Ray Trace Scene --- ";
 	
-	const int hsize = 384;
-	const int vsize = 216;
+	const int hsize = 1920*2;
+	const int vsize = 1080*2;
+	//const int hsize = 384 * 2;
+	//const int vsize = 216 * 2;
 	std::cout << hsize << " x " << vsize << " => " << (hsize * vsize) << " pixels\n\n";
 
 	RayTracer::World w;
@@ -160,4 +163,45 @@ void RayTraceScene_Book()
 	// save the image to disk
 	std::string filename = "images/redSphere_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
 	image.toPPM(filename);
+}
+
+
+//
+// Chapter 4 Exercise
+//
+void Clock()
+{
+	std::cout << "\nClock\n";
+
+	const bool isDebug = false;
+
+	const int size = 500;
+	float radius = size * (7.0f / 16.0f);
+	const int hours = 12;
+	const float stepSize = (2 * PI) / hours;
+
+	RayTracer::Canvas canvas(size, size);
+	RayTracer::Color color = RayTracer::rgb(129, 19, 240); // purple
+
+	RayTracer::Matrix4x4 localToWorld = RayTracer::translation(size / 2, size / 2, 0);
+	RayTracer::Matrix4x4 translate = RayTracer::translation(0, 1, 0); // move to 12:00 position			
+	RayTracer::Matrix4x4 scale = RayTracer::scaling(radius, radius, 1); // scale to radius of clock
+
+	for (int j = 0; j < 1; j++)
+	{
+		for (int i = 0; i < hours; i++)
+		{
+			if (isDebug) std::cout << "\n\nHour: " << i << std::endl;
+
+			RayTracer::Point4 p(0, 0, 0); // start at origin					
+			RayTracer::Matrix4x4 rotate = RayTracer::zRotation4x4(-stepSize * i); // rotate on z-axis
+
+			RayTracer::Matrix4x4 t = localToWorld * scale * rotate * translate; // translate first, then rotate, then scale, last localToWorld
+			RayTracer::Point4 pt = t * p;
+
+			canvas.setPixel((int)pt.x, size - (int)pt.y, color);
+		}
+	}
+
+	canvas.toPPM("images/chapter4_clock.ppm");
 }

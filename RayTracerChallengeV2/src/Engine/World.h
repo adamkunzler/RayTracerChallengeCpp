@@ -106,8 +106,8 @@ namespace RayTracer
 			}
 
 			c.reflectV = dir.reflect(c.normalV);
-			c.overPoint = c.point + (c.normalV * FLT_EPSILON);
-			c.underPoint = c.point - (c.normalV * FLT_EPSILON);
+			c.overPoint = c.point + (c.normalV * EPSILON2);
+			c.underPoint = c.point - (c.normalV * EPSILON2);
 
 			return c;
 		}

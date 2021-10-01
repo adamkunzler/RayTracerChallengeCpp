@@ -7,13 +7,13 @@ namespace RayTracer
 {
 	struct Ray
 	{	
-		Vector4 origin;
+		Point4 origin;
 		Vector4 direction;
 
-		Ray(const Vector4& lOrigin, const Vector4& lDirection) : origin(lOrigin), direction(lDirection) {}
+		Ray(const Point4& lOrigin, const Vector4& lDirection) : origin(lOrigin), direction(lDirection) {}
 		Ray(const Ray& copy) : origin(copy.origin), direction(copy.direction) {}
 
-		Vector4 position(const float t) const
+		Point4 position(const float t) const
 		{
 			return origin + (direction * t);
 		}

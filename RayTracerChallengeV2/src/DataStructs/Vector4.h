@@ -29,13 +29,19 @@ namespace RayTracer
 		// equality
 		bool operator==(const Vector4& rhs) const
 		{
-			return x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w;
+			return x == rhs.x && y == rhs.y && z == rhs.z; //&& w == rhs.w;
+		}
+
+		// approximate equality
+		bool equals(const Vector4& rhs) const
+		{
+			return feq(x, rhs.x) && feq(y, rhs.y) && feq(z, rhs.z); //&& feq(w, rhs.w);
 		}
 
 		// inequality
 		bool operator!=(const Vector4& rhs) const
 		{
-			return x != rhs.x || y != rhs.y || z != rhs.z || w != rhs.w;
+			return x != rhs.x || y != rhs.y || z != rhs.z; // || w != rhs.w;
 		}
 
 		// addition
@@ -132,6 +138,13 @@ namespace RayTracer
 		}
 	};
 	
+	struct Point4 : public Vector4
+	{
+		Point4() : Vector4(0.0f, 0.0f, 0.0f, 1.0f) {}
+		Point4(float lx, float ly, float lz) : Vector4(lx, ly, lz, 1.0f) {}
+		Point4(const Vector4& v) : Vector4(v.x, v.y, v.z, 1.0f) {}
+	};
+
 	// magnitude
 	inline float magnitude(const Vector4& v)
 	{

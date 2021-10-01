@@ -14,7 +14,7 @@ namespace RayTracer
 	{		
 		Plane() { }
 				
-		Vector4 localNormalAt(const Vector4& localPoint) const
+		Vector4 localNormalAt(const Point4& localPoint) const
 		{			
 			return Vector4(0.0f, 1.0f, 0.0f);
 		}
