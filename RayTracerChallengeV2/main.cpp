@@ -47,18 +47,18 @@ void Clock();
 #include "tests/_testHarness.h"
 
 void RayTraceScene_Book();
+void differentMaterials();
 
 int main()
-{
-	std::cout << "\n\n --- Ray Tracer Challenge V2 --- \n\n";
-
+{	
 	//benchmarkVector4(10000000); // 1.6s
 	//benchmarkMatrix4x4(10000000); // 6.7s
 	//benchmarkMatrix4x4Inversions(10000000); // 5.8s
 	// 
 	//RayTracer::Tests::RunTests();
 
-	RayTraceScene_Book();
+	//RayTraceScene_Book();
+	differentMaterials();
 	
 	return 0;
 }
@@ -77,6 +77,109 @@ void DoSomething()
 	std::cout << "\nRay Tracer Completed in " << duration.count() << "ms.\n";
 
 	return;
+}
+
+void differentMaterials()
+{
+	std::cout << " --- Ray Trace Scene: Materials --- ";
+
+	const int sizeScale = 4;
+	const int hsize = 800 * sizeScale;
+	const int vsize = 300 * sizeScale;
+	
+	RayTracer::World w;
+
+	RayTracer::Camera camera(hsize, vsize, PI / 2.7f);
+	camera.transform = RayTracer::viewTransform(
+		RayTracer::Point4(0.0f, 5.0f, -6.0f), // from
+		RayTracer::Point4(0.0f, 1.0f, 5.0f),  // to
+		RayTracer::Vector4(0.0f, 1.0f, 0.0f));
+	
+	RayTracer::PointLight lightM(RayTracer::Point4(0.0f, 7.0f, 0.0f), RayTracer::Color(0.9f));	
+	//RayTracer::PointLight lightL(RayTracer::Point4(-5.0f, 15.0f, -5.0f), RayTracer::Color(0.35f));
+	//RayTracer::PointLight lightR(RayTracer::Point4(5.0f, 2.0f, -5.0f), RayTracer::Color(0.35f));
+	w.lights.push_back(lightM);
+	//w.lights.push_back(lightL);
+	//w.lights.push_back(lightR);
+	
+	// setup objects
+	{
+		RayTracer::Color checkerColor1(0.99f);
+		RayTracer::Color checkerColor2(0.95f);
+		RayTracer::Color babyBlue = RayTracer::rgb(137, 207, 240);
+
+		{			
+			RayTracer::Plane floor;
+			RayTracer::CheckerPattern floorPattern(checkerColor1, checkerColor2);
+			floor.material.pattern = &floorPattern;
+			floor.material.ambient = 0.1f;
+			floor.material.reflective = 0.0f;
+			w.objects.push_back(&floor);
+
+			RayTracer::Plane ceiling;
+			ceiling.transform = RayTracer::translation(0.0f, 20.0f, 0.0f) * RayTracer::xRotation4x4(PI);
+			ceiling.material.color = RayTracer::Color(1.0f);
+			ceiling.material.ambient = 0.1f;
+			ceiling.material.reflective = 0.0f;
+			w.objects.push_back(&ceiling);
+
+			RayTracer::Plane backWall;
+			backWall.transform = RayTracer::translation(1.0f, 0.0f, 15.0f) * RayTracer::xRotation4x4(PI / 2.0f);
+			RayTracer::CheckerPattern backWallPattern(checkerColor1, checkerColor2);
+			backWall.material.pattern = &backWallPattern;
+			backWall.material.ambient = 0.1f;
+			backWall.material.reflective = 0.0f;
+			backWall.material.specular = 0;
+			w.objects.push_back(&backWall);
+
+			RayTracer::Plane behindWall;
+			behindWall.transform = RayTracer::translation(1.0f, 0.0f, -25.0f) * RayTracer::xRotation4x4(-PI / 2.0f);
+			behindWall.material.color = RayTracer::Color(1.0f);
+			behindWall.material.ambient = 0.1f;
+			behindWall.material.reflective = 0.0f;
+			behindWall.material.specular = 0;
+			w.objects.push_back(&behindWall);
+		}
+
+		RayTracer::Sphere glassSphere;
+		glassSphere.material = RayTracer::glass(glassSphere.material);
+		glassSphere.transform = RayTracer::translation(-6.0f, 1.0f, 5.0f);
+		w.objects.push_back(&glassSphere);
+
+		RayTracer::Sphere matteSphere;
+		matteSphere.material = RayTracer::matte(matteSphere.material, babyBlue);
+		matteSphere.transform = RayTracer::translation(-3.0f, 1.0f, 5.0f);
+		w.objects.push_back(&matteSphere);
+
+		RayTracer::Sphere reflectiveMetalSphere;
+		reflectiveMetalSphere.material = RayTracer::metal(reflectiveMetalSphere.material);
+		reflectiveMetalSphere.transform = RayTracer::translation(0.0f, 1.0f, 5.0f);
+		w.objects.push_back(&reflectiveMetalSphere);
+
+		RayTracer::Sphere glossySphere;
+		glossySphere.material = RayTracer::gloss(glossySphere.material, babyBlue);
+		glossySphere.transform = RayTracer::translation(3.0f, 1.0f, 5.0f);
+		w.objects.push_back(&glossySphere);
+
+		RayTracer::Sphere flatMetalSphere;
+		//flatMetalSphere.material = RayTracer::matte(flatMetalSphere.material, RayTracer::Color(1.0f));
+		flatMetalSphere.transform = RayTracer::translation(6.0f, 1.0f, 5.0f);
+		w.objects.push_back(&flatMetalSphere);
+	}
+
+	// run the ray tracer...
+	auto start = std::chrono::high_resolution_clock::now();
+	
+	RayTracer::Canvas image = RayTracer::renderMultiThread(camera, w, 16);
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+	std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
+
+	// save the image to disk
+	std::string filename = "images/materials_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
+	image.toPPM(filename);
 }
 
 void RayTraceScene_Book()
