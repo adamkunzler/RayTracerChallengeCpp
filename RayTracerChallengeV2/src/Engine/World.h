@@ -124,12 +124,12 @@ namespace RayTracer
 				Color refracted = refractedColor(c, remaining);
 
 				Material m(c.object->material);
-				if (m.reflective > 0 && m.transparency > 0)
+				if (m.reflective > 0.0f && m.transparency > 0.0f)
 				{
 					float reflectance = schlick(c);
 					finalColor = finalColor + surface
-						+ (reflected * reflectance)
-						+ (refracted * (1 - reflectance));
+						+ reflected * reflectance
+						+ refracted * (1.0f - reflectance);
 				}
 				else
 				{
@@ -160,7 +160,7 @@ namespace RayTracer
 
 		Color reflectedColor(const Computation& comps, const int remaining) const
 		{
-			if (comps.object->material.reflective == 0.0f || remaining < 1.0f)
+			if (comps.object->material.reflective == 0.0f || remaining < 1)
 			{
 				return Color(0.0f);
 			}
@@ -173,17 +173,17 @@ namespace RayTracer
 
 		Color refractedColor(const Computation& comps, const int remaining) const
 		{
-			if (comps.object->material.transparency == 0.0f || remaining < 1.0f)
+			if (comps.object->material.transparency == 0.0f || remaining < 1)
 			{
 				return Color(0.0f);
 			}
 
 			float ratio = comps.n1 / comps.n2;
 			float cos_i = dot(comps.eyeV, comps.normalV);
-			float sin2_t = (ratio * ratio) * (1 - (cos_i * cos_i));
-			if (sin2_t > 1) {
+			float sin2_t = (ratio * ratio) * (1.0f - (cos_i * cos_i));
+			if (sin2_t > 1.0f) {
 				// total internal reflection!!
-				return Color(0);
+				return Color(0.0f);
 			}
 
 			float cost_t = std::sqrtf(1.0f - sin2_t);
@@ -213,8 +213,8 @@ namespace RayTracer
 			}
 
 			float r0 = ((comps.n1 - comps.n2) / (comps.n1 + comps.n2)) * ((comps.n1 - comps.n2) / (comps.n1 + comps.n2));
-			float oneMinusCosPower5 = (1 - cos) * (1 - cos) * (1 - cos) * (1 - cos) * (1 - cos);
-			return r0 + (1 - r0) * oneMinusCosPower5;
+			float oneMinusCosPower5 = (1.0f - cos) * (1.0f - cos) * (1.0f - cos) * (1.0f - cos) * (1.0f - cos);
+			return r0 + ((1.0f - r0) * oneMinusCosPower5);
 		}
 
 		bool isShadowed(const PointLight& light, const Vector4& p) const

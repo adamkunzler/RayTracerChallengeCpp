@@ -54,7 +54,7 @@ namespace RayTracer
 
 			// normal from local space to world space
 			Vector4 worldNormal = localNormal * transpose4x4(inverse(transform));
-			worldNormal.w = 0;
+			worldNormal.w = 0.0f;
 
 			return normalize(worldNormal);
 		}

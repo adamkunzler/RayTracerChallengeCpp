@@ -448,9 +448,129 @@ else { failedTests.push_back(scenario); }
 			}
 
 
+			//
+			// Chapter 12 - Cubes
+			//
+			
+			{
+				{
+					std::string scenario = "Chapter 12 - A ray intersects a cube";
+
+					Cube c;
+
+					Ray r1(Point4(5, 0.5, 0), Vector4(-1, 0, 0));
+					std::vector<Intersection> xs1 = c.localIntersectBy(r1);
+
+					Ray r2(Point4(-5, 0.5, 0), Vector4(1, 0, 0));
+					std::vector<Intersection> xs2 = c.localIntersectBy(r2);
+
+					Ray r3(Point4(0.5, 5, 0), Vector4(0, -1, 0));
+					std::vector<Intersection> xs3 = c.localIntersectBy(r3);
+
+					Ray r4(Point4(0.5, -5, 0), Vector4(0, 1, 0));
+					std::vector<Intersection> xs4 = c.localIntersectBy(r4);
+
+					Ray r5(Point4(0.5, 0, 5), Vector4(0, 0, -1));
+					std::vector<Intersection> xs5 = c.localIntersectBy(r5);
+
+					Ray r6(Point4(0.5, 0, -5), Vector4(0, 0, 1));
+					std::vector<Intersection> xs6 = c.localIntersectBy(r6);
+
+					Ray r7(Point4(0, 0.5f, 0), Vector4(0, 0, 1));
+					std::vector<Intersection> xs7 = c.localIntersectBy(r7);
+
+					bool result =
+						(feq(xs1[0].t, 4) && feq(xs1[1].t, 6))
+						&& (feq(xs2[0].t, 4) && feq(xs2[1].t, 6))
+						&& (feq(xs3[0].t, 4) && feq(xs3[1].t, 6))
+						&& (feq(xs4[0].t, 4) && feq(xs4[1].t, 6))
+						&& (feq(xs5[0].t, 4) && feq(xs5[1].t, 6))
+						&& (feq(xs6[0].t, 4) && feq(xs6[1].t, 6))
+						&& (feq(xs7[0].t, -1) && feq(xs7[1].t, 1));
+
+					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
+					if (result) { numPassed++; }
+					else { failedTests.push_back(scenario); }
+				}
+
+				{
+					std::string scenario = "Chapter 12 - A ray misses a cube";
+
+					Cube c;
+					Ray r1(Point4(-2, 0, 0), Vector4(0.2673, 0.5345, 0.8018));
+					Ray r2(Point4(0, -2, 0), Vector4(0.8018, 0.2673, 0.5345));
+					Ray r3(Point4(0, 0, -2), Vector4(0.5345, 0.8018, 0.2673));
+					Ray r4(Point4(2, 0, 2), Vector4(0, 0, -1));
+					Ray r5(Point4(0, 2, 2), Vector4(0, -1, 0));
+					Ray r6(Point4(2, 2, 0), Vector4(-1, 0, 0));
+
+					std::vector<Intersection> xs1 = c.localIntersectBy(r1);
+					std::vector<Intersection> xs2 = c.localIntersectBy(r2);
+					std::vector<Intersection> xs3 = c.localIntersectBy(r3);
+					std::vector<Intersection> xs4 = c.localIntersectBy(r4);
+					std::vector<Intersection> xs5 = c.localIntersectBy(r5);
+					std::vector<Intersection> xs6 = c.localIntersectBy(r6);
+
+					bool result = xs1.size() == 0
+						&& xs2.size() == 0
+						&& xs3.size() == 0
+						&& xs4.size() == 0
+						&& xs5.size() == 0
+						&& xs6.size() == 0;
+
+					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
+					if (result) { numPassed++; }
+					else { failedTests.push_back(scenario); }
+				}
+
+				{
+					std::string scenario = "Chapter 12 - The normal on the surface of a cube";
+
+					Cube c;
+					Point4 p1(1, 0.5, -0.8);
+					Point4 p2(-1, -0.2, 0.9);
+					Point4 p3(-0.4, 1, -0.1);
+					Point4 p4(0.3, -1, -0.7);
+					Point4 p5(-0.6, 0.3, 1);
+					Point4 p6(0.4, 0.4, -1);
+					Point4 p7(1, 1, 1);
+					Point4 p8(-1, -1, -1);
+
+					Vector4 n1 = c.localNormalAt(p1);
+					Vector4 n2 = c.localNormalAt(p2);
+					Vector4 n3 = c.localNormalAt(p3);
+					Vector4 n4 = c.localNormalAt(p4);
+					Vector4 n5 = c.localNormalAt(p5);
+					Vector4 n6 = c.localNormalAt(p6);
+					Vector4 n7 = c.localNormalAt(p7);
+					Vector4 n8 = c.localNormalAt(p8);
+
+					Vector4 e1(1, 0, 0);
+					Vector4 e2(-1, 0, 0);
+					Vector4 e3(0, 1, 0);
+					Vector4 e4(0, -1, 0);
+					Vector4 e5(0, 0, 1);
+					Vector4 e6(0, 0, -1);
+					Vector4 e7(1, 0, 0);
+					Vector4 e8(-1, 0, 0);
+
+					bool result = n1.equals(e1)
+						&& n2.equals(e2)
+						&& n3.equals(e3)
+						&& n4.equals(e4)
+						&& n5.equals(e5)
+						&& n6.equals(e6)
+						&& n7.equals(e7)
+						&& n8.equals(e8);
+
+					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
+					if (result) { numPassed++; }
+					else { failedTests.push_back(scenario); }
+				}
+			}
 
 			/*{
-				std::string scenario = "Chapter 4 - ";
+				std::string scenario = "Chapter 12 - ";
 				
 				bool result = false;
 

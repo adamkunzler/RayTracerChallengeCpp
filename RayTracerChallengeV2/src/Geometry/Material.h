@@ -76,7 +76,7 @@ namespace RayTracer
 		m.reflective = 1.0f;
 		m.transparency = 1.0f;
 		m.refractiveIndex = 1.52f;
-
+		
 		return m;
 	}
 
@@ -88,6 +88,20 @@ namespace RayTracer
 		m.specular = 0.9f;
 		m.shininess = 300.0f;
 		m.reflective = 1.0f;
+		m.transparency = 0.0f;
+		m.refractiveIndex = 0.0f;
+
+		return m;
+	}
+
+	Material& metallic(Material& m, const Color& color)
+	{
+		m.color = color;
+		m.ambient = 0.3f;
+		m.diffuse = 0.3f;
+		m.specular = 0.65f;
+		m.shininess = 5.0f;
+		m.reflective = 0.05f;
 		m.transparency = 0.0f;
 		m.refractiveIndex = 0.0f;
 
