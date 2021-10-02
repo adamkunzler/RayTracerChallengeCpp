@@ -227,7 +227,7 @@ namespace RayTracer
 			std::vector<Intersection> intersections = intersectBy(r);
 
 			Intersection hitXs = hit(intersections);
-			if (!hitXs.isNull() && hitXs.t < distance)
+			if (!hitXs.isNull() && hitXs.object->hasShadow && hitXs.t < distance)
 			{
 				return true;
 			}
@@ -235,6 +235,5 @@ namespace RayTracer
 			return false;
 		}				
 	};	
-
 	
 }

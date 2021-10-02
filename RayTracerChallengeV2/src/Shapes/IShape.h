@@ -17,8 +17,9 @@ namespace RayTracer
 	{	
 		Matrix4x4 transform;
 		Material material;
+		bool hasShadow;
 	
-		IShape() : transform(identity4x4()) { }
+		IShape() : transform(identity4x4()), hasShadow(true) { }
 		virtual ~IShape() {}
 		
 		//

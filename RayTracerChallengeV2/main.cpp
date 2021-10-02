@@ -48,7 +48,7 @@ void Clock();
 #include "tests/_testHarness.h"
 
 void RayTraceScene_Book();
-void differentMaterials(const int sizeScale);
+void spheres(const int sizeScale);
 void cubes(const int sizeScale);
 
 int main()
@@ -60,8 +60,8 @@ int main()
 	RayTracer::Tests::RunTests();
 
 	//RayTraceScene_Book();
-	//differentMaterials(2);
-	cubes(2);
+	//spheres(2);
+	//cubes(2);
 	
 	return 0;
 }
@@ -82,7 +82,7 @@ void DoSomething()
 	return;
 }
 
-void differentMaterials(const int sizeScale)
+void spheres(const int sizeScale)
 {
 	std::cout << " --- Ray Trace Scene: Materials --- ";
 	
@@ -148,6 +148,11 @@ void differentMaterials(const int sizeScale)
 		glassSphere.transform = RayTracer::translation(-6.0f, 1.0f, 4.0f);
 		w.objects.push_back(&glassSphere);
 
+		RayTracer::Sphere glassSphereInside;
+		glassSphereInside.material = RayTracer::glass(glassSphereInside.material);
+		glassSphereInside.transform = RayTracer::translation(-6.0f, 1.0f, 4.0f) * RayTracer::scaling(0.9f, 0.9f, 0.9f);
+		w.objects.push_back(&glassSphereInside);
+
 		RayTracer::Sphere matteSphere;
 		matteSphere.material = RayTracer::matte(matteSphere.material, babyBlue);
 		matteSphere.transform = RayTracer::translation(-3.0f, 1.0f, 5.0f);
@@ -180,7 +185,7 @@ void differentMaterials(const int sizeScale)
 	std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
 
 	// save the image to disk
-	std::string filename = "images/materials_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
+	std::string filename = "images/spheres_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
 	image.toPPM(filename);
 }
 
@@ -436,6 +441,7 @@ void cubes(const int sizeScale)
 		RayTracer::Color checkerColor2(0.95f);
 		RayTracer::Color babyBlue = RayTracer::rgb(137, 207, 240);
 
+		
 		{
 			RayTracer::Plane floor;
 			RayTracer::CheckerPattern floorPattern(checkerColor1, checkerColor2);
@@ -471,8 +477,13 @@ void cubes(const int sizeScale)
 
 		RayTracer::Cube glassSphere;
 		glassSphere.material = RayTracer::glass(glassSphere.material);
-		glassSphere.transform = RayTracer::translation(-6.0f, 1.0f, 4.0f);
+		glassSphere.transform = RayTracer::translation(-6.0f, 1.0f, 4.0f);		
 		w.objects.push_back(&glassSphere);
+
+		RayTracer::Cube glassSphereInside;
+		glassSphereInside.material = RayTracer::glass(glassSphereInside.material);
+		glassSphereInside.transform = RayTracer::translation(-6.0f, 1.0f, 4.0f) * RayTracer::scaling(0.99999f, 0.99999f, 0.99999f);		
+		w.objects.push_back(&glassSphereInside);
 
 		RayTracer::Cube matteSphere;
 		matteSphere.material = RayTracer::matte(matteSphere.material, babyBlue);

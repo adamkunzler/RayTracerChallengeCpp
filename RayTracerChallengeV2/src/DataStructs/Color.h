@@ -29,6 +29,12 @@ namespace RayTracer
 			return r == rhs.r && g == rhs.g && b == rhs.b;
 		}
 
+		// approximate equality
+		bool equals(const Color& rhs) const
+		{
+			return feq(r, rhs.r) && feq(g, rhs.g) && feq(b, rhs.b);
+		}
+
 		// inequality
 		bool operator!=(const Color& rhs) const
 		{
