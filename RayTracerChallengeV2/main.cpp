@@ -36,6 +36,8 @@ void Clock();
 #include "src/Shapes/Sphere.h"
 #include "src/Shapes/Plane.h"
 #include "src/Shapes/Cube.h"
+#include "src/Shapes/Cylinder.h"
+#include "src/Shapes/Cone.h"
 
 #include "src/Patterns/IPattern.h"
 #include "src/Patterns/StripePattern.h"
@@ -50,6 +52,7 @@ void Clock();
 void RayTraceScene_Book();
 void spheres(const int sizeScale);
 void cubes(const int sizeScale);
+void cylinders(const int sizeScale);
 
 int main()
 {	
@@ -57,12 +60,13 @@ int main()
 	//benchmarkMatrix4x4(10000000); // 6.7s
 	//benchmarkMatrix4x4Inversions(10000000); // 5.8s
 	// 
-	RayTracer::Tests::RunTests();
+	//RayTracer::Tests::RunTests();
 
 	//RayTraceScene_Book();
 	//spheres(2);
 	//cubes(2);
-	
+	cylinders(2);
+
 	return 0;
 }
 
@@ -519,5 +523,117 @@ void cubes(const int sizeScale)
 
 	// save the image to disk
 	std::string filename = "images/cubes_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
+	image.toPPM(filename);
+}
+
+//
+// Chapter 13 - cylinders
+//
+void cylinders(const int sizeScale)
+{
+	std::cout << " --- Ray Trace Scene: Cylinders --- ";
+
+	const int hsize = 800 * sizeScale;
+	const int vsize = 800 * sizeScale;
+
+	RayTracer::World w;
+
+	RayTracer::Camera camera(hsize, vsize, PI / 2.3f);
+	camera.transform = RayTracer::viewTransform(
+		RayTracer::Point4(0.0f, 5.0f, -6.0f), // from
+		RayTracer::Point4(0.0f, 1.0f, 5.0f),  // to
+		RayTracer::Vector4(0.0f, 1.0f, 0.0f));
+
+	RayTracer::PointLight lightM(RayTracer::Point4(0.0f, 7.0f, 0.0f), RayTracer::Color(0.9f));
+	//RayTracer::PointLight lightL(RayTracer::Point4(-5.0f, 15.0f, -5.0f), RayTracer::Color(0.35f));
+	//RayTracer::PointLight lightR(RayTracer::Point4(5.0f, 2.0f, -5.0f), RayTracer::Color(0.35f));
+	w.lights.push_back(lightM);
+	//w.lights.push_back(lightL);
+	//w.lights.push_back(lightR);
+
+	// setup objects
+	{
+		RayTracer::Color checkerColor1(0.99f);
+		RayTracer::Color checkerColor2(0.95f);
+		RayTracer::Color babyBlue = RayTracer::rgb(137, 207, 240);
+
+
+		{
+			RayTracer::Plane floor;
+			RayTracer::CheckerPattern floorPattern(checkerColor1, checkerColor2);
+			floor.material.pattern = &floorPattern;
+			floor.material.ambient = 0.1f;
+			floor.material.reflective = 0.0f;
+			w.objects.push_back(&floor);
+
+			RayTracer::Plane ceiling;
+			ceiling.transform = RayTracer::translation(0.0f, 20.0f, 0.0f) * RayTracer::xRotation4x4(PI);
+			ceiling.material.color = RayTracer::Color(1.0f);
+			ceiling.material.ambient = 0.1f;
+			ceiling.material.reflective = 0.0f;
+			w.objects.push_back(&ceiling);
+
+			RayTracer::Plane backWall;
+			backWall.transform = RayTracer::translation(1.0f, 0.0f, 15.0f) * RayTracer::xRotation4x4(PI / 2.0f);
+			RayTracer::CheckerPattern backWallPattern(checkerColor1, checkerColor2);
+			backWall.material.pattern = &backWallPattern;
+			backWall.material.ambient = 0.1f;
+			backWall.material.reflective = 0.0f;
+			backWall.material.specular = 0;
+			w.objects.push_back(&backWall);
+
+			RayTracer::Plane behindWall;
+			behindWall.transform = RayTracer::translation(1.0f, 0.0f, -25.0f) * RayTracer::xRotation4x4(-PI / 2.0f);
+			behindWall.material.color = RayTracer::Color(1.0f);
+			behindWall.material.ambient = 0.1f;
+			behindWall.material.reflective = 0.0f;
+			behindWall.material.specular = 0;
+			w.objects.push_back(&behindWall);
+		}
+
+		RayTracer::Cylinder glassSphere(0.0f, 3.0f, true);
+		glassSphere.material = RayTracer::glass(glassSphere.material);
+		glassSphere.transform = RayTracer::translation(-6.0f, 0.0f, 3.0f);
+		w.objects.push_back(&glassSphere);
+
+		RayTracer::Cylinder glassSphereInside(0.0f, 3.0f, true);
+		glassSphereInside.material = RayTracer::glass(glassSphereInside.material);
+		glassSphereInside.transform = RayTracer::translation(-6.0f, 0.0f, 3.0f) * RayTracer::scaling(0.99999f, 0.99999f, 0.99999f);
+		w.objects.push_back(&glassSphereInside);
+
+		RayTracer::Cylinder matteSphere(0.0f, 3.0f, true);
+		matteSphere.material = RayTracer::matte(matteSphere.material, babyBlue);
+		matteSphere.transform = RayTracer::translation(-2.0f, 0.0f, 5.0f);
+		w.objects.push_back(&matteSphere);
+
+		RayTracer::Cylinder reflectiveMetalSphere(0.0f, 1.0f);
+		reflectiveMetalSphere.material = RayTracer::metal(reflectiveMetalSphere.material);
+		reflectiveMetalSphere.material.reflective = 0.8f;
+		reflectiveMetalSphere.transform = RayTracer::translation(0.0f, 0.0f, 5.0f) * RayTracer::scaling(4.5f, 1.0f, 4.5f);
+		w.objects.push_back(&reflectiveMetalSphere);
+
+		RayTracer::Cylinder glossySphere(0.0f, 3.0f, true);
+		glossySphere.material = RayTracer::gloss(glossySphere.material, babyBlue);
+		glossySphere.transform = RayTracer::translation(2.0f, 0.0f, 5.0f);
+		w.objects.push_back(&glossySphere);
+
+		RayTracer::Cylinder flatMetalSphere(0.0f, 3.0f, true);
+		flatMetalSphere.material = RayTracer::metallic(flatMetalSphere.material, RayTracer::Color(0.5f, 0.525f, 0.5f));
+		flatMetalSphere.transform = RayTracer::translation(6.0f, 0.0f, 3.0f);
+		w.objects.push_back(&flatMetalSphere);
+	}
+
+	// run the ray tracer...
+	auto start = std::chrono::high_resolution_clock::now();
+
+	RayTracer::Canvas image = RayTracer::renderMultiThread(camera, w, 16);
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+
+	std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
+
+	// save the image to disk
+	std::string filename = "images/cylinders_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
 	image.toPPM(filename);
 }
