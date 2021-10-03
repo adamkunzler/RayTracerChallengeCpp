@@ -95,7 +95,7 @@
     <ClInclude Include="src\Shapes\Cylinder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shapes\Cone.h">
+    <ClInclude Include="src\Engine\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -63,7 +63,7 @@ namespace RayTracer
 		}
 
 		// approximate equality
-		bool equals(const Matrix4x4& m)
+		bool equals(const Matrix4x4& m) const
 		{
 			return feq(m00, m.m00) && feq(m01, m.m01) && feq(m02, m.m02) && feq(m03, m.m03)
 				&& feq(m10, m.m10) && feq(m11, m.m11) && feq(m12, m.m12) && feq(m13, m.m13)

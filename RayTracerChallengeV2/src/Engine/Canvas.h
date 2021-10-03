@@ -7,8 +7,7 @@ namespace RayTracer
 	private:
 		const int width;
 		const int height;
-		const int maxIndex;
-		//Color* pixels;
+		const int maxIndex;		
 		std::vector<Color> pixels;
 
 	public:
@@ -117,7 +116,7 @@ namespace RayTracer
 		//		
 		const void toPPM(const std::string& filename)
 		{			
-			auto start1 = std::chrono::high_resolution_clock::now();
+			//auto start1 = std::chrono::high_resolution_clock::now();
 
 			const std::string space = " ";
 
@@ -162,9 +161,9 @@ namespace RayTracer
 
 			ss.close();
 
-			auto stop1 = std::chrono::high_resolution_clock::now();
-			auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
-			std::cout << "\nPPM File Completed in " << duration1.count() << "ms.\n";
+			//auto stop1 = std::chrono::high_resolution_clock::now();
+			//auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
+			//std::cout << "\nPPM File Completed in " << duration1.count() << "ms.\n";
 		}
 	};
 }

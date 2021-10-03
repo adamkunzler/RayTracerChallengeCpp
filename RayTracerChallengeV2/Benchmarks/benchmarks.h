@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <chrono>
+#include <map>
+#include <string>
 
 #include "../src/DataStructs/Vector4.h"
 #include "../src/DataStructs/Matrix4x4.h"
@@ -119,7 +121,7 @@ bool _benchmark_Matrix_Inverse_1()
 		-0.80827f, -1.45677f, -0.44361f, 0.52068f,
 		-0.07895f, -0.22368f, -0.05263f, 0.19737f,
 		-0.52256f, -0.81391f, -0.30075f, 0.30639f);
-
+	
 	RayTracer::Matrix4x4 b = RayTracer::inverse(m);
 
 	//std::cout << "\n _benchmark_Matrix_Inverse_1 result:" << b;
@@ -142,7 +144,7 @@ bool _benchmark_Matrix_Inverse_2()
 		-0.07692f, 0.12308f, 0.02564f, 0.03077f,
 		0.35897f, 0.35897f, 0.43590f, 0.92308f,
 		-0.69231f, -0.69231f, -0.76923f, -1.92308f);
-
+	
 	RayTracer::Matrix4x4 b = RayTracer::inverse(m);
 
 	//std::cout << "\n _benchmark_Matrix_Inverse_2 result:" << b;
@@ -165,7 +167,7 @@ bool _benchmark_Matrix_Inverse_3()
 		-0.07778f, 0.03333f, 0.36667f, -0.33333f,
 		-0.02901f, -0.14630f, -0.10926f, 0.12963f,
 		0.17778f, 0.06667f, -0.26667f, 0.33333f);
-
+	
 	RayTracer::Matrix4x4 b = RayTracer::inverse(m);
 
 	//std::cout << "\n _benchmark_Matrix_Inverse_3 result:" << b;

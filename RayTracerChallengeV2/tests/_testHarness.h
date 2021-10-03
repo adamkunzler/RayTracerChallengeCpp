@@ -15,7 +15,7 @@ namespace RayTracer
 			s1->material.specular = 0.2f;
 
 			Sphere* s2 = new Sphere();
-			s2->transform = scaling(0.5f, 0.5f, 0.5f);
+			s2->setTransform(scaling(0.5f, 0.5f, 0.5f));
 
 			w->objects.push_back(s1);
 			w->objects.push_back(s2);
@@ -26,7 +26,7 @@ namespace RayTracer
 		Sphere* GlassSphere()
 		{
 			Sphere* s = new Sphere();
-			s->transform = identity4x4();
+			s->setTransform(identity4x4());
 			s->material.transparency = 1.0f;
 			s->material.refractiveIndex = 1.5f;
 			return s;
@@ -195,12 +195,12 @@ namespace RayTracer
 
 					Matrix4x4 a(-5, 2, 6, -8, 1, -5, 1, 8, 7, 7, -6, -7, 1, -3, 7, 4);
 					Matrix4x4 b(
-						0.21805, 0.45113, 0.24060, -0.04511,
-						-0.80827, -1.45677, -0.44361, 0.52068,
-						-0.07895, -0.22368, -0.05263, 0.19737,
-						-0.52256, -0.81391, -0.30075, 0.30639
+						0.21805f, 0.45113f, 0.24060f, -0.04511f,
+						-0.80827f, -1.45677f, -0.44361f, 0.52068f,
+						-0.07895f, -0.22368f, -0.05263f, 0.19737f,
+						-0.52256f, -0.81391f, -0.30075f, 0.30639f
 					);
-
+					
 					bool result = inverse(a).equals(b);
 
 					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
@@ -222,7 +222,7 @@ namespace RayTracer
 						-0.07692f, 0.12308f, 0.02564f, 0.03077f,
 						0.35897f, 0.35897f, 0.43590f, 0.92308f,
 						-0.69231f, -0.69231f, -0.76923f, -1.92308f);
-
+					
 					bool result = inverse(m).equals(expected);
 
 					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
@@ -244,7 +244,7 @@ namespace RayTracer
 						-0.07778f, 0.03333f, 0.36667f, -0.33333f,
 						-0.02901f, -0.14630f, -0.10926f, 0.12963f,
 						0.17778f, 0.06667f, -0.26667f, 0.33333f);
-
+					
 					bool result = inverse(m).equals(expected);
 
 					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
@@ -258,7 +258,7 @@ namespace RayTracer
 					Matrix4x4 a(3, -9, 7, 3, 3, -8, 2, -9, -4, 4, 4, 1, -6, 5, -1, 1);
 					Matrix4x4 b(8, 2, 2, 2, 3, -1, 7, 0, 7, 0, 5, 4, 6, -2, 0, 5);
 					Matrix4x4 c = a * b;
-
+					
 					bool result = (c * inverse(b)).equals(a);
 
 					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
@@ -290,7 +290,7 @@ namespace RayTracer
 
 				{
 					std::string scenario = "Chapter 4 - Multiplying by the inverse of a translation matrix";
-
+					
 					Matrix4x4 t = translation(5, -3, 2);
 					Matrix4x4 inv = inverse(t);
 					Point4 p(-3, 4, 5);
@@ -346,7 +346,7 @@ namespace RayTracer
 
 				{
 					std::string scenario = "Chapter 4 - Multiplying by the inverse of a scaling matrix";
-
+					
 					Matrix4x4 t = scaling(2, 3, 4);
 					Matrix4x4 inv = inverse(t);
 					Vector4 p(-4, 6, 8);
@@ -393,7 +393,7 @@ namespace RayTracer
 
 				{
 					std::string scenario = "Chapter 4 - The inverse of an x-rotation rotates in the opposite direction";
-
+					
 					Point4 p(0, 1, 0);
 					Matrix4x4 halfQuarter = xRotation4x4(PI / 4.0f);
 					Matrix4x4 inv = inverse(halfQuarter);
@@ -536,9 +536,9 @@ namespace RayTracer
 					std::string scenario = "Chapter 12 - A ray misses a cube";
 
 					Cube c;
-					Ray r1(Point4(-2, 0, 0), Vector4(0.2673, 0.5345, 0.8018));
-					Ray r2(Point4(0, -2, 0), Vector4(0.8018, 0.2673, 0.5345));
-					Ray r3(Point4(0, 0, -2), Vector4(0.5345, 0.8018, 0.2673));
+					Ray r1(Point4(-2, 0, 0), Vector4(0.2673f, 0.5345f, 0.8018f));
+					Ray r2(Point4(0, -2, 0), Vector4(0.8018f, 0.2673f, 0.5345f));
+					Ray r3(Point4(0, 0, -2), Vector4(0.5345f, 0.8018f, 0.2673f));
 					Ray r4(Point4(2, 0, 2), Vector4(0, 0, -1));
 					Ray r5(Point4(0, 2, 2), Vector4(0, -1, 0));
 					Ray r6(Point4(2, 2, 0), Vector4(-1, 0, 0));
@@ -566,12 +566,12 @@ namespace RayTracer
 					std::string scenario = "Chapter 12 - The normal on the surface of a cube";
 
 					Cube c;
-					Point4 p1(1, 0.5, -0.8);
-					Point4 p2(-1, -0.2, 0.9);
-					Point4 p3(-0.4, 1, -0.1);
-					Point4 p4(0.3, -1, -0.7);
-					Point4 p5(-0.6, 0.3, 1);
-					Point4 p6(0.4, 0.4, -1);
+					Point4 p1(1, 0.5f, -0.8f);
+					Point4 p2(-1, -0.2f, 0.9f);
+					Point4 p3(-0.4f, 1, -0.1f);
+					Point4 p4(0.3f, -1, -0.7f);
+					Point4 p5(-0.6f, 0.3f, 1);
+					Point4 p6(0.4f, 0.4f, -1);
 					Point4 p7(1, 1, 1);
 					Point4 p8(-1, -1, -1);
 
@@ -671,7 +671,7 @@ namespace RayTracer
 					World* w = defaultWorld();
 					Plane shape;
 					shape.material.reflective = 0.5f;
-					shape.transform = translation(0, -1, 0);
+					shape.setTransform(translation(0, -1, 0));
 					w->objects.push_back(&shape);
 					Ray r(Point4(0, 0, -3), Vector4(0, -sqrt2over2, sqrt2over2));
 					Intersection i(sqrt2, &shape);
@@ -693,7 +693,7 @@ namespace RayTracer
 					World* w = defaultWorld();
 					Plane shape;
 					shape.material.reflective = 0.5f;
-					shape.transform = translation(0, -1, 0);
+					shape.setTransform(translation(0, -1, 0));
 					w->objects.push_back(&shape);
 					Ray r(Point4(0, 0, -3), Vector4(0, -sqrt2over2, sqrt2over2));
 					Intersection i(sqrt2, &shape);
@@ -718,12 +718,12 @@ namespace RayTracer
 
 					Plane lower;
 					lower.material.reflective = 1;
-					lower.transform = translation(0, -1, 0);
+					lower.setTransform(translation(0, -1, 0));
 					w.objects.push_back(&lower);
 
 					Plane upper;
 					upper.material.reflective = 1;
-					upper.transform = translation(0, 1, 0);
+					upper.setTransform(translation(0, 1, 0));
 					w.objects.push_back(&upper);
 
 					Ray r(Point4(0, 0, 0), Vector4(0, 1, 0));
@@ -744,7 +744,7 @@ namespace RayTracer
 					World* w = defaultWorld();
 					Plane shape;
 					shape.material.reflective = 0.5f;
-					shape.transform = translation(0, -1, 0);
+					shape.setTransform(translation(0, -1, 0));
 					w->objects.push_back(&shape);
 
 					Ray r(Point4(0, 0, -3), Vector4(0, -sqrt2over2, sqrt2over2));
@@ -780,8 +780,7 @@ namespace RayTracer
 					Sphere s = *GlassSphere();
 
 					bool result = feq(s.material.transparency, 1)
-						&& feq(s.material.refractiveIndex, 1.5)
-						&& s.transform.equals(identity4x4());
+						&& feq(s.material.refractiveIndex, 1.5);
 
 					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
 					if (result) { numPassed++; }
@@ -792,15 +791,15 @@ namespace RayTracer
 					std::string scenario = "Chapter 11 - Finding n1 and n2 at various intersections";
 
 					Sphere a = *GlassSphere();
-					a.transform = scaling(2, 2, 2);
+					a.setTransform(scaling(2, 2, 2));
 					a.material.refractiveIndex = 1.5f;
 
 					Sphere b = *GlassSphere();
-					b.transform = translation(0, 0, -0.25);
+					b.setTransform(translation(0, 0, -0.25));
 					b.material.refractiveIndex = 2.0f;
 
 					Sphere c = *GlassSphere();
-					c.transform = translation(0, 0, 0.25f);
+					c.setTransform(translation(0, 0, 0.25f));
 					c.material.refractiveIndex = 2.5f;
 
 					Ray r(Point4(0, 0, -4), Vector4(0, 0, 1));
@@ -838,7 +837,7 @@ namespace RayTracer
 
 					Ray r(Point4(0, 0, -5), Vector4(0, 0, 1));
 					Sphere s = *GlassSphere();
-					s.transform = translation(0, 0, 1);
+					s.setTransform(translation(0, 0, 1));
 					Intersection i(5, &s);
 					std::vector<Intersection> xs = { i };
 					World w;
@@ -953,12 +952,12 @@ namespace RayTracer
 
 					World w = *defaultWorld();
 					Plane floor;
-					floor.transform = translation(0, -1, 0);
+					floor.setTransform(translation(0, -1, 0));
 					floor.material.transparency = 0.5f;
 					floor.material.refractiveIndex = 1.5f;
 					w.objects.push_back(&floor);
 					Sphere ball;
-					ball.transform = translation(0, -3.5f, -0.5f);
+					ball.setTransform(translation(0, -3.5f, -0.5f));
 					ball.material.color = Color(1, 0, 0);
 					ball.material.ambient = 0.5f;
 					w.objects.push_back(&ball);
@@ -1045,14 +1044,14 @@ namespace RayTracer
 					Ray r(Point4(0, 0, -3), Vector4(0, -sqrt2over2, sqrt2over2));
 
 					Plane floor;
-					floor.transform = translation(0, -1, 0);
+					floor.setTransform(translation(0, -1, 0));
 					floor.material.reflective = 0.5f;
 					floor.material.transparency = 0.5f;
 					floor.material.refractiveIndex = 1.5f;
 					w.objects.push_back(&floor);
 
 					Sphere ball;
-					ball.transform = translation(0, -3.5f, -0.5f);
+					ball.setTransform(translation(0, -3.5f, -0.5f));
 					ball.material.color = Color(1, 0, 0);
 					ball.material.ambient = 0.5f;
 					w.objects.push_back(&ball);

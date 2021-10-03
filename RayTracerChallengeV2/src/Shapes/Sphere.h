@@ -44,7 +44,7 @@ namespace RayTracer
 	Sphere GlassSphere()
 	{
 		Sphere s;
-		s.transform = identity4x4();
+		s.setTransform(identity4x4());
 		s.material.transparency = 1.0f;
 		s.material.refractiveIndex = 1.5f;
 		return s;

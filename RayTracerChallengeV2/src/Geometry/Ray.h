@@ -18,7 +18,7 @@ namespace RayTracer
 			return origin + (direction * t);
 		}
 		
-		Ray transform(Matrix4x4& matrix) const
+		Ray transform(const Matrix4x4& matrix) const
 		{
 			return Ray(
 				origin * matrix, 

@@ -10,21 +10,29 @@ namespace RayTracer
 
 	struct IPattern
 	{	
+	private:
 		Matrix4x4 transform;
-
+		Matrix4x4 inverseTransform;
+	public:
 		IPattern()
 		{		
-			transform = identity4x4();
+			setTransform(identity4x4());
 		}
 
 		virtual ~IPattern() {}
+
+		void setTransform(const Matrix4x4& lTransform)
+		{
+			transform = lTransform;
+			inverseTransform = inverse(transform);
+		}
 
 		virtual Color patternAt(const Point4& p) const = 0;
 
 		Color patternAt(const IShape& shape, const Point4& p) const
 		{			
-			Point4 objectPoint = p * inverse(shape.transform);
-			return patternAt(objectPoint * inverse(transform));
+			Point4 objectPoint = p * shape.getInverseTransform();
+			return patternAt(objectPoint * inverseTransform);
 		}		
 	};
 }

@@ -15,13 +15,36 @@ namespace RayTracer
 
 	struct IShape
 	{	
+	private: 
+		Matrix4x4 inverseTransform;
 		Matrix4x4 transform;
+	
+	public:		
 		Material material;
 		bool hasShadow;
 	
-		IShape() : transform(identity4x4()), hasShadow(true) { }
+		IShape()
+		{ 
+			setTransform(identity4x4());			
+			hasShadow = true;
+		}
 		virtual ~IShape() {}
 		
+		void setTransform(const Matrix4x4& lTransform)
+		{
+			transform = lTransform;
+			inverseTransform = inverse(transform);
+		}
+		const Matrix4x4 getTransform() const
+		{
+			return transform;
+		}
+
+		const Matrix4x4& getInverseTransform() const
+		{
+			return inverseTransform;
+		}
+
 		//
 		// INTERSECTIONS
 		//
@@ -30,9 +53,8 @@ namespace RayTracer
 
 		std::vector<Intersection> intersectBy(const Ray& r) const
 		{
-			// ray in world space to local space
-			Matrix4x4 inverseTransform = inverse(transform);
-			Ray localRay(r); // TODO - aybe can pass r.transform(inverseTransform) to localRay?
+			// ray in world space to local space			
+			Ray localRay(r);
 			localRay = localRay.transform(inverseTransform);
 
 			// shape figures out intersections
@@ -48,13 +70,13 @@ namespace RayTracer
 		Vector4 normalAt(const Point4& worldPoint) const
 		{
 			// point in world space to local space
-			Point4 localPoint = worldPoint * inverse(transform);
+			Point4 localPoint = worldPoint * inverseTransform;
 
 			// shape figures out it's normal
 			Vector4 localNormal = localNormalAt(localPoint); // TODO update to return reference
 
 			// normal from local space to world space
-			Vector4 worldNormal = localNormal * transpose4x4(inverse(transform));
+			Vector4 worldNormal = localNormal * transpose4x4(inverseTransform);
 			worldNormal.w = 0.0f;
 
 			return normalize(worldNormal);

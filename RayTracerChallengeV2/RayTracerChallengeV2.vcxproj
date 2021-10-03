@@ -153,10 +153,10 @@
     <ClInclude Include="src\Engine\Camera.h" />
     <ClInclude Include="src\Engine\Canvas.h" />
     <ClInclude Include="src\Engine\Engine.h" />
+    <ClInclude Include="src\Engine\Scene.h" />
     <ClInclude Include="src\Engine\World.h" />
     <ClInclude Include="src\Geometry\Computation.h" />
     <ClInclude Include="src\Geometry\Intersection.h" />
-    <ClInclude Include="src\Shapes\Cone.h" />
     <ClInclude Include="src\Shapes\Cube.h" />
     <ClInclude Include="src\Shapes\Cylinder.h" />
     <ClInclude Include="src\Shapes\IShape.h" />

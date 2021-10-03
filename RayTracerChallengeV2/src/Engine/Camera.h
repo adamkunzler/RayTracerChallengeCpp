@@ -9,24 +9,28 @@ namespace RayTracer
 
 	struct Camera
 	{	
-		float hSize;
-		float vSize;
-		float fov;
+	private:
 		Matrix4x4 transform;
+		Matrix4x4 inverseTransform;
 
+	public:
+		int hSize;
+		int vSize;
+		float fov;
+		
 		float pixelSize;
 		float halfWidth;
 		float halfHeight;
 
-		Camera(float lHSize, float lVSize, float lFov)
+		Camera(int lHSize = 800, int lVSize = 600, float lFov = 1.152f)
 		{
 			hSize = lHSize;
 			vSize = lVSize;
 			fov = lFov;
-			transform = identity4x4();
-
+			setTransform(identity4x4());
+			
 			float halfView = std::tanf(fov / 2);
-			float aspect = hSize / vSize;
+			float aspect = (float)hSize / (float)vSize;
 
 			if (aspect >= 1)
 			{
@@ -39,7 +43,13 @@ namespace RayTracer
 				halfHeight = halfView;
 			}
 
-			pixelSize = (halfWidth * 2) / hSize;
+			pixelSize = (halfWidth * 2) / (float)hSize;
+		}
+
+		void setTransform(const Matrix4x4& lTransform)
+		{
+			transform = lTransform;
+			inverseTransform = inverse(transform);
 		}
 
 		Ray rayForPixel(int x, int y) const
@@ -50,8 +60,8 @@ namespace RayTracer
 			float wx = halfWidth - xOffset;
 			float wy = halfHeight - yOffset;
 			
-			Point4 pixel = Point4(wx, wy, -1.0f) * inverse(transform);			
-			Point4 origin = Point4(0.0f, 0.0f, 0.0f) * inverse(transform);
+			Point4 pixel = Point4(wx, wy, -1.0f) * inverseTransform;
+			Point4 origin = Point4(0.0f, 0.0f, 0.0f) * inverseTransform;
 			Vector4 direction = normalize(pixel - origin);
 
 			return Ray(origin, direction);

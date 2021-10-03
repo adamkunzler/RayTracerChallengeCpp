@@ -19,7 +19,7 @@ namespace RayTracer
 	std::atomic<int> processedPixelsCount;
 	std::atomic<bool> processingDone;
 
-	Canvas render(const Camera& camera, const World& world)
+	/*Canvas render(const Camera& camera, const World& world)
 	{
 		auto start1 = std::chrono::high_resolution_clock::now();
 
@@ -47,7 +47,7 @@ namespace RayTracer
 		std::cout << "\n\nrender() completed in " << duration1.count() << "ms.";
 
 		return image;
-	}
+	}*/
 
 	Color phong(const PointLight& light, const Material& m, const IShape& shape, const Vector4& p, const Vector4& eye, const Vector4& normalV, bool inShadow)
 	{
@@ -113,6 +113,8 @@ namespace RayTracer
 
 	void renderThreadFunc(Camera& camera, World& world, int width, int startY, int endY, Color* data)
 	{
+		std::map<std::string, Matrix4x4&> cacheInverses;
+
 		int height = endY - startY;
 		for (int y = 0; y < height; y++)
 		{
@@ -144,7 +146,7 @@ namespace RayTracer
 
 	Canvas renderMultiThread(Camera& camera, World& world, int numThreads = 16)
 	{
-		auto start1 = std::chrono::high_resolution_clock::now();
+		//auto start1 = std::chrono::high_resolution_clock::now();
 
 		int totalPixels = (int)(camera.hSize * camera.vSize);
 
@@ -193,9 +195,9 @@ namespace RayTracer
 			}
 		}
 
-		auto stop1 = std::chrono::high_resolution_clock::now();
+		/*auto stop1 = std::chrono::high_resolution_clock::now();
 		auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
-		std::cout << "\nrender() completed in " << duration1.count() << "ms.";
+		std::cout << "\nrender() completed in " << duration1.count() << "ms.";*/
 
 		return image;
 	}
