@@ -17,10 +17,8 @@ namespace RayTracer
 			return localPoint - origin;
 		}
 
-		std::vector<Intersection> localIntersectBy(const Ray& localRay) const
-		{
-			std::vector<Intersection> intersections;
-
+		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
+		{			
 			Vector4 sphereToRay = localRay.origin - origin;
 
 			float a = dot(localRay.direction, localRay.direction);
@@ -29,15 +27,13 @@ namespace RayTracer
 
 			float discriminant = (b * b) - (4 * a) * c;
 			if (discriminant < 0) // MISS
-				return intersections;
+				return;
 
 			float t1 = (-b - std::sqrtf(discriminant)) / (2 * a);
 			float t2 = (-b + std::sqrtf(discriminant)) / (2 * a);
 
 			intersections.push_back(Intersection(t1, (IShape*)this));
-			intersections.push_back(Intersection(t2, (IShape*)this));
-
-			return intersections;
+			intersections.push_back(Intersection(t2, (IShape*)this));			
 		}		
 	};
 

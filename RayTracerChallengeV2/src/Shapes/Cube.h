@@ -27,7 +27,7 @@ namespace RayTracer
 			return Vector4(0.0f, 0.0f, localPoint.z);
 		}
 
-		std::vector<Intersection> localIntersectBy(const Ray& localRay) const
+		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
 		{
 			float xtmin, xtmax;
 			checkAxis(localRay.origin.x, localRay.direction.x, xtmin, xtmax);
@@ -40,13 +40,11 @@ namespace RayTracer
 
 			float tmin = std::max({ xtmin, ytmin, ztmin });
 			float tmax = std::min({ xtmax, ytmax, ztmax });
-
-			std::vector<Intersection> intersections;
-			if (tmin > tmax) return intersections;
+			
+			if (tmin > tmax) return;
 
 			intersections.push_back(Intersection(tmin, (IShape*)this));
-			intersections.push_back(Intersection(tmax, (IShape*)this));
-			return intersections;
+			intersections.push_back(Intersection(tmax, (IShape*)this));			
 		}
 
 		void checkAxis(const float& axisOrigin, const float& rayDirection, float& tmin, float& tmax) const

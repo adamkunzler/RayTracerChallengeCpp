@@ -49,16 +49,16 @@ namespace RayTracer
 		// INTERSECTIONS
 		//
 
-		virtual std::vector<Intersection> localIntersectBy(const Ray& localRay) const = 0;
+		virtual void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const = 0;
 
-		std::vector<Intersection> intersectBy(const Ray& r) const
+		void intersectBy(const Ray& r, std::vector<Intersection>& intersections) const
 		{
 			// ray in world space to local space			
 			Ray localRay(r);
 			localRay = localRay.transform(inverseTransform);
 
 			// shape figures out intersections
-			return localIntersectBy(localRay);
+			localIntersectBy(localRay, intersections);
 		}
 
 		//

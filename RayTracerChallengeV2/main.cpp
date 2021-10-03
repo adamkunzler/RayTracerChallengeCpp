@@ -56,7 +56,7 @@ void cylinders(const int sizeScale);
 
 int main()
 {
-	Tests::RunTests();
+	//Tests::RunTests();
 
 	RayTraceScene_Benchmark();
 	//spheres(2);

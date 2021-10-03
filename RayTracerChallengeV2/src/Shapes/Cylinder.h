@@ -31,13 +31,11 @@ namespace RayTracer
 			return Vector4(localPoint.x, 0.0f, localPoint.z);
 		}
 
-		std::vector<Intersection> localIntersectBy(const Ray& localRay) const
-		{
-			std::vector<Intersection> intersections;
-			
+		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
+		{						
 			float a = localRay.direction.x * localRay.direction.x 
 				+ localRay.direction.z * localRay.direction.z;
-			if (a < EPSILON) return intersections;
+			if (a < EPSILON) return;
 
 			float b = 2.0f * localRay.origin.x * localRay.direction.x
 				+ 2.0f * localRay.origin.z * localRay.direction.z;
@@ -46,7 +44,7 @@ namespace RayTracer
 				+ localRay.origin.z * localRay.origin.z - 1.0f;
 
 			float discriminant = (b * b) - (4 * a * c);
-			if (discriminant < 0.0f) return intersections;
+			if (discriminant < 0.0f) return;
 			
 			float sqrtDisc = sqrtf(discriminant);
 			float t0 = (-b - sqrtDisc) / (2 * a);
@@ -65,10 +63,7 @@ namespace RayTracer
 				intersections.push_back(Intersection(t1, (IShape*)this));
 			}
 
-			intersectCaps(intersections, localRay);
-			//intersectCaps(intersections, localRay);
-
-			return intersections;
+			intersectCaps(intersections, localRay);			
 		}
 
 		bool checkCap(const Ray& localRay, const float& t) const

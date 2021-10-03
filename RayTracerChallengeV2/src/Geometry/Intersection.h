@@ -33,8 +33,7 @@ namespace RayTracer
 	{
 		return lhs.t < rhs.t;
 	}
-
-	// TODO revisit this (return reference?)
+	
 	Intersection hit(std::vector<Intersection>& intersections)
 	{
 		std::sort(intersections.begin(), intersections.end(), intersectionComparer);

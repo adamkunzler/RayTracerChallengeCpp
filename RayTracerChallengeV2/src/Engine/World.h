@@ -23,19 +23,16 @@ namespace RayTracer
 
 		World() { }		
 						
-		std::vector<Intersection> intersectBy(const Ray& r) const
-		{
-			std::vector<Intersection> intersections;
-
+		void intersectBy(const Ray& r, std::vector<Intersection>& intersections) const
+		{			
 			for (std::vector<IShape*>::const_iterator iter = objects.begin(); iter != objects.end(); iter++)
 			{
-				std::vector<Intersection> shapeIntersects = (*iter)->intersectBy(r);
-				intersections.insert(intersections.end(), shapeIntersects.begin(), shapeIntersects.end());
+				(*iter)->intersectBy(r, intersections);
+				//std::vector<Intersection> shapeIntersects = (*iter)->intersectBy(r);
+				//intersections.insert(intersections.end(), shapeIntersects.begin(), shapeIntersects.end());
 			}
 
-			std::sort(intersections.begin(), intersections.end(), intersectionComparer);
-
-			return intersections;
+			//std::sort(intersections.begin(), intersections.end(), intersectionComparer);		
 		}
 
 		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection>& intersections) const
@@ -112,7 +109,7 @@ namespace RayTracer
 			return c;
 		}
 
-		Color shadeHit(const Computation& c, const int remaining) const
+		Color shadeHit(const Computation& c, const int remaining, std::vector<Intersection>& intersections) const
 		{
 			Color finalColor;
 			for (std::vector<PointLight>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
@@ -142,10 +139,12 @@ namespace RayTracer
 
 		Color colorAt(const Ray& ray, const int remaining) const
 		{
+			std::vector<Intersection> intersections;
+
 			Ray rayCopy(ray);
 
 			// get all the intersections for this ray
-			std::vector<Intersection> intersections = intersectBy(rayCopy);
+			intersectBy(rayCopy, intersections);
 
 			// get the closest intersection and return black if no hit
 			Intersection hitXs = hit(intersections);
@@ -154,7 +153,7 @@ namespace RayTracer
 			// get the compuations for the hit to calculate lighting
 			Computation comp = prepareComputations(hitXs, rayCopy, intersections);
 
-			Color color = shadeHit(comp, remaining);
+			Color color = shadeHit(comp, remaining, intersections);
 			return color;
 		}
 
@@ -224,7 +223,8 @@ namespace RayTracer
 			Vector4 direction = normalize(v);
 
 			Ray r(p, direction);
-			std::vector<Intersection> intersections = intersectBy(r);
+			std::vector<Intersection> intersections;
+			intersectBy(r, intersections);
 
 			Intersection hitXs = hit(intersections);
 			if (!hitXs.isNull() && hitXs.object->hasShadow && hitXs.t < distance)
