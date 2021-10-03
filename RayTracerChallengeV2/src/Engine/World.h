@@ -27,12 +27,8 @@ namespace RayTracer
 		{			
 			for (std::vector<IShape*>::const_iterator iter = objects.begin(); iter != objects.end(); iter++)
 			{
-				(*iter)->intersectBy(r, intersections);
-				//std::vector<Intersection> shapeIntersects = (*iter)->intersectBy(r);
-				//intersections.insert(intersections.end(), shapeIntersects.begin(), shapeIntersects.end());
-			}
-
-			//std::sort(intersections.begin(), intersections.end(), intersectionComparer);		
+				(*iter)->intersectBy(r, intersections);				
+			}			
 		}
 
 		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection>& intersections) const

@@ -53,24 +53,24 @@ void RayTraceScene_Benchmark();
 void spheres(const int sizeScale);
 void cubes(const int sizeScale);
 void cylinders(const int sizeScale);
+void cubeOfSpheres(const int sizeScale);
 
 int main()
 {
 	//Tests::RunTests();
 
-	RayTraceScene_Benchmark();
+	//RayTraceScene_Benchmark();
 	//spheres(2);
 	//cubes(2);
 	//cylinders(2);
+	cubeOfSpheres(2);
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
 	return 0;
 }
 
-//namespace RayTracer
-//{
-//	namespace Scenes
-//	{
+// -----------------------------------------------------------------------
+
 void RayTraceScene_Benchmark()
 {
 	SceneConfig config;
@@ -81,15 +81,15 @@ void RayTraceScene_Benchmark()
 	config.fov = 1.152f;
 
 	// camera
-	config.from = Vector4(-2.6f, 1.5f, -3.9f, 1.0f);
-	config.to = Vector4(-0.6f, 1.0f, -0.8f, 1.0f);
-	config.up = Vector4(0.0f, 1.0f, 0.0f, 0.0f);
+	config.from = Point4(-2.6f, 1.5f, -3.9f);
+	config.to = Point4(-0.6f, 1.0f, -0.8f);
+	config.up = Vector4(0.0f, 1.0f, 0.0f);
 
 	Scene scene(config);
 
 	// add the lights
 	scene.addLight(PointLight(
-		Vector4(-4.9f, 4.9f, -1.0f, 1.0f),
+		Point4(-4.9f, 4.9f, -1.0f),
 		Color(1.0f)
 	));
 
@@ -235,30 +235,31 @@ void RayTraceScene_Benchmark()
 	scene.renderToPPM("rayTraceScene_benchmark");
 }
 
-/*
+// -----------------------------------------------------------------------
+
 void spheres(const int sizeScale)
 {
-	std::cout << " --- Ray Trace Scene: Materials --- ";
+	SceneConfig config;
 
-	const int hsize = 800 * sizeScale;
-	const int vsize = 300 * sizeScale;
+	// dimensions and fov
+	config.width = 800 * sizeScale;
+	config.height = 300 * sizeScale;
+	config.fov = PI / 2.7f;
 
-	World w;
+	// camera
+	config.from = Point4(0.0f, 5.0f, -6.0f);
+	config.to = Point4(0.0f, 1.0f, 5.0f);
+	config.up = Vector4(0.0f, 1.0f, 0.0f);
 
-	Camera camera(hsize, vsize, PI / 2.7f);
-	camera.transform(viewTransform(
-		Point4(0.0f, 5.0f, -6.0f), // from
-		Point4(0.0f, 1.0f, 5.0f),  // to
-		Vector4(0.0f, 1.0f, 0.0f)));
+	Scene scene(config);
 
-	PointLight lightM(Point4(0.0f, 7.0f, 0.0f), Color(0.9f));
-	//PointLight lightL(Point4(-5.0f, 15.0f, -5.0f), Color(0.35f));
-	//PointLight lightR(Point4(5.0f, 2.0f, -5.0f), Color(0.35f));
-	w.lights.push_back(lightM);
-	//w.lights.push_back(lightL);
-	//w.lights.push_back(lightR);
+	// add the lights
+	scene.addLight(PointLight(
+		Point4(0.0f, 7.0f, 0.0f), 
+		Color(0.9f)
+	));
 
-	// setup objects
+	// add the shapes	
 	{
 		Color checkerColor1(0.99f);
 		Color checkerColor2(0.95f);
@@ -270,14 +271,14 @@ void spheres(const int sizeScale)
 			floor.material.pattern = &floorPattern;
 			floor.material.ambient = 0.1f;
 			floor.material.reflective = 0.0f;
-			w.objects.push_back(&floor);
+			scene.addShape(floor);
 
 			Plane ceiling;
 			ceiling.setTransform(translation(0.0f, 20.0f, 0.0f) * xRotation4x4(PI));
 			ceiling.material.color = Color(1.0f);
 			ceiling.material.ambient = 0.1f;
 			ceiling.material.reflective = 0.0f;
-			w.objects.push_back(&ceiling);
+			scene.addShape(ceiling);
 
 			Plane backWall;
 			backWall.setTransform(translation(1.0f, 0.0f, 15.0f) * xRotation4x4(PI / 2.0f));
@@ -286,7 +287,7 @@ void spheres(const int sizeScale)
 			backWall.material.ambient = 0.1f;
 			backWall.material.reflective = 0.0f;
 			backWall.material.specular = 0;
-			w.objects.push_back(&backWall);
+			scene.addShape(backWall);
 
 			Plane behindWall;
 			behindWall.setTransform(translation(1.0f, 0.0f, -25.0f) * xRotation4x4(-PI / 2.0f));
@@ -294,81 +295,68 @@ void spheres(const int sizeScale)
 			behindWall.material.ambient = 0.1f;
 			behindWall.material.reflective = 0.0f;
 			behindWall.material.specular = 0;
-			w.objects.push_back(&behindWall);
+			scene.addShape(behindWall);
 		}
 
 		Sphere glassSphere;
 		glassSphere.material = glass(glassSphere.material);
 		glassSphere.setTransform(translation(-6.0f, 1.0f, 4.0f));
-		w.objects.push_back(&glassSphere);
+		scene.addShape(glassSphere);
 
 		Sphere glassSphereInside;
 		glassSphereInside.material = glass(glassSphereInside.material);
 		glassSphereInside.setTransform(translation(-6.0f, 1.0f, 4.0f) * scaling(0.9f, 0.9f, 0.9f));
-		w.objects.push_back(&glassSphereInside);
+		scene.addShape(glassSphereInside);
 
 		Sphere matteSphere;
 		matteSphere.material = matte(matteSphere.material, babyBlue);
 		matteSphere.setTransform(translation(-3.0f, 1.0f, 5.0f));
-		w.objects.push_back(&matteSphere);
+		scene.addShape(matteSphere);
 
 		Sphere reflectiveMetalSphere;
 		reflectiveMetalSphere.material = metal(reflectiveMetalSphere.material);
 		reflectiveMetalSphere.setTransform(translation(0.0f, 1.0f, 6.0f));
-		w.objects.push_back(&reflectiveMetalSphere);
+		scene.addShape(reflectiveMetalSphere);
 
 		Sphere glossySphere;
 		glossySphere.material = gloss(glossySphere.material, babyBlue);
 		glossySphere.setTransform(translation(3.0f, 1.0f, 5.0f));
-		w.objects.push_back(&glossySphere);
+		scene.addShape(glossySphere);
 
 		Sphere flatMetalSphere;
 		flatMetalSphere.material = metallic(flatMetalSphere.material, Color(0.5f, 0.525f, 0.5f));
 		flatMetalSphere.setTransform(translation(6.0f, 1.0f, 4.0f));
-		w.objects.push_back(&flatMetalSphere);
+		scene.addShape(flatMetalSphere);
 	}
 
-	// run the ray tracer...
-	auto start = std::chrono::high_resolution_clock::now();
-
-	Canvas image = renderMultiThread(camera, w, 16);
-
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-
-	std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
-
-	// save the image to disk
-	std::string filename = "images/spheres_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
-	image.toPPM(filename);
+	scene.renderToPPM("spheres");
 }
 
-//
-// Chapter 12 - cubes
-//
+// -----------------------------------------------------------------------
+
 void cubes(const int sizeScale)
 {
-	std::cout << " --- Ray Trace Scene: Materials --- ";
+	SceneConfig config;
 
-	const int hsize = 800 * sizeScale;
-	const int vsize = 300 * sizeScale;
+	// dimensions and fov
+	config.width = 800 * sizeScale;
+	config.height = 300 * sizeScale;
+	config.fov = PI / 2.3f;
 
-	World w;
+	// camera
+	config.from = Point4(0.0f, 5.0f, -6.0f);
+	config.to = Point4(0.0f, 1.0f, 5.0f);
+	config.up = Vector4(0.0f, 1.0f, 0.0f);
 
-	Camera camera(hsize, vsize, PI / 2.3f);
-	camera.setTransform(viewTransform(
-		Point4(0.0f, 5.0f, -6.0f), // from
-		Point4(0.0f, 1.0f, 5.0f),  // to
-		Vector4(0.0f, 1.0f, 0.0f));
+	Scene scene(config);
 
-	PointLight lightM(Point4(0.0f, 7.0f, 0.0f), Color(0.9f));
-	//PointLight lightL(Point4(-5.0f, 15.0f, -5.0f), Color(0.35f));
-	//PointLight lightR(Point4(5.0f, 2.0f, -5.0f), Color(0.35f));
-	w.lights.push_back(lightM);
-	//w.lights.push_back(lightL);
-	//w.lights.push_back(lightR);
+	// add the lights
+	scene.addLight(PointLight(
+		Point4(0.0f, 7.0f, 0.0f),
+		Color(0.9f)
+	));
 
-	// setup objects
+	// add the shapes
 	{
 		Color checkerColor1(0.99f);
 		Color checkerColor2(0.95f);
@@ -381,14 +369,14 @@ void cubes(const int sizeScale)
 			floor.material.pattern = &floorPattern;
 			floor.material.ambient = 0.1f;
 			floor.material.reflective = 0.0f;
-			w.objects.push_back(&floor);
+			scene.addShape(floor);
 
 			Plane ceiling;
 			ceiling.setTransform(translation(0.0f, 20.0f, 0.0f) * xRotation4x4(PI));
 			ceiling.material.color = Color(1.0f);
 			ceiling.material.ambient = 0.1f;
 			ceiling.material.reflective = 0.0f;
-			w.objects.push_back(&ceiling);
+			scene.addShape(ceiling);
 
 			Plane backWall;
 			backWall.setTransform(translation(1.0f, 0.0f, 15.0f) * xRotation4x4(PI / 2.0f));
@@ -397,7 +385,7 @@ void cubes(const int sizeScale)
 			backWall.material.ambient = 0.1f;
 			backWall.material.reflective = 0.0f;
 			backWall.material.specular = 0;
-			w.objects.push_back(&backWall);
+			scene.addShape(backWall);
 
 			Plane behindWall;
 			behindWall.setTransform(translation(1.0f, 0.0f, -25.0f) * xRotation4x4(-PI / 2.0f));
@@ -405,82 +393,69 @@ void cubes(const int sizeScale)
 			behindWall.material.ambient = 0.1f;
 			behindWall.material.reflective = 0.0f;
 			behindWall.material.specular = 0;
-			w.objects.push_back(&behindWall);
+			scene.addShape(behindWall);
 		}
 
 		Cube glassSphere;
 		glassSphere.material = glass(glassSphere.material);
 		glassSphere.setTransform(translation(-6.0f, 1.0f, 4.0f));
-		w.objects.push_back(&glassSphere);
+		scene.addShape(glassSphere);
 
 		Cube glassSphereInside;
 		glassSphereInside.material = glass(glassSphereInside.material);
 		glassSphereInside.setTransform(translation(-6.0f, 1.0f, 4.0f) * scaling(0.99999f, 0.99999f, 0.99999f));
-		w.objects.push_back(&glassSphereInside);
+		scene.addShape(glassSphereInside);
 
 		Cube matteSphere;
 		matteSphere.material = matte(matteSphere.material, babyBlue);
 		matteSphere.setTransform(translation(-3.0f, 1.0f, 5.0f));
-		w.objects.push_back(&matteSphere);
+		scene.addShape(matteSphere);
 
 		Cube reflectiveMetalSphere;
 		reflectiveMetalSphere.material = metal(reflectiveMetalSphere.material);
 		reflectiveMetalSphere.material.reflective = 0.8f;
 		reflectiveMetalSphere.setTransform(translation(0.0f, 1.0f, 6.0f) * yRotation4x4(PI / 4.0f));
-		w.objects.push_back(&reflectiveMetalSphere);
+		scene.addShape(reflectiveMetalSphere);
 
 		Cube glossySphere;
 		glossySphere.material = gloss(glossySphere.material, babyBlue);
 		glossySphere.setTransform(translation(3.0f, 1.0f, 5.0f));
-		w.objects.push_back(&glossySphere);
+		scene.addShape(glossySphere);
 
 		Cube flatMetalSphere;
 		flatMetalSphere.material = metallic(flatMetalSphere.material, Color(0.5f, 0.525f, 0.5f));
 		flatMetalSphere.setTransform(translation(6.0f, 1.0f, 4.0f));
-		w.objects.push_back(&flatMetalSphere);
+		scene.addShape(flatMetalSphere);
 	}
 
-	// run the ray tracer...
-	auto start = std::chrono::high_resolution_clock::now();
-
-	Canvas image = renderMultiThread(camera, w, 16);
-
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-
-	std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
-
-	// save the image to disk
-	std::string filename = "images/cubes_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
-	image.toPPM(filename);
+	scene.renderToPPM("cubes");
 }
 
-//
-// Chapter 13 - cylinders
-//
+// -----------------------------------------------------------------------
+
 void cylinders(const int sizeScale)
 {
-	std::cout << " --- Ray Trace Scene: Cylinders --- ";
+	SceneConfig config;
 
-	const int hsize = 800 * sizeScale;
-	const int vsize = 800 * sizeScale;
+	// dimensions and fov
+	config.width = 800 * sizeScale;
+	config.height = 300 * sizeScale;
+	config.fov = PI / 2.3f;
 
-	World w;
+	// camera
+	config.from = Point4(0.0f, 5.0f, -6.0f);
+	config.to = Point4(0.0f, 1.0f, 5.0f);
+	config.up = Vector4(0.0f, 1.0f, 0.0f);
 
-	Camera camera(hsize, vsize, PI / 2.3f);
-	camera.setTransform(viewTransform(
-		Point4(0.0f, 5.0f, -6.0f), // from
-		Point4(0.0f, 1.0f, 5.0f),  // to
-		Vector4(0.0f, 1.0f, 0.0f));
+	Scene scene(config);
 
-	PointLight lightM(Point4(0.0f, 7.0f, 0.0f), Color(0.9f));
-	//PointLight lightL(Point4(-5.0f, 15.0f, -5.0f), Color(0.35f));
-	//PointLight lightR(Point4(5.0f, 2.0f, -5.0f), Color(0.35f));
-	w.lights.push_back(lightM);
-	//w.lights.push_back(lightL);
-	//w.lights.push_back(lightR);
+	// add the lights
+	scene.addLight(PointLight(
+		Point4(0.0f, 7.0f, 0.0f),
+		Color(0.9f)
+	));
 
-	// setup objects
+	// add the shapes
 	{
 		Color checkerColor1(0.99f);
 		Color checkerColor2(0.95f);
@@ -493,14 +468,14 @@ void cylinders(const int sizeScale)
 			floor.material.pattern = &floorPattern;
 			floor.material.ambient = 0.1f;
 			floor.material.reflective = 0.0f;
-			w.objects.push_back(&floor);
+			scene.addShape(floor);
 
 			Plane ceiling;
 			ceiling.setTransform(translation(0.0f, 20.0f, 0.0f) * xRotation4x4(PI));
 			ceiling.material.color = Color(1.0f);
 			ceiling.material.ambient = 0.1f;
 			ceiling.material.reflective = 0.0f;
-			w.objects.push_back(&ceiling);
+			scene.addShape(ceiling);
 
 			Plane backWall;
 			backWall.setTransform(translation(1.0f, 0.0f, 15.0f) * xRotation4x4(PI / 2.0f));
@@ -509,7 +484,7 @@ void cylinders(const int sizeScale)
 			backWall.material.ambient = 0.1f;
 			backWall.material.reflective = 0.0f;
 			backWall.material.specular = 0;
-			w.objects.push_back(&backWall);
+			scene.addShape(backWall);
 
 			Plane behindWall;
 			behindWall.setTransform(translation(1.0f, 0.0f, -25.0f) * xRotation4x4(-PI / 2.0f));
@@ -517,56 +492,160 @@ void cylinders(const int sizeScale)
 			behindWall.material.ambient = 0.1f;
 			behindWall.material.reflective = 0.0f;
 			behindWall.material.specular = 0;
-			w.objects.push_back(&behindWall);
+			scene.addShape(behindWall);
 		}
 
 		Cylinder glassSphere(0.0f, 3.0f, true);
 		glassSphere.material = glass(glassSphere.material);
 		glassSphere.setTransform(translation(-6.0f, 0.0f, 3.0f));
-		w.objects.push_back(&glassSphere);
+		scene.addShape(glassSphere);
 
 		Cylinder glassSphereInside(0.0f, 3.0f, true);
 		glassSphereInside.material = glass(glassSphereInside.material);
 		glassSphereInside.setTransform(translation(-6.0f, 0.0f, 3.0f) * scaling(0.99999f, 0.99999f, 0.99999f));
-		w.objects.push_back(&glassSphereInside);
+		scene.addShape(glassSphereInside);
 
 		Cylinder matteSphere(0.0f, 3.0f, true);
 		matteSphere.material = matte(matteSphere.material, babyBlue);
 		matteSphere.setTransform(translation(-2.0f, 0.0f, 5.0f));
-		w.objects.push_back(&matteSphere);
+		scene.addShape(matteSphere);
 
 		Cylinder reflectiveMetalSphere(0.0f, 1.0f);
 		reflectiveMetalSphere.material = metal(reflectiveMetalSphere.material);
 		reflectiveMetalSphere.material.reflective = 0.8f;
 		reflectiveMetalSphere.setTransform(translation(0.0f, 0.0f, 5.0f) * scaling(4.5f, 1.0f, 4.5f));
-		w.objects.push_back(&reflectiveMetalSphere);
+		scene.addShape(reflectiveMetalSphere);
 
 		Cylinder glossySphere(0.0f, 3.0f, true);
 		glossySphere.material = gloss(glossySphere.material, babyBlue);
 		glossySphere.setTransform(translation(2.0f, 0.0f, 5.0f));
-		w.objects.push_back(&glossySphere);
+		scene.addShape(glossySphere);
 
 		Cylinder flatMetalSphere(0.0f, 3.0f, true);
 		flatMetalSphere.material = metallic(flatMetalSphere.material, Color(0.5f, 0.525f, 0.5f));
 		flatMetalSphere.setTransform(translation(6.0f, 0.0f, 3.0f));
-		w.objects.push_back(&flatMetalSphere);
+		scene.addShape(flatMetalSphere);
 	}
 
-
-	// run the ray tracer...
-	auto start = std::chrono::high_resolution_clock::now();
-
-	Canvas image = renderMultiThread(camera, w, 16);
-
-	auto stop = std::chrono::high_resolution_clock::now();
-	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-
-	std::cout << "\n\nRay Tracer Completed in " << duration.count() << "ms.\n";
-
-	// save the image to disk
-	std::string filename = "images/cylinders_" + std::to_string(hsize) + "x" + std::to_string(vsize) + ".ppm";
-	image.toPPM(filename);
+	scene.renderToPPM("cylinders");
 }
-*/
-//	} // end namespace Scenes
-//} // end namespace RayTracer
+
+// -----------------------------------------------------------------------
+
+void cubeOfSpheres(const int sizeScale)
+{
+	SceneConfig config;
+
+	// dimensions and fov
+	config.width = 960 * sizeScale;
+	config.height = 540 * sizeScale;
+	config.fov = PI / 3.5f;
+
+	// camera
+	config.from = Point4(-10.0f, 10.0f, -10.0f);
+	config.to = Point4(0.0f, 2.0f, 2.0f);
+	config.up = Vector4(0.0f, 1.0f, 0.0f);
+
+	Scene scene(config);
+
+	// add the lights
+	scene.addLight(PointLight(
+		Point4(-20.0f, 25.0f, -15.0f),
+		Color(0.85f)
+	));	
+
+	// add the shapes	
+	{
+		Color checkerColor1(0.99f);
+		Color checkerColor2(0.95f);
+		Color babyBlue = rgb(137, 207, 240);
+		
+		Plane floor;
+		CheckerPattern floorPattern(checkerColor1, checkerColor2);
+		floor.material.pattern = &floorPattern;
+		floor.material.ambient = 0.1f;
+		floor.material.reflective = 0.5f;
+		scene.addShape(floor);
+		
+		for (int z = 1; z < 6; z++)
+		{
+			for (int y = 1; y < 6; y++)
+			{
+				for (int x = -2; x < 3; x++)
+				{
+					Sphere* s = new Sphere();				
+
+					int r = rand() % 8;
+					switch (r)
+					{
+					case 0:						
+						s->material = metallic(s->material, Color(0.525f, 0.5f, 0.5f));
+						break;
+					case 1:
+						s->material = metallic(s->material, Color(0.5f, 0.525f, 0.5f));
+						break;
+					case 2:
+						s->material = metallic(s->material, Color(0.5f, 0.5f, 0.525f));
+						break;
+					case 3:
+						s->material = metallic(s->material, Color(0.525f, 0.525f, 0.5f));
+						break;
+					case 4:
+						s->material = metallic(s->material, Color(0.525f, 0.5f, 0.525f));
+						break;
+					case 5:
+						s->material = metallic(s->material, Color(0.5f, 0.525f, 0.525f));
+						break;					
+					case 6:
+						s->material = matte(s->material, babyBlue);
+						break;
+					case 7:
+						s->material = gloss(s->material, babyBlue);
+						break;					
+					}
+					
+					s->setTransform(
+						translation((float)x, (float)y, (float)z) *
+						scaling(0.5f, 0.5f, 0.5f));
+					scene.addShape(*s);
+				}
+			}
+		}
+		/*Sphere glassSphere;
+		glassSphere.material = glass(glassSphere.material);
+		glassSphere.setTransform(translation(-6.0f, 1.0f, 4.0f));
+		scene.addShape(glassSphere);
+		
+		Sphere matteSphere;
+		matteSphere.material = matte(matteSphere.material, babyBlue);
+		matteSphere.setTransform(translation(-3.0f, 1.0f, 5.0f));
+		scene.addShape(matteSphere);
+
+		Sphere reflectiveMetalSphere;
+		reflectiveMetalSphere.material = metal(reflectiveMetalSphere.material);
+		reflectiveMetalSphere.setTransform(translation(0.0f, 1.0f, 6.0f));
+		scene.addShape(reflectiveMetalSphere);
+
+		Sphere glossySphere;
+		glossySphere.material = gloss(glossySphere.material, babyBlue);
+		glossySphere.setTransform(translation(3.0f, 1.0f, 5.0f));
+		scene.addShape(glossySphere);
+
+		Sphere flatMetalSphere;
+		flatMetalSphere.material = metallic(flatMetalSphere.material, Color(0.5f, 0.525f, 0.5f));
+		flatMetalSphere.setTransform(translation(6.0f, 1.0f, 4.0f));
+		scene.addShape(flatMetalSphere);*/
+	}
+
+	scene.renderToPPM("cubeOfSpheres");
+}
+
+// -----------------------------------------------------------------------
+
+// -----------------------------------------------------------------------
+
+// -----------------------------------------------------------------------
+
+// -----------------------------------------------------------------------
+
+// -----------------------------------------------------------------------
