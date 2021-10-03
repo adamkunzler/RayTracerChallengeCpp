@@ -137,10 +137,8 @@ namespace RayTracer
 			return finalColor;
 		}
 
-		Color colorAt(const Ray& ray, const int remaining) const
-		{
-			std::vector<Intersection> intersections;
-
+		Color colorAt(const Ray& ray, const int remaining, std::vector<Intersection>& intersections) const
+		{			
 			Ray rayCopy(ray);
 
 			// get all the intersections for this ray
@@ -165,7 +163,9 @@ namespace RayTracer
 			}
 
 			Ray reflectRay(comps.overPoint, comps.reflectV);
-			Color c = colorAt(reflectRay, remaining - 1);
+			
+			std::vector<Intersection> intersections;
+			Color c = colorAt(reflectRay, remaining - 1, intersections);
 
 			return c * comps.object->material.reflective;
 		}
@@ -189,7 +189,8 @@ namespace RayTracer
 			Vector4 direction = comps.normalV * (ratio * cos_i - cost_t) - comps.eyeV * ratio;
 			Ray refractRay(comps.underPoint, direction);
 			
-			return colorAt(refractRay, remaining - 1) * comps.object->material.transparency;
+			std::vector<Intersection> intersections;
+			return colorAt(refractRay, remaining - 1, intersections) * comps.object->material.transparency;
 		}
 
 		float schlick(const Computation& comps) const
