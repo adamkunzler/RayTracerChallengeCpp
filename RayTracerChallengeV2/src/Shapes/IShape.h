@@ -1,20 +1,7 @@
 #pragma once
 
-#include <vector>
-
-#include "../Geometry/Material.h"
-#include "../Geometry/Ray.h"
-//#include "Group.h"
-
 namespace RayTracer
-{		
-	struct Intersection;
-	struct Ray;
-	struct Material;
-	struct Vector4;
-	struct IPattern;
-	//struct Group;
-
+{			
 	struct IShape
 	{	
 	private: 
@@ -26,87 +13,25 @@ namespace RayTracer
 		bool hasShadow;
 		IShape* parent; // should probably be Group* but fuckin' compiler...
 			
-		IShape()
-		{ 
-			setTransform(identity4x4());			
-			hasShadow = true;
-			parent = NULL;
-		}
+		IShape();
 		virtual ~IShape() {}
 		
-		void setTransform(const Matrix4x4& lTransform)
-		{
-			transform = lTransform;
-			inverseTransform = inverse(transform);
-		}
-		const Matrix4x4 getTransform() const
-		{
-			return transform;
-		}
+		void setTransform(const Matrix4x4& lTransform);
 
-		const Matrix4x4& getInverseTransform() const
-		{
-			return inverseTransform;
-		}
+		const Matrix4x4 getTransform() const;
 
-		//
-		// INTERSECTIONS
-		//
-
+		const Matrix4x4& getInverseTransform() const;
+		
 		virtual void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const = 0;
 
-		void intersectBy(const Ray& r, std::vector<Intersection>& intersections) const
-		{
-			// ray in world space to local space			
-			Ray localRay(r);
-			localRay = localRay.transform(inverseTransform);
-			
-			// shape figures out intersections
-			this->localIntersectBy(localRay, intersections);			
-		}
-
-		//
-		// NORMALS
-		//
+		void intersectBy(const Ray& r, std::vector<Intersection>& intersections) const;
 
 		virtual Vector4 localNormalAt(const Point4& localPoint) const = 0;
 
-		Point4 worldToObject(const Point4& worldPoint) const
-		{
-			Point4 p(worldPoint);
+		Point4 worldToObject(const Point4& worldPoint) const;
 
-			if (parent != NULL)
-			{
-				p = parent->worldToObject(worldPoint);
-			}
+		Vector4 normalToWorld(const Vector4& localNormal) const;
 
-			return inverseTransform * p;
-		}
-
-		Vector4 normalToWorld(const Vector4& localNormal) const
-		{
-			Vector4 normal = transpose4x4(inverseTransform) * localNormal;
-			normal.w = 0.0f; // just to be safe
-			normal = normalize(normal);
-			
-			if (parent != NULL)
-			{
-				normal = parent->normalToWorld(normal);
-			}
-
-			return normal;
-		}
-
-		Vector4 normalAt(const Point4& worldPoint) const
-		{
-			// point in world space to local space
-			Point4 localPoint = worldToObject(worldPoint);
-
-			// shape figures out it's normal
-			Vector4 localNormal = localNormalAt(localPoint); // TODO update to return reference
-
-			// normal from local space to world space
-			return normalToWorld(localNormal);			
-		}
+		Vector4 normalAt(const Point4& worldPoint) const;
 	};
 }

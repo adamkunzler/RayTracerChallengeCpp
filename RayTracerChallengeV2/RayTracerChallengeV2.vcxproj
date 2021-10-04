@@ -143,6 +143,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Benchmarks\benchmarks.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\DataStructs\Color.cpp" />
     <ClCompile Include="src\DataStructs\Matrix4x4.cpp" />
@@ -162,7 +163,14 @@
     <ClCompile Include="src\Patterns\IPattern.cpp" />
     <ClCompile Include="src\Patterns\RingPattern.cpp" />
     <ClCompile Include="src\Patterns\StripePattern.cpp" />
+    <ClCompile Include="src\Shapes\Cube.cpp" />
+    <ClCompile Include="src\Shapes\Cylinder.cpp" />
+    <ClCompile Include="src\Shapes\Group.cpp" />
+    <ClCompile Include="src\Shapes\IShape.cpp" />
+    <ClCompile Include="src\Shapes\Plane.cpp" />
+    <ClCompile Include="src\Shapes\Sphere.cpp" />
     <ClCompile Include="src\Utils.cpp" />
+    <ClCompile Include="tests\_testHarness.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Benchmarks\benchmarks.h" />
