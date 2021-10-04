@@ -56,7 +56,9 @@ namespace RayTracer
 		Color& operator/=(const float& scalar);
 	};
 
+	//
 	// NON-MEMBER FUNCTIONS -------------------------------------------------------------
+	//
 
 	// get rgb values from (0 - 255) to (0.0 - 1.0)
 	// e.g. rgb(255,255,255) would return Color(1.0f, 1.0f, 1.0f)

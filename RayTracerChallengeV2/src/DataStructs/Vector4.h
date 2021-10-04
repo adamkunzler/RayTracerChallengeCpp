@@ -2,198 +2,82 @@
 
 namespace RayTracer
 {
-	// TODO better way to do this?
-	//---
-	struct Vector4;
-	float dot(const Vector4& lhs, const Vector4& rhs);
-	//---
-
 	struct Vector4
 	{
 		float x;
 		float y;
 		float z;
 		float w;
-		
+
 		Vector4() : x(0.0f), y(0.0f), z(0.0f), w(0.0f) {}
 		Vector4(float lx, float ly, float lz, float lw = 0.0f) : x(lx), y(ly), z(lz), w(lw) { }
 		Vector4(const Vector4& copy) : x(copy.x), y(copy.y), z(copy.z), w(copy.w) { }
 
 		// assignment
-		Vector4& operator=(const Vector4& rhs)
-		{
-			x = rhs.x; y = rhs.y; z = rhs.z; w = rhs.w;
-			return *this;
-		}
+		Vector4& operator=(const Vector4& rhs);
 
 		// equality
-		bool operator==(const Vector4& rhs) const
-		{
-			return x == rhs.x && y == rhs.y && z == rhs.z; //&& w == rhs.w;
-		}
+		bool operator==(const Vector4& rhs) const;
 
 		// approximate equality
-		bool equals(const Vector4& rhs) const
-		{
-			return feq(x, rhs.x) && feq(y, rhs.y) && feq(z, rhs.z); //&& feq(w, rhs.w);
-		}
+		bool equals(const Vector4& rhs) const;
 
 		// inequality
-		bool operator!=(const Vector4& rhs) const
-		{
-			return x != rhs.x || y != rhs.y || z != rhs.z; // || w != rhs.w;
-		}
+		bool operator!=(const Vector4& rhs) const;
 
 		// addition
-		Vector4 operator+(const Vector4& rhs) const
-		{
-			return Vector4(x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w);
-		}
+		Vector4 operator+(const Vector4& rhs) const;
 
 		// subtraction
-		Vector4 operator-(const Vector4& rhs) const
-		{
-			return Vector4(x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w);
-		}
+		Vector4 operator-(const Vector4& rhs) const;
 
 		// negation
-		Vector4 operator-() const
-		{
-			return Vector4(-x, -y, -z, -w);
-		}
+		Vector4 operator-() const;
 
 		// multiply by scalar
-		Vector4 operator*(const float& scalar) const
-		{
-			return Vector4(x * scalar, y * scalar, z * scalar, w * scalar);
-		}
+		Vector4 operator*(const float& scalar) const;
 
 		// divide by scalar 
-		Vector4 operator/(const float& scalar) const
-		{
-			float inverseScalar = 1.0f / scalar;
-			return Vector4(
-				x * inverseScalar, 
-				y * inverseScalar, 
-				z * inverseScalar,
-				w * inverseScalar);
-		}
+		Vector4 operator/(const float& scalar) const;
 
 		// addition - modify lhs
-		Vector4& operator+=(const Vector4& rhs)
-		{
-			x += rhs.x; y += rhs.y; z += rhs.z; w += rhs.w;
-			return *this;
-		}
+		Vector4& operator+=(const Vector4& rhs);
 
 		// subtraction - modify lhs
-		Vector4& operator-=(const Vector4& rhs)
-		{
-			x -= rhs.x; y -= rhs.y; z -= rhs.z; w -= rhs.w;
-			return *this;
-		}
+		Vector4& operator-=(const Vector4& rhs);
 
 		// multiple by scalar - modify lhs
-		Vector4& operator*=(const float& scalar)
-		{
-			x *= scalar; y *= scalar; z *= scalar; w *= scalar;
-			return *this;
-		}
+		Vector4& operator*=(const float& scalar);
 
 		// divide by scalar - modify lhs
-		Vector4& operator/=(const float& scalar)
-		{
-			float inverseScalar = 1.0f / scalar;
-			x *= inverseScalar; y *= inverseScalar; z *= inverseScalar; w *= inverseScalar;
-			return *this;
-		}
+		Vector4& operator/=(const float& scalar);
 
 		// zero
-		void zero()
-		{
-			x = y = z = w = 0.0f;
-		}
+		void zero();
 
-		void normalize()
-		{			
-			float magnitudeSquared = x * x + y * y + z * z;
-			if (magnitudeSquared > 0.0f)
-			{
-				float inverseMagnitude = 1.0f / std::sqrt(magnitudeSquared);
-				x *= inverseMagnitude;
-				y *= inverseMagnitude;
-				z *= inverseMagnitude;
-			}
-		}
+		void normalize();
 
-		float dot(const Vector4& rhs) const
-		{
-			return x * rhs.x + y * rhs.y + z * rhs.z;
-		}
+		float dot(const Vector4& rhs) const;
 
 		// reflect vector around another vector
-		Vector4 reflect(const Vector4& v) const
-		{
-			return (*this) - v * 2 * RayTracer::dot(*this, v);
-		}
-	};
-	
-	struct Point4 : public Vector4
-	{
-		Point4() : Vector4(0.0f, 0.0f, 0.0f, 1.0f) {}
-		Point4(float lx, float ly, float lz) : Vector4(lx, ly, lz, 1.0f) {}
-		Point4(const Vector4& v) : Vector4(v.x, v.y, v.z, 1.0f) {}
+		Vector4 reflect(const Vector4& v) const;
 	};
 
 	// magnitude
-	inline float magnitude(const Vector4& v)
-	{
-		return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-	}
+	inline float magnitude(const Vector4& v);
 
 	// normalize
-	inline Vector4 normalize(const Vector4& v)
-	{
-		float magnitudeSquared = v.x * v.x + v.y * v.y + v.z * v.z;
-		if (magnitudeSquared > 0.0f)
-		{
-			float inverseMagnitude = 1.0f / std::sqrt(magnitudeSquared);
-			
-			return Vector4(
-				v.x * inverseMagnitude,
-				v.y * inverseMagnitude,
-				v.z * inverseMagnitude
-			);
-		}
-		return Vector4();
-	}
+	inline Vector4 normalize(const Vector4& v);
 
 	// dot
-	inline float dot(const Vector4& lhs, const Vector4& rhs)
-	{
-		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
-	}
+	inline float dot(const Vector4& lhs, const Vector4& rhs);
 
 	// cross
-	inline Vector4 cross(const Vector4& lhs, const Vector4& rhs)
-	{
-		return Vector4(
-			lhs.y * rhs.z - lhs.z * rhs.y,
-			lhs.z * rhs.x - lhs.x * rhs.z,
-			lhs.x * rhs.y - lhs.y * rhs.x
-		);
-	}
+	inline Vector4 cross(const Vector4& lhs, const Vector4& rhs);
 
 	// scalar multiplaction (scalar on left for symmetry)
-	inline Vector4 operator*(float k, const Vector4& rhs)
-	{
-		return Vector4(k * rhs.x, k * rhs.y, k * rhs.z, k * rhs.w);
-	}
+	inline Vector4 operator*(float k, const Vector4& rhs);
 
 	// ostream
-	std::ostream& operator<<(std::ostream& os, const RayTracer::Vector4& v)
-	{
-		os << "(" << v.x << ", " << v.y << ", " << v.z << ", " << v.w << ")";
-		return os;
-	}
+	std::ostream& operator<<(std::ostream& os, const RayTracer::Vector4& v);
 }

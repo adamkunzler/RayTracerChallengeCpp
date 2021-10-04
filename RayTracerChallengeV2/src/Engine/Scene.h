@@ -1,20 +1,7 @@
 #pragma once
 
 namespace RayTracer
-{
-	struct SceneConfig
-	{
-		int width;
-		int height;
-		float fov;
-
-		Vector4 from;
-		Vector4 to;
-		Vector4 up;
-
-		SceneConfig() { }
-	};
-
+{	
 	class Scene
 	{	
 	private:
@@ -22,46 +9,14 @@ namespace RayTracer
 		Camera* camera;
 
 	public:
-		Scene(const SceneConfig& config) 
-		{
-			world = new World();
-			camera = new Camera(config.width, config.height, config.fov);
-			camera->setTransform(viewTransform(config.from, config.to, config.up));
-		}
+		Scene(const SceneConfig& config);
 
-		~Scene() 
-		{
-			delete world;
-			delete camera;
-		}
+		~Scene();
 
-		void addLight(const PointLight& light) const
-		{
-			world->lights.push_back(light);
-		}
+		void addLight(const PointLight& light) const;
 
-		void addShape(IShape& shape) const
-		{
-			world->objects.push_back(&shape);
-		}
+		void addShape(IShape& shape) const;
 
-		void renderToPPM(const std::string baseFilename, const int numThreads = 32)
-		{			
-			std::cout << "\nRendering scene...\n\n";
-			auto start = std::chrono::high_resolution_clock::now();
-
-			// -----
-			RayTracer::Canvas image = RayTracer::renderMultiThread(*camera, *world, numThreads);
-			// -----
-
-			auto stop = std::chrono::high_resolution_clock::now();
-			auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-			long long durationCount = duration.count();
-			std::cout << "\n\nScene completed in " << durationCount << "ms (" << (durationCount / 1000) << "s)\n";
-
-			// save the image to disk
-			std::string filename = "images/" + baseFilename + "_" + std::to_string(camera->hSize) + "x" + std::to_string(camera->vSize) + ".ppm";
-			image.toPPM(filename);
-		}
+		void renderToPPM(const std::string baseFilename, const int numThreads = 32);
 	};
 }

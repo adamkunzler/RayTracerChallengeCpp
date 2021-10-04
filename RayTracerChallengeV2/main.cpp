@@ -1,5 +1,3 @@
-void showProgressBar(float progress);
-
 #include <chrono>
 #include <iostream>
 #include <string>
@@ -19,6 +17,7 @@ void showProgressBar(float progress);
 #include "src/DataStructs/Color.h"
 #include "src/DataStructs/Matrix4x4.h"
 #include "src/DataStructs/Vector4.h"
+#include "src/DataStructs/Point4.h"
 
 #include "src/Engine/Engine.h"
 #include "src/Engine/Camera.h"
@@ -62,11 +61,11 @@ int main()
 	//Tests::RunTests();
 
 	//RayTraceScene_Benchmark();
-	//spheres(2);
+	spheres(2);
 	//cubes(2);
 	//cylinders(2);
 	//cubeOfSpheres(2);
-	simpleGroup(1);
+	//simpleGroup(1);
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
 	return 0;
@@ -677,14 +676,14 @@ void simpleGroup(int sizeScale)
 
 	// add the shapes	
 	{
-		Group g;		
+		/*Group g;		
 		g.setTransform(scaling(2, 2, 2));
-		scene.addShape(g);
+		scene.addShape(g);*/
 
-		//Sphere s;		
-		//s.setTransform(translation(0, 1, 3));
-		//s.material = gloss(s.material, rgb(20, 50, 200));
-		//scene.addShape(s);
+		Sphere s;		
+		s.setTransform(translation(0, 1, 3));
+		s.material = gloss(s.material, rgb(20, 50, 200));
+		scene.addShape(s);
 		//g.addChild(s);
 	}
 
