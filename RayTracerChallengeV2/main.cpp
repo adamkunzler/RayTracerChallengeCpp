@@ -23,6 +23,7 @@
 #include "src/Engine/Camera.h"
 #include "src/Engine/Canvas.h"
 #include "src/Engine/World.h"
+#include "src/Engine/SceneConfig.h"
 #include "src/Engine/Scene.h"
 
 #include "src/Geometry/Intersection.h"

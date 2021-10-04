@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../Shapes/IShape.h"
-
 namespace RayTracer
 {	
 	struct Computation

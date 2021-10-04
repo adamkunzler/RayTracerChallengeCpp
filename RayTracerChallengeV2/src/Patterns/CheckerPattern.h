@@ -1,9 +1,5 @@
 #pragma once
 
-//#include "..\DataStructs\Color.h"
-//#include "..\DataStructs\Vector4.h"
-//#include "IPattern.h"
-
 namespace RayTracer
 {
 	struct CheckerPattern : public IPattern
@@ -16,15 +12,6 @@ namespace RayTracer
 
 		~CheckerPattern() {}
 
-		Color patternAt(const Point4& p) const
-		{
-			int val = (int)(std::floor(p.x) + std::floor(p.y) + std::floor(p.z));
-			if (val % 2 == 0)
-			{
-				return color1;
-			}
-
-			return color2;
-		}
+		Color patternAt(const Point4& p) const;
 	};
 }

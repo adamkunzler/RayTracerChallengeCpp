@@ -152,6 +152,16 @@
     <ClCompile Include="src\Engine\Engine.cpp" />
     <ClCompile Include="src\Engine\Scene.cpp" />
     <ClCompile Include="src\Engine\World.cpp" />
+    <ClCompile Include="src\Geometry\Computation.cpp" />
+    <ClCompile Include="src\Geometry\Intersection.cpp" />
+    <ClCompile Include="src\Geometry\Material.cpp" />
+    <ClCompile Include="src\Geometry\PointLight.cpp" />
+    <ClCompile Include="src\Geometry\Ray.cpp" />
+    <ClCompile Include="src\Patterns\CheckerPattern.cpp" />
+    <ClCompile Include="src\Patterns\GradientPattern.cpp" />
+    <ClCompile Include="src\Patterns\IPattern.cpp" />
+    <ClCompile Include="src\Patterns\RingPattern.cpp" />
+    <ClCompile Include="src\Patterns\StripePattern.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,5 @@
 #pragma once
 
-//#include "..\DataStructs\Color.h"
-//#include "..\DataStructs\Vector4.h"
-//#include "IPattern.h"
-
 namespace RayTracer
 {
 	struct RingPattern : public IPattern
@@ -15,15 +11,6 @@ namespace RayTracer
 		RingPattern(Color c1, Color c2) : color1(c1), color2(c2) {}
 		~RingPattern() {}
 
-		Color patternAt(const Point4& p) const
-		{
-			int val = (int)std::floor(std::sqrtf(p.x * p.x + p.z * p.z));
-			if (val % 2 == 0)
-			{
-				return color1;
-			}
-			
-			return color2;
-		}
+		Color patternAt(const Point4& p) const;
 	};
 }
