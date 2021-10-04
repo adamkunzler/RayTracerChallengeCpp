@@ -1,5 +1,9 @@
 #include <vector>
+#include <algorithm>
 #include <string>
+#include <sstream>
+#include <fstream>
+#include <cmath>
 
 #include "../Utils.h"
 #include "Canvas.h"

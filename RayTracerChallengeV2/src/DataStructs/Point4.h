@@ -1,9 +1,10 @@
-#pragma once
+#ifndef POINT4_H
+#define POINT4_H
 
 #include "Vector4.h"
 
 namespace RayTracer
-{
+{	
 	struct Point4 : public Vector4
 	{
 		Point4() : Vector4(0.0f, 0.0f, 0.0f, 1.0f) {}
@@ -11,3 +12,5 @@ namespace RayTracer
 		Point4(const Vector4& v) : Vector4(v.x, v.y, v.z, 1.0f) {}
 	};
 }
+
+#endif

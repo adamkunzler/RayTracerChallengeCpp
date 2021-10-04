@@ -1,12 +1,7 @@
-#include <ostream>
-#include <iomanip>
-
-#include "../Utils.h"
 #include "Matrix4x4.h"
-#include "Vector4.h"
 
 namespace RayTracer
-{
+{	
 	// 4x4 matrix in row x column form (e.g. m31 is row 3 column 1)
 	Matrix4x4::Matrix4x4()
 	{
@@ -72,8 +67,9 @@ namespace RayTracer
 			|| m10 != m.m10 || m11 != m.m11 || m12 != m.m12 || m13 != m.m13
 			|| m20 != m.m20 || m21 != m.m21 || m22 != m.m22 || m23 != m.m23
 			|| m30 != m.m30 || m31 != m.m31 || m32 != m.m32 || m33 != m.m33;
-	}
+	}	
 
+	// --------------------------------------------------------------------------------------------------
 
 	// identity
 	Matrix4x4 identity4x4()

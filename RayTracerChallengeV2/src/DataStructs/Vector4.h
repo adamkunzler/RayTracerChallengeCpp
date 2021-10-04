@@ -1,7 +1,13 @@
-#pragma once
+#ifndef VECTOR4_H
+#define VECTOR4_H
+
+#include <cmath>
+#include <ostream>
+
+#include "../Utils.h"
 
 namespace RayTracer
-{
+{	
 	struct Vector4
 	{
 		float x;
@@ -61,7 +67,7 @@ namespace RayTracer
 
 		// reflect vector around another vector
 		Vector4 reflect(const Vector4& v) const;
-	};
+	};	
 
 	// magnitude
 	inline float magnitude(const Vector4& v);
@@ -81,3 +87,5 @@ namespace RayTracer
 	// ostream
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Vector4& v);
 }
+
+#endif

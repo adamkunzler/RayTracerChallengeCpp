@@ -21,9 +21,6 @@
     <ClCompile Include="src\DataStructs\Color.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DataStructs\Matrix4x4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

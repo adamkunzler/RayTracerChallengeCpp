@@ -1,7 +1,13 @@
-#pragma once
+#ifndef MATRIX4X4_H
+#define MATRIX4X4_H
+
+#include <iomanip>
+
+#include "../Utils.h"
+#include "Vector4.h"
 
 namespace RayTracer
-{	
+{				
 	// 4x4 matrix in row x column form (e.g. m31 is row 3 column 1)
 	struct Matrix4x4
 	{
@@ -37,13 +43,15 @@ namespace RayTracer
 	//
 	// NON-MEMBER FUNCTIONS -------------------------------------------------------------
 	//
-
-	// identity
+		
 	Matrix4x4 identity4x4();
 
 	// transpose
 	Matrix4x4 transpose4x4(const Matrix4x4& m);
-			
+
+	// determinant
+	// TODO
+
 	// inverse (https://stackoverflow.com/a/44446912) thank you god
 	Matrix4x4 inverse(const Matrix4x4& m);
 
@@ -58,7 +66,7 @@ namespace RayTracer
 
 	// multiply Vector4 by matrix4x4 (modify lhs)
 	Vector4& operator*=(Vector4& v, const Matrix4x4& m);
-	
+
 	// multiply matrix4x4 by matrix4x4 (modify lhs)
 	Matrix4x4& operator*=(Matrix4x4& a, const Matrix4x4& b);
 
@@ -86,3 +94,5 @@ namespace RayTracer
 	// ostream
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Matrix4x4& m);
 }
+
+#endif

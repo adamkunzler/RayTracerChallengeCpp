@@ -1,11 +1,7 @@
-#include <ostream>
-
-#include "../Utils.h"
 #include "Vector4.h"
-#include "Point4.h"
 
 namespace RayTracer
-{
+{			 
 	// assignment
 	Vector4& Vector4::operator=(const Vector4& rhs)
 	{
@@ -124,11 +120,9 @@ namespace RayTracer
 		return (*this) - v * 2 * RayTracer::dot(*this, v);
 	}
 
-//
-// NON-MEMBER FUNCTIONS -------------------------------------------------------------
-//
+	// -----------------------------------------------------------------------------
 
-// magnitude
+	// magnitude
 	inline float magnitude(const Vector4& v)
 	{
 		return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);

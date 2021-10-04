@@ -1,4 +1,30 @@
 
+#include <iostream>
+
+#include "src/Utils.h"
+
+#include "src/Engine/Scene.h"
+#include "src/Engine/SceneConfig.h"
+
+#include "src/DataStructs/Color.h"
+#include "src/DataStructs/Vector4.h"
+#include "src/DataStructs/Point4.h"
+#include "src/DataStructs/Matrix4x4.h"
+
+#include "src/Geometry/Material.h"
+#include "src/Geometry/PointLight.h"
+
+#include "src/Shapes/IShape.h"
+#include "src/Shapes/Plane.h"
+#include "src/Shapes/Sphere.h"
+#include "src/Shapes/Cube.h"
+#include "src/Shapes/Cylinder.h"
+#include "src/Shapes/Group.h"
+
+#include "src/Patterns/IPattern.h"
+#include "src/Patterns/CheckerPattern.h"
+#include "src/Patterns/StripePattern.h"
+
 #include "Benchmarks\benchmarks.h"
 #include "tests/_testHarness.h"
 
