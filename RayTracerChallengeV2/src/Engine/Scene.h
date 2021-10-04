@@ -45,13 +45,13 @@ namespace RayTracer
 			world->objects.push_back(&shape);
 		}
 
-		void renderToPPM(const std::string baseFilename)
+		void renderToPPM(const std::string baseFilename, const int numThreads = 32)
 		{			
 			std::cout << "\nRendering scene...\n\n";
 			auto start = std::chrono::high_resolution_clock::now();
 
 			// -----
-			RayTracer::Canvas image = RayTracer::renderMultiThread(*camera, *world, 32);
+			RayTracer::Canvas image = RayTracer::renderMultiThread(*camera, *world, numThreads);
 			// -----
 
 			auto stop = std::chrono::high_resolution_clock::now();

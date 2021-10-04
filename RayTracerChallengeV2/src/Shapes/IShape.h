@@ -4,6 +4,7 @@
 
 #include "../Geometry/Material.h"
 #include "../Geometry/Ray.h"
+//#include "Group.h"
 
 namespace RayTracer
 {		
@@ -12,6 +13,7 @@ namespace RayTracer
 	struct Material;
 	struct Vector4;
 	struct IPattern;
+	//struct Group;
 
 	struct IShape
 	{	
@@ -22,11 +24,13 @@ namespace RayTracer
 	public:		
 		Material material;
 		bool hasShadow;
-	
+		IShape* parent; // should probably be Group* but fuckin' compiler...
+			
 		IShape()
 		{ 
 			setTransform(identity4x4());			
 			hasShadow = true;
+			parent = NULL;
 		}
 		virtual ~IShape() {}
 		
@@ -56,9 +60,9 @@ namespace RayTracer
 			// ray in world space to local space			
 			Ray localRay(r);
 			localRay = localRay.transform(inverseTransform);
-
+			
 			// shape figures out intersections
-			localIntersectBy(localRay, intersections);
+			this->localIntersectBy(localRay, intersections);			
 		}
 
 		//
@@ -67,19 +71,42 @@ namespace RayTracer
 
 		virtual Vector4 localNormalAt(const Point4& localPoint) const = 0;
 
+		Point4 worldToObject(const Point4& worldPoint) const
+		{
+			Point4 p(worldPoint);
+
+			if (parent != NULL)
+			{
+				p = parent->worldToObject(worldPoint);
+			}
+
+			return inverseTransform * p;
+		}
+
+		Vector4 normalToWorld(const Vector4& localNormal) const
+		{
+			Vector4 normal = transpose4x4(inverseTransform) * localNormal;
+			normal.w = 0.0f; // just to be safe
+			normal = normalize(normal);
+			
+			if (parent != NULL)
+			{
+				normal = parent->normalToWorld(normal);
+			}
+
+			return normal;
+		}
+
 		Vector4 normalAt(const Point4& worldPoint) const
 		{
 			// point in world space to local space
-			Point4 localPoint = worldPoint * inverseTransform;
+			Point4 localPoint = worldToObject(worldPoint);
 
 			// shape figures out it's normal
 			Vector4 localNormal = localNormalAt(localPoint); // TODO update to return reference
 
 			// normal from local space to world space
-			Vector4 worldNormal = localNormal * transpose4x4(inverseTransform);
-			worldNormal.w = 0.0f;
-
-			return normalize(worldNormal);
+			return normalToWorld(localNormal);			
 		}
 	};
 }

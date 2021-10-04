@@ -144,6 +144,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\DataStructs\Color.cpp" />
+    <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Benchmarks\benchmarks.h" />
@@ -159,6 +161,7 @@
     <ClInclude Include="src\Geometry\Intersection.h" />
     <ClInclude Include="src\Shapes\Cube.h" />
     <ClInclude Include="src\Shapes\Cylinder.h" />
+    <ClInclude Include="src\Shapes\Group.h" />
     <ClInclude Include="src\Shapes\IShape.h" />
     <ClInclude Include="src\Geometry\Material.h" />
     <ClInclude Include="src\Shapes\Plane.h" />

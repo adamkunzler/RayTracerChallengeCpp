@@ -1,10 +1,5 @@
 #pragma once
 
-//#include <vector>
-//#include "Material.h"
-//#include "IShape.h"
-//#include "Intersection.h"
-
 namespace RayTracer
 {
 	/// <summary>

@@ -1,8 +1,5 @@
 #pragma once
 
-//#include <ostream>
-//#include <algorithm>
-
 namespace RayTracer
 {
 	struct Color
@@ -17,111 +14,54 @@ namespace RayTracer
 		Color(const Color& copy) : r(copy.r), g(copy.g), b(copy.b) {}
 
 		// assignment
-		Color& operator=(const Color& rhs)
-		{
-			r = rhs.r; g = rhs.g; b = rhs.b;
-			return *this;
-		}
+		Color& operator=(const Color& rhs);
 
 		// equality
-		bool operator==(const Color & rhs) const
-		{
-			return r == rhs.r && g == rhs.g && b == rhs.b;
-		}
+		bool operator==(const Color& rhs) const;
 
 		// approximate equality
-		bool equals(const Color& rhs) const
-		{
-			return feq(r, rhs.r) && feq(g, rhs.g) && feq(b, rhs.b);
-		}
+		bool equals(const Color& rhs) const;
 
 		// inequality
-		bool operator!=(const Color& rhs) const
-		{
-			return r != rhs.r || g != rhs.g || b != rhs.b;
-		}
+		bool operator!=(const Color& rhs) const;
 
 		// addition
-		Color operator+(const Color& rhs) const
-		{
-			return Color(r + rhs.r, g + rhs.g, b + rhs.b);
-		}
+		Color operator+(const Color& rhs) const;
 
 		// addition (modify lhs)
-		Color& operator+=(const Color& rhs)
-		{
-			r += rhs.r; g += rhs.g; b += rhs.b;
-			return *this;
-		}
+		Color& operator+=(const Color& rhs);
 
 		// subtraction
-		Color operator-(const Color& rhs) const
-		{
-			return Color(r - rhs.r, g - rhs.g, b - rhs.b);
-		}
+		Color operator-(const Color& rhs) const;
 
 		// subtraction (modify lhs)
-		Color& operator-=(const Color& rhs)
-		{
-			r -= rhs.r; g -= rhs.g; b -= rhs.b;
-			return *this;
-		}
+		Color& operator-=(const Color& rhs);
 
 		// multiply (hadamard product)
-		Color operator*(const Color& rhs) const
-		{
-			return Color(r * rhs.r, g * rhs.g, b * rhs.b);
-		}
+		Color operator*(const Color& rhs) const;
 
 		// multiply (hadamard product) (modify lhs)
-		Color& operator*=(const Color& rhs)
-		{
-			r *= rhs.r;  g *= rhs.g;  b *= rhs.b;
-			return *this;
-		}
+		Color& operator*=(const Color& rhs);
 
 		// multiply by scalar
-		Color operator*(const float& scalar) const
-		{
-			return Color(r * scalar, g * scalar, b * scalar);
-		}
+		Color operator*(const float& scalar) const;
 
 		// multiply by scalar (modify lhs)
-		Color& operator*=(const float& scalar)
-		{
-			r *= scalar; g *= scalar; b *= scalar;
-			return *this;
-		}
+		Color& operator*=(const float& scalar);
 
 		// divide by scalar
-		Color operator/(const float& scalar) const
-		{
-			return Color(r / scalar, g / scalar, b / scalar);
-		}
+		Color operator/(const float& scalar) const;
 
 		// divide by scalar (modify lhs)
-		Color& operator/=(const float& scalar)
-		{
-			r /= scalar; g /= scalar; b /= scalar;
-			return *this;
-		}
+		Color& operator/=(const float& scalar);
 	};
+
+	// NON-MEMBER FUNCTIONS -------------------------------------------------------------
 
 	// get rgb values from (0 - 255) to (0.0 - 1.0)
 	// e.g. rgb(255,255,255) would return Color(1.0f, 1.0f, 1.0f)
-	Color rgb(const int r, const int g, const int b)
-	{
-		return Color (
-			std::clamp(r / 256.0f, 0.0f, 1.0f),
-			std::clamp(g / 256.0f, 0.0f, 1.0f),
-			std::clamp(b / 256.0f, 0.0f, 1.0f)
-		);		
-	}
+	Color rgb(const int r, const int g, const int b);
 
 	// ostream
-	std::ostream& operator<<(std::ostream& os, const RayTracer::Color& color)
-	{
-		os << "(" << color.r << ", " << color.g << ", " << color.b << ")";
-		return os;
-	}
+	std::ostream& operator<<(std::ostream& os, const RayTracer::Color& color);
 }

@@ -1,7 +1,5 @@
 #pragma once
 
-//#include "Intersection.h"
-
 namespace RayTracer
 {
 	struct Cube : public IShape
