@@ -13,11 +13,11 @@ int main()
 {
 	//Tests::RunTests();
 
-	RayTraceScene_Benchmark();
+	//RayTraceScene_Benchmark();
 	//spheres(2);
 	//cubes(2);
 	//cylinders(2);
-	//cubeOfSpheres(2);
+	cubeOfSpheres(10);
 	//simpleGroup(1);
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
@@ -492,8 +492,8 @@ void cubeOfSpheres(const int sizeScale)
 	SceneConfig config;
 
 	// dimensions and fov
-	config.width = 960 * sizeScale;
-	config.height = 540 * sizeScale;
+	config.width = 96 * sizeScale;
+	config.height = 54 * sizeScale;
 	config.fov = PI / 3.5f;
 
 	// camera
@@ -517,16 +517,16 @@ void cubeOfSpheres(const int sizeScale)
 
 		Plane* floor = new Plane();
 		//floor.setTransform(translation(0, -3, 0));
-		CheckerPattern floorPattern(checkerColor1, checkerColor2);
-		floor->material.pattern = &floorPattern;
+		CheckerPattern* floorPattern = new CheckerPattern(checkerColor1, checkerColor2);
+		floor->material.pattern = floorPattern;
 		floor->material.ambient = 0.1f;
 		//floor.material.reflective = 0.5f;
 		floor->material.reflective = 0.2f;
 		scene.addShape(floor);
 
-		/*Group g;
-		g.setTransform(zRotation4x4(PI / 4.0f));
-		scene.addShape(g);*/
+		Group* g = new Group();
+		g->setTransform(zRotation4x4(PI / 4.0f));
+		scene.addShape(g);
 
 		for (int z = 1; z < 6; z++)
 		{
@@ -569,8 +569,8 @@ void cubeOfSpheres(const int sizeScale)
 						translation((float)x, (float)y, (float)z) *
 						scaling(0.5f, 0.5f, 0.5f));
 					s->hasShadow = false;
-					//g.addChild(*s);
-					scene.addShape(s);
+					g->addChild(s);
+					//scene.addShape(s);
 				}
 			}
 		}
@@ -610,8 +610,8 @@ void simpleGroup(int sizeScale)
 	SceneConfig config;
 
 	// dimensions and fov
-	config.width = 10 * sizeScale;
-	config.height = 10 * sizeScale;
+	config.width = 100 * sizeScale;
+	config.height = 100 * sizeScale;
 	config.fov = PI / 3.5f;
 
 	// camera
@@ -629,15 +629,15 @@ void simpleGroup(int sizeScale)
 
 	// add the shapes	
 	{
-		/*Group g;
-		g.setTransform(scaling(2, 2, 2));
-		scene.addShape(g);*/
+		Group* g = new Group();
+		//g->setTransform(scaling(2, 2, 2));
+		scene.addShape(g);
 
 		Sphere* s = new Sphere();
 		s->setTransform(translation(0, 1, 3));
 		s->material = gloss(s->material, rgb(20, 50, 200));
-		scene.addShape(s);
-		//g.addChild(s);
+		//scene.addShape(s);
+		g->addChild(s);
 	}
 
 	scene.renderToPPM("simpleGroup", 1);

@@ -7,6 +7,7 @@ namespace RayTracer
 	{
 		setTransform(identity4x4());
 		hasShadow = true;		
+		parent = NULL;
 	}
 		
 	void IShape::setTransform(const Matrix4x4& lTransform)
@@ -37,14 +38,26 @@ namespace RayTracer
 	
 	Point4 IShape::worldToObject(const Point4& worldPoint) const
 	{
-		Point4 p(worldPoint);		
+		Point4 p(worldPoint);	
+
+		if (parent != NULL)
+		{
+			p = parent->worldToObject(p);
+		}
+
 		return inverseTransform * p;
 	}
 
 	Vector4 IShape::normalToWorld(const Vector4& localNormal) const
 	{
 		Vector4 normal = transpose4x4(inverseTransform) * localNormal;
-		normal.w = 0.0f; // just to be safe		
+		normal.w = 0.0f; // just to be safe	
+
+		if (parent != NULL)
+		{
+			normal = parent->normalToWorld(normal);
+		}
+
 		return normalize(normal);
 	}
 

@@ -3,15 +3,18 @@
 
 namespace RayTracer
 {				
+	struct Group;
+
 	struct IShape
 	{	
 	private: 
 		Matrix4x4 inverseTransform;
 		Matrix4x4 transform;
-	
+			
 	public:		
 		Material material;
 		bool hasShadow;
+		Group* parent;
 					
 		IShape();
 		virtual ~IShape() {}
