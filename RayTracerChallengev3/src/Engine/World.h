@@ -8,7 +8,7 @@ namespace RayTracer
 		std::vector<IShape*> objects;
 		std::vector<PointLight> lights; // TODO ILight interface to support different types of lights
 
-		World() { }		
+		World();
 						
 		void intersectBy(const Ray& r, std::vector<Intersection>& intersections) const;
 

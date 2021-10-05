@@ -184,6 +184,7 @@
     <ClInclude Include="src\Engine\Engine.h" />
     <ClInclude Include="src\Engine\Scene.h" />
     <ClInclude Include="src\Engine\SceneConfig.h" />
+    <ClInclude Include="src\Engine\temp.h" />
     <ClInclude Include="src\Engine\World.h" />
     <ClInclude Include="src\Geometry\Computation.h" />
     <ClInclude Include="src\Geometry\Intersection.h" />

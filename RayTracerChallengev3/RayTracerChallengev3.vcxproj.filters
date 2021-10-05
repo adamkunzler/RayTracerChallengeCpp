@@ -191,5 +191,8 @@
     <ClInclude Include="src\tests\_testHarness.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\temp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

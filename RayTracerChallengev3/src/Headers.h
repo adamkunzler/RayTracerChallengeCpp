@@ -8,6 +8,7 @@
 #include <iomanip>
 #include <cmath>
 #include <cstddef>
+#include <cassert>
 #include <vector>
 #include <map>
 #include <algorithm>
