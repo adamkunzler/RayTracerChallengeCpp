@@ -11,8 +11,7 @@ namespace RayTracer
 	void World::intersectBy(const Ray& r, std::vector<Intersection>& intersections) const
 	{
 		for (std::vector<IShape*>::const_iterator iter = objects.begin(); iter != objects.end(); iter++)
-		{	
-			assert(*iter != NULL);
+		{				
 			(*iter)->intersectBy(r, intersections);
 		}
 	}
@@ -96,13 +95,13 @@ namespace RayTracer
 		Color finalColor;
 		for (std::vector<PointLight>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
 		{
-			//bool isInShadow = isShadowed(*iter, c.overPoint);
-			bool isInShadow = false;
+			bool isInShadow = isShadowed(*iter, c.overPoint);
+			
 			Color surface = phong(*iter, c.object->material, *c.object, c.overPoint, c.eyeV, c.normalV, isInShadow);
-			//Color reflected = reflectedColor(c, remaining);
-			//Color refracted = refractedColor(c, remaining);
+			Color reflected = reflectedColor(c, remaining);
+			Color refracted = refractedColor(c, remaining);
 
-			/*Material m(c.object->material);
+			Material m(c.object->material);
 			if (m.reflective > 0.0f && m.transparency > 0.0f)
 			{
 				float reflectance = schlick(c);
@@ -113,8 +112,7 @@ namespace RayTracer
 			else
 			{
 				finalColor = finalColor + surface + reflected + refracted;
-			}*/
-			finalColor = finalColor + surface;
+			}			
 		}		
 		
 		return finalColor;

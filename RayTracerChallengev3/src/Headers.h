@@ -41,7 +41,6 @@
 #include "../src/Engine/World.h"
 
 #include "../src/Shapes/IShape.h"
-#include "../src/Shapes/Group.h"
 #include "../src/Shapes/Sphere.h"
 #include "../src/Shapes/Cube.h"
 #include "../src/Shapes/Cylinder.h"

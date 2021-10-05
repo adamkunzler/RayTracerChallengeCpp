@@ -103,7 +103,7 @@ namespace RayTracer
 		showProgressBar(1);
 	}
 
-	Canvas renderMultiThread(Camera& camera, World& world, int numThreads = 16)
+	Canvas renderMultiThread(Camera& camera, World& world, int numThreads)
 	{
 		//auto start1 = std::chrono::high_resolution_clock::now();
 

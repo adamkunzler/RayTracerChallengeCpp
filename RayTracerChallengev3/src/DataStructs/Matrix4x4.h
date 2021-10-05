@@ -1,5 +1,6 @@
-#ifndef MATRIX4X4_H
-#define MATRIX4X4_H
+#pragma once
+//#ifndef MATRIX4X4_H
+//#define MATRIX4X4_H
 
 namespace RayTracer
 {					
@@ -90,4 +91,4 @@ namespace RayTracer
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Matrix4x4& m);
 }
 
-#endif
+//#endif

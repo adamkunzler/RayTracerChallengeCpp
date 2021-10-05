@@ -1,5 +1,6 @@
-#ifndef VECTOR4_H
-#define VECTOR4_H
+#pragma once
+//#ifndef VECTOR4_H
+//#define VECTOR4_H
 
 namespace RayTracer
 {	
@@ -83,4 +84,4 @@ namespace RayTracer
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Vector4& v);
 }
 
-#endif
+//#endif

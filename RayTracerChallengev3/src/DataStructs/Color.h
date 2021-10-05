@@ -1,5 +1,6 @@
-#ifndef COLOR_H
-#define COLOR_H
+#pragma once
+//#ifndef COLOR_H
+//#define COLOR_H
 
 namespace RayTracer
 {
@@ -69,4 +70,4 @@ namespace RayTracer
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Color& color);
 }
 
-#endif
+//#endif

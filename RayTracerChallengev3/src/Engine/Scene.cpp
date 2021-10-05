@@ -21,9 +21,9 @@ namespace RayTracer
 		world->lights.push_back(light);
 	}
 
-	void Scene::addShape(IShape& shape) const
+	void Scene::addShape(IShape* shape) const
 	{
-		world->objects.push_back(&shape);
+		world->objects.push_back(shape);
 	}
 
 	void Scene::renderToPPM(const std::string baseFilename, const int numThreads)

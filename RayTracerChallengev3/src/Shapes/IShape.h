@@ -12,8 +12,7 @@ namespace RayTracer
 	public:		
 		Material material;
 		bool hasShadow;
-		IShape* parent; // should probably be Group* but fuckin' compiler...
-			
+					
 		IShape();
 		virtual ~IShape() {}
 		

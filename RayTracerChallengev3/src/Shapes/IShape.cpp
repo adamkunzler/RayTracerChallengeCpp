@@ -6,8 +6,7 @@ namespace RayTracer
 	IShape::IShape()
 	{
 		setTransform(identity4x4());
-		hasShadow = true;
-		parent = NULL;
+		hasShadow = true;		
 	}
 		
 	void IShape::setTransform(const Matrix4x4& lTransform)
@@ -33,33 +32,20 @@ namespace RayTracer
 		localRay = localRay.transform(inverseTransform);
 
 		// shape figures out intersections
-		this->localIntersectBy(localRay, intersections);
+		localIntersectBy(localRay, intersections);
 	}
 	
 	Point4 IShape::worldToObject(const Point4& worldPoint) const
 	{
-		Point4 p(worldPoint);
-
-		if (parent != NULL)
-		{
-			p = parent->worldToObject(worldPoint);
-		}
-
+		Point4 p(worldPoint);		
 		return inverseTransform * p;
 	}
 
 	Vector4 IShape::normalToWorld(const Vector4& localNormal) const
 	{
 		Vector4 normal = transpose4x4(inverseTransform) * localNormal;
-		normal.w = 0.0f; // just to be safe
-		normal = normalize(normal);
-
-		if (parent != NULL)
-		{
-			normal = parent->normalToWorld(normal);
-		}
-
-		return normal;
+		normal.w = 0.0f; // just to be safe		
+		return normalize(normal);
 	}
 
 	Vector4 IShape::normalAt(const Point4& worldPoint) const

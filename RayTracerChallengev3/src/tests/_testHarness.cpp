@@ -1048,6 +1048,7 @@ namespace RayTracer
 			// Chapter 14 - Groups
 			//
 
+			/*
 			if (true)
 			{
 
@@ -1181,6 +1182,7 @@ namespace RayTracer
 					else { failedTests.push_back(scenario); }
 				}
 			} // end chapter 14
+			*/
 
 			//
 			// The End

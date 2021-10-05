@@ -16,7 +16,7 @@ namespace RayTracer
 
 		void addLight(const PointLight& light) const;
 
-		void addShape(IShape& shape) const;
+		void addShape(IShape* shape) const;
 
 		void renderToPPM(const std::string baseFilename, const int numThreads = 32);
 	};
