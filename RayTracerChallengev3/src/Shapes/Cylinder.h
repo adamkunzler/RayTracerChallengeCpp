@@ -1,5 +1,4 @@
-#ifndef CYLINDER_H
-#define CYLINDER_H
+#pragma once
 
 namespace RayTracer
 {
@@ -24,5 +23,3 @@ namespace RayTracer
 		void intersectCaps(std::vector<Intersection>& xs, const Ray& localRay) const;
 	};
 }
-
-#endif

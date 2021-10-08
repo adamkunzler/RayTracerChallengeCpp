@@ -1,5 +1,4 @@
-#ifndef CUBE_H
-#define CUBE_H
+#pragma once
 
 namespace RayTracer
 {
@@ -17,5 +16,3 @@ namespace RayTracer
 		void checkAxis(const float& axisOrigin, const float& rayDirection, float& tmin, float& tmax) const;
 	};
 }
-
-#endif

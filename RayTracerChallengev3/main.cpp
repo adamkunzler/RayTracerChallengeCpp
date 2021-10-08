@@ -13,11 +13,11 @@ int main()
 {
 	//Tests::RunTests();
 
-	//RayTraceScene_Benchmark();
+	RayTraceScene_Benchmark();
 	//spheres(2);
 	//cubes(2);
 	//cylinders(2);
-	cubeOfSpheres(10);
+	//cubeOfSpheres(10);
 	//simpleGroup(1);
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";

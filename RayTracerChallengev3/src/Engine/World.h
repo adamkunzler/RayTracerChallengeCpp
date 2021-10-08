@@ -1,5 +1,4 @@
-#ifndef WORLD_H
-#define WORLD_H
+#pragma once
 
 namespace RayTracer
 {				
@@ -29,4 +28,3 @@ namespace RayTracer
 	
 }
 
-#endif

@@ -1,5 +1,4 @@
-#ifndef PLANE_H
-#define PLANE_H
+#pragma once
 
 namespace RayTracer
 {
@@ -15,5 +14,3 @@ namespace RayTracer
 		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const;
 	};
 }
-
-#endif

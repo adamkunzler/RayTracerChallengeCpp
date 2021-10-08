@@ -1,5 +1,3 @@
-#ifndef SPHERE_H
-#define SPHERE_H
 
 namespace RayTracer
 {
@@ -18,5 +16,3 @@ namespace RayTracer
 
 	Sphere GlassSphere();
 }
-
-#endif

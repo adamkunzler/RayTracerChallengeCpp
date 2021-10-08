@@ -1,5 +1,4 @@
-#ifndef POINTLIGHT_H
-#define POINTLIGHT_H
+#pragma once
 
 namespace RayTracer
 {			
@@ -11,5 +10,3 @@ namespace RayTracer
 		PointLight(const Point4& lPosition, const Color& lIntensity) : position(lPosition), intensity(lIntensity) { }
 	};
 }
-
-#endif

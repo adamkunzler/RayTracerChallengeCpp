@@ -1,5 +1,4 @@
-#ifndef CANVAS_H
-#define CANVAS_H
+#pragma once
 
 namespace RayTracer
 {
@@ -42,5 +41,3 @@ namespace RayTracer
 		const void toPPM(const std::string& filename);
 	};
 }
-
-#endif

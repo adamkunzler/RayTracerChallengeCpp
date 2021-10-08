@@ -1,5 +1,4 @@
-#ifndef SCENE_H
-#define SCENE_H
+#pragma once
 
 namespace RayTracer
 {	
@@ -21,5 +20,3 @@ namespace RayTracer
 		void renderToPPM(const std::string baseFilename, const int numThreads = 32);
 	};
 }
-
-#endif

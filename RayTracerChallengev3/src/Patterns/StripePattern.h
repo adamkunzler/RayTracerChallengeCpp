@@ -1,5 +1,4 @@
-#ifndef STRIPEPATTERN_H
-#define STRIPEPATTERN_H
+#pragma once
 
 namespace RayTracer
 {
@@ -16,5 +15,3 @@ namespace RayTracer
 		Color patternAt(const Point4& p) const;
 	};
 }
-
-#endif

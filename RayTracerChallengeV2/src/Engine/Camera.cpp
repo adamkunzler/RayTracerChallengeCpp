@@ -1,13 +1,4 @@
-#include <cmath>
-
-#include "../Utils.h"
-#include "Camera.h"
-
-#include "../DataStructs/Vector4.h"
-#include "../DataStructs/Point4.h"
-#include "../DataStructs/Matrix4x4.h"
-
-#include "../Geometry/Ray.h"
+#include "../Headers.h"
 
 namespace RayTracer
 {

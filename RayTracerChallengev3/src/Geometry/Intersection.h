@@ -1,5 +1,4 @@
-#ifndef INTERSECTION_H
-#define INTERSECTION_H
+#pragma once
 
 namespace RayTracer
 {	
@@ -27,4 +26,3 @@ namespace RayTracer
 	Intersection hit(std::vector<Intersection>& intersections);
 }
 
-#endif

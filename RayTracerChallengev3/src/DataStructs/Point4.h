@@ -1,6 +1,4 @@
 #pragma once
-//#ifndef POINT4_H
-//#define POINT4_H
 
 namespace RayTracer
 {		
@@ -12,4 +10,3 @@ namespace RayTracer
 	};
 }
 
-//#endif

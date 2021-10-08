@@ -1,5 +1,4 @@
-#ifndef ENGINE_H
-#define ENGINE_H
+#pragma once
 
 namespace RayTracer
 {					
@@ -11,5 +10,3 @@ namespace RayTracer
 
 	Canvas renderMultiThread(Camera& camera, World& world, int numThreads);
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef RAY_H
-#define RAY_H
+#pragma once
 
 namespace RayTracer
 {
@@ -16,5 +15,3 @@ namespace RayTracer
 		Ray transform(const Matrix4x4& matrix) const;
 	};
 }
-
-#endif

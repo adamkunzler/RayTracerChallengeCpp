@@ -1,5 +1,4 @@
-#ifndef UTILS_H
-#define UTILS_H
+#pragma once
 
 extern const float EPSILON;
 extern const float EPSILON2;
@@ -15,5 +14,3 @@ bool feq(const float& a, const float& b);
 /// </summary>
 /// <param name="progress">a value between 0 and 1 inclusive</param>
 void showProgressBar(float progress);
-
-#endif

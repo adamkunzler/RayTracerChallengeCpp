@@ -1,5 +1,4 @@
-#ifndef COMPUTATION_H
-#define COMPUATION_H
+#pragma once
 
 namespace RayTracer
 {	
@@ -21,5 +20,3 @@ namespace RayTracer
 		float n2;
 	};
 }
-
-#endif

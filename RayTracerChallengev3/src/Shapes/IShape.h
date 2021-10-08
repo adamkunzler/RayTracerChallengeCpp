@@ -1,5 +1,4 @@
-#ifndef ISHAPE_H
-#define ISHAPE_H
+#pragma once
 
 namespace RayTracer
 {				
@@ -38,5 +37,3 @@ namespace RayTracer
 		Vector4 normalAt(const Point4& worldPoint) const;
 	};
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef RINGPATTERN_H
-#define RINGPATTERN_H
+#pragma once
 
 namespace RayTracer
 {
@@ -15,5 +14,3 @@ namespace RayTracer
 		Color patternAt(const Point4& p) const;
 	};
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef IPATTERN_H
-#define IPATTERN_H
+#pragma once
 
 namespace RayTracer
 {		
@@ -23,5 +22,3 @@ namespace RayTracer
 		Color patternAt(const IShape& shape, const Point4& p) const;
 	};
 }
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef _TESTHARNESS_H
-#define _TESTHARNESS_H
+#pragma once
 
 namespace RayTracer
 {
@@ -30,5 +29,3 @@ namespace RayTracer
 		Sphere* getGlassSphere();
 	} // end namespace tests
 } // end namespace raytracer
-
-#endif

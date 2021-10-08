@@ -1,5 +1,4 @@
-#ifndef SCENECONFIG_H
-#define SCENECONFIG_H
+#pragma once
 
 namespace RayTracer
 {
@@ -16,5 +15,3 @@ namespace RayTracer
 		SceneConfig() { }
 	};
 }
-
-#endif

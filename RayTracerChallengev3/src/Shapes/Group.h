@@ -1,5 +1,4 @@
-#ifndef GROUP_H
-#define GROUP_H
+#pragma once
 
 namespace RayTracer
 {
@@ -16,5 +15,3 @@ namespace RayTracer
 		void addChild(IShape* shape);
 	};
 }
-
-#endif

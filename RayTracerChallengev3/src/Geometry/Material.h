@@ -1,5 +1,4 @@
-#ifndef MATERIAL_H
-#define MATERIAL_H
+#pragma once
 
 namespace RayTracer
 {		
@@ -36,5 +35,3 @@ namespace RayTracer
 	Material& metallic(Material& m, const Color& color);
 }
 
-
-#endif

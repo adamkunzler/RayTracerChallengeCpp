@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 namespace RayTracer
 {	
@@ -27,5 +26,3 @@ namespace RayTracer
 
 	Matrix4x4 viewTransform(const Vector4& from, const Vector4& to, const Vector4& up);
 }
-
-#endif
