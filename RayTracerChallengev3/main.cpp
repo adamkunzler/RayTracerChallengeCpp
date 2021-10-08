@@ -498,6 +498,7 @@ void cubeOfSpheres(const int sizeScale)
 
 	// camera
 	config.from = Point4(-10.0f, 10.0f, -10.0f);
+	//config.from = Point4(0.0f, 10.0f, -10.0f);
 	config.to = Point4(0.0f, 2.0f, 2.0f);
 	config.up = Vector4(0.0f, 1.0f, 0.0f);
 

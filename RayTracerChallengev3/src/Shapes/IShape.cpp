@@ -52,13 +52,14 @@ namespace RayTracer
 	{
 		Vector4 normal = transpose4x4(inverseTransform) * localNormal;
 		normal.w = 0.0f; // just to be safe	
+		normal.normalize();
 
 		if (parent != NULL)
 		{
 			normal = parent->normalToWorld(normal);
 		}
 
-		return normalize(normal);
+		return normal;
 	}
 
 	Vector4 IShape::normalAt(const Point4& worldPoint) const

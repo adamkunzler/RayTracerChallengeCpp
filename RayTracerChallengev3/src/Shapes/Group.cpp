@@ -19,7 +19,7 @@ namespace RayTracer
 
 	void Group::addChild(IShape* shape)
 	{
-		//shape.parent = this;
+		shape->parent = this;
 		children.push_back(shape);
 	}
 }
