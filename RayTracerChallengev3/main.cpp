@@ -8,17 +8,19 @@ void cubes(const int sizeScale);
 void cylinders(const int sizeScale);
 void cubeOfSpheres(const int sizeScale);
 void simpleGroup(int sizeScale);
+void scatteredMarbles(int sizeScale, int numMarbles);
 
 int main()
 {
 	//Tests::RunTests();
 
-	RayTraceScene_Benchmark();
+	//RayTraceScene_Benchmark();
 	//spheres(2);
 	//cubes(2);
 	//cylinders(2);
 	//cubeOfSpheres(10);
 	//simpleGroup(1);
+	scatteredMarbles(10, 500);
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
 	return 0;
@@ -645,6 +647,82 @@ void simpleGroup(int sizeScale)
 }
 
 // -----------------------------------------------------------------------
+
+void scatteredMarbles(int sizeScale, int numMarbles)
+{
+	SceneConfig config;
+
+	// dimensions and fov
+	config.width = 96 * sizeScale;
+	config.height = 54 * sizeScale;
+	config.fov = PI / 3.5f;
+
+	// camera
+	config.from = Point4(0.0f, 7.0f, -30.0f);	
+	config.to = Point4(0.0f, 0.0f, -10.0f);
+	config.up = Vector4(0.0f, 1.0f, 0.0f);
+
+	Scene scene(config);
+
+	// add the lights
+	scene.addLight(PointLight(
+		Point4(-30.0f, 55.0f, 10.0f),
+		Color(0.85f)
+	));
+
+	// add the shapes	
+	{
+		Plane* floor = new Plane();
+		floor->material = matte(floor->material, rgb(196, 164, 132));		
+		scene.addShape(floor);
+
+		for (int i = 0; i < numMarbles; i++)
+		{
+			float x = (float)((rand() % 75) - 25);
+			float z = (float)((rand() % 75) - 25);
+			
+			float scale = 1.0f;
+			int rScale = rand() % 3;
+			switch (rScale)
+			{
+			case 0:
+				scale = 1.0f;
+				break;
+			case 1:
+				scale = 1.5f;
+				break;
+			case 2:
+				scale = 0.5f;
+				break;
+			}
+
+			Sphere* s = new Sphere();
+			s->setTransform(translation(x, scale, z) * scaling(scale, scale, scale));						
+			//s->material = gloss(s->material, rgb(152, 188, 89));			
+			
+			int r = rand() % 5;
+			switch (r)
+			{
+			case 0:			
+			case 1:
+				s->material = glass(s->material);
+				break;
+			case 2:
+			case 3:
+				s->material = metallic(s->material, Color(0.5f, 0.525f, 0.5f));
+				break;			
+			case 4:
+				s->material = metal(s->material);
+				break;			
+			}
+
+			//s->material = matte(s->material, rgb(152, 188, 89));			
+			scene.addShape(s);
+		}
+	}
+
+	scene.renderToPPM("scatteredMarbles");
+}
 
 // -----------------------------------------------------------------------
 

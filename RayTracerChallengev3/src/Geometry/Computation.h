@@ -9,6 +9,7 @@ namespace RayTracer
 		
 		Point4 point;
 		Point4 overPoint;
+		Point4 farOverPoint;
 		Point4 underPoint;
 		
 		bool isInside;

@@ -25,7 +25,7 @@ namespace RayTracer
 	{
 		m.color = color;
 		m.ambient = 0.0f;
-		m.diffuse = 1.0f;
+		m.diffuse = 0.9999999f;
 		m.specular = 0.0f;
 		m.shininess = 0.0f;
 		m.reflective = 0.0f;
@@ -68,7 +68,7 @@ namespace RayTracer
 		m.diffuse = 0.1f;
 		m.specular = 0.9f;
 		m.shininess = 300.0f;
-		m.reflective = 1.0f;
+		m.reflective = 0.9f;
 		m.transparency = 0.0f;
 		m.refractiveIndex = 0.0f;
 

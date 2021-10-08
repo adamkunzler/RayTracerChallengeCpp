@@ -86,8 +86,9 @@ namespace RayTracer
 		}
 
 		c.reflectV = dir.reflect(c.normalV);
-		c.overPoint = c.point + (c.normalV * EPSILON2);
-		c.underPoint = c.point - (c.normalV * EPSILON2);
+		c.overPoint = c.point + (c.normalV * 0.0001f);
+		c.farOverPoint = c.point + (c.normalV * FLT_EPSILON);
+		c.underPoint = c.point - (c.normalV * 0.0001f);
 
 		return c;
 	}
@@ -99,7 +100,7 @@ namespace RayTracer
 		{
 			bool isInShadow = isShadowed(*iter, c.overPoint);
 			
-			Color surface = phong(*iter, c.object->material, *c.object, c.overPoint, c.eyeV, c.normalV, isInShadow);
+			Color surface = phong(*iter, c.object->material, *c.object, c.farOverPoint, c.eyeV, c.normalV, isInShadow);
 			Color reflected = reflectedColor(c, remaining);
 			Color refracted = refractedColor(c, remaining);
 
@@ -209,7 +210,7 @@ namespace RayTracer
 		Ray r(p, direction);
 		std::vector<Intersection> intersections;
 		intersectBy(r, intersections);
-
+		
 		Intersection hitXs = hit(intersections);
 		if (!hitXs.isNull() && hitXs.object->hasShadow && hitXs.t < distance)
 		{

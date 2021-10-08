@@ -36,7 +36,7 @@ namespace RayTracer
 		// lightDotNormal represents the cosine of the angle betwen
 		// the light vector and the normal vector. A negative number 
 		// means the light is on the other side of the surface
-		float lightDotNormal = dot(lightV, normalV);
+		float lightDotNormal = lightV.dot(normalV);
 		if (lightDotNormal < 0.0f)
 		{
 			diffuse = Color(0.0f, 0.0f, 0.0f);
@@ -64,8 +64,9 @@ namespace RayTracer
 				specular = light.intensity * (m.specular * factor);
 			}
 		}
-
-		return ambient + diffuse + specular;;
+		
+		//return diffuse;		
+		return ambient + diffuse + specular;
 	}
 
 	void renderThreadFunc(Camera& camera, World& world, int width, int startY, int endY, Color* data)
