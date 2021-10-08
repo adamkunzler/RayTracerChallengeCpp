@@ -48,15 +48,15 @@ namespace RayTracer
 	}
 
 	// multiply by scalar
-	Vector4 Vector4::operator*(const float& scalar) const
+	Vector4 Vector4::operator*(const double& scalar) const
 	{
 		return Vector4(x * scalar, y * scalar, z * scalar, w * scalar);
 	}
 
 	// divide by scalar 
-	Vector4 Vector4::operator/(const float& scalar) const
+	Vector4 Vector4::operator/(const double& scalar) const
 	{
-		float inverseScalar = 1.0f / scalar;
+		double inverseScalar = 1.0 / scalar;
 		return Vector4(
 			x * inverseScalar,
 			y * inverseScalar,
@@ -79,16 +79,16 @@ namespace RayTracer
 	}
 
 	// multiple by scalar - modify lhs
-	Vector4& Vector4::operator*=(const float& scalar)
+	Vector4& Vector4::operator*=(const double& scalar)
 	{
 		x *= scalar; y *= scalar; z *= scalar; w *= scalar;
 		return *this;
 	}
 
 	// divide by scalar - modify lhs
-	Vector4& Vector4::operator/=(const float& scalar)
+	Vector4& Vector4::operator/=(const double& scalar)
 	{
-		float inverseScalar = 1.0f / scalar;
+		double inverseScalar = 1.0 / scalar;
 		x *= inverseScalar; y *= inverseScalar; z *= inverseScalar; w *= inverseScalar;
 		return *this;
 	}
@@ -96,22 +96,22 @@ namespace RayTracer
 	// zero
 	void Vector4::zero()
 	{
-		x = y = z = w = 0.0f;
+		x = y = z = w = 0.0;
 	}
 
 	void Vector4::normalize()
 	{
-		float magnitudeSquared = x * x + y * y + z * z;
-		if (magnitudeSquared > 0.0f)
+		double magnitudeSquared = x * x + y * y + z * z;
+		if (magnitudeSquared > 0.0)
 		{
-			float inverseMagnitude = 1.0f / std::sqrt(magnitudeSquared);
+			double inverseMagnitude = 1.0 / std::sqrt(magnitudeSquared);
 			x *= inverseMagnitude;
 			y *= inverseMagnitude;
 			z *= inverseMagnitude;
 		}
 	}
 
-	float Vector4::dot(const Vector4& rhs) const
+	double Vector4::dot(const Vector4& rhs) const
 	{
 		return x * rhs.x + y * rhs.y + z * rhs.z;
 	}
@@ -119,7 +119,7 @@ namespace RayTracer
 	// reflect vector around another vector
 	Vector4 Vector4::reflect(const Vector4& v) const
 	{
-		return (*this) - v * 2 * RayTracer::dot(*this, v);
+		return (*this) - v * 2.0 * RayTracer::dot(*this, v);
 	}
 
 	// ---------------------------------------------------------------------------------------------------------------
@@ -127,7 +127,7 @@ namespace RayTracer
 	// ---------------------------------------------------------------------------------------------------------------
 
 	// magnitude
-	float magnitude(const Vector4& v)
+	double magnitude(const Vector4& v)
 	{
 		return std::sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 	}
@@ -135,10 +135,10 @@ namespace RayTracer
 	// normalize
 	Vector4 normalize(const Vector4& v)
 	{
-		float magnitudeSquared = v.x * v.x + v.y * v.y + v.z * v.z;
-		if (magnitudeSquared > 0.0f)
+		double magnitudeSquared = v.x * v.x + v.y * v.y + v.z * v.z;
+		if (magnitudeSquared > 0.0)
 		{
-			float inverseMagnitude = 1.0f / std::sqrt(magnitudeSquared);
+			double inverseMagnitude = 1.0 / std::sqrt(magnitudeSquared);
 
 			return Vector4(
 				v.x * inverseMagnitude,
@@ -150,7 +150,7 @@ namespace RayTracer
 	}
 
 	// dot
-	float dot(const Vector4& lhs, const Vector4& rhs)
+	double dot(const Vector4& lhs, const Vector4& rhs)
 	{
 		return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
 	}
@@ -166,7 +166,7 @@ namespace RayTracer
 	}
 
 	// scalar multiplaction (scalar on left for symmetry)
-	Vector4 operator*(float k, const Vector4& rhs)
+	Vector4 operator*(double k, const Vector4& rhs)
 	{
 		return Vector4(k * rhs.x, k * rhs.y, k * rhs.z, k * rhs.w);
 	}

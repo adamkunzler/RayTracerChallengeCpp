@@ -36,11 +36,11 @@ namespace RayTracer
 		// lightDotNormal represents the cosine of the angle betwen
 		// the light vector and the normal vector. A negative number 
 		// means the light is on the other side of the surface
-		float lightDotNormal = lightV.dot(normalV);
-		if (lightDotNormal < 0.0f)
+		double lightDotNormal = lightV.dot(normalV);
+		if (lightDotNormal < 0.0)
 		{
-			diffuse = Color(0.0f, 0.0f, 0.0f);
-			specular = Color(0.0f, 0.0f, 0.0f);
+			diffuse = Color(0.0, 0.0, 0.0);
+			specular = Color(0.0, 0.0, 0.0);
 		}
 		else
 		{
@@ -52,15 +52,15 @@ namespace RayTracer
 			// away from the eye				
 			Vector4 negLightV = -lightV;
 			Vector4 reflectV = negLightV.reflect(normalV);
-			float reflectDotEye = dot(reflectV, eye);
-			if (reflectDotEye <= 0.0f)
+			double reflectDotEye = dot(reflectV, eye);
+			if (reflectDotEye <= 0.0)
 			{
-				specular = Color(0.0f);
+				specular = Color(0.0);
 			}
 			else
 			{
 				// compute specular contribution
-				float factor = std::pow(reflectDotEye, m.shininess);
+				double factor = std::pow(reflectDotEye, m.shininess);
 				specular = light.intensity * (m.specular * factor);
 			}
 		}
@@ -99,7 +99,7 @@ namespace RayTracer
 		//{
 		//	//if (processedPixelsCount % modVal == 0)
 		//	//{
-		//	showProgressBar((float)(*processedPixelsCount) / (float)totalPixels);
+		//	showProgressBar((double)(*processedPixelsCount) / (double)totalPixels);
 		//	//}
 		//}
 

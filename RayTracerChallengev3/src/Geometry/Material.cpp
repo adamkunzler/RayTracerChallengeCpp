@@ -6,15 +6,15 @@ namespace RayTracer
 {
 	Material::Material()
 	{
-		color = Color(1, 1, 1);
+		color = Color(1.0, 1.0, 1.0);
 		pattern = NULL;
-		ambient = 0.1f;
-		diffuse = 0.9f;
-		specular = 0.9f;
-		shininess = 200.0f;
-		reflective = 0.0f;
-		transparency = 0.0f;
-		refractiveIndex = 1.0f;
+		ambient = 0.1;
+		diffuse = 0.9;
+		specular = 0.9;
+		shininess = 200.0;
+		reflective = 0.0;
+		transparency = 0.0;
+		refractiveIndex = 1.0;
 	}
 
 	// 
@@ -24,12 +24,12 @@ namespace RayTracer
 	Material& matte(Material& m, const Color& color)
 	{
 		m.color = color;
-		m.ambient = 0.0f;
-		m.diffuse = 0.9999999f;
-		m.specular = 0.0f;
-		m.shininess = 0.0f;
-		m.reflective = 0.0f;
-		m.transparency = 0.0f;
+		m.ambient = 0.0;
+		m.diffuse = 0.9;
+		m.specular = 0.0;
+		m.shininess = 0.0;
+		m.reflective = 0.0;
+		m.transparency = 0.0;
 
 		return m;
 	}
@@ -40,22 +40,22 @@ namespace RayTracer
 		m.ambient = 0.1f;
 		m.diffuse = 0.8f;
 		m.specular = 0.7f;
-		m.shininess = 100.0f;
+		m.shininess = 100.0;
 		m.reflective = 0.05f;
-		m.transparency = 0.0f;
+		m.transparency = 0.0;
 
 		return m;
 	}
 
 	Material& glass(Material& m)
 	{
-		m.color = Color(0.0f, 0.0f, 0.0f);
+		m.color = Color(0.0, 0.0, 0.0);
 		m.ambient = 0.1f;
 		m.diffuse = 0.1f;
-		m.specular = 1.0f;
-		m.shininess = 300.0f;
-		m.reflective = 1.0f;
-		m.transparency = 1.0f;
+		m.specular = 1.0;
+		m.shininess = 300.0;
+		m.reflective = 1.0;
+		m.transparency = 1.0;
 		m.refractiveIndex = 1.52f;
 
 		return m;
@@ -63,14 +63,14 @@ namespace RayTracer
 
 	Material& metal(Material& m)
 	{
-		m.color = Color(0.0f, 0.0f, 0.0f);
+		m.color = Color(0.0, 0.0, 0.0);
 		m.ambient = 0.1f;
 		m.diffuse = 0.1f;
 		m.specular = 0.9f;
-		m.shininess = 300.0f;
+		m.shininess = 300.0;
 		m.reflective = 0.9f;
-		m.transparency = 0.0f;
-		m.refractiveIndex = 0.0f;
+		m.transparency = 0.0;
+		m.refractiveIndex = 0.0;
 
 		return m;
 	}
@@ -83,8 +83,8 @@ namespace RayTracer
 		m.specular = 0.65f;
 		m.shininess = 5.0f;
 		m.reflective = 0.05f;
-		m.transparency = 0.0f;
-		m.refractiveIndex = 0.0f;
+		m.transparency = 0.0;
+		m.refractiveIndex = 0.0;
 
 		return m;
 	}

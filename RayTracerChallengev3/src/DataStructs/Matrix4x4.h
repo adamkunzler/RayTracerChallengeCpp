@@ -5,18 +5,18 @@ namespace RayTracer
 	// 4x4 matrix in row x column form (e.g. m31 is row 3 column 1)
 	struct Matrix4x4
 	{
-		float m00, m01, m02, m03;
-		float m10, m11, m12, m13;
-		float m20, m21, m22, m23;
-		float m30, m31, m32, m33;
+		double m00, m01, m02, m03;
+		double m10, m11, m12, m13;
+		double m20, m21, m22, m23;
+		double m30, m31, m32, m33;
 
 		Matrix4x4();
 
 		Matrix4x4(
-			float _m00, float _m01, float _m02, float _m03,
-			float _m10, float _m11, float _m12, float _m13,
-			float _m20, float _m21, float _m22, float _m23,
-			float _m30, float _m31, float _m32, float _m33
+			double _m00, double _m01, double _m02, double _m03,
+			double _m10, double _m11, double _m12, double _m13,
+			double _m20, double _m21, double _m22, double _m23,
+			double _m30, double _m31, double _m32, double _m33
 		);
 
 		Matrix4x4(const Matrix4x4& copy);
@@ -65,25 +65,25 @@ namespace RayTracer
 	Matrix4x4& operator*=(Matrix4x4& a, const Matrix4x4& b);
 
 	// translation
-	Matrix4x4 translation(const float& x, const float& y, const float& z);
+	Matrix4x4 translation(const double& x, const double& y, const double& z);
 
 	// scaling
-	Matrix4x4 scaling(const float& x, const float& y, const float& z);
+	Matrix4x4 scaling(const double& x, const double& y, const double& z);
 
 	// rotation x
-	Matrix4x4 xRotation4x4(const float& r);
+	Matrix4x4 xRotation4x4(const double& r);
 
 	// rotation y
-	Matrix4x4 yRotation4x4(const float& r);
+	Matrix4x4 yRotation4x4(const double& r);
 
 	// rotation z
-	Matrix4x4 zRotation4x4(const float& r);
+	Matrix4x4 zRotation4x4(const double& r);
 
 	// shearing
 	Matrix4x4 shearing(
-		const float& xy, const float& xz,
-		const float& yx, const float& yz,
-		const float& zx, const float& zy);
+		const double& xy, const double& xz,
+		const double& yx, const double& yz,
+		const double& zx, const double& zy);
 
 	// ostream
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Matrix4x4& m);

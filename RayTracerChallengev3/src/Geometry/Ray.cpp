@@ -5,7 +5,7 @@
 namespace RayTracer
 {
 
-	Point4 Ray::position(const float t) const
+	Point4 Ray::position(const double t) const
 	{
 		return origin + (direction * t);
 	}

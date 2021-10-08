@@ -9,7 +9,7 @@ namespace RayTracer
 		pixels.reserve(width * height);
 
 		// set all pixels to black
-		Color black(0, 0, 0);
+		Color black(0.0, 0.0, 0.0);
 		fillCanvas(black);
 	}
 

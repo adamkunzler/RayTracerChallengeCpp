@@ -14,16 +14,16 @@ namespace RayTracer
 	{
 		Vector4 sphereToRay = localRay.origin - origin;
 
-		float a = dot(localRay.direction, localRay.direction);
-		float b = 2 * dot(localRay.direction, sphereToRay);
-		float c = dot(sphereToRay, sphereToRay) - 1;
+		double a = dot(localRay.direction, localRay.direction);
+		double b = 2 * dot(localRay.direction, sphereToRay);
+		double c = dot(sphereToRay, sphereToRay) - 1;
 
-		float discriminant = (b * b) - (4 * a) * c;
-		if (discriminant < 0) // MISS
+		double discriminant = (b * b) - (4 * a) * c;
+		if (discriminant < 0.0) // MISS
 			return;
 
-		float t1 = (-b - std::sqrtf(discriminant)) / (2 * a);
-		float t2 = (-b + std::sqrtf(discriminant)) / (2 * a);
+		double t1 = (-b - std::sqrt(discriminant)) / (2.0 * a);
+		double t2 = (-b + std::sqrt(discriminant)) / (2.0 * a);
 
 		intersections.push_back(Intersection(t1, (IShape*)this));
 		intersections.push_back(Intersection(t2, (IShape*)this));
@@ -37,8 +37,8 @@ namespace RayTracer
 	{
 		Sphere s;
 		s.setTransform(identity4x4());
-		s.material.transparency = 1.0f;
-		s.material.refractiveIndex = 1.5f;
+		s.material.transparency = 1.0;
+		s.material.refractiveIndex = 1.5;
 		return s;
 	}
 }

@@ -4,10 +4,10 @@ namespace RayTracer
 	struct Sphere : public IShape
 	{
 		Point4 origin;
-		float radius;
+		double radius;
 
-		Sphere() : origin(Vector4(0.0f, 0.0f, 0.0f, 1.0f)), radius(1.0f) { }
-		Sphere(const Point4& lOrigin, const float lRadius) : origin(lOrigin), radius(lRadius) { }
+		Sphere() : origin(Vector4(0.0, 0.0, 0.0, 1.0)), radius(1.0) { }
+		Sphere(const Point4& lOrigin, const double lRadius) : origin(lOrigin), radius(lRadius) { }
 		
 		Vector4 localNormalAt(const Point4& localPoint) const;
 

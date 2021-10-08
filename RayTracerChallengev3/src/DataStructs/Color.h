@@ -4,13 +4,13 @@ namespace RayTracer
 {
 	struct Color
 	{
-		float r;
-		float g;
-		float b;
+		double r;
+		double g;
+		double b;
 
-		Color() : r(0.0f), g(0.0f), b(0.0f) {}
-		Color(float lr, float lg, float lb) : r(lr), g(lg), b(lb) {}
-		Color(float l) : r(l), g(l), b(l) {}
+		Color() : r(0.0), g(0.0), b(0.0) {}
+		Color(double lr, double lg, double lb) : r(lr), g(lg), b(lb) {}
+		Color(double l) : r(l), g(l), b(l) {}
 		Color(const Color& copy) : r(copy.r), g(copy.g), b(copy.b) {}
 
 		// assignment
@@ -44,16 +44,16 @@ namespace RayTracer
 		Color& operator*=(const Color& rhs);
 
 		// multiply by scalar
-		Color operator*(const float& scalar) const;
+		Color operator*(const double& scalar) const;
 
 		// multiply by scalar (modify lhs)
-		Color& operator*=(const float& scalar);
+		Color& operator*=(const double& scalar);
 
 		// divide by scalar
-		Color operator/(const float& scalar) const;
+		Color operator/(const double& scalar) const;
 
 		// divide by scalar (modify lhs)
-		Color& operator/=(const float& scalar);
+		Color& operator/=(const double& scalar);
 	};
 
 	//
@@ -61,7 +61,7 @@ namespace RayTracer
 	//
 
 	// get rgb values from (0 - 255) to (0.0 - 1.0)
-	// e.g. rgb(255,255,255) would return Color(1.0f, 1.0f, 1.0f)
+	// e.g. rgb(255,255,255) would return Color(1.0, 1.0, 1.0)
 	Color rgb(const int r, const int g, const int b);
 
 	// ostream

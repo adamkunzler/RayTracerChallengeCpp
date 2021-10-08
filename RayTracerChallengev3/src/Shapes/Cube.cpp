@@ -6,33 +6,33 @@ namespace RayTracer
 {
 	Vector4 Cube::localNormalAt(const Point4& localPoint) const
 	{
-		float maxc = std::max({ fabsf(localPoint.x), fabsf(localPoint.y) , fabsf(localPoint.z) });
+		double maxc = std::max({ abs(localPoint.x), abs(localPoint.y) , abs(localPoint.z) });
 
-		if (maxc == fabsf(localPoint.x))
+		if (maxc == abs(localPoint.x))
 		{
-			return Vector4(localPoint.x, 0.0f, 0.0f);
+			return Vector4(localPoint.x, 0.0, 0.0);
 		}
-		else if (maxc == fabsf(localPoint.y))
+		else if (maxc == abs(localPoint.y))
 		{
-			return Vector4(0.0f, localPoint.y, 0.0f);
+			return Vector4(0.0, localPoint.y, 0.0);
 		}
 
-		return Vector4(0.0f, 0.0f, localPoint.z);
+		return Vector4(0.0, 0.0, localPoint.z);
 	}
 
 	void Cube::localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
 	{
-		float xtmin, xtmax;
+		double xtmin, xtmax;
 		checkAxis(localRay.origin.x, localRay.direction.x, xtmin, xtmax);
 
-		float ytmin, ytmax;
+		double ytmin, ytmax;
 		checkAxis(localRay.origin.y, localRay.direction.y, ytmin, ytmax);
 
-		float ztmin, ztmax;
+		double ztmin, ztmax;
 		checkAxis(localRay.origin.z, localRay.direction.z, ztmin, ztmax);
 
-		float tmin = std::max({ xtmin, ytmin, ztmin });
-		float tmax = std::min({ xtmax, ytmax, ztmax });
+		double tmin = std::max({ xtmin, ytmin, ztmin });
+		double tmax = std::min({ xtmax, ytmax, ztmax });
 
 		if (tmin > tmax) return;
 
@@ -40,12 +40,12 @@ namespace RayTracer
 		intersections.push_back(Intersection(tmax, (IShape*)this));
 	}
 
-	void Cube::checkAxis(const float& axisOrigin, const float& rayDirection, float& tmin, float& tmax) const
+	void Cube::checkAxis(const double& axisOrigin, const double& rayDirection, double& tmin, double& tmax) const
 	{
-		float tminNumerator = (-1.0f - axisOrigin);
-		float tmaxNumerator = (1.0f - axisOrigin);
+		double tminNumerator = (-1.0 - axisOrigin);
+		double tmaxNumerator = (1.0 - axisOrigin);
 
-		if (std::fabsf(rayDirection) >= EPSILON)
+		if (std::abs(rayDirection) >= DBL_EPSILON)
 		{
 			tmin = tminNumerator / rayDirection;
 			tmax = tmaxNumerator / rayDirection;

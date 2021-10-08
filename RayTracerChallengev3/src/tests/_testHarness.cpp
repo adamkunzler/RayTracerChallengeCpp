@@ -169,9 +169,9 @@ namespace RayTracer
 
 					RayTracer::Matrix4x4 m(
 						8.0f, -5.0f, 9.0f, 2.0f,
-						7.0f, 5.0f, 6.0f, 1.0f,
-						-6.0f, 0.0f, 9.0f, 6.0f,
-						-3.0f, 0.0f, -9.0f, -4.0f);
+						7.0f, 5.0f, 6.0f, 1.0,
+						-6.0f, 0.0, 9.0f, 6.0f,
+						-3.0f, 0.0, -9.0f, -4.0f);
 
 					RayTracer::Matrix4x4 expected(
 						-0.15385f, -0.15385f, -0.28205f, -0.53846f,
@@ -190,7 +190,7 @@ namespace RayTracer
 					std::string scenario = "Chapter 3 - Calculating the inverse of a third matrix";
 
 					RayTracer::Matrix4x4 m(
-						9.0f, 3.0f, 0.0f, 9.0f,
+						9.0f, 3.0f, 0.0, 9.0f,
 						-5.0f, -2.0f, -6.0f, -3.0f,
 						-4.0f, 9.0f, 6.0f, 4.0f,
 						-7.0f, 6.0f, 6.0f, 2.0f);
@@ -587,7 +587,7 @@ namespace RayTracer
 					std::string scenario = "Chapter 11 - Reflectivity for the default material";
 
 					Material m;
-					bool result = feq(m.reflective, 0.0f);
+					bool result = feq(m.reflective, 0.0);
 
 					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
 					if (result) { numPassed++; }
@@ -792,12 +792,12 @@ namespace RayTracer
 					Computation c4 = w.prepareComputations(intersections[4], r, intersections);
 					Computation c5 = w.prepareComputations(intersections[5], r, intersections);
 
-					bool result = feq(c0.n1, 1.0f) && feq(c0.n2, 1.5f)
+					bool result = feq(c0.n1, 1.0) && feq(c0.n2, 1.5f)
 						&& feq(c1.n1, 1.5f) && feq(c1.n2, 2.0f)
 						&& feq(c2.n1, 2.0f) && feq(c2.n2, 2.5f)
 						&& feq(c3.n1, 2.5f) && feq(c3.n2, 2.5f)
 						&& feq(c4.n1, 2.5f) && feq(c4.n2, 1.5f)
-						&& feq(c5.n1, 1.5f) && feq(c5.n2, 1.0f);
+						&& feq(c5.n1, 1.5f) && feq(c5.n2, 1.0);
 
 					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
 					if (result) { numPassed++; }
@@ -848,7 +848,7 @@ namespace RayTracer
 					std::string scenario = "Chapter 11 - The refracted color at the maximum recursive depth";
 
 					World w = *getDefaultWorld();
-					w.objects[0]->material.transparency = 1.0f;
+					w.objects[0]->material.transparency = 1.0;
 					w.objects[0]->material.refractiveIndex = 1.5f;
 					Ray r(Point4(0, 0, -5), Vector4(0, 0, 1));
 					std::vector<Intersection> xs = {
@@ -871,7 +871,7 @@ namespace RayTracer
 					std::string scenario = "Chapter 11 - The refracted color under total internal reflection";
 
 					World w = *getDefaultWorld();
-					w.objects[0]->material.transparency = 1.0f;
+					w.objects[0]->material.transparency = 1.0;
 					w.objects[0]->material.refractiveIndex = 1.5f;
 					Ray r(Point4(0, 0, sqrt2over2), Vector4(0, 1, 0));
 					std::vector<Intersection> xs = {
@@ -895,11 +895,11 @@ namespace RayTracer
 
 					World w = *getDefaultWorld();
 					IShape* a = w.objects[0];
-					a->material.ambient = 1.0f;
+					a->material.ambient = 1.0;
 					TestPattern pattern;
 					a->material.pattern = &pattern;
 					IShape* b = w.objects[1];
-					b->material.transparency = 1.0f;
+					b->material.transparency = 1.0;
 					b->material.refractiveIndex = 1.5f;
 					Ray r(Point4(0, 0, 0.1f), Vector4(0, 1, 0));
 					std::vector<Intersection> xs = {
@@ -961,9 +961,9 @@ namespace RayTracer
 						Intersection(sqrt2over2, &s)
 					};
 					Computation comps = w.prepareComputations(xs[1], r, xs);
-					float reflectance = w.schlick(comps);
+					double reflectance = w.schlick(comps);
 
-					bool result = feq(reflectance, 1.0f);
+					bool result = feq(reflectance, 1.0);
 
 					std::cout << std::endl << (result ? "PASS" : "FAIL") << "\t" << scenario;
 					if (result) { numPassed++; }
@@ -981,7 +981,7 @@ namespace RayTracer
 					};
 					World w;
 					Computation comps = w.prepareComputations(xs[1], r, xs);
-					float reflectance = w.schlick(comps);
+					double reflectance = w.schlick(comps);
 
 					bool result = feq(reflectance, 0.04f);
 
@@ -1000,7 +1000,7 @@ namespace RayTracer
 						Intersection(1.8589f, &s)
 					};
 					Computation comps = w.prepareComputations(xs[0], r, xs);
-					float reflectance = w.schlick(comps);
+					double reflectance = w.schlick(comps);
 
 					bool result = feq(reflectance, 0.48873f);
 
@@ -1151,7 +1151,7 @@ namespace RayTracer
 					s.setTransform(translation(5, 0, 0));
 					g2.addChild(s);
 
-					float sqrt3over3 = sqrtf(3) / 3;
+					double sqrt3over3 = sqrt(3) / 3;
 					Vector4 n = s.normalToWorld(Vector4(sqrt3over3, sqrt3over3, sqrt3over3));
 					Vector4 e(0.2857f, 0.4286f, -0.8571f);
 
@@ -1201,7 +1201,7 @@ namespace RayTracer
 			w->lights.push_back(PointLight(Point4(-10, 10, -10), Color(1, 1, 1)));
 
 			Sphere* s1 = new Sphere();
-			s1->material.color = Color(0.8f, 1.0f, 0.6f);
+			s1->material.color = Color(0.8f, 1.0, 0.6f);
 			s1->material.diffuse = 0.7f;
 			s1->material.specular = 0.2f;
 
@@ -1218,7 +1218,7 @@ namespace RayTracer
 		{
 			Sphere* s = new Sphere();
 			s->setTransform(identity4x4());
-			s->material.transparency = 1.0f;
+			s->material.transparency = 1.0;
 			s->material.refractiveIndex = 1.5f;
 			return s;
 		}

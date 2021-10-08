@@ -53,7 +53,7 @@ namespace RayTracer
 	Vector4 IShape::normalToWorld(const Vector4& localNormal) const
 	{
 		Vector4 normal = transpose4x4(inverseTransform) * localNormal;
-		normal.w = 0.0f; // just to be safe	
+		normal.w = 0.0; // just to be safe	
 		normal.normalize();
 
 		if (parent != NULL)

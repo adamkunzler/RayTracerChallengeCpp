@@ -6,7 +6,7 @@ namespace RayTracer
 	{
 		int width;
 		int height;
-		float fov;
+		double fov;
 
 		Vector4 from;
 		Vector4 to;

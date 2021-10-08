@@ -7,17 +7,17 @@ namespace RayTracer
 	// 4x4 matrix in row x column form (e.g. m31 is row 3 column 1)
 	Matrix4x4::Matrix4x4()
 	{
-		m00 = m01 = m02 = m03 = 0.0f;
-		m10 = m11 = m12 = m13 = 0.0f;
-		m20 = m21 = m22 = m23 = 0.0f;
-		m30 = m31 = m32 = m33 = 0.0f;
+		m00 = m01 = m02 = m03 = 0.0;
+		m10 = m11 = m12 = m13 = 0.0;
+		m20 = m21 = m22 = m23 = 0.0;
+		m30 = m31 = m32 = m33 = 0.0;
 	}
 
 	Matrix4x4::Matrix4x4(
-		float _m00, float _m01, float _m02, float _m03,
-		float _m10, float _m11, float _m12, float _m13,
-		float _m20, float _m21, float _m22, float _m23,
-		float _m30, float _m31, float _m32, float _m33
+		double _m00, double _m01, double _m02, double _m03,
+		double _m10, double _m11, double _m12, double _m13,
+		double _m20, double _m21, double _m22, double _m23,
+		double _m30, double _m31, double _m32, double _m33
 	)
 	{
 		m00 = _m00; m01 = _m01; m02 = _m02; m03 = _m03;
@@ -77,10 +77,10 @@ namespace RayTracer
 	Matrix4x4 identity4x4()
 	{
 		return Matrix4x4(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
+			1.0, 0.0, 0.0, 0.0,
+			0.0, 1.0, 0.0, 0.0,
+			0.0, 0.0, 1.0, 0.0,
+			0.0, 0.0, 0.0, 1.0
 		);
 	}
 
@@ -102,26 +102,26 @@ namespace RayTracer
 	Matrix4x4 inverse(const Matrix4x4& m)
 	{
 
-		float A2323 = m.m22 * m.m33 - m.m23 * m.m32;
-		float A1323 = m.m21 * m.m33 - m.m23 * m.m31;
-		float A1223 = m.m21 * m.m32 - m.m22 * m.m31;
-		float A0323 = m.m20 * m.m33 - m.m23 * m.m30;
-		float A0223 = m.m20 * m.m32 - m.m22 * m.m30;
-		float A0123 = m.m20 * m.m31 - m.m21 * m.m30;
-		float A2313 = m.m12 * m.m33 - m.m13 * m.m32;
-		float A1313 = m.m11 * m.m33 - m.m13 * m.m31;
-		float A1213 = m.m11 * m.m32 - m.m12 * m.m31;
-		float A2312 = m.m12 * m.m23 - m.m13 * m.m22;
-		float A1312 = m.m11 * m.m23 - m.m13 * m.m21;
-		float A1212 = m.m11 * m.m22 - m.m12 * m.m21;
-		float A0313 = m.m10 * m.m33 - m.m13 * m.m30;
-		float A0213 = m.m10 * m.m32 - m.m12 * m.m30;
-		float A0312 = m.m10 * m.m23 - m.m13 * m.m20;
-		float A0212 = m.m10 * m.m22 - m.m12 * m.m20;
-		float A0113 = m.m10 * m.m31 - m.m11 * m.m30;
-		float A0112 = m.m10 * m.m21 - m.m11 * m.m20;
+		double A2323 = m.m22 * m.m33 - m.m23 * m.m32;
+		double A1323 = m.m21 * m.m33 - m.m23 * m.m31;
+		double A1223 = m.m21 * m.m32 - m.m22 * m.m31;
+		double A0323 = m.m20 * m.m33 - m.m23 * m.m30;
+		double A0223 = m.m20 * m.m32 - m.m22 * m.m30;
+		double A0123 = m.m20 * m.m31 - m.m21 * m.m30;
+		double A2313 = m.m12 * m.m33 - m.m13 * m.m32;
+		double A1313 = m.m11 * m.m33 - m.m13 * m.m31;
+		double A1213 = m.m11 * m.m32 - m.m12 * m.m31;
+		double A2312 = m.m12 * m.m23 - m.m13 * m.m22;
+		double A1312 = m.m11 * m.m23 - m.m13 * m.m21;
+		double A1212 = m.m11 * m.m22 - m.m12 * m.m21;
+		double A0313 = m.m10 * m.m33 - m.m13 * m.m30;
+		double A0213 = m.m10 * m.m32 - m.m12 * m.m30;
+		double A0312 = m.m10 * m.m23 - m.m13 * m.m20;
+		double A0212 = m.m10 * m.m22 - m.m12 * m.m20;
+		double A0113 = m.m10 * m.m31 - m.m11 * m.m30;
+		double A0112 = m.m10 * m.m21 - m.m11 * m.m20;
 
-		float det = m.m00 * (m.m11 * A2323 - m.m12 * A1323 + m.m13 * A1223)
+		double det = m.m00 * (m.m11 * A2323 - m.m12 * A1323 + m.m13 * A1223)
 			- m.m01 * (m.m10 * A2323 - m.m12 * A0323 + m.m13 * A0223)
 			+ m.m02 * (m.m10 * A1323 - m.m11 * A0323 + m.m13 * A0123)
 			- m.m03 * (m.m10 * A1223 - m.m11 * A0223 + m.m12 * A0123);
@@ -205,80 +205,80 @@ namespace RayTracer
 	}
 
 	// translation
-	Matrix4x4 translation(const float& x, const float& y, const float& z)
+	Matrix4x4 translation(const double& x, const double& y, const double& z)
 	{
 		return Matrix4x4(
-			1.0f, 0.0f, 0.0f, x,
-			0.0f, 1.0f, 0.0f, y,
-			0.0f, 0.0f, 1.0f, z,
-			0.0f, 0.0f, 0.0f, 1.0f
+			1.0, 0.0, 0.0, x,
+			0.0, 1.0, 0.0, y,
+			0.0, 0.0, 1.0, z,
+			0.0, 0.0, 0.0, 1.0
 		);
 	}
 
 	// scaling
-	Matrix4x4 scaling(const float& x, const float& y, const float& z)
+	Matrix4x4 scaling(const double& x, const double& y, const double& z)
 	{
 		return Matrix4x4(
-			x, 0.0f, 0.0f, 0.0f,
-			0.0f, y, 0.0f, 0.0f,
-			0.0f, 0.0f, z, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
+			x, 0.0, 0.0, 0.0,
+			0.0, y, 0.0, 0.0,
+			0.0, 0.0, z, 0.0,
+			0.0, 0.0, 0.0, 1.0
 		);
 	}
 
 	// rotation x
-	Matrix4x4 xRotation4x4(const float& r)
+	Matrix4x4 xRotation4x4(const double& r)
 	{
-		float cosr = std::cos(r);
-		float sinr = std::sin(r);
+		double cosr = std::cos(r);
+		double sinr = std::sin(r);
 
 		return Matrix4x4(
-			1.0f, 0.0f, 0.0f, 0.0f,
-			0.0f, cosr, -sinr, 0.0f,
-			0.0f, sinr, cosr, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
+			1.0, 0.0, 0.0, 0.0,
+			0.0, cosr, -sinr, 0.0,
+			0.0, sinr, cosr, 0.0,
+			0.0, 0.0, 0.0, 1.0
 		);
 	}
 
 	// rotation y
-	Matrix4x4 yRotation4x4(const float& r)
+	Matrix4x4 yRotation4x4(const double& r)
 	{
-		float cosr = std::cos(r);
-		float sinr = std::sin(r);
+		double cosr = std::cos(r);
+		double sinr = std::sin(r);
 
 		return Matrix4x4(
-			cosr, 0.0f, sinr, 0.0f,
-			0.0f, 1.0f, 0.0f, 0.0f,
-			-sinr, 0.0f, cosr, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
+			cosr, 0.0, sinr, 0.0,
+			0.0, 1.0, 0.0, 0.0,
+			-sinr, 0.0, cosr, 0.0,
+			0.0, 0.0, 0.0, 1.0
 		);
 	}
 
 	// rotation z
-	Matrix4x4 zRotation4x4(const float& r)
+	Matrix4x4 zRotation4x4(const double& r)
 	{
-		float cosr = std::cos(r);
-		float sinr = std::sin(r);
+		double cosr = std::cos(r);
+		double sinr = std::sin(r);
 
 		return Matrix4x4(
-			cosr, -sinr, 0.0f, 0.0f,
-			sinr, cosr, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
+			cosr, -sinr, 0.0, 0.0,
+			sinr, cosr, 0.0, 0.0,
+			0.0, 0.0, 1.0, 0.0,
+			0.0, 0.0, 0.0, 1.0
 		);
 	}
 
 	// shearing
 	Matrix4x4 shearing(
-		const float& xy, const float& xz,
-		const float& yx, const float& yz,
-		const float& zx, const float& zy)
+		const double& xy, const double& xz,
+		const double& yx, const double& yz,
+		const double& zx, const double& zy)
 	{
 		return Matrix4x4(
-			1.0f, xy, xz, 0.0f,
-			yx, 1.0f, yz, 0.0f,
-			zx, zy, 1.0f, 0.0f,
-			0.0f, 0.0f, 0.0f, 1.0f
+			1.0, xy, xz, 0.0,
+			yx, 1.0, yz, 0.0,
+			zx, zy, 1.0, 0.0,
+			0.0, 0.0, 0.0, 1.0
 		);
 	}
 

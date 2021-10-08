@@ -21,7 +21,7 @@ namespace RayTracer
 
 		Color refractedColor(const Computation& comps, const int remaining) const;
 
-		float schlick(const Computation& comps) const;
+		double schlick(const Computation& comps) const;
 
 		bool isShadowed(const PointLight& light, const Vector4& p) const;
 	};	

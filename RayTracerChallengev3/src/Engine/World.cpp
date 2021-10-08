@@ -35,7 +35,7 @@ namespace RayTracer
 			{
 				if (container.size() == 0)
 				{
-					c.n1 = 1.0f;
+					c.n1 = 1.0;
 				}
 				else
 				{
@@ -57,7 +57,7 @@ namespace RayTracer
 			{
 				if (container.size() == 0)
 				{
-					c.n2 = 1.0f;
+					c.n2 = 1.0;
 				}
 				else
 				{
@@ -78,7 +78,7 @@ namespace RayTracer
 		c.normalV = i.object->normalAt(c.point);
 		c.isInside = false;
 
-		float d = dot(c.normalV, c.eyeV);
+		double d = dot(c.normalV, c.eyeV);
 		if (d < 0)
 		{
 			c.isInside = true;
@@ -86,9 +86,9 @@ namespace RayTracer
 		}
 
 		c.reflectV = dir.reflect(c.normalV);
-		c.overPoint = c.point + (c.normalV * 0.0001f);
-		c.farOverPoint = c.point + (c.normalV * FLT_EPSILON);
-		c.underPoint = c.point - (c.normalV * 0.0001f);
+		c.overPoint = c.point + (c.normalV * 0.0001);
+		c.farOverPoint = c.point + (c.normalV * DBL_EPSILON);
+		c.underPoint = c.point - (c.normalV * 0.0001);
 
 		return c;
 	}
@@ -105,12 +105,12 @@ namespace RayTracer
 			Color refracted = refractedColor(c, remaining);
 
 			Material m(c.object->material);
-			if (m.reflective > 0.0f && m.transparency > 0.0f)
+			if (m.reflective > 0.0 && m.transparency > 0.0)
 			{
-				float reflectance = schlick(c);
+				double reflectance = schlick(c);
 				finalColor = finalColor + surface
 					+ reflected * reflectance
-					+ refracted * (1.0f - reflectance);
+					+ refracted * (1.0 - reflectance);
 			}
 			else
 			{
@@ -130,7 +130,7 @@ namespace RayTracer
 
 		// get the closest intersection and return black if no hit
 		Intersection hitXs = hit(intersections);
-		if (hitXs.isNull()) return Color(0, 0, 0);
+		if (hitXs.isNull()) return Color(0.0, 0.0, 0.0);
 
 		// get the compuations for the hit to calculate lighting
 		Computation comp = prepareComputations(hitXs, rayCopy, intersections);
@@ -141,9 +141,9 @@ namespace RayTracer
 
 	Color World::reflectedColor(const Computation& comps, const int remaining) const
 	{
-		if (comps.object->material.reflective == 0.0f || remaining < 1)
+		if (comps.object->material.reflective == 0.0 || remaining < 1)
 		{
-			return Color(0.0f);
+			return Color(0.0);
 		}
 
 		Ray reflectRay(comps.overPoint, comps.reflectV);
@@ -156,20 +156,20 @@ namespace RayTracer
 
 	Color World::refractedColor(const Computation& comps, const int remaining) const
 	{
-		if (comps.object->material.transparency == 0.0f || remaining < 1)
+		if (comps.object->material.transparency == 0.0 || remaining < 1)
 		{
-			return Color(0.0f);
+			return Color(0.0);
 		}
 
-		float ratio = comps.n1 / comps.n2;
-		float cos_i = dot(comps.eyeV, comps.normalV);
-		float sin2_t = (ratio * ratio) * (1.0f - (cos_i * cos_i));
-		if (sin2_t > 1.0f) {
+		double ratio = comps.n1 / comps.n2;
+		double cos_i = dot(comps.eyeV, comps.normalV);
+		double sin2_t = (ratio * ratio) * (1.0 - (cos_i * cos_i));
+		if (sin2_t > 1.0) {
 			// total internal reflection!!
-			return Color(0.0f);
+			return Color(0.0);
 		}
 
-		float cost_t = std::sqrtf(1.0f - sin2_t);
+		double cost_t = std::sqrt(1.0 - sin2_t);
 		Vector4 direction = comps.normalV * (ratio * cos_i - cost_t) - comps.eyeV * ratio;
 		Ray refractRay(comps.underPoint, direction);
 
@@ -177,34 +177,34 @@ namespace RayTracer
 		return colorAt(refractRay, remaining - 1, intersections) * comps.object->material.transparency;
 	}
 
-	float World::schlick(const Computation& comps) const
+	double World::schlick(const Computation& comps) const
 	{
 		// find cos of angle between eye and normal
-		float cos = dot(comps.eyeV, comps.normalV);
+		double cos = dot(comps.eyeV, comps.normalV);
 
 		// total internal reflection if n1 > n2
 		if (comps.n1 > comps.n2)
 		{
-			float n = comps.n1 / comps.n2;
-			float sin2_t = (n * n) * (1.0f - (cos * cos));
-			if (sin2_t > 1.0f) return 1.0f;
+			double n = comps.n1 / comps.n2;
+			double sin2_t = (n * n) * (1.0 - (cos * cos));
+			if (sin2_t > 1.0) return 1.0;
 
 			// compute cos of thetaT  using trig identity
-			float cos_t = std::sqrtf(1.0f - sin2_t);
+			double cos_t = std::sqrt(1.0 - sin2_t);
 
 			// when n1 > n2, use cos of thetaT
 			cos = cos_t;
 		}
 
-		float r0 = ((comps.n1 - comps.n2) / (comps.n1 + comps.n2)) * ((comps.n1 - comps.n2) / (comps.n1 + comps.n2));
-		float oneMinusCosPower5 = (1.0f - cos) * (1.0f - cos) * (1.0f - cos) * (1.0f - cos) * (1.0f - cos);
-		return r0 + ((1.0f - r0) * oneMinusCosPower5);
+		double r0 = ((comps.n1 - comps.n2) / (comps.n1 + comps.n2)) * ((comps.n1 - comps.n2) / (comps.n1 + comps.n2));
+		double oneMinusCosPower5 = (1.0 - cos) * (1.0 - cos) * (1.0 - cos) * (1.0 - cos) * (1.0 - cos);
+		return r0 + ((1.0 - r0) * oneMinusCosPower5);
 	}
 
 	bool World::isShadowed(const PointLight& light, const Vector4& p) const
 	{
 		Vector4 v = light.position - p;
-		float distance = magnitude(v);
+		double distance = magnitude(v);
 		Vector4 direction = normalize(v);
 
 		Ray r(p, direction);

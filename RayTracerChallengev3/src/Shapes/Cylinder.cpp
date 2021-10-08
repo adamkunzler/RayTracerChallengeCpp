@@ -7,47 +7,47 @@ namespace RayTracer
 	Vector4 Cylinder::localNormalAt(const Point4& localPoint) const
 	{
 		// compute the square of the distance from the y axis
-		float dist = localPoint.x * localPoint.x + localPoint.z * localPoint.z;
+		double dist = localPoint.x * localPoint.x + localPoint.z * localPoint.z;
 
-		if ((dist < 1.0f) && (localPoint.y >= (maximum - EPSILON)))
+		if ((dist < 1.0) && (localPoint.y >= (maximum - DBL_EPSILON)))
 		{
-			return Vector4(0.0f, 1.0f, 0.0f);
+			return Vector4(0.0, 1.0, 0.0);
 		}
-		else if ((dist < 1.0f) && (localPoint.y <= (minimum + EPSILON)))
+		else if ((dist < 1.0) && (localPoint.y <= (minimum + DBL_EPSILON)))
 		{
-			return Vector4(0.0f, -1.0f, 0.0f);
+			return Vector4(0.0, -1.0, 0.0);
 		}
 
-		return Vector4(localPoint.x, 0.0f, localPoint.z);
+		return Vector4(localPoint.x, 0.0, localPoint.z);
 	}
 
 	void Cylinder::localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
 	{
-		float a = localRay.direction.x * localRay.direction.x
+		double a = localRay.direction.x * localRay.direction.x
 			+ localRay.direction.z * localRay.direction.z;
-		if (a < EPSILON) return;
+		if (a < DBL_EPSILON) return;
 
-		float b = 2.0f * localRay.origin.x * localRay.direction.x
-			+ 2.0f * localRay.origin.z * localRay.direction.z;
+		double b = 2.0 * localRay.origin.x * localRay.direction.x
+			+ 2.0 * localRay.origin.z * localRay.direction.z;
 
-		float c = localRay.origin.x * localRay.origin.x
-			+ localRay.origin.z * localRay.origin.z - 1.0f;
+		double c = localRay.origin.x * localRay.origin.x
+			+ localRay.origin.z * localRay.origin.z - 1.0;
 
-		float discriminant = (b * b) - (4 * a * c);
-		if (discriminant < 0.0f) return;
+		double discriminant = (b * b) - (4 * a * c);
+		if (discriminant < 0.0) return;
 
-		float sqrtDisc = sqrtf(discriminant);
-		float t0 = (-b - sqrtDisc) / (2 * a);
-		float t1 = (-b + sqrtDisc) / (2 * a);
+		double sqrtDisc = sqrt(discriminant);
+		double t0 = (-b - sqrtDisc) / (2.0 * a);
+		double t1 = (-b + sqrtDisc) / (2.0 * a);
 		if (t0 > t1) std::swap(t0, t1);
 
-		float y0 = localRay.origin.y + t0 * localRay.direction.y;
+		double y0 = localRay.origin.y + t0 * localRay.direction.y;
 		if (minimum < y0 && y0 < maximum)
 		{
 			intersections.push_back(Intersection(t0, (IShape*)this));
 		}
 
-		float y1 = localRay.origin.y + t1 * localRay.direction.y;
+		double y1 = localRay.origin.y + t1 * localRay.direction.y;
 		if (minimum < y1 && y1 < maximum)
 		{
 			intersections.push_back(Intersection(t1, (IShape*)this));
@@ -56,21 +56,21 @@ namespace RayTracer
 		intersectCaps(intersections, localRay);
 	}
 
-	bool Cylinder::checkCap(const Ray& localRay, const float& t) const
+	bool Cylinder::checkCap(const Ray& localRay, const double& t) const
 	{
-		float x = localRay.origin.x + (t * localRay.direction.x);
-		float z = localRay.origin.z + (t * localRay.direction.z);
-		return (x * x + z * z) <= 1.0f;
+		double x = localRay.origin.x + (t * localRay.direction.x);
+		double z = localRay.origin.z + (t * localRay.direction.z);
+		return (x * x + z * z) <= 1.0;
 	}
 
 	void Cylinder::intersectCaps(std::vector<Intersection>& xs, const Ray& localRay) const
 	{
 		// caps only matter if the cylinder is closed and might possibly be intersected by the ray
-		if (!isClosed || (localRay.direction.y < EPSILON && localRay.direction.y > -EPSILON)) return;
+		if (!isClosed || (localRay.direction.y < DBL_EPSILON && localRay.direction.y > -DBL_EPSILON)) return;
 
 		// check for an intersection with the lower end cap by intersecting
 		// the ray with the plane at y = cylinder.minimum
-		float t0 = (minimum - localRay.origin.y) / localRay.direction.y;
+		double t0 = (minimum - localRay.origin.y) / localRay.direction.y;
 		if (checkCap(localRay, t0))
 		{
 			xs.push_back(Intersection(t0, (IShape*)this));
@@ -78,7 +78,7 @@ namespace RayTracer
 
 		// check for an intersection with the upper end cap by intersecting
 		// the ray with the plane at y = cylinder.maximum
-		float t1 = (maximum - localRay.origin.y) / localRay.direction.y;
+		double t1 = (maximum - localRay.origin.y) / localRay.direction.y;
 		if (checkCap(localRay, t1))
 		{
 			xs.push_back(Intersection(t1, (IShape*)this));

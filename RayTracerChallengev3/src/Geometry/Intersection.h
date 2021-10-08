@@ -6,11 +6,11 @@ namespace RayTracer
 	
 	struct Intersection
 	{		
-		float t;
+		double t;
 		IShape* object;
 			
-		Intersection() :t(0), object(0) {}
-		Intersection(const float lT, IShape* lObject) : t(lT), object(lObject) { }				
+		Intersection() :t(0.0), object(0) {}
+		Intersection(const double lT, IShape* lObject) : t(lT), object(lObject) { }				
 		
 		bool isNull();
 

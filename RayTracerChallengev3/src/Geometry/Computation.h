@@ -5,7 +5,7 @@ namespace RayTracer
 	struct Computation
 	{	
 		IShape* object;
-		float t;
+		double t;
 		
 		Point4 point;
 		Point4 overPoint;
@@ -17,7 +17,7 @@ namespace RayTracer
 		Vector4 normalV;		
 		Vector4 reflectV;
 
-		float n1;
-		float n2;
+		double n1;
+		double n2;
 	};
 }

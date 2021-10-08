@@ -69,26 +69,26 @@ namespace RayTracer
 	}
 
 	// multiply by scalar
-	Color Color::operator*(const float& scalar) const
+	Color Color::operator*(const double& scalar) const
 	{
 		return Color(r * scalar, g * scalar, b * scalar);
 	}
 
 	// multiply by scalar (modify lhs)
-	Color& Color::operator*=(const float& scalar)
+	Color& Color::operator*=(const double& scalar)
 	{
 		r *= scalar; g *= scalar; b *= scalar;
 		return *this;
 	}
 
 	// divide by scalar
-	Color Color::operator/(const float& scalar) const
+	Color Color::operator/(const double& scalar) const
 	{
 		return Color(r / scalar, g / scalar, b / scalar);
 	}
 
 	// divide by scalar (modify lhs)
-	Color& Color::operator/=(const float& scalar)
+	Color& Color::operator/=(const double& scalar)
 	{
 		r /= scalar; g /= scalar; b /= scalar;
 		return *this;
@@ -98,13 +98,13 @@ namespace RayTracer
 	// NON-MEMBER FUNCTIONS -------------------------------------------------------------
 
 	// get rgb values from (0 - 255) to (0.0 - 1.0)
-	// e.g. rgb(255,255,255) would return Color(1.0f, 1.0f, 1.0f)
+	// e.g. rgb(255,255,255) would return Color(1.0, 1.0, 1.0)
 	Color rgb(const int r, const int g, const int b)
 	{
 		return Color(
-			std::clamp(r / 256.0f, 0.0f, 1.0f),
-			std::clamp(g / 256.0f, 0.0f, 1.0f),
-			std::clamp(b / 256.0f, 0.0f, 1.0f)
+			std::clamp(r / 256.0, 0.0, 1.0),
+			std::clamp(g / 256.0, 0.0, 1.0),
+			std::clamp(b / 256.0, 0.0, 1.0)
 		);
 	}
 

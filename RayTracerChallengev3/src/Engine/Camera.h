@@ -11,13 +11,13 @@ namespace RayTracer
 	public:
 		int hSize;
 		int vSize;
-		float fov;
+		double fov;
 		
-		float pixelSize;
-		float halfWidth;
-		float halfHeight;
+		double pixelSize;
+		double halfWidth;
+		double halfHeight;
 
-		Camera(int lHSize = 800, int lVSize = 600, float lFov = 1.152f);
+		Camera(int lHSize = 800, int lVSize = 600, double lFov = 1.152);
 
 		void setTransform(const Matrix4x4& lTransform);
 
