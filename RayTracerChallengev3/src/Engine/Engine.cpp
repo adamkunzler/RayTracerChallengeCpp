@@ -2,6 +2,9 @@
 #include "../Headers.h"
 #endif
 
+std::atomic<int> processedPixelsCount;
+std::atomic<bool> processingDone;
+
 namespace RayTracer
 {		
 	struct IPattern;
@@ -87,21 +90,17 @@ namespace RayTracer
 
 				intersections.clear();
 
-				//processedPixelsCount++;
+				processedPixelsCount++;
 			}
 		}
 	}
 
 	void threadProgressBarFunc(int totalPixels)
-	{
-		////int modVal = 100;
-		//while (processedPixelsCount < totalPixels && !processingDone)
-		//{
-		//	//if (processedPixelsCount % modVal == 0)
-		//	//{
-		//	showProgressBar((double)(*processedPixelsCount) / (double)totalPixels);
-		//	//}
-		//}
+	{		
+		while (processedPixelsCount < totalPixels && !processingDone)
+		{
+			showProgressBar((double)(processedPixelsCount) / (double)totalPixels);
+		}
 
 		showProgressBar(1);
 	}
@@ -111,10 +110,7 @@ namespace RayTracer
 		//auto start1 = std::chrono::high_resolution_clock::now();
 
 		int totalPixels = (int)(camera.hSize * camera.vSize);
-
-		std::atomic<int> processedPixelsCount;
-		std::atomic<bool> processingDone;
-
+		
 		std::vector<std::thread> threads;
 		std::vector<Color*> datas;
 
