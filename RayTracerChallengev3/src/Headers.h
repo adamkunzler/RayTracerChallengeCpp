@@ -50,6 +50,7 @@
 
 #include "../src/Engine/Engine.h"
 #include "../src/Engine/Scene.h"
+#include "../src/Engine/ObjParser.h"
 
 #include "../src/tests/_testHarness.h"
 

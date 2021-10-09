@@ -8,20 +8,31 @@ void cubes(const int sizeScale);
 void cubeOfSpheres(const int sizeScale);
 void simpleGroup(int sizeScale);
 void scatteredMarbles(int sizeScale, int numMarbles);
+void testObjParser(std::string filename);
+void utahTeapot(int sizeScale);
 
 int main()
 {
 	//Tests::RunTests();
+	//testObjParser("assets/obj/gibberish.txt");
+	testObjParser("assets/obj/teapot-low.obj");
 
 	//RayTraceScene_Benchmark();
 	//spheres(2);
 	//cubes(2);	
 	//cubeOfSpheres(10);
-	simpleGroup(10);
+	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
+	//utahTeapot(1);
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
 	return 0;
+}
+
+void testObjParser(std::string filename)
+{
+	ObjParser parser;
+	ObjParseResult result = parser.parse(filename);	
 }
 
 // -----------------------------------------------------------------------
@@ -596,6 +607,38 @@ void scatteredMarbles(int sizeScale, int numMarbles)
 }
 
 // -----------------------------------------------------------------------
+
+void utahTeapot(int sizeScale)
+{
+	SceneConfig config;
+
+	// dimensions and fov
+	config.width = 96 * sizeScale;
+	config.height = 54 * sizeScale;
+	config.fov = PI / 3.5f;
+
+	// camera
+	config.from = Point4(0.0, 5.0f, -10.0);
+	config.to = Point4(0.0, 0.0, 0.0);
+	config.up = Vector4(0.0, 1.0, 0.0);
+
+	Scene scene(config);
+
+	// add the lights
+	scene.addLight(PointLight(
+		Point4(-10.0, 10.0f, -10.0),
+		Color(0.85f)
+	));
+
+	// add the shapes	
+	{
+		ObjParser parser;
+		ObjParseResult result = parser.parse("assets/obj/teapot-low.obj");
+		scene.addShape(result.defaultGroup);
+	}
+
+	scene.renderToPPM("utahTeapot");
+}
 
 // -----------------------------------------------------------------------
 

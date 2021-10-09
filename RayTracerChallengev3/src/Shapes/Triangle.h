@@ -17,4 +17,6 @@ namespace RayTracer
 
 		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const;
 	};	
+
+	std::ostream& operator<<(std::ostream& os, const RayTracer::Triangle& t);
 }
