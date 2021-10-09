@@ -41,8 +41,8 @@ namespace RayTracer
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Triangle& t)
 	{
 		os << "p1 => (" << t.p1.x << ", " << t.p1.y << ", " << t.p1.z << ")";
-		os << "\np2 => (" << t.p2.x << ", " << t.p2.y << ", " << t.p2.z << ")";
-		os << "\np3 => (" << t.p3.x << ", " << t.p3.y << ", " << t.p3.z << ")";
+		os << "\tp2 => (" << t.p2.x << ", " << t.p2.y << ", " << t.p2.z << ")";
+		os << "\tp3 => (" << t.p3.x << ", " << t.p3.y << ", " << t.p3.z << ")";
 		return os;
 	}
 }

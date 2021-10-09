@@ -35,7 +35,7 @@ namespace RayTracer
 
 			if (words[0] == "v")
 			{
-				std::cout << "\n Processing vertex..." << "\t" << *iter;
+				//std::cout << "\n Processing vertex..." << "\t" << *iter;
 				double x = std::stod(words[1]);
 				double y = std::stod(words[2]);
 				double z = std::stod(words[3]);
@@ -43,7 +43,7 @@ namespace RayTracer
 			}
 			else if (words[0] == "f")
 			{				
-				std::cout << "\n Processing face..." << "\t" << *iter;
+				//std::cout << "\n Processing face..." << "\t" << *iter;
 				std::vector<Triangle*> temp = processFace(words, vertices);
 				if (g == 0)
 				{
@@ -56,23 +56,23 @@ namespace RayTracer
 			}
 			else if (words[0] == "g")
 			{
-				std::cout << "\n Processing group..." << "\t" << *iter;
+				//std::cout << "\n Processing group..." << "\t" << *iter;
 				g = new Group();
 				result->defaultGroup->addChild(g);
 			}
 			else if (words[0] == "vn")
 			{
-				std::cout << "\n Processing vertex normal..." << "\t" << *iter;
+				//std::cout << "\n Processing vertex normal..." << "\t" << *iter;
 				// TODO
 			}
 			else if (words[0] == "vt")
 			{
-				std::cout << "\n Processing vertex texture..." << "\t" << *iter;
+				//std::cout << "\n Processing vertex texture..." << "\t" << *iter;
 				// TODO
 			}
 			else 
 			{
-				std::cout << "\n Ignoring line..." << "\t" << *iter;
+				//std::cout << "\n Ignoring line..." << "\t" << *iter;
 				result->numLinesIgnored++;
 			}
 			
@@ -139,7 +139,7 @@ namespace RayTracer
 			}
 
 			// perform fan triangulation on them and get back a vector of triangles
-			std::vector<Triangle*> temp = fanTriangulation(vertices);
+			std::vector<Triangle*> temp = fanTriangulation(verts);
 			for (auto t : temp) triangles.push_back(t);
 		}
 
