@@ -14,10 +14,10 @@ int main()
 	//Tests::RunTests();
 
 	//RayTraceScene_Benchmark();
-	spheres(2);
+	//spheres(2);
 	//cubes(2);	
 	//cubeOfSpheres(10);
-	//simpleGroup(1);
+	simpleGroup(10);
 	//scatteredMarbles(10, 500);
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
@@ -484,17 +484,37 @@ void simpleGroup(int sizeScale)
 	// add the shapes	
 	{
 		Group* g = new Group();
-		//g->setTransform(scaling(2, 2, 2));
+		g->setTransform(scaling(4, 3, 4));
 		scene.addShape(g);
+				
+		Point4 p1(-1.0, -1.0, -1.0);
+		Point4 p2(1.0, -1.0, -1.0);
+		Point4 p3(0.0, -1.0, 1.0);
+		Point4 p4(0.0, 1.0, 0.0);
 
-		Sphere* s = new Sphere();
-		s->setTransform(translation(0, 1, 3));
-		s->material = gloss(s->material, rgb(20, 50, 200));
-		//scene.addShape(s);
-		g->addChild(s);
+		Triangle* t1 = new Triangle(p1, p2, p4);
+		t1->material.color = rgb(255, 0, 0);
+		//scene.addShape(t1);
+
+		Triangle* t2 = new Triangle(p2, p3, p4);
+		t2->material.color = rgb(0, 255, 0);
+		//scene.addShape(t2);
+
+		Triangle* t3 = new Triangle(p3, p1, p4);
+		t3->material.color = rgb(0, 0, 255);
+		//scene.addShape(t3);
+
+		Triangle* t4 = new Triangle(p1, p2, p3);
+		t4->material.color = rgb(255, 255, 255);
+		//scene.addShape(t4);
+
+		g->addChild(t1);
+		g->addChild(t2);
+		g->addChild(t3);
+		g->addChild(t4);
 	}
 
-	scene.renderToPPM("simpleGroup", 1);
+	scene.renderToPPM("triangles", 1);
 }
 
 // -----------------------------------------------------------------------

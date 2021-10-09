@@ -176,6 +176,7 @@
     <ClCompile Include="src\Shapes\IShape.cpp" />
     <ClCompile Include="src\Shapes\Plane.cpp" />
     <ClCompile Include="src\Shapes\Sphere.cpp" />
+    <ClCompile Include="src\Shapes\Triangle.cpp" />
     <ClCompile Include="src\tests\_testHarness.cpp" />
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
@@ -206,6 +207,7 @@
     <ClInclude Include="src\Shapes\IShape.h" />
     <ClInclude Include="src\Shapes\Plane.h" />
     <ClInclude Include="src\Shapes\Sphere.h" />
+    <ClInclude Include="src\Shapes\Triangle.h" />
     <ClInclude Include="src\tests\_testHarness.h" />
     <ClInclude Include="src\Utils.h" />
   </ItemGroup>

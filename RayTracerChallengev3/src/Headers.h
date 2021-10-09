@@ -46,6 +46,7 @@
 #include "../src/Shapes/Cube.h"
 #include "../src/Shapes/Cylinder.h"
 #include "../src/Shapes/Plane.h"
+#include "../src/Shapes/Triangle.h"
 
 #include "../src/Engine/Engine.h"
 #include "../src/Engine/Scene.h"
