@@ -5,7 +5,6 @@ using namespace RayTracer;
 void RayTraceScene_Benchmark();
 void spheres(const int sizeScale);
 void cubes(const int sizeScale);
-void cylinders(const int sizeScale);
 void cubeOfSpheres(const int sizeScale);
 void simpleGroup(int sizeScale);
 void scatteredMarbles(int sizeScale, int numMarbles);
@@ -15,12 +14,11 @@ int main()
 	//Tests::RunTests();
 
 	//RayTraceScene_Benchmark();
-	//spheres(2);
-	//cubes(2);
-	//cylinders(2);
+	spheres(2);
+	//cubes(2);	
 	//cubeOfSpheres(10);
 	//simpleGroup(1);
-	scatteredMarbles(10, 500);
+	//scatteredMarbles(10, 500);
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
 	return 0;
@@ -33,8 +31,8 @@ void RayTraceScene_Benchmark()
 	SceneConfig config;
 
 	// dimensions and fov
-	config.width = 3000;
-	config.height = 1600;
+	config.width = 3840;
+	config.height = 2160;
 	config.fov = 1.152f;
 
 	// camera
@@ -194,298 +192,151 @@ void RayTraceScene_Benchmark()
 
 // -----------------------------------------------------------------------
 
-//void spheres(const int sizeScale)
-//{
-//	SceneConfig config;
-//
-//	// dimensions and fov
-//	config.width = 800 * sizeScale;
-//	config.height = 300 * sizeScale;
-//	config.fov = PI / 2.7f;
-//
-//	// camera
-//	config.from = Point4(0.0, 5.0f, -6.0f);
-//	config.to = Point4(0.0, 1.0, 5.0f);
-//	config.up = Vector4(0.0, 1.0, 0.0);
-//
-//	Scene scene(config);
-//
-//	// add the lights
-//	scene.addLight(PointLight(
-//		Point4(0.0, 7.0f, 0.0),
-//		Color(0.9f)
-//	));
-//
-//	// add the shapes	
-//	{
-//		Color checkerColor1(0.99f);
-//		Color checkerColor2(0.95f);
-//		Color babyBlue = rgb(137, 207, 240);
-//
-//		{
-//			Plane floor;
-//			CheckerPattern floorPattern(checkerColor1, checkerColor2);
-//			floor.material.pattern = &floorPattern;
-//			floor.material.ambient = 0.1f;
-//			floor.material.reflective = 0.0;
-//			scene.addShape(floor);
-//
-//			Plane ceiling;
-//			ceiling.setTransform(translation(0.0, 20.0, 0.0) * xRotation4x4(PI));
-//			ceiling.material.color = Color(1.0);
-//			ceiling.material.ambient = 0.1f;
-//			ceiling.material.reflective = 0.0;
-//			scene.addShape(ceiling);
-//
-//			Plane backWall;
-//			backWall.setTransform(translation(1.0, 0.0, 15.0f) * xRotation4x4(PI / 2.0f));
-//			CheckerPattern backWallPattern(checkerColor1, checkerColor2);
-//			backWall.material.pattern = &backWallPattern;
-//			backWall.material.ambient = 0.1f;
-//			backWall.material.reflective = 0.0;
-//			backWall.material.specular = 0;
-//			scene.addShape(backWall);
-//
-//			Plane behindWall;
-//			behindWall.setTransform(translation(1.0, 0.0, -25.0f) * xRotation4x4(-PI / 2.0f));
-//			behindWall.material.color = Color(1.0);
-//			behindWall.material.ambient = 0.1f;
-//			behindWall.material.reflective = 0.0;
-//			behindWall.material.specular = 0;
-//			scene.addShape(behindWall);
-//		}
-//
-//		Sphere glassSphere;
-//		glassSphere.material = glass(glassSphere.material);
-//		glassSphere.setTransform(translation(-6.0f, 1.0, 4.0f));
-//		scene.addShape(glassSphere);
-//
-//		Sphere glassSphereInside;
-//		glassSphereInside.material = glass(glassSphereInside.material);
-//		glassSphereInside.setTransform(translation(-6.0f, 1.0, 4.0f) * scaling(0.9f, 0.9f, 0.9f));
-//		scene.addShape(glassSphereInside);
-//
-//		Sphere matteSphere;
-//		matteSphere.material = matte(matteSphere.material, babyBlue);
-//		matteSphere.setTransform(translation(-3.0f, 1.0, 5.0f));
-//		scene.addShape(matteSphere);
-//
-//		Sphere reflectiveMetalSphere;
-//		reflectiveMetalSphere.material = metal(reflectiveMetalSphere.material);
-//		reflectiveMetalSphere.setTransform(translation(0.0, 1.0, 6.0f));
-//		scene.addShape(reflectiveMetalSphere);
-//
-//		Sphere glossySphere;
-//		glossySphere.material = gloss(glossySphere.material, babyBlue);
-//		glossySphere.setTransform(translation(3.0f, 1.0, 5.0f));
-//		scene.addShape(glossySphere);
-//
-//		Sphere flatMetalSphere;
-//		flatMetalSphere.material = metallic(flatMetalSphere.material, Color(0.5f, 0.525f, 0.5f));
-//		flatMetalSphere.setTransform(translation(6.0f, 1.0, 4.0f));
-//		scene.addShape(flatMetalSphere);
-//	}
-//
-//	scene.renderToPPM("spheres");
-//}
-//
-//// -----------------------------------------------------------------------
-//
-//void cubes(const int sizeScale)
-//{
-//	SceneConfig config;
-//
-//	// dimensions and fov
-//	config.width = 800 * sizeScale;
-//	config.height = 300 * sizeScale;
-//	config.fov = PI / 2.3f;
-//
-//	// camera
-//	config.from = Point4(0.0, 5.0f, -6.0f);
-//	config.to = Point4(0.0, 1.0, 5.0f);
-//	config.up = Vector4(0.0, 1.0, 0.0);
-//
-//	Scene scene(config);
-//
-//	// add the lights
-//	scene.addLight(PointLight(
-//		Point4(0.0, 7.0f, 0.0),
-//		Color(0.9f)
-//	));
-//
-//	// add the shapes
-//	{
-//		Color checkerColor1(0.99f);
-//		Color checkerColor2(0.95f);
-//		Color babyBlue = rgb(137, 207, 240);
-//
-//
-//		{
-//			Plane floor;
-//			CheckerPattern floorPattern(checkerColor1, checkerColor2);
-//			floor.material.pattern = &floorPattern;
-//			floor.material.ambient = 0.1f;
-//			floor.material.reflective = 0.0;
-//			scene.addShape(floor);
-//
-//			Plane ceiling;
-//			ceiling.setTransform(translation(0.0, 20.0, 0.0) * xRotation4x4(PI));
-//			ceiling.material.color = Color(1.0);
-//			ceiling.material.ambient = 0.1f;
-//			ceiling.material.reflective = 0.0;
-//			scene.addShape(ceiling);
-//
-//			Plane backWall;
-//			backWall.setTransform(translation(1.0, 0.0, 15.0f) * xRotation4x4(PI / 2.0f));
-//			CheckerPattern backWallPattern(checkerColor1, checkerColor2);
-//			backWall.material.pattern = &backWallPattern;
-//			backWall.material.ambient = 0.1f;
-//			backWall.material.reflective = 0.0;
-//			backWall.material.specular = 0;
-//			scene.addShape(backWall);
-//
-//			Plane behindWall;
-//			behindWall.setTransform(translation(1.0, 0.0, -25.0f) * xRotation4x4(-PI / 2.0f));
-//			behindWall.material.color = Color(1.0);
-//			behindWall.material.ambient = 0.1f;
-//			behindWall.material.reflective = 0.0;
-//			behindWall.material.specular = 0;
-//			scene.addShape(behindWall);
-//		}
-//
-//		Cube glassSphere;
-//		glassSphere.material = glass(glassSphere.material);
-//		glassSphere.setTransform(translation(-6.0f, 1.00001f, 4.0f));
-//		scene.addShape(glassSphere);
-//
-//		/*Cube glassSphereInside;
-//		glassSphereInside.material = glass(glassSphereInside.material);
-//		glassSphereInside.setTransform(translation(-6.0f, 1.0, 4.0f) * scaling(0.99999f, 0.99999f, 0.99999f));
-//		scene.addShape(glassSphereInside);*/
-//
-//		Cube matteSphere;
-//		matteSphere.material = matte(matteSphere.material, babyBlue);
-//		matteSphere.setTransform(translation(-3.0f, 1.0, 5.0f));
-//		scene.addShape(matteSphere);
-//
-//		Cube reflectiveMetalSphere;
-//		reflectiveMetalSphere.material = metal(reflectiveMetalSphere.material);
-//		reflectiveMetalSphere.material.reflective = 0.8f;
-//		reflectiveMetalSphere.setTransform(translation(0.0, 1.0, 6.0f) * yRotation4x4(PI / 4.0f));
-//		scene.addShape(reflectiveMetalSphere);
-//
-//		Cube glossySphere;
-//		glossySphere.material = gloss(glossySphere.material, babyBlue);
-//		glossySphere.setTransform(translation(3.0f, 1.0, 5.0f));
-//		scene.addShape(glossySphere);
-//
-//		Cube flatMetalSphere;
-//		flatMetalSphere.material = metallic(flatMetalSphere.material, Color(0.5f, 0.525f, 0.5f));
-//		flatMetalSphere.setTransform(translation(6.0f, 1.0, 4.0f));
-//		scene.addShape(flatMetalSphere);
-//	}
-//
-//	scene.renderToPPM("cubes");
-//}
-//
-//// -----------------------------------------------------------------------
-//
-//void cylinders(const int sizeScale)
-//{
-//	SceneConfig config;
-//
-//	// dimensions and fov
-//	config.width = 800 * sizeScale;
-//	config.height = 300 * sizeScale;
-//	config.fov = PI / 2.3f;
-//
-//	// camera
-//	config.from = Point4(0.0, 5.0f, -6.0f);
-//	config.to = Point4(0.0, 1.0, 5.0f);
-//	config.up = Vector4(0.0, 1.0, 0.0);
-//
-//	Scene scene(config);
-//
-//	// add the lights
-//	scene.addLight(PointLight(
-//		Point4(0.0, 7.0f, 0.0),
-//		Color(0.9f)
-//	));
-//
-//	// add the shapes
-//	{
-//		Color checkerColor1(0.99f);
-//		Color checkerColor2(0.95f);
-//		Color babyBlue = rgb(137, 207, 240);
-//
-//
-//		{
-//			Plane floor;
-//			CheckerPattern floorPattern(checkerColor1, checkerColor2);
-//			floor.material.pattern = &floorPattern;
-//			floor.material.ambient = 0.1f;
-//			floor.material.reflective = 0.0;
-//			scene.addShape(floor);
-//
-//			Plane ceiling;
-//			ceiling.setTransform(translation(0.0, 20.0, 0.0) * xRotation4x4(PI));
-//			ceiling.material.color = Color(1.0);
-//			ceiling.material.ambient = 0.1f;
-//			ceiling.material.reflective = 0.0;
-//			scene.addShape(ceiling);
-//
-//			Plane backWall;
-//			backWall.setTransform(translation(1.0, 0.0, 15.0f) * xRotation4x4(PI / 2.0f));
-//			CheckerPattern backWallPattern(checkerColor1, checkerColor2);
-//			backWall.material.pattern = &backWallPattern;
-//			backWall.material.ambient = 0.1f;
-//			backWall.material.reflective = 0.0;
-//			backWall.material.specular = 0;
-//			scene.addShape(backWall);
-//
-//			Plane behindWall;
-//			behindWall.setTransform(translation(1.0, 0.0, -25.0f) * xRotation4x4(-PI / 2.0f));
-//			behindWall.material.color = Color(1.0);
-//			behindWall.material.ambient = 0.1f;
-//			behindWall.material.reflective = 0.0;
-//			behindWall.material.specular = 0;
-//			scene.addShape(behindWall);
-//		}
-//
-//		Cylinder glassSphere(0.0, 3.0f, true);
-//		glassSphere.material = glass(glassSphere.material);
-//		glassSphere.setTransform(translation(-6.0f, 0.0, 3.0f));
-//		scene.addShape(glassSphere);
-//
-//		Cylinder glassSphereInside(0.0, 3.0f, true);
-//		glassSphereInside.material = glass(glassSphereInside.material);
-//		glassSphereInside.setTransform(translation(-6.0f, 0.0, 3.0f) * scaling(0.99999f, 0.99999f, 0.99999f));
-//		scene.addShape(glassSphereInside);
-//
-//		Cylinder matteSphere(0.0, 3.0f, true);
-//		matteSphere.material = matte(matteSphere.material, babyBlue);
-//		matteSphere.setTransform(translation(-2.0f, 0.0, 5.0f));
-//		scene.addShape(matteSphere);
-//
-//		Cylinder reflectiveMetalSphere(0.0, 1.0);
-//		reflectiveMetalSphere.material = metal(reflectiveMetalSphere.material);
-//		reflectiveMetalSphere.material.reflective = 0.8f;
-//		reflectiveMetalSphere.setTransform(translation(0.0, 0.0, 5.0f) * scaling(4.5f, 1.0, 4.5f));
-//		scene.addShape(reflectiveMetalSphere);
-//
-//		Cylinder glossySphere(0.0, 3.0f, true);
-//		glossySphere.material = gloss(glossySphere.material, babyBlue);
-//		glossySphere.setTransform(translation(2.0f, 0.0, 5.0f));
-//		scene.addShape(glossySphere);
-//
-//		Cylinder flatMetalSphere(0.0, 3.0f, true);
-//		flatMetalSphere.material = metallic(flatMetalSphere.material, Color(0.5f, 0.525f, 0.5f));
-//		flatMetalSphere.setTransform(translation(6.0f, 0.0, 3.0f));
-//		scene.addShape(flatMetalSphere);
-//	}
-//
-//	scene.renderToPPM("cylinders");
-//}
+void spheres(const int sizeScale)
+{
+	SceneConfig config;
+
+	// dimensions and fov
+	config.width = 800 * sizeScale;
+	config.height = 300 * sizeScale;
+	config.fov = PI / 2.7;
+
+	// camera
+	config.from = Point4(0.0, 5.0, -6.0);
+	config.to = Point4(0.0, 1.0, 5.0);
+	config.up = Vector4(0.0, 1.0, 0.0);
+
+	Scene scene(config);
+
+	// add the lights
+	scene.addLight(PointLight(
+		Point4(0.0, 7.0, 0.0),
+		Color(0.9)
+	));
+
+	// add the shapes	
+	{
+		Color checkerColor1(0.99);
+		Color checkerColor2(0.95);
+		Color babyBlue = rgb(137, 207, 240);
+
+		{
+			Cube* bounding = new Cube();
+			CheckerPattern* boundingPattern = new CheckerPattern(checkerColor1, checkerColor2);
+			boundingPattern->setTransform(scaling(0.25, 1.0 , 0.25));
+			bounding->material.pattern = boundingPattern;
+			bounding->setTransform(translation(0.0, 15.0, 0.0) * scaling(15.0, 15.0, 15.0));
+			scene.addShape(bounding);			
+		}
+
+		Sphere* glassSphere = new Sphere();
+		glassSphere->material = glass(glassSphere->material);
+		glassSphere->setTransform(translation(-6.0, 1.0, 4.0));
+		scene.addShape(glassSphere);
+
+		Sphere* glassSphereInside = new Sphere();
+		glassSphereInside->material = glass(glassSphereInside->material);
+		glassSphereInside->setTransform(translation(-6.0, 1.0, 4.0) * scaling(0.9, 0.9, 0.9));
+		scene.addShape(glassSphereInside);
+
+		Sphere* matteSphere = new Sphere();
+		matteSphere->material = matte(matteSphere->material, babyBlue);
+		matteSphere->setTransform(translation(-3.0, 1.0, 5.0));
+		scene.addShape(matteSphere);
+
+		Sphere* reflectiveMetalSphere = new Sphere();
+		reflectiveMetalSphere->material = metal(reflectiveMetalSphere->material);
+		reflectiveMetalSphere->setTransform(translation(0.0, 1.0, 6.0));
+		scene.addShape(reflectiveMetalSphere);
+
+		Sphere* glossySphere = new Sphere();
+		glossySphere->material = gloss(glossySphere->material, babyBlue);
+		glossySphere->setTransform(translation(3.0, 1.0, 5.0));
+		scene.addShape(glossySphere);
+
+		Sphere* flatMetalSphere = new Sphere();
+		flatMetalSphere->material = metallic(flatMetalSphere->material, Color(0.5, 0.525, 0.5));
+		flatMetalSphere->setTransform(translation(6.0, 1.0, 4.0));
+		scene.addShape(flatMetalSphere);
+	}
+
+	scene.renderToPPM("spheres");
+}
+
+// -----------------------------------------------------------------------
+
+void cubes(const int sizeScale)
+{
+	SceneConfig config;
+
+	// dimensions and fov
+	config.width = 800 * sizeScale;
+	config.height = 300 * sizeScale;
+	config.fov = PI / 2.3;
+
+	// camera
+	config.from = Point4(0.0, 5.0, -6.0);
+	config.to = Point4(0.0, 1.0, 5.0);
+	config.up = Vector4(0.0, 1.0, 0.0);
+
+	Scene scene(config);
+
+	// add the lights
+	scene.addLight(PointLight(
+		Point4(0.0, 7.0, 0.0),
+		Color(0.9)
+	));
+
+	// add the shapes
+	{
+		Color checkerColor1(0.99);
+		Color checkerColor2(0.95);
+		Color babyBlue = rgb(137, 207, 240);
+
+
+		{
+			Cube* bounding = new Cube();
+			CheckerPattern* boundingPattern = new CheckerPattern(checkerColor1, checkerColor2);
+			boundingPattern->setTransform(scaling(0.25, 1.0, 0.25));
+			bounding->material.pattern = boundingPattern;
+			bounding->setTransform(translation(0.0, 15.0, 0.0) * scaling(15.0, 15.0, 15.0));
+			scene.addShape(bounding);
+		}
+
+		Cube* glassSphere = new Cube();
+		glassSphere->material = glass(glassSphere->material);
+		glassSphere->setTransform(translation(-6.0, 1.00001, 4.0));
+		scene.addShape(glassSphere);
+
+		Cube* glassSphereInside = new Cube();
+		glassSphereInside->material = glass(glassSphereInside->material);
+		glassSphereInside->setTransform(translation(-6.0, 1.0, 4.0) * scaling(0.99999, 0.99999, 0.99999));
+		scene.addShape(glassSphereInside);
+
+		Cube* matteSphere = new Cube();
+		matteSphere->material = matte(matteSphere->material, babyBlue);
+		matteSphere->setTransform(translation(-3.0, 1.0, 5.0));
+		scene.addShape(matteSphere);
+
+		Cube* reflectiveMetalSphere = new Cube();
+		reflectiveMetalSphere->material = metal(reflectiveMetalSphere->material);
+		reflectiveMetalSphere->material.reflective = 0.8;
+		reflectiveMetalSphere->setTransform(translation(0.0, 1.0, 6.0) * yRotation4x4(PI / 4.0));
+		scene.addShape(reflectiveMetalSphere);
+
+		Cube* glossySphere = new Cube();
+		glossySphere->material = gloss(glossySphere->material, babyBlue);
+		glossySphere->setTransform(translation(3.0, 1.0, 5.0));
+		scene.addShape(glossySphere);
+
+		Cube* flatMetalSphere = new Cube();
+		flatMetalSphere->material = metallic(flatMetalSphere->material, Color(0.5, 0.525, 0.5));
+		flatMetalSphere->setTransform(translation(6.0, 1.0, 4.0));
+		scene.addShape(flatMetalSphere);
+	}
+
+	scene.renderToPPM("cubes");
+}
 
 // -----------------------------------------------------------------------
 
