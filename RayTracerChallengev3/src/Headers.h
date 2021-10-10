@@ -22,6 +22,7 @@
 #include "../src/DataStructs/Vector4.h"
 #include "../src/DataStructs/Point4.h"
 #include "../src/DataStructs/Matrix4x4.h"
+#include "../src/DataStructs/BoundingBox.h"
 
 #include "../src/Patterns/IPattern.h"
 #include "../src/Patterns/CheckerPattern.h"

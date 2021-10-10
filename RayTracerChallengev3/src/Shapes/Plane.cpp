@@ -21,4 +21,12 @@ namespace RayTracer
 		double t = -localRay.origin.y / localRay.direction.y;
 		intersections.push_back(Intersection(t, (IShape*)this));
 	}
+
+	BoundingBox Plane::localBounds() const
+	{
+		Point4 min (-INFINITY, 0.0, -INFINITY);
+		Point4 max (INFINITY, 0.0, INFINITY);
+
+		return BoundingBox(min, max);
+	}
 }

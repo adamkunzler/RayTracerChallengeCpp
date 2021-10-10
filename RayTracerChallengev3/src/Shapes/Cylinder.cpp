@@ -84,4 +84,12 @@ namespace RayTracer
 			xs.push_back(Intersection(t1, (IShape*)this));
 		}
 	}
+
+	BoundingBox Cylinder::localBounds() const
+	{
+		Point4 min(-1, minimum, -1);
+		Point4 max(1, maximum, 1);
+
+		return BoundingBox(min, max);
+	}
 }

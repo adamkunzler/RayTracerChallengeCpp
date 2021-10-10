@@ -37,6 +37,16 @@ namespace RayTracer
 		intersections.push_back(Intersection(t, (IShape*)this));		
 	}	
 
+	BoundingBox Triangle::localBounds() const
+	{
+		BoundingBox bb;
+		bb.addPoint(p1);
+		bb.addPoint(p2);
+		bb.addPoint(p3);
+
+		return BoundingBox(bb.min, bb.max);
+	}
+
 	// ostream
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Triangle& t)
 	{

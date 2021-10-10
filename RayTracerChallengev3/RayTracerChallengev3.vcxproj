@@ -149,6 +149,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\DataStructs\BoundingBox.cpp" />
     <ClCompile Include="src\DataStructs\Color.cpp" />
     <ClCompile Include="src\DataStructs\Matrix4x4.cpp" />
     <ClCompile Include="src\DataStructs\Point4.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="src\Utils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\DataStructs\BoundingBox.h" />
     <ClInclude Include="src\DataStructs\Color.h" />
     <ClInclude Include="src\DataStructs\Matrix4x4.h" />
     <ClInclude Include="src\DataStructs\Point4.h" />
@@ -212,6 +214,9 @@
     <ClInclude Include="src\Shapes\Triangle.h" />
     <ClInclude Include="src\tests\_testHarness.h" />
     <ClInclude Include="src\Utils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="assets\obj\cube.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

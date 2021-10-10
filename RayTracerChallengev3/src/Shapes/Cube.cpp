@@ -60,4 +60,12 @@ namespace RayTracer
 			std::swap(tmin, tmax);
 		}
 	}
+
+	BoundingBox Cube::localBounds() const
+	{
+		Point4 min(-1.0, -1.0, -1.0);
+		Point4 max(1.0, 1.0, 1.0);
+
+		return BoundingBox(min, max);
+	}
 }

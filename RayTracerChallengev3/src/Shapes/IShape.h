@@ -35,5 +35,7 @@ namespace RayTracer
 		Vector4 normalToWorld(const Vector4& localNormal) const;
 
 		Vector4 normalAt(const Point4& worldPoint) const;
+
+		virtual BoundingBox localBounds() const = 0;
 	};
 }

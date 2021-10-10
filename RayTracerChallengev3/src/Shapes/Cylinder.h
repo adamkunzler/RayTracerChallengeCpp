@@ -21,5 +21,7 @@ namespace RayTracer
 		bool checkCap(const Ray& localRay, const double& t) const;
 
 		void intersectCaps(std::vector<Intersection>& xs, const Ray& localRay) const;
+
+		BoundingBox localBounds() const;
 	};
 }

@@ -29,6 +29,14 @@ namespace RayTracer
 		intersections.push_back(Intersection(t2, (IShape*)this));
 	}
 
+	BoundingBox Sphere::localBounds() const
+	{
+		Point4 min(-1.0, -1.0, -1.0);
+		Point4 max(1.0, 1.0, 1.0);
+
+		return BoundingBox(min, max);
+	}
+
 	//
 	// NON-MEMBER FUNCTIONS --------------------------------------------------------
 	//

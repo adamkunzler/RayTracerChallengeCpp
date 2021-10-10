@@ -13,15 +13,31 @@ namespace RayTracer
 
 	void Group::localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
 	{
+		if (!localBounds().intersectBy(localRay)) return;
+		
 		for (std::vector<IShape*>::const_iterator iter = children.begin(); iter != children.end(); iter++)
 		{
 			(*iter)->intersectBy(localRay, intersections);
-		}
+		}		
 	}
 
 	void Group::addChild(IShape* shape)
 	{
 		shape->parent = this;
 		children.push_back(shape);
+	}
+
+	// TODO cache this
+	BoundingBox Group::localBounds() const
+	{
+		BoundingBox bb;
+
+		for (std::vector<IShape*>::const_iterator iter = children.begin(); iter != children.end(); iter++)
+		{
+			BoundingBox childBox = bb.parentSpaceBoundsOf(*(*iter));
+			bb.addBoundingBox(childBox);
+		}
+
+		return BoundingBox(bb.min, bb.max);
 	}
 }

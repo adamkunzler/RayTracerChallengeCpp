@@ -13,5 +13,7 @@ namespace RayTracer
 		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const;
 
 		void addChild(IShape* shape);
+
+		BoundingBox localBounds() const;
 	};
 }
