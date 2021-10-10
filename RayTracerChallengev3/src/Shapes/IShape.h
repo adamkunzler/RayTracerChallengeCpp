@@ -8,7 +8,7 @@ namespace RayTracer
 	{	
 	private: 
 		Matrix4x4 inverseTransform;
-		Matrix4x4 transform;
+		Matrix4x4 transform;		
 			
 	public:		
 		Material material;

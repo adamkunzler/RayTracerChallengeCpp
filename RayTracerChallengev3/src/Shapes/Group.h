@@ -4,6 +4,7 @@ namespace RayTracer
 {
 	struct Group : public IShape
 	{
+		BoundingBox bounds;
 		std::vector<IShape*> children;
 
 		Group() {}

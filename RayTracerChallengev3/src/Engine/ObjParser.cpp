@@ -82,6 +82,12 @@ namespace RayTracer
 			}*/
 		}
 				
+		for (auto p : vertices) delete p;		
+		vertices.clear();
+
+		for (auto p : triangles) delete p;		
+		triangles.clear();
+
 		return *result;
 	}
 

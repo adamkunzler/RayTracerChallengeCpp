@@ -24,8 +24,8 @@ int main()
 	//cubeOfSpheres(10);
 	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
-	//utahTeapot(1);
-	objCube(1);
+	utahTeapot(6);
+	//objCube(1);
 
 
 	// PASSES
@@ -647,8 +647,8 @@ void utahTeapot(double sizeScale)
 	SceneConfig config;
 
 	// dimensions and fov
-	config.width = 340 * sizeScale;
-	config.height = 280 * sizeScale;
+	config.width = 320 * sizeScale;
+	config.height = 240 * sizeScale;
 	config.fov = PI / 3.5f;
 
 	// camera
@@ -669,15 +669,15 @@ void utahTeapot(double sizeScale)
 		Color checkerColor1(0.99);
 		Color checkerColor2(0.95);
 		
-		/*Plane* floor = new Plane();		
+		Plane* floor = new Plane();		
 		CheckerPattern* floorPattern = new CheckerPattern(checkerColor1, checkerColor2);
 		floor->material.pattern = floorPattern;
 		floor->material.ambient = 0.1;
 		floor->material.reflective = 0.5;		
-		scene.addShape(floor);*/
+		scene.addShape(floor);
 
 		ObjParser parser;
-		ObjParseResult result = parser.parse("assets/obj/teapot-low.obj");
+		ObjParseResult result = parser.parse("assets/obj/teapot.obj");
 		//ObjParseResult result = parser.parse("assets/obj/teapot.obj");
 				
 		for (auto dfIter = result.defaultGroup->children.begin(); dfIter != result.defaultGroup->children.end(); dfIter++)
@@ -707,7 +707,7 @@ void utahTeapot(double sizeScale)
 		//scene.addShape(result.defaultGroup);
 	}
 
-	scene.renderToPPM("utahTeapot_low");
+	scene.renderToPPM("utahTeapot_high");
 }
 
 // -----------------------------------------------------------------------
