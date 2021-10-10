@@ -7,7 +7,7 @@ namespace RayTracer
 		int numLinesIgnored;		
 		Group* defaultGroup;
 
-		ObjParseResult() : numLinesIgnored(0) {}
+		ObjParseResult() : numLinesIgnored(0) { defaultGroup = new Group(); }
 	};
 
 	class ObjParser

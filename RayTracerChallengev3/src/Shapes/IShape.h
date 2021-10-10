@@ -37,5 +37,9 @@ namespace RayTracer
 		Vector4 normalAt(const Point4& worldPoint) const;
 
 		virtual BoundingBox localBounds() const = 0;
+		
+		BoundingBox parentSpaceBoundsOf() const;
+
+		virtual void divide(const int& threshold);
 	};
 }

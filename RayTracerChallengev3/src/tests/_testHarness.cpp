@@ -5,7 +5,7 @@
 namespace RayTracer
 {
 	namespace Tests
-	{				
+	{
 		void RunTests()
 		{
 			std::cout << "Running tests...\n";
@@ -1186,6 +1186,46 @@ namespace RayTracer
 			} // end chapter 14
 			*/
 
+			// bounding volume hierarchy
+			if (false)
+			{
+				//BoundingBox box(Point4(-1, -2, -3), Point4(9, 5.5, 3)); // x-wide
+					//BoundingBox box(Point4(-1, -2, -3), Point4(5, 8, 3)); // y-wide
+					//BoundingBox box(Point4(-1, -2, -3), Point4(5, 3, 7)); // z-wide
+					//BoundingBox left;
+					//BoundingBox right;
+					//box.splitBounds(left, right);
+
+
+					/*Sphere* s1 = new Sphere();
+					s1->setTransform(translation(-2, 0, 0));
+					Sphere* s2 = new Sphere();
+					s2->setTransform(translation(2, 0, 0));
+					Sphere* s3 = new Sphere();
+					Group g;
+					g.addChild(s1);
+					g.addChild(s2);
+					g.addChild(s3);
+					std::vector<IShape*> left;
+					std::vector<IShape*> right;
+					g.partitionChildren(left, right);*/
+
+					/*Sphere* s1 = new Sphere();
+					Sphere* s2 = new Sphere();
+					Group* g = new Group();
+					std::vector<IShape*> kids{ s1, s2 };
+					g->makeSubGroup(kids);*/
+
+					/*Sphere* s1 = new Sphere();
+					s1->setTransform(translation(-2, -2, 0));
+					Sphere* s2 = new Sphere();
+					s2->setTransform(translation(-2, 2, 0));
+					Sphere* s3 = new Sphere();
+					s3->setTransform(scaling(4,4,4));
+					Group* g = new Group();
+					g->addChild(s1); g->addChild(s2); g->addChild(s3);
+					g->divide(1);*/
+			}
 			//
 			// The End
 			//

@@ -75,4 +75,14 @@ namespace RayTracer
 		// normal from local space to world space
 		return normalToWorld(localNormal);
 	}
+
+	BoundingBox IShape::parentSpaceBoundsOf() const
+	{		
+		return localBounds().transform(getTransform());
+	}	
+
+	void IShape::divide(const int& threshold)
+	{
+		// do nothing if not implemented by derived class (only Group and CSG should implement)		
+	}
 }

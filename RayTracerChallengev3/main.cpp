@@ -5,7 +5,7 @@ using namespace RayTracer;
 void RayTraceScene_Benchmark();
 void spheres(const int sizeScale);
 void cubes(const int sizeScale);
-void cubeOfSpheres(const int sizeScale);
+void cubeOfSpheres(const double sizeScale);
 void simpleGroup(int sizeScale);
 void scatteredMarbles(int sizeScale, int numMarbles);
 void testObjParser(std::string filename);
@@ -21,20 +21,12 @@ int main()
 	//RayTraceScene_Benchmark();
 	//spheres(2);
 	//cubes(2);	
-	//cubeOfSpheres(10);
+	//cubeOfSpheres(4);
 	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
-	//utahTeapot(6);
-	//dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
-
-
-	//BoundingBox box(Point4(-1, -2, -3), Point4(9, 5.5, 3)); // x-wide
-	//BoundingBox box(Point4(-1, -2, -3), Point4(5, 8, 3)); // y-wide
-	BoundingBox box(Point4(-1, -2, -3), Point4(5, 3, 7)); // z-wide
-	BoundingBox left;
-	BoundingBox right;
-	box.splitBounds(left, right);
-
+	//utahTeapot(4);
+	dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
+		
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
 	return 0;
@@ -362,19 +354,19 @@ void cubes(const int sizeScale)
 
 // -----------------------------------------------------------------------
 
-void cubeOfSpheres(const int sizeScale)
+void cubeOfSpheres(const double sizeScale)
 {
 	SceneConfig config;
 
 	// dimensions and fov
-	config.width = 96 * sizeScale;
-	config.height = 54 * sizeScale;
+	config.width = 640 * sizeScale;
+	config.height = 480 * sizeScale;
 	config.fov = PI / 3.5f;
 
 	// camera
-	config.from = Point4(-10.0, 10.0, -10.0);
+	config.from = Point4(-12.0, 13.0, -15.0);
 	//config.from = Point4(0.0, 10.0, -10.0);
-	config.to = Point4(0.0, 2.0f, 2.0f);
+	config.to = Point4(-2.0, 5.0f, 2.0f);
 	config.up = Vector4(0.0, 1.0, 0.0);
 
 	Scene scene(config);
@@ -401,14 +393,14 @@ void cubeOfSpheres(const int sizeScale)
 		scene.addShape(floor);
 
 		Group* g = new Group();
-		g->setTransform(zRotation4x4(PI / 4.0f));
+		//g->setTransform(zRotation4x4(PI / 4.0f));
 		scene.addShape(g);
 
-		for (int z = 1; z < 6; z++)
+		for (int z = 1; z < 11; z++)
 		{
-			for (int y = 1; y < 6; y++)
+			for (int y = 1; y < 11; y++)
 			{
-				for (int x = -2; x < 3; x++)
+				for (int x = -5; x < 6; x++)
 				{
 					Sphere* s = new Sphere();
 
@@ -449,31 +441,9 @@ void cubeOfSpheres(const int sizeScale)
 					//scene.addShape(s);
 				}
 			}
-		}
-		/*Sphere glassSphere;
-		glassSphere.material = glass(glassSphere.material);
-		glassSphere.setTransform(translation(-6.0f, 1.0, 4.0f));
-		scene.addShape(glassSphere);
+		}		
 
-		Sphere matteSphere;
-		matteSphere.material = matte(matteSphere.material, babyBlue);
-		matteSphere.setTransform(translation(-3.0f, 1.0, 5.0f));
-		scene.addShape(matteSphere);
-
-		Sphere reflectiveMetalSphere;
-		reflectiveMetalSphere.material = metal(reflectiveMetalSphere.material);
-		reflectiveMetalSphere.setTransform(translation(0.0, 1.0, 6.0f));
-		scene.addShape(reflectiveMetalSphere);
-
-		Sphere glossySphere;
-		glossySphere.material = gloss(glossySphere.material, babyBlue);
-		glossySphere.setTransform(translation(3.0f, 1.0, 5.0f));
-		scene.addShape(glossySphere);
-
-		Sphere flatMetalSphere;
-		flatMetalSphere.material = metallic(flatMetalSphere.material, Color(0.5f, 0.525f, 0.5f));
-		flatMetalSphere.setTransform(translation(6.0f, 1.0, 4.0f));
-		scene.addShape(flatMetalSphere);*/
+		g->divide(10);
 	}
 
 	scene.renderToPPM("cubeOfSpheres");
@@ -656,32 +626,23 @@ void utahTeapot(double sizeScale)
 		ObjParser parser;
 		ObjParseResult result = parser.parse("assets/obj/teapot.obj");
 		//ObjParseResult result = parser.parse("assets/obj/teapot.obj");
-				
-		for (auto dfIter = result.defaultGroup->children.begin(); dfIter != result.defaultGroup->children.end(); dfIter++)
-		{			
-			int numTriangles = 0;
-			int maxPerGroup = 10;
-			Group* g = 0;
-			for (auto gIter = ((Group*)*dfIter)->children.begin(); gIter != ((Group*)*dfIter)->children.end(); gIter++)
-			{
-				if (numTriangles % maxPerGroup == 0)
-				{
-					if(g != 0) scene.addShape(g);
+		
+		result.defaultGroup->divide(3);
+		result.defaultGroup->setTransform(xRotation4x4(-PI / 2));
+		scene.addShape(result.defaultGroup);
 
-					g = new Group();
-					g->setTransform(xRotation4x4(-PI / 2));
-				}
-				
-				(*gIter)->material.color = rgb(46, 179, 59);				
-				g->addChild(*gIter);
-
-				numTriangles++;
-			}
-			scene.addShape(g);
-		}
-
-		//result.defaultGroup->setTransform(xRotation4x4(-PI / 2));
-		//scene.addShape(result.defaultGroup);
+		//for (auto dfIter = result.defaultGroup->children.begin(); dfIter != result.defaultGroup->children.end(); dfIter++)
+		//{					
+		//	// iterate over all the triangles in the group to change their color
+		//	for (auto gIter = ((Group*)*dfIter)->children.begin(); gIter != ((Group*)*dfIter)->children.end(); gIter++)
+		//	{								
+		//		//(*gIter)->material.color = rgb(46, 179, 59);				
+		//	}
+		//	
+		//	//(*dfIter)->divide(1);
+		//	//(*dfIter)->setTransform(xRotation4x4(-PI / 2));
+		//	//scene.addShape((*dfIter));
+		//}		
 	}
 
 	scene.renderToPPM("utahTeapot_high");
@@ -742,6 +703,8 @@ void dragon(double sizeScale)
 			//scene.addShape(*dfIter);
 			g->addChild(*dfIter);
 		}		
+
+		g->divide(5);
 	}
 
 	scene.renderToPPM("dragon");

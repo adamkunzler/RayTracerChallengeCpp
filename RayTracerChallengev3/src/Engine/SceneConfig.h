@@ -12,6 +12,6 @@ namespace RayTracer
 		Vector4 to;
 		Vector4 up;
 
-		SceneConfig() { }
+		SceneConfig() : width(320), height(240), fov(PI / 3.5) { }
 	};
 }

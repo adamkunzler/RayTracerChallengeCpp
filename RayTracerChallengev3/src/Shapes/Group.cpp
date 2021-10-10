@@ -36,10 +36,71 @@ namespace RayTracer
 
 		for (std::vector<IShape*>::const_iterator iter = children.begin(); iter != children.end(); iter++)
 		{
-			BoundingBox childBox = bb.parentSpaceBoundsOf(*(*iter));
+			BoundingBox childBox = (*iter)->parentSpaceBoundsOf();
 			bb.addBoundingBox(childBox);
 		}
 
 		return BoundingBox(bb.min, bb.max);
+	}
+	void Group::partitionChildren(std::vector<IShape*>& left, std::vector<IShape*>& right)
+	{
+		BoundingBox bbLeft;
+		BoundingBox bbRight;
+		localBounds().splitBounds(bbLeft, bbRight);
+
+		// divy up children into the bounding boxes they fit in		
+		std::vector<IShape*> stayInGroup;
+		for (std::vector<IShape*>::const_iterator iter = children.begin(); iter != children.end(); iter++)
+		{
+			BoundingBox childBounds = (*iter)->parentSpaceBoundsOf();
+			if (bbLeft.containsBoundingBox(childBounds))
+			{
+				// fits in the left bounding box
+				left.push_back(*iter);
+			}
+			else if (bbRight.containsBoundingBox(childBounds))
+			{
+				// fits in the right bounding box
+				right.push_back(*iter);
+			}
+			else
+			{
+				// didn't fit in left or right...will stay in group
+				stayInGroup.push_back(*iter);
+			}
+		}
+
+		// clear children and re-add stayInGroup as children
+		children.clear();
+		for (auto iter = stayInGroup.begin(); iter != stayInGroup.end(); iter++)
+		{
+			children.push_back(*iter);
+		}
+	}
+
+	void Group::makeSubGroup(std::vector<IShape*> shapes)
+	{
+		Group* g = new Group();
+		std::copy(shapes.begin(), shapes.end(), std::back_inserter(g->children));
+		addChild(g);
+	}
+
+	void Group::divide(const int& threshold)
+	{
+		if (threshold <= children.size())
+		{
+			std::vector<IShape*> leftChildren{};
+			std::vector<IShape*> rightChildren{};
+			partitionChildren(leftChildren, rightChildren);
+
+			if (leftChildren.size() > 0) makeSubGroup(leftChildren);
+			if (rightChildren.size() > 0) makeSubGroup(rightChildren);
+		}
+
+		
+		for (auto iter = children.begin(); iter != children.end(); iter++)
+		{
+			(*iter)->divide(threshold);
+		}
 	}
 }

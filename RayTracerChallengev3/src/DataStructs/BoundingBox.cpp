@@ -50,15 +50,7 @@ namespace RayTracer
 
 		return BoundingBox(bb.min, bb.max);
 	}
-
-	BoundingBox BoundingBox::parentSpaceBoundsOf(const IShape& shape) const
-	{
-		// shape should always be a Group (someday a CSG)
-		
-		BoundingBox bb = shape.localBounds().transform(shape.getTransform());
-		return bb;
-	}
-
+	
 	bool BoundingBox::intersectBy(const Ray& localRay) const
 	{
 		double xtmin, xtmax;

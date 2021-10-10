@@ -22,9 +22,7 @@ namespace RayTracer
 
 		bool containsBoundingBox(const BoundingBox& box) const;
 
-		BoundingBox transform(const Matrix4x4& matrix) const;
-		
-		BoundingBox parentSpaceBoundsOf(const IShape& shape) const;
+		BoundingBox transform(const Matrix4x4& matrix) const;				
 
 		bool intersectBy(const Ray& localRay) const;
 		

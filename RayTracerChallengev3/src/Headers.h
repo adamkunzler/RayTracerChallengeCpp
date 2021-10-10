@@ -15,6 +15,7 @@
 #include <string>
 #include <thread>
 #include <atomic>
+#include <iterator>
 
 #include "../src/Utils.h"
 
