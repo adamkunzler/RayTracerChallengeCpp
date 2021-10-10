@@ -29,5 +29,7 @@ namespace RayTracer
 		bool intersectBy(const Ray& localRay) const;
 		
 		void checkAxis(const double& axisOrigin, const double& rayDirection, const double& min, const double& max, double& tmin, double& tmax) const;
+
+		void splitBounds(BoundingBox& left, BoundingBox& right) const;
 	};
 }

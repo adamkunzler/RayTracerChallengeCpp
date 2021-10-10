@@ -10,7 +10,7 @@ void simpleGroup(int sizeScale);
 void scatteredMarbles(int sizeScale, int numMarbles);
 void testObjParser(std::string filename);
 void utahTeapot(double sizeScale);
-void objCube(double sizeScale);
+void dragon(double sizeScale);
 
 int main()
 {
@@ -24,39 +24,16 @@ int main()
 	//cubeOfSpheres(10);
 	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
-	utahTeapot(6);
-	//objCube(1);
+	//utahTeapot(6);
+	//dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 
 
-	// PASSES
-	// Scenario: Querying a shape's bounding box in its parent's space 
-	/*Sphere* shape = new Sphere();
-	shape->setTransform(translation(1.0, -3.0, 5.0) * scaling(0.5, 2.0, 4.0));
-	BoundingBox bb;
-	BoundingBox box = bb.parentSpaceBoundsOf(*shape);
-	int i = 0;*/
-
-
-
-	// Scenario: A group has a bounding box that contains its children
-	/*Sphere* s = new Sphere();
-	s->setTransform(translation(2.0, 5.0, -3.0) * scaling(2.0, 2.0, 2.0));
-	Cylinder *c = new Cylinder();
-	c->minimum = -2.0;
-	c->maximum = 2.0;
-	c->setTransform(translation(-4.0, -1.0, 4.0) * scaling(0.5, 1.0, 0.5));
-	Group* shape = new Group();
-	shape->addChild(s);
-	shape->addChild(c);
-	BoundingBox box = shape->localBounds();*/
-
-
-
-
-
-
-
-
+	//BoundingBox box(Point4(-1, -2, -3), Point4(9, 5.5, 3)); // x-wide
+	//BoundingBox box(Point4(-1, -2, -3), Point4(5, 8, 3)); // y-wide
+	BoundingBox box(Point4(-1, -2, -3), Point4(5, 3, 7)); // z-wide
+	BoundingBox left;
+	BoundingBox right;
+	box.splitBounds(left, right);
 
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
@@ -712,7 +689,7 @@ void utahTeapot(double sizeScale)
 
 // -----------------------------------------------------------------------
 
-void objCube(double sizeScale)
+void dragon(double sizeScale)
 {
 	SceneConfig config;
 
@@ -743,25 +720,31 @@ void objCube(double sizeScale)
 		CheckerPattern* floorPattern = new CheckerPattern(checkerColor1, checkerColor2);
 		floor->material.pattern = floorPattern;
 		floor->material.ambient = 0.1;
-		floor->material.reflective = 0.0;
+		floor->material.reflective = 0.5;
 		scene.addShape(floor);
 
 		ObjParser parser;
-		ObjParseResult result = parser.parse("assets/obj/cube.txt");
+		ObjParseResult result = parser.parse("assets/obj/dragon.obj");
 		
+		Group* g = new Group();
+		g->setTransform(scaling(3.0, 3.0, 3.0));
+		scene.addShape(g);
+
 		for (auto dfIter = result.defaultGroup->children.begin(); dfIter != result.defaultGroup->children.end(); dfIter++)
 		{			
-			for (auto gIter = ((Group*)*dfIter)->children.begin(); gIter != ((Group*)*dfIter)->children.end(); gIter++)
+			/*for (auto gIter = ((Group*)*dfIter)->children.begin(); gIter != ((Group*)*dfIter)->children.end(); gIter++)
 			{				
 				(*gIter)->material = matte((*gIter)->material, rgb(50, 180, 75));
-			}			
+			}			*/
 
-			(*dfIter)->setTransform(translation(0.0, 5.0000000001, 0.0) * scaling(5.0, 5.0, 5.0));
-			scene.addShape(*dfIter);
+			(*dfIter)->material = gloss((*dfIter)->material, rgb(50, 180, 75));
+			//(*dfIter)->setTransform(translation(0.0, 5.0000000001, 0.0) * scaling(5.0, 5.0, 5.0));
+			//scene.addShape(*dfIter);
+			g->addChild(*dfIter);
 		}		
 	}
 
-	scene.renderToPPM("triangleCube");
+	scene.renderToPPM("dragon");
 }
 
 // -----------------------------------------------------------------------

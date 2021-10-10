@@ -171,8 +171,8 @@ namespace RayTracer
 			
 			std::vector<std::string> values = splitStringOnSpace(noSlash);
 			indices.push_back(std::stoi(values[0]) - 1); // vertex index
-			indices.push_back(std::stoi(values[1]) - 1); // texture index
-			indices.push_back(std::stoi(values[2]) - 1); // normal index
+			//indices.push_back(std::stoi(values[1]) - 1); // texture index
+			//indices.push_back(std::stoi(values[2]) - 1); // normal index
 		}
 		
 		return indices;

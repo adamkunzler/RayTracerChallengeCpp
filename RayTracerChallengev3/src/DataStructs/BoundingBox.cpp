@@ -98,4 +98,44 @@ namespace RayTracer
 			std::swap(tmin, tmax);
 		}
 	}
+
+	void BoundingBox::splitBounds(BoundingBox& left, BoundingBox& right) const
+	{
+		// figure out largest dimension
+		double dx = max.x - min.x;
+		double dy = max.y - min.y;
+		double dz = max.z - min.z;
+
+		double greatest = std::max(std::max(dx, dy), dz);
+
+		double x0 = min.x;
+		double y0 = min.y;
+		double z0 = min.z;
+		double x1 = max.x;
+		double y1 = max.y;
+		double z1 = max.z;
+
+		// adjust points so they lie on the dividing plane
+		if (greatest == dx)
+		{
+			x0 = x1 = x0 + dx / 2.0;
+		}
+		else if (greatest == dy)
+		{
+			y0 = y1 = y0 + dy / 2.0;
+		}
+		else
+		{
+			z0 = z1 = z0 + dz / 2.0;
+		}
+
+		Point4 midMin(x0, y0, z0);
+		Point4 midMax(x1, y1, z1);
+
+		// construct two halves of bounding box
+		left.min = min;
+		left.max = midMax;
+		right.min = midMin;
+		right.max = max;
+	}
 }
