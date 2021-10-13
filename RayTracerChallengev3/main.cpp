@@ -18,13 +18,13 @@ int main()
 	//testObjParser("assets/obj/gibberish.txt");
 	//testObjParser("assets/obj/teapot-low.obj");
 
-	RayTraceScene_Benchmark(0.5);
+	//RayTraceScene_Benchmark(0.5);
 	//spheres(2);
 	//cubes(2);	
 	//cubeOfSpheres(4);
 	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
-	//utahTeapot(0.5);
+	utahTeapot(0.5);
 	//dragon(1); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 		
 

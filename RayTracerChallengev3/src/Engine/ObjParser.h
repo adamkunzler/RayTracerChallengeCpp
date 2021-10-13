@@ -39,9 +39,9 @@ namespace RayTracer
 		
 		std::vector<std::string> splitStringOnSpace(std::string text) const;
 
-		std::vector<Triangle*> fanTriangulation(const std::vector<Point4*>& vertices) const;
+		std::vector<IShape*> fanTriangulation(const std::vector<Point4*>& vertices, const std::vector<Point4*>& vertexNormals) const;
 
-		std::vector<Triangle*> processFace(const std::vector<std::string>& words, const std::vector<Point4*>& vertices) const;
+		std::vector<IShape*> processFace(const std::vector<std::string>& words, const std::vector<Point4*>& vertices, const std::vector<Point4*>& vertexNormals) const;
 		
 		FaceData processFaceData(const std::string& vertexInfo) const;
 	};

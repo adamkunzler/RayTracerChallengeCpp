@@ -10,7 +10,9 @@ namespace RayTracer
 		result->defaultGroup = new Group();
 		
 		std::vector<Point4*> vertices;
-		std::vector<Triangle*> triangles;
+		std::vector<Point4*> textureCoords;
+		std::vector<Point4*> vertexNormals;
+		std::vector<IShape*> triangles; // Triangle or SmoothTriangle
 
 		//
 		// read all the lines from the obj file
@@ -44,7 +46,7 @@ namespace RayTracer
 			else if (words[0] == "f")
 			{				
 				//std::cout << "\n Processing face..." << "\t" << *iter;
-				std::vector<Triangle*> temp = processFace(words, vertices);
+				std::vector<IShape*> temp = processFace(words, vertices, vertexNormals);
 				if (g == 0)
 				{
 					for (auto t : temp) result->defaultGroup->addChild(t);
@@ -63,12 +65,18 @@ namespace RayTracer
 			else if (words[0] == "vn")
 			{
 				//std::cout << "\n Processing vertex normal..." << "\t" << *iter;
-				// TODO
+				double x = std::stod(words[1]);
+				double y = std::stod(words[2]);
+				double z = std::stod(words[3]);
+				vertexNormals.push_back(new Point4(x, y, z));
 			}
 			else if (words[0] == "vt")
 			{
-				//std::cout << "\n Processing vertex texture..." << "\t" << *iter;
-				// TODO
+				//std::cout << "\n Processing texture coords..." << "\t" << *iter;
+				double x = std::stod(words[1]);
+				double y = std::stod(words[2]);
+				double z = std::stod(words[3]);
+				textureCoords.push_back(new Point4(x, y, z));
 			}
 			else 
 			{
@@ -105,32 +113,68 @@ namespace RayTracer
 		return words;
 	}
 
-	std::vector<Triangle*> ObjParser::fanTriangulation(const std::vector<Point4*>& vertices) const
+	std::vector<IShape*> ObjParser::fanTriangulation(const std::vector<Point4*>& vertices, const std::vector<Point4*>& vertexNormals) const
 	{
-		std::vector<Triangle*> triangles{};
+		std::vector<IShape*> triangles{};
 
+		bool hasVertexNormals = vertices.size() == vertexNormals.size();
 		for (int index = 1; index < vertices.size() - 1; index++)
 		{
-			Triangle* t = new Triangle(*vertices[0], *vertices[index], *vertices[index + 1]);
-			triangles.push_back(t);
+			if (hasVertexNormals)
+			{
+				SmoothTriangle* t = new SmoothTriangle(
+					*vertices[0], *vertices[index], *vertices[index + 1],
+					*vertexNormals[0], *vertexNormals[index], *vertexNormals[index + 1]
+				);
+				triangles.push_back(t);
+			}
+			else
+			{
+				Triangle* t = new Triangle(*vertices[0], *vertices[index], *vertices[index + 1]);
+				triangles.push_back(t);
+			}			
 		}
 
 		return triangles;
 	}
 
-	std::vector<Triangle*> ObjParser::processFace(const std::vector<std::string>& words, const std::vector<Point4*>& vertices) const
+	std::vector<IShape*> ObjParser::processFace(
+		const std::vector<std::string>& words, 
+		const std::vector<Point4*>& vertices,
+		const std::vector<Point4*>& vertexNormals) const
 	{
-		std::vector<Triangle*> triangles{};
+		std::vector<IShape*> triangles{};
 
 		if (words.size() == 4)
 		{
 			// line in triangle format of "f 1 2 3"
 
-			int index1 = *processFaceData(words[1]).vertexIndex;
-			int index2 = *processFaceData(words[2]).vertexIndex;
-			int index3 = *processFaceData(words[3]).vertexIndex;
-			Triangle* t = new Triangle(*vertices[index1], *vertices[index2], *vertices[index3]);
-			triangles.push_back(t);			
+			FaceData f1 = processFaceData(words[1]);
+			FaceData f2 = processFaceData(words[2]);
+			FaceData f3 = processFaceData(words[3]);
+
+			int index1 = *f1.vertexIndex;
+			int index2 = *f2.vertexIndex;
+			int index3 = *f3.vertexIndex;
+
+			if (*processFaceData(words[1]).vertexNormalIndex == 0)
+			{
+				Triangle* t = new Triangle(*vertices[index1], *vertices[index2], *vertices[index3]);
+				triangles.push_back(t);
+			}
+			else
+			{
+				int n1 = *processFaceData(words[1]).vertexNormalIndex;
+				int n2 = *processFaceData(words[2]).vertexNormalIndex;
+				int n3 = *processFaceData(words[3]).vertexNormalIndex;
+
+				SmoothTriangle* t = new SmoothTriangle(
+					*vertices[index1], *vertices[index2], *vertices[index3], 
+					*vertexNormals[n1], *vertexNormals[n2], *vertexNormals[n3]
+				);
+				triangles.push_back(t);
+			}
+			
 		}
 		else
 		{
@@ -138,14 +182,20 @@ namespace RayTracer
 
 			// get verts in polygon
 			std::vector<Point4*> verts{};
+			std::vector<Point4*> vertNorms{};
 			for (int i = 1; i < words.size(); i++)
 			{
-				int index = *processFaceData(words[i]).vertexIndex;
-				verts.push_back(vertices[index]);
+				FaceData f = processFaceData(words[i]);
+				verts.push_back(vertices[*f.vertexIndex]);
+
+				if (*f.vertexNormalIndex != 0)
+				{
+					vertNorms.push_back(vertexNormals[*f.vertexNormalIndex]);
+				}
 			}
 
 			// perform fan triangulation on them and get back a vector of triangles
-			std::vector<Triangle*> temp = fanTriangulation(verts);
+			std::vector<IShape*> temp = fanTriangulation(verts, vertNorms);
 			for (auto t : temp) triangles.push_back(t);
 		}
 
