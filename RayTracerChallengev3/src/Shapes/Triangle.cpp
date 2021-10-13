@@ -16,7 +16,7 @@ namespace RayTracer
 		return normal;
 	}
 
-	void Triangle::localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
+	void Triangle::localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const
 	{
 		// moller-trumbore algorithm
 
@@ -34,7 +34,7 @@ namespace RayTracer
 		if (v < 0 or (u + v) > 1) return;
 
 		double t = invDet * dot(e2, originCrossE1);
-		intersections.push_back(Intersection(t, (IShape*)this));		
+		intersections.push_back(new Intersection(t, (IShape*)this));		
 	}	
 
 	BoundingBox Triangle::localBounds() const
@@ -63,7 +63,7 @@ namespace RayTracer
 			+ n1 * (1 - i.u - i.v);
 	}
 
-	void SmoothTriangle::localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
+	void SmoothTriangle::localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const
 	{
 		// moller-trumbore algorithm
 
@@ -81,7 +81,7 @@ namespace RayTracer
 		if (v < 0 or (u + v) > 1) return;
 
 		double t = invDet * dot(e2, originCrossE1);
-		intersections.push_back(Intersection(t, (IShape*)this, u, v));
+		intersections.push_back(new Intersection(t, (IShape*)this, u, v));
 	}
 
 	BoundingBox SmoothTriangle::localBounds() const

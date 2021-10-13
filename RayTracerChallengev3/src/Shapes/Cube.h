@@ -11,7 +11,7 @@ namespace RayTracer
 
 		Vector4 localNormalAt(const Point4& localPoint, const Intersection& i) const;
 
-		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const;
+		void localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const;
 
 		void checkAxis(const double& axisOrigin, const double& rayDirection, double& tmin, double& tmax) const;
 

@@ -10,7 +10,7 @@ namespace RayTracer
 		return Vector4(0.0, 1.0, 0.0);
 	}
 
-	void Plane::localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
+	void Plane::localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const
 	{
 		if (std::abs(localRay.direction.y) < 0.0) // maybe use EPSILON
 		{
@@ -19,7 +19,7 @@ namespace RayTracer
 		}
 
 		double t = -localRay.origin.y / localRay.direction.y;
-		intersections.push_back(Intersection(t, (IShape*)this));
+		intersections.push_back(new Intersection(t, (IShape*)this));
 	}
 
 	BoundingBox Plane::localBounds() const

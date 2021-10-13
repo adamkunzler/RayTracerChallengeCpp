@@ -75,7 +75,7 @@ namespace RayTracer
 	void renderThreadFunc(Camera& camera, World& world, int width, int startY, int endY, Color* data)
 	{
 		std::map<std::string, Matrix4x4&> cacheInverses;		
-		std::vector<Intersection> intersections;
+		std::vector<Intersection*> intersections{};
 		intersections.reserve(1000);
 
 		int height = endY - startY;
@@ -88,6 +88,7 @@ namespace RayTracer
 				Color c = world.colorAt(r, MAX_RECURSION, intersections);
 				data[x + y * width] = c;
 
+				for (auto p : intersections) delete p;
 				intersections.clear();
 
 				processedPixelsCount++;

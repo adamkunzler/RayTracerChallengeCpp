@@ -9,13 +9,13 @@ namespace RayTracer
 
 		World();
 						
-		void intersectBy(const Ray& r, std::vector<Intersection>& intersections) const;
+		void intersectBy(const Ray& r, std::vector<Intersection*>& intersections) const;
 
-		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection>& intersections) const;
+		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection*>& intersections) const;
 
-		Color shadeHit(const Computation& c, const int remaining, std::vector<Intersection>& intersections) const;
+		Color shadeHit(const Computation& c, const int remaining, std::vector<Intersection*>& intersections) const;
 
-		Color colorAt(const Ray& ray, const int remaining, std::vector<Intersection>& intersections) const;
+		Color colorAt(const Ray& ray, const int remaining, std::vector<Intersection*>& intersections) const;
 
 		Color reflectedColor(const Computation& comps, const int remaining) const;
 

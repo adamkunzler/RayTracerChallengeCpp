@@ -120,7 +120,7 @@ namespace RayTracer
 		bool hasVertexNormals = vertices.size() == vertexNormals.size();
 		for (int index = 1; index < vertices.size() - 1; index++)
 		{
-			if (hasVertexNormals)
+			if (hasVertexNormals && allowSmoothTriangles)
 			{
 				SmoothTriangle* t = new SmoothTriangle(
 					*vertices[0], *vertices[index], *vertices[index + 1],
@@ -157,7 +157,7 @@ namespace RayTracer
 			int index2 = *f2.vertexIndex;
 			int index3 = *f3.vertexIndex;
 
-			if (*processFaceData(words[1]).vertexNormalIndex == 0)
+			if (*processFaceData(words[1]).vertexNormalIndex == 0 || !allowSmoothTriangles)
 			{
 				Triangle* t = new Triangle(*vertices[index1], *vertices[index2], *vertices[index3]);
 				triangles.push_back(t);

@@ -11,7 +11,7 @@ namespace RayTracer
 		throw;
 	}
 
-	void Group::localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
+	void Group::localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const
 	{		
 		if (!bounds.intersectBy(localRay)) return;
 		

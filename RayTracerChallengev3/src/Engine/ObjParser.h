@@ -33,7 +33,10 @@ namespace RayTracer
 	class ObjParser
 	{			
 	public:		
-		ObjParser() {}
+		bool allowSmoothTriangles;
+
+		ObjParser() : allowSmoothTriangles(true) {}
+		ObjParser(const bool& lAllowSmoothTriangles) : allowSmoothTriangles(lAllowSmoothTriangles) {}
 
 		ObjParseResult& parse(const std::string& filename) const;
 		

@@ -10,7 +10,7 @@ namespace RayTracer
 		return localPoint - origin;
 	}
 
-	void Sphere::localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const
+	void Sphere::localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const
 	{
 		Vector4 sphereToRay = localRay.origin - origin;
 
@@ -25,8 +25,8 @@ namespace RayTracer
 		double t1 = (-b - std::sqrt(discriminant)) / (2.0 * a);
 		double t2 = (-b + std::sqrt(discriminant)) / (2.0 * a);
 
-		intersections.push_back(Intersection(t1, (IShape*)this));
-		intersections.push_back(Intersection(t2, (IShape*)this));
+		intersections.push_back(new Intersection(t1, (IShape*)this));
+		intersections.push_back(new Intersection(t2, (IShape*)this));
 	}
 
 	BoundingBox Sphere::localBounds() const

@@ -16,11 +16,11 @@ namespace RayTracer
 
 		Vector4 localNormalAt(const Point4& localPoint, const Intersection& i) const;
 
-		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const;
+		void localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const;
 
 		bool checkCap(const Ray& localRay, const double& t) const;
 
-		void intersectCaps(std::vector<Intersection>& xs, const Ray& localRay) const;
+		void intersectCaps(std::vector<Intersection*>& xs, const Ray& localRay) const;
 
 		BoundingBox localBounds() const;
 	};

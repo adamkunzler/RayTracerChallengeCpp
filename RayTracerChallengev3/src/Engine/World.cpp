@@ -10,7 +10,7 @@ namespace RayTracer
 		lights.reserve(10);
 	}
 
-	void World::intersectBy(const Ray& r, std::vector<Intersection>& intersections) const
+	void World::intersectBy(const Ray& r, std::vector<Intersection*>& intersections) const
 	{
 		for (std::vector<IShape*>::const_iterator iter = objects.begin(); iter != objects.end(); iter++)
 		{				
@@ -18,7 +18,7 @@ namespace RayTracer
 		}
 	}
 
-	Computation World::prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection>& intersections) const
+	Computation World::prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection*>& intersections) const
 	{
 		Computation c;
 
@@ -29,9 +29,9 @@ namespace RayTracer
 		//			
 		std::vector<IShape*> container;
 
-		for (std::vector<Intersection>::const_iterator iter = intersections.begin(); iter != intersections.end(); iter++)
+		for (std::vector<Intersection*>::const_iterator iter = intersections.begin(); iter != intersections.end(); iter++)
 		{
-			if (*iter == i)
+			if (*(*iter) == i)
 			{
 				if (container.size() == 0)
 				{
@@ -43,17 +43,17 @@ namespace RayTracer
 				}
 			}
 
-			std::vector<IShape*>::iterator found = std::find(container.begin(), container.end(), iter->object);
+			std::vector<IShape*>::iterator found = std::find(container.begin(), container.end(), (*iter)->object);
 			if (found != container.end())
 			{
 				container.erase(found);
 			}
 			else
 			{
-				container.push_back(iter->object);
+				container.push_back((*iter)->object);
 			}
 
-			if (*iter == i)
+			if (*(*iter) == i)
 			{
 				if (container.size() == 0)
 				{
@@ -93,7 +93,7 @@ namespace RayTracer
 		return c;
 	}
 
-	Color World::shadeHit(const Computation& c, const int remaining, std::vector<Intersection>& intersections) const
+	Color World::shadeHit(const Computation& c, const int remaining, std::vector<Intersection*>& intersections) const
 	{
 		Color finalColor;
 		for (std::vector<PointLight>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
@@ -121,7 +121,7 @@ namespace RayTracer
 		return finalColor;
 	}
 
-	Color World::colorAt(const Ray& ray, const int remaining, std::vector<Intersection>& intersections) const
+	Color World::colorAt(const Ray& ray, const int remaining, std::vector<Intersection*>& intersections) const
 	{
 		Ray rayCopy(ray);
 
@@ -129,11 +129,11 @@ namespace RayTracer
 		intersectBy(rayCopy, intersections);
 
 		// get the closest intersection and return black if no hit
-		Intersection hitXs = hit(intersections);
-		if (hitXs.isNull()) return Color(0.0, 0.0, 0.0);
+		Intersection* hitXs = hit(intersections);
+		if (hitXs->isNull()) return Color(0.0, 0.0, 0.0);
 
 		// get the compuations for the hit to calculate lighting
-		Computation comp = prepareComputations(hitXs, rayCopy, intersections);
+		Computation comp = prepareComputations(*hitXs, rayCopy, intersections);
 
 		Color color = shadeHit(comp, remaining, intersections);
 		return color;
@@ -148,8 +148,11 @@ namespace RayTracer
 
 		Ray reflectRay(comps.overPoint, comps.reflectV);
 
-		std::vector<Intersection> intersections;
+		std::vector<Intersection*> intersections;
 		Color c = colorAt(reflectRay, remaining - 1, intersections);
+
+		for (auto p : intersections) delete p;
+		intersections.clear();
 
 		return c * comps.object->material.reflective;
 	}
@@ -173,8 +176,13 @@ namespace RayTracer
 		Vector4 direction = comps.normalV * (ratio * cos_i - cost_t) - comps.eyeV * ratio;
 		Ray refractRay(comps.underPoint, direction);
 
-		std::vector<Intersection> intersections;
-		return colorAt(refractRay, remaining - 1, intersections) * comps.object->material.transparency;
+		std::vector<Intersection*> intersections;
+		Color c = colorAt(refractRay, remaining - 1, intersections) * comps.object->material.transparency;
+		
+		for (auto p : intersections) delete p;
+		intersections.clear();
+
+		return c;
 	}
 
 	double World::schlick(const Computation& comps) const
@@ -208,11 +216,14 @@ namespace RayTracer
 		Vector4 direction = normalize(v);
 
 		Ray r(p, direction);
-		std::vector<Intersection> intersections;
+		std::vector<Intersection*> intersections;
 		intersectBy(r, intersections);
 		
-		Intersection hitXs = hit(intersections);
-		if (!hitXs.isNull() && hitXs.object->hasShadow && hitXs.t < distance)
+		Intersection* hitXs = hit(intersections);
+		for (auto p : intersections) delete p;
+		intersections.clear();
+
+		if (!hitXs->isNull() && hitXs->object->hasShadow && hitXs->t < distance)
 		{
 			return true;
 		}
