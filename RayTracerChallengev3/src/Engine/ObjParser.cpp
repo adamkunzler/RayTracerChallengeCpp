@@ -126,9 +126,9 @@ namespace RayTracer
 		{
 			// line in triangle format of "f 1 2 3"
 
-			int index1 = processFaceVertexInfo(words[1])[0];
-			int index2 = processFaceVertexInfo(words[2])[0];
-			int index3 = processFaceVertexInfo(words[3])[0];
+			int index1 = *processFaceData(words[1]).vertexIndex;
+			int index2 = *processFaceData(words[2]).vertexIndex;
+			int index3 = *processFaceData(words[3]).vertexIndex;
 			Triangle* t = new Triangle(*vertices[index1], *vertices[index2], *vertices[index3]);
 			triangles.push_back(t);			
 		}
@@ -140,7 +140,7 @@ namespace RayTracer
 			std::vector<Point4*> verts{};
 			for (int i = 1; i < words.size(); i++)
 			{
-				int index = processFaceVertexInfo(words[i])[0];
+				int index = *processFaceData(words[i]).vertexIndex;
 				verts.push_back(vertices[index]);
 			}
 
@@ -152,29 +152,42 @@ namespace RayTracer
 		return triangles;
 	}
 
-	std::vector<int> ObjParser::processFaceVertexInfo(const std::string& vertexInfo) const
-	{
-		std::vector<int> indices{};
+	FaceData ObjParser::processFaceData(const std::string& vertexInfo) const
+	{				
+		// vertexInfo is the "1/1/1" in "f 1/1/1 2/2/2 3/3/3" or "1" in "f 1 2 3"
+		FaceData data;
 		
 		if (vertexInfo.find('/') == std::string::npos)
 		{
 			// face definition is in format "f 1 2 3" so vertexInfo is simple the index of the vertex
-			indices.push_back(std::stoi(vertexInfo) - 1);
+			data.vertexIndex = new int(std::stoi(vertexInfo) - 1);
+		}
+		else if (vertexInfo.find("//") == std::string::npos)
+		{
+			// face definition is in format "f 1/1/1 2/2/2 3/3/3" so vertexInfo is vertexIndex/textureIndex/normalIndex
+
+			// replace / with space
+			std::string noSlash = vertexInfo;
+			std::replace(noSlash.begin(), noSlash.end(), '/', ' ');
+
+			std::vector<std::string> values = splitStringOnSpace(noSlash);
+			data.vertexIndex = new int(std::stoi(values[0]) - 1);
+			data.textureVertexIndex = new int(std::stoi(values[1]) - 1); 
+			data.vertexNormalIndex = new int(std::stoi(values[2]) - 1); 
 		}
 		else
 		{
-			// face definition is in format "f 1/1/1 2/2/2 3/3/3" so vertexInfo is vertexIndex/textureIndex/normalIndex
+			// face definition is in format "f 1//1 2//2 3//3" so vertexInfo is vertextIndex//normalIndex
 			
 			// replace / with space
 			std::string noSlash = vertexInfo;
 			std::replace(noSlash.begin(), noSlash.end(), '/', ' ');
-			
+
 			std::vector<std::string> values = splitStringOnSpace(noSlash);
-			indices.push_back(std::stoi(values[0]) - 1); // vertex index
-			//indices.push_back(std::stoi(values[1]) - 1); // texture index
-			//indices.push_back(std::stoi(values[2]) - 1); // normal index
+			data.vertexIndex = new int(std::stoi(values[0]) - 1);
+			data.vertexNormalIndex = new int(std::stoi(values[1]) - 1);
 		}
 		
-		return indices;
+		return data;
 	}
 }

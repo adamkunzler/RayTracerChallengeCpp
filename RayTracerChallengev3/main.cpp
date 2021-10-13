@@ -24,7 +24,7 @@ int main()
 	//cubeOfSpheres(4);
 	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
-	utahTeapot(2);
+	utahTeapot(0.5);
 	//dragon(1); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 		
 
@@ -624,8 +624,8 @@ void utahTeapot(double sizeScale)
 		scene.addShape(floor);
 
 		ObjParser parser;
-		ObjParseResult result = parser.parse("assets/obj/teapot.obj");
 		//ObjParseResult result = parser.parse("assets/obj/teapot.obj");
+		ObjParseResult result = parser.parse("assets/obj/teapot-low.obj");
 		
 		result.defaultGroup->divide(3);
 		result.defaultGroup->setTransform(xRotation4x4(-PI / 2));

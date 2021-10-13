@@ -10,6 +10,26 @@ namespace RayTracer
 		ObjParseResult() : numLinesIgnored(0) { defaultGroup = new Group(); }
 	};
 
+	struct FaceData
+	{
+		int* vertexIndex;
+		int* textureVertexIndex;
+		int* vertexNormalIndex;
+
+		FaceData() 
+		{
+			vertexIndex = 0;
+			textureVertexIndex = 0;
+			vertexNormalIndex = 0;
+		}
+		/*~FaceData() 
+		{ 
+			delete vertexIndex; 
+			delete textureVertexIndex; 
+			delete vertexNormalIndex; 
+		}*/
+	};
+
 	class ObjParser
 	{			
 	public:		
@@ -23,6 +43,6 @@ namespace RayTracer
 
 		std::vector<Triangle*> processFace(const std::vector<std::string>& words, const std::vector<Point4*>& vertices) const;
 		
-		std::vector<int> processFaceVertexInfo(const std::string& vertexInfo) const;
+		FaceData processFaceData(const std::string& vertexInfo) const;
 	};
 }
