@@ -2,7 +2,7 @@
 
 using namespace RayTracer;
 
-void RayTraceScene_Benchmark();
+void RayTraceScene_Benchmark(double sizeScale);
 void spheres(const int sizeScale);
 void cubes(const int sizeScale);
 void cubeOfSpheres(const double sizeScale);
@@ -18,13 +18,13 @@ int main()
 	//testObjParser("assets/obj/gibberish.txt");
 	//testObjParser("assets/obj/teapot-low.obj");
 
-	//RayTraceScene_Benchmark();
+	RayTraceScene_Benchmark(0.5);
 	//spheres(2);
 	//cubes(2);	
 	//cubeOfSpheres(4);
 	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
-	utahTeapot(0.5);
+	//utahTeapot(0.5);
 	//dragon(1); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 		
 
@@ -40,13 +40,13 @@ void testObjParser(std::string filename)
 
 // -----------------------------------------------------------------------
 
-void RayTraceScene_Benchmark()
+void RayTraceScene_Benchmark(double sizeScale)
 {
 	SceneConfig config;
 
 	// dimensions and fov
-	config.width = 3840;
-	config.height = 2160;
+	config.width = 320 * sizeScale;
+	config.height = 240 * sizeScale;
 	config.fov = 1.152f;
 
 	// camera

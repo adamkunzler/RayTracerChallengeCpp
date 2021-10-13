@@ -64,13 +64,13 @@ namespace RayTracer
 		return normal;
 	}
 
-	Vector4 IShape::normalAt(const Point4& worldPoint) const
+	Vector4 IShape::normalAt(const Point4& worldPoint, const Intersection& i) const
 	{
 		// point in world space to local space
 		Point4 localPoint = worldToObject(worldPoint);
 
 		// shape figures out it's normal
-		Vector4 localNormal = localNormalAt(localPoint); // TODO update to return reference
+		Vector4 localNormal = localNormalAt(localPoint, i); // TODO update to return reference
 
 		// normal from local space to world space
 		return normalToWorld(localNormal);

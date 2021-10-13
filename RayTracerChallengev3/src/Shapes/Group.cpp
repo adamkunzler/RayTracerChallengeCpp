@@ -5,7 +5,7 @@
 namespace RayTracer
 {
 
-	Vector4 Group::localNormalAt(const Point4& localPoint) const
+	Vector4 Group::localNormalAt(const Point4& localPoint, const Intersection& i) const
 	{
 		// groups don't have normals and this should never be called
 		throw;

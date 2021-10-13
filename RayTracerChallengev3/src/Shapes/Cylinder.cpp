@@ -4,7 +4,7 @@
 
 namespace RayTracer
 {
-	Vector4 Cylinder::localNormalAt(const Point4& localPoint) const
+	Vector4 Cylinder::localNormalAt(const Point4& localPoint, const Intersection& i) const
 	{
 		// compute the square of the distance from the y axis
 		double dist = localPoint.x * localPoint.x + localPoint.z * localPoint.z;

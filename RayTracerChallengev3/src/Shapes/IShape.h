@@ -28,13 +28,13 @@ namespace RayTracer
 
 		void intersectBy(const Ray& r, std::vector<Intersection>& intersections) const;
 
-		virtual Vector4 localNormalAt(const Point4& localPoint) const = 0;
+		virtual Vector4 localNormalAt(const Point4& localPoint, const Intersection& i) const = 0;
 
 		Point4 worldToObject(const Point4& worldPoint) const;
 
 		Vector4 normalToWorld(const Vector4& localNormal) const;
 
-		Vector4 normalAt(const Point4& worldPoint) const;
+		Vector4 normalAt(const Point4& worldPoint, const Intersection& i) const;
 
 		virtual BoundingBox localBounds() const = 0;
 		

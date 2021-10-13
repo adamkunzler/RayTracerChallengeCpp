@@ -4,7 +4,7 @@
 
 namespace RayTracer
 {
-	Vector4 Cube::localNormalAt(const Point4& localPoint) const
+	Vector4 Cube::localNormalAt(const Point4& localPoint, const Intersection& i) const
 	{
 		double maxc = std::max({ abs(localPoint.x), abs(localPoint.y) , abs(localPoint.z) });
 

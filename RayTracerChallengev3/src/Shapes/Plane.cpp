@@ -5,7 +5,7 @@
 namespace RayTracer
 {
 
-	Vector4 Plane::localNormalAt(const Point4& localPoint) const
+	Vector4 Plane::localNormalAt(const Point4& localPoint, const Intersection& i) const
 	{
 		return Vector4(0.0, 1.0, 0.0);
 	}

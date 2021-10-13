@@ -544,14 +544,15 @@ namespace RayTracer
 					Point4 p7(1, 1, 1);
 					Point4 p8(-1, -1, -1);
 
-					Vector4 n1 = c.localNormalAt(p1);
-					Vector4 n2 = c.localNormalAt(p2);
-					Vector4 n3 = c.localNormalAt(p3);
-					Vector4 n4 = c.localNormalAt(p4);
-					Vector4 n5 = c.localNormalAt(p5);
-					Vector4 n6 = c.localNormalAt(p6);
-					Vector4 n7 = c.localNormalAt(p7);
-					Vector4 n8 = c.localNormalAt(p8);
+					Intersection i;
+					Vector4 n1 = c.localNormalAt(p1, i);
+					Vector4 n2 = c.localNormalAt(p2, i);
+					Vector4 n3 = c.localNormalAt(p3, i);
+					Vector4 n4 = c.localNormalAt(p4, i);
+					Vector4 n5 = c.localNormalAt(p5, i);
+					Vector4 n6 = c.localNormalAt(p6, i);
+					Vector4 n7 = c.localNormalAt(p7, i);
+					Vector4 n8 = c.localNormalAt(p8, i);
 
 					Vector4 e1(1, 0, 0);
 					Vector4 e2(-1, 0, 0);

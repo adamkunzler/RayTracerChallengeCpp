@@ -5,7 +5,7 @@
 namespace RayTracer
 {
 
-	Vector4 Sphere::localNormalAt(const Point4& localPoint) const
+	Vector4 Sphere::localNormalAt(const Point4& localPoint, const Intersection& i) const
 	{
 		return localPoint - origin;
 	}

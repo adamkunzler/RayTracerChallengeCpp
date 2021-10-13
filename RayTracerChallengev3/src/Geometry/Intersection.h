@@ -8,9 +8,12 @@ namespace RayTracer
 	{		
 		double t;
 		IShape* object;
+		double u;
+		double v;
 			
 		Intersection() :t(0.0), object(0) {}
-		Intersection(const double lT, IShape* lObject) : t(lT), object(lObject) { }				
+		Intersection(const double& lT, IShape* lObject) : t(lT), object(lObject) { }	
+		Intersection(const double& lT, IShape* lObject, const double& lu, const double& lv) : t(lT), object(lObject), u(lu), v(lv) { }
 		
 		bool isNull();
 

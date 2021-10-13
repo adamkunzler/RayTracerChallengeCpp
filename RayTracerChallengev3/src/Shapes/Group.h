@@ -9,7 +9,7 @@ namespace RayTracer
 
 		Group() {}
 
-		Vector4 localNormalAt(const Point4& localPoint) const;
+		Vector4 localNormalAt(const Point4& localPoint, const Intersection& i) const;
 
 		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const;
 

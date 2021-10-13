@@ -14,7 +14,7 @@ namespace RayTracer
 		Cylinder() : minimum(-INFINITY), maximum(INFINITY), isClosed(false) { }
 		Cylinder(const double& min, const double& max, const bool& lIsClosed = false) : minimum(min), maximum(max), isClosed(lIsClosed) { }
 
-		Vector4 localNormalAt(const Point4& localPoint) const;
+		Vector4 localNormalAt(const Point4& localPoint, const Intersection& i) const;
 
 		void localIntersectBy(const Ray& localRay, std::vector<Intersection>& intersections) const;
 

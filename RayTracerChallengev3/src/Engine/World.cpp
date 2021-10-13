@@ -75,7 +75,7 @@ namespace RayTracer
 		c.object = i.object;
 		c.point = r.position(i.t);
 		c.eyeV = -dir;
-		c.normalV = i.object->normalAt(c.point);
+		c.normalV = i.object->normalAt(c.point, i);
 		c.isInside = false;
 
 		double d = dot(c.normalV, c.eyeV);
