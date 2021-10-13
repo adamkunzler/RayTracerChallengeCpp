@@ -25,7 +25,7 @@ int main()
 	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
 	utahTeapot(4);
-	//dragon(1); // 725218ms 12.1m - 2560x1920 - 5 million pixels
+	//dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 		
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
@@ -628,7 +628,7 @@ void utahTeapot(double sizeScale)
 		//ObjParseResult result = parser.parse("assets/obj/teapot-low.obj");
 		
 		result.defaultGroup->divide(3);
-		result.defaultGroup->setTransform(xRotation4x4(-PI / 2));
+		result.defaultGroup->setTransform(yRotation4x4(PI / 6) * xRotation4x4(-PI / 2));
 		scene.addShape(result.defaultGroup);
 
 		Material* m = new Material();
@@ -647,8 +647,8 @@ void dragon(double sizeScale)
 	SceneConfig config;
 
 	// dimensions and fov
-	config.width = 640 * sizeScale;
-	config.height = 480 * sizeScale;
+	config.width = 320 * sizeScale;
+	config.height = 240 * sizeScale;
 	config.fov = PI / 3.5f;
 
 	// camera
@@ -684,15 +684,8 @@ void dragon(double sizeScale)
 		scene.addShape(g);
 
 		for (auto dfIter = result.defaultGroup->children.begin(); dfIter != result.defaultGroup->children.end(); dfIter++)
-		{			
-			/*for (auto gIter = ((Group*)*dfIter)->children.begin(); gIter != ((Group*)*dfIter)->children.end(); gIter++)
-			{				
-				(*gIter)->material = matte((*gIter)->material, rgb(50, 180, 75));
-			}			*/
-
-			(*dfIter)->material = gloss((*dfIter)->material, rgb(50, 180, 75));
-			//(*dfIter)->setTransform(translation(0.0, 5.0000000001, 0.0) * scaling(5.0, 5.0, 5.0));
-			//scene.addShape(*dfIter);
+		{						
+			(*dfIter)->material = gloss((*dfIter)->material, rgb(255, 0, 25));			
 			g->addChild(*dfIter);
 		}		
 
