@@ -22,6 +22,8 @@ namespace RayTracer
 		// diamond 2.417
 	
 		Material();
+
+		Material(const Material& m);
 	};
 
 	Material& matte(Material& m, const Color& color);

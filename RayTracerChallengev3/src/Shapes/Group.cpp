@@ -103,4 +103,19 @@ namespace RayTracer
 			(*iter)->divide(threshold);
 		}
 	}
+
+	void Group::setMaterial(const Material& material)
+	{
+		for (auto iter = children.begin(); iter != children.end(); iter++)
+		{
+			if (Group* g = dynamic_cast<Group*>(*iter))
+			{
+				g->setMaterial(material);
+			}
+			else
+			{
+				(*iter)->material = material;
+			}
+		}
+	}
 }

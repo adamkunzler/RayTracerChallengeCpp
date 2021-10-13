@@ -17,6 +17,19 @@ namespace RayTracer
 		refractiveIndex = 1.0;
 	}
 
+	Material::Material(const Material& m)
+	{
+		color = Color(m.color);
+		pattern = m.pattern;
+		ambient = m.ambient;
+		diffuse = m.diffuse;
+		specular = m.specular;
+		shininess = m.shininess;
+		reflective = m.reflective;
+		transparency = m.transparency;
+		refractiveIndex = m.refractiveIndex;
+	}
+
 	// 
 	// NON-MEMBER FUNCTIONS -----------------------------------------------------
 	//

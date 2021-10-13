@@ -22,5 +22,7 @@ namespace RayTracer
 		void makeSubGroup(std::vector<IShape*> shapes);
 
 		void divide(const int& threshold);
+
+		void setMaterial(const Material& material);
 	};
 }

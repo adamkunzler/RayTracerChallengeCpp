@@ -24,8 +24,8 @@ int main()
 	//cubeOfSpheres(4);
 	//simpleGroup(10);
 	//scatteredMarbles(10, 500);
-	//utahTeapot(4);
-	dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
+	utahTeapot(2);
+	//dragon(1); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 		
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
@@ -631,18 +631,9 @@ void utahTeapot(double sizeScale)
 		result.defaultGroup->setTransform(xRotation4x4(-PI / 2));
 		scene.addShape(result.defaultGroup);
 
-		//for (auto dfIter = result.defaultGroup->children.begin(); dfIter != result.defaultGroup->children.end(); dfIter++)
-		//{					
-		//	// iterate over all the triangles in the group to change their color
-		//	for (auto gIter = ((Group*)*dfIter)->children.begin(); gIter != ((Group*)*dfIter)->children.end(); gIter++)
-		//	{								
-		//		//(*gIter)->material.color = rgb(46, 179, 59);				
-		//	}
-		//	
-		//	//(*dfIter)->divide(1);
-		//	//(*dfIter)->setTransform(xRotation4x4(-PI / 2));
-		//	//scene.addShape((*dfIter));
-		//}		
+		Material* m = new Material();
+		m->color = rgb(46, 179, 59);
+		result.defaultGroup->setMaterial(*m);
 	}
 
 	scene.renderToPPM("utahTeapot_high");
