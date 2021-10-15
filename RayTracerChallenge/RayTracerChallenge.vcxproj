@@ -143,9 +143,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ClInclude Include="Benchmarks\benchmark.h" />
     <ClInclude Include="Exercises\Chapter10\RayTraceScene_Stripe.h" />
     <ClInclude Include="Exercises\Chapter11\RayTraceScene_Book.h" />

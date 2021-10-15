@@ -43,7 +43,7 @@ namespace RayTracer
 		std::cout << "\n\nScene completed in " << durationCount << "ms (" << (durationCount / 1000) << "s)\n";
 
 		// save the image to disk
-		std::string filename = "images/" + baseFilename + "_" + std::to_string(camera->hSize) + "x" + std::to_string(camera->vSize) + ".ppm";
+		std::string filename = baseFilename + "_" + std::to_string(camera->hSize) + "x" + std::to_string(camera->vSize) + ".ppm";
 		image.toPPM(filename);
 	}
 }

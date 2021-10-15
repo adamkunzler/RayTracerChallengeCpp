@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DataStructs\Vector4.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -209,8 +206,5 @@
     <ClInclude Include="src\DataStructs\BoundingBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="assets\obj\cube.txt" />
   </ItemGroup>
 </Project>
