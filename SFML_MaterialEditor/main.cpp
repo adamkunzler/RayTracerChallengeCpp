@@ -21,6 +21,7 @@ int main()
 	const float scale = 3.0f;
 
 	double yRot = 0.01;
+	bool transformEnabled = false;
 	
 	pixels = std::unique_ptr< sf::Uint8[] >(new sf::Uint8[width * height * 4]);
 	buildScene(width, height, yRot);
@@ -42,16 +43,17 @@ int main()
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{				
-				//buildScene(width, height, yRot);
-				yRot += 0.01;
-				if (yRot > PI * 2.0) yRot = 0.0;
+				transformEnabled = !transformEnabled;
 			}
         }
 
         window.clear();  
 		
-		yRot += 0.05;
-		if (yRot > PI * 2.0) yRot = 0.0;
+		if (transformEnabled)
+		{
+			yRot += 0.05;
+			if (yRot > PI * 2.0) yRot = 0.0;
+		}
 
 		buildScene(width, height, yRot);
 		texture.update(pixels.get());
@@ -76,7 +78,7 @@ void buildScene(const int width, const int height, const double yRot)
 	config.fov = PI / 2.7;
 
 	// camera
-	config.from = RayTracer::Point4(0.0, 1.75, -2.75) * RayTracer::yRotation4x4(yRot);
+	config.from = RayTracer::Point4(0.0, 1.75, -3.25) * RayTracer::yRotation4x4(yRot);
 	config.to = RayTracer::Point4(0.0, 1.0, 0.0);
 	config.up = RayTracer::Vector4(0.0, 1.0, 0.0);
 
@@ -117,6 +119,16 @@ void buildScene(const int width, const int height, const double yRot)
 		sphere->material.diffuse = 0.9;
 		sphere->material.ambient = 0.1;
 		scene.addShape(sphere);
+
+		RayTracer::Sphere* glassSphere = new RayTracer::Sphere();
+		glassSphere->setTransform(RayTracer::translation(2.0, 1.0000001, 0.0) * RayTracer::scaling(0.5, 0.5, 0.5));
+		glassSphere->material = RayTracer::metal(glassSphere->material);
+		scene.addShape(glassSphere);
+
+		RayTracer::Sphere* metalSphere = new RayTracer::Sphere();
+		metalSphere->setTransform(RayTracer::translation(-2.0, 1.0000001, 0.0) * RayTracer::scaling(0.5, 0.5, 0.5));
+		metalSphere->material = RayTracer::metal(metalSphere->material);
+		scene.addShape(metalSphere);
 	}
 
 	// render the scene
