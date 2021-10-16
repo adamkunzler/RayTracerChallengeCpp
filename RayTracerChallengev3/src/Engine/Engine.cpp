@@ -87,11 +87,7 @@ namespace RayTracer
 				Ray r = camera.rayForPixel(x, yy);
 				Color c = world.colorAt(r, MAX_RECURSION, intersections);
 				data[x + y * width] = c;
-
-				/*for (auto p : intersections) {					
-					delete p;
-					p = 0;
-				}*/
+				
 				intersections.clear();
 
 				processedPixelsCount++;

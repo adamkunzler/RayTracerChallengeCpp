@@ -44,11 +44,15 @@ namespace RayTracer
 		{
 			for (int j = 0; j < camera->hSize * yStep; j++) // each color in each data
 			{
-				image.setPixel(index, datas[i][j]);
+				image.setPixel(index, datas[i][j]);				
 				index++;
 			}
 		}
 		pixels = image.pixels;
+
+		for (auto& p : datas) {
+			delete[] p;
+		}
 
 		//auto stop = std::chrono::high_resolution_clock::now();
 		//auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);

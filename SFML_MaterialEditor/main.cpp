@@ -8,7 +8,7 @@
 //	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
 //	return 0;
 //}
-void buildScene(const int width, const int height);
+void buildScene(const int width, const int height, const double yRot);
 
 std::unique_ptr<sf::Uint8[]> pixels;
 
@@ -16,12 +16,14 @@ int main()
 {
 	std::cout << "\n----------------- Ray Tracer Material Editor -----------------\n";
 
-	const int width = 512/4;
-	const int height = 512/4;
+	const int width = 512;
+	const int height = 512;
 	const float scale = 3.0f;
+
+	double yRot = 0.01;
 	
 	pixels = std::unique_ptr< sf::Uint8[] >(new sf::Uint8[width * height * 4]);
-	buildScene(width, height);
+	buildScene(width, height, yRot);
 
 	sf::Texture texture;
 	texture.create(width, height);	
@@ -40,12 +42,18 @@ int main()
 
 			if (event.type == sf::Event::MouseButtonPressed)
 			{				
-				buildScene(width, height);
+				//buildScene(width, height, yRot);
+				yRot += 0.01;
+				if (yRot > PI * 2.0) yRot = 0.0;
 			}
         }
 
         window.clear();  
-				
+		
+		yRot += 0.05;
+		if (yRot > PI * 2.0) yRot = 0.0;
+
+		buildScene(width, height, yRot);
 		texture.update(pixels.get());
 		window.draw(sprite);
         
@@ -56,7 +64,7 @@ int main()
     return 0;
 }
 
-void buildScene(const int width, const int height)
+void buildScene(const int width, const int height, const double yRot)
 {
 	auto start = std::chrono::high_resolution_clock::now();
 
@@ -68,11 +76,13 @@ void buildScene(const int width, const int height)
 	config.fov = PI / 2.7;
 
 	// camera
-	config.from = RayTracer::Point4(0.0, 1.75, -2.75);
+	config.from = RayTracer::Point4(0.0, 1.75, -2.75) * RayTracer::yRotation4x4(yRot);
 	config.to = RayTracer::Point4(0.0, 1.0, 0.0);
 	config.up = RayTracer::Vector4(0.0, 1.0, 0.0);
 
 	RayTracer::Scene scene(config);	
+
+	//scene.camera->setTransform();
 
 	// add the lights
 	scene.addLight(RayTracer::PointLight(
@@ -135,5 +145,5 @@ void buildScene(const int width, const int height)
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 	long long durationCount = duration.count();	
-	std::cout << "\n scene is built\t" << durationCount << "ms";
+	//std::cout << "\n scene is built\t" << durationCount << "ms";
 }
