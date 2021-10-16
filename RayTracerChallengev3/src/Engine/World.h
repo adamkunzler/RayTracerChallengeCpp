@@ -8,14 +8,15 @@ namespace RayTracer
 		std::vector<PointLight> lights; // TODO ILight interface to support different types of lights
 
 		World();
+		~World();
 						
-		void intersectBy(const Ray& r, std::vector<Intersection*>& intersections) const;
+		void intersectBy(const Ray& r, std::vector<std::shared_ptr<Intersection>>& intersections) const;
 
-		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<Intersection*>& intersections) const;
+		Computation prepareComputations(const Intersection& i, const Ray& r, const std::vector<std::shared_ptr<Intersection>>& intersections) const;
 
-		Color shadeHit(const Computation& c, const int remaining, std::vector<Intersection*>& intersections) const;
+		Color shadeHit(const Computation& c, const int remaining, std::vector<std::shared_ptr<Intersection>>& intersections) const;
 
-		Color colorAt(const Ray& ray, const int remaining, std::vector<Intersection*>& intersections) const;
+		Color colorAt(const Ray& ray, const int remaining, std::vector<std::shared_ptr<Intersection>>& intersections) const;
 
 		Color reflectedColor(const Computation& comps, const int remaining) const;
 

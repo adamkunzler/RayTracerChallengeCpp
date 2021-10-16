@@ -28,7 +28,7 @@ namespace RayTracer
 		return inverseTransform;
 	}
 
-	void IShape::intersectBy(const Ray& r, std::vector<Intersection*>& intersections) const
+	void IShape::intersectBy(const Ray& r, std::vector<std::shared_ptr<Intersection>>& intersections) const
 	{
 		// ray in world space to local space			
 		Ray localRay(r);

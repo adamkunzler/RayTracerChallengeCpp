@@ -16,8 +16,8 @@ int main()
 {
 	std::cout << "\n----------------- Ray Tracer Material Editor -----------------\n";
 
-	const int width = 512;
-	const int height = 512;
+	const int width = 512/4;
+	const int height = 512/4;
 	const float scale = 3.0f;
 	
 	pixels = std::unique_ptr< sf::Uint8[] >(new sf::Uint8[width * height * 4]);
@@ -37,11 +37,15 @@ int main()
         {
             if (event.type == sf::Event::Closed)
                 window.close();
+
+			if (event.type == sf::Event::MouseButtonPressed)
+			{				
+				buildScene(width, height);
+			}
         }
 
         window.clear();  
-		
-		//buildScene(width, height);
+				
 		texture.update(pixels.get());
 		window.draw(sprite);
         
@@ -54,6 +58,8 @@ int main()
 
 void buildScene(const int width, const int height)
 {
+	auto start = std::chrono::high_resolution_clock::now();
+
 	RayTracer::SceneConfig config;
 
 	// dimensions and fov
@@ -66,7 +72,7 @@ void buildScene(const int width, const int height)
 	config.to = RayTracer::Point4(0.0, 1.0, 0.0);
 	config.up = RayTracer::Vector4(0.0, 1.0, 0.0);
 
-	RayTracer::Scene scene(config);
+	RayTracer::Scene scene(config);	
 
 	// add the lights
 	scene.addLight(RayTracer::PointLight(
@@ -125,4 +131,9 @@ void buildScene(const int width, const int height)
 		pixels[i+3] = 255;
 		i += 4;		
 	}	
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	long long durationCount = duration.count();	
+	std::cout << "\n scene is built\t" << durationCount << "ms";
 }

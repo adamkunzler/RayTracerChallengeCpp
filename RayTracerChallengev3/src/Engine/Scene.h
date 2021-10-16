@@ -4,7 +4,7 @@ namespace RayTracer
 {	
 	class Scene
 	{	
-	private:
+	public:
 		World* world;
 		Camera* camera;
 

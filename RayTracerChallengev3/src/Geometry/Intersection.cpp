@@ -22,25 +22,25 @@ namespace RayTracer
 	// NON-MEMBER FUNCTIONS --------------------------------------------------------------------------
 	//
 
-	bool intersectionComparer(const Intersection* lhs, const Intersection* rhs)
+	bool intersectionComparer(const std::shared_ptr<Intersection> lhs, const std::shared_ptr<Intersection> rhs)
 	{
 		return lhs->t < rhs->t;
 	}
 
-	Intersection* hit(std::vector<Intersection*>& intersections)
+	std::shared_ptr<Intersection> hit(std::vector<std::shared_ptr<Intersection>>& intersections)
 	{
 		std::sort(intersections.begin(), intersections.end(), intersectionComparer);
 
-		for (std::vector<Intersection*>::const_iterator iter = intersections.begin(); iter != intersections.end(); iter++)
+		for (std::vector<std::shared_ptr<Intersection>>::const_iterator iter = intersections.begin(); iter != intersections.end(); iter++)
 		{
 			if ((*iter)->t < 0) continue;
 
 			// first non-negative intersection
-			return (*iter);
+			return *iter;
 		}
 
 		// return 'null' intersection	
-		Intersection* nullIntersection = new Intersection(0, 0);
+		std::shared_ptr<Intersection> nullIntersection = std::shared_ptr<Intersection>(new Intersection(0, 0));
 		return nullIntersection;
 	}
 }

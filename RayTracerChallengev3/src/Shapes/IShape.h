@@ -24,9 +24,9 @@ namespace RayTracer
 
 		const Matrix4x4& getInverseTransform() const;
 		
-		virtual void localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const = 0;
+		virtual void localIntersectBy(const Ray& localRay, std::vector<std::shared_ptr<Intersection>>& intersections) const = 0;
 
-		void intersectBy(const Ray& r, std::vector<Intersection*>& intersections) const;
+		void intersectBy(const Ray& r, std::vector<std::shared_ptr<Intersection>>& intersections) const;
 
 		virtual Vector4 localNormalAt(const Point4& localPoint, const Intersection& i) const = 0;
 

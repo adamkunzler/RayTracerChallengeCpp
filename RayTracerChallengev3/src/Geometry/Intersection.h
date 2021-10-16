@@ -24,8 +24,8 @@ namespace RayTracer
 		bool operator!=(const Intersection& rhs) const;
 	};
 
-	bool intersectionComparer(const Intersection* lhs, const Intersection* rhs);
+	bool intersectionComparer(const std::shared_ptr<Intersection> lhs, const std::shared_ptr<Intersection> rhs);
 	
-	Intersection* hit(std::vector<Intersection*>& intersections);
+	std::shared_ptr<Intersection> hit(std::vector<std::shared_ptr<Intersection>>& intersections);
 }
 

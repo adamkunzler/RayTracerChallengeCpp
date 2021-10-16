@@ -20,7 +20,7 @@ namespace RayTracer
 		return Vector4(0.0, 0.0, localPoint.z);
 	}
 
-	void Cube::localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const
+	void Cube::localIntersectBy(const Ray& localRay, std::vector<std::shared_ptr<Intersection>>& intersections) const
 	{
 		double xtmin, xtmax;
 		checkAxis(localRay.origin.x, localRay.direction.x, xtmin, xtmax);
@@ -36,8 +36,8 @@ namespace RayTracer
 
 		if (tmin > tmax) return;
 
-		intersections.push_back(new Intersection(tmin, (IShape*)this));
-		intersections.push_back(new Intersection(tmax, (IShape*)this));
+		intersections.push_back(std::shared_ptr<Intersection>(new Intersection(tmin, (IShape*)this)));
+		intersections.push_back(std::shared_ptr<Intersection>(new Intersection(tmax, (IShape*)this)));
 	}
 
 	void Cube::checkAxis(const double& axisOrigin, const double& rayDirection, double& tmin, double& tmax) const

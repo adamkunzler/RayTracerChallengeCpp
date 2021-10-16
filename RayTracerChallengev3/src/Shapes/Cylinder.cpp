@@ -21,7 +21,7 @@ namespace RayTracer
 		return Vector4(localPoint.x, 0.0, localPoint.z);
 	}
 
-	void Cylinder::localIntersectBy(const Ray& localRay, std::vector<Intersection*>& intersections) const
+	void Cylinder::localIntersectBy(const Ray& localRay, std::vector<std::shared_ptr<Intersection>>& intersections) const
 	{
 		double a = localRay.direction.x * localRay.direction.x
 			+ localRay.direction.z * localRay.direction.z;
@@ -44,13 +44,13 @@ namespace RayTracer
 		double y0 = localRay.origin.y + t0 * localRay.direction.y;
 		if (minimum < y0 && y0 < maximum)
 		{
-			intersections.push_back(new Intersection(t0, (IShape*)this));
+			intersections.push_back(std::shared_ptr<Intersection>(new Intersection(t0, (IShape*)this)));
 		}
 
 		double y1 = localRay.origin.y + t1 * localRay.direction.y;
 		if (minimum < y1 && y1 < maximum)
 		{
-			intersections.push_back(new Intersection(t1, (IShape*)this));
+			intersections.push_back(std::shared_ptr<Intersection>(new Intersection(t1, (IShape*)this)));
 		}
 
 		intersectCaps(intersections, localRay);
@@ -63,7 +63,7 @@ namespace RayTracer
 		return (x * x + z * z) <= 1.0;
 	}
 
-	void Cylinder::intersectCaps(std::vector<Intersection*>& xs, const Ray& localRay) const
+	void Cylinder::intersectCaps(std::vector<std::shared_ptr<Intersection>>& xs, const Ray& localRay) const
 	{
 		// caps only matter if the cylinder is closed and might possibly be intersected by the ray
 		if (!isClosed || (localRay.direction.y < DBL_EPSILON && localRay.direction.y > -DBL_EPSILON)) return;
@@ -73,7 +73,7 @@ namespace RayTracer
 		double t0 = (minimum - localRay.origin.y) / localRay.direction.y;
 		if (checkCap(localRay, t0))
 		{
-			xs.push_back(new Intersection(t0, (IShape*)this));
+			xs.push_back(std::shared_ptr<Intersection>(new Intersection(t0, (IShape*)this)));
 		}
 
 		// check for an intersection with the upper end cap by intersecting
@@ -81,7 +81,7 @@ namespace RayTracer
 		double t1 = (maximum - localRay.origin.y) / localRay.direction.y;
 		if (checkCap(localRay, t1))
 		{
-			xs.push_back(new Intersection(t1, (IShape*)this));
+			xs.push_back(std::shared_ptr<Intersection>(new Intersection(t1, (IShape*)this)));
 		}
 	}
 
