@@ -194,6 +194,9 @@
     <ClInclude Include="tests\worldAndCameraTests.h" />
     <ClInclude Include="tests\_testHarness.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="multiplesOf32.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

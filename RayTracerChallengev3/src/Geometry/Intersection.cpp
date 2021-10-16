@@ -4,7 +4,6 @@
 
 namespace RayTracer
 {
-
 	bool Intersection::isNull() { return object == NULL; }
 
 	// equality		

@@ -64,6 +64,8 @@ namespace RayTracer
 	// e.g. rgb(255,255,255) would return Color(1.0, 1.0, 1.0)
 	Color rgb(const int r, const int g, const int b);
 
+	void get32BitColor(const Color& color, int& r, int& g, int& b);
+
 	// ostream
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Color& color);
 }

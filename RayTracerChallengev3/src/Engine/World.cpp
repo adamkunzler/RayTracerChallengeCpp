@@ -220,14 +220,12 @@ namespace RayTracer
 		intersectBy(r, intersections);
 		
 		Intersection* hitXs = hit(intersections);
+		bool result = false;
+		if (!hitXs->isNull() && hitXs->object->hasShadow && hitXs->t < distance) result = true;
+		
 		for (auto p : intersections) delete p;
 		intersections.clear();
-
-		if (!hitXs->isNull() && hitXs->object->hasShadow && hitXs->t < distance)
-		{
-			return true;
-		}
-
-		return false;
+		
+		return result;
 	}
 }

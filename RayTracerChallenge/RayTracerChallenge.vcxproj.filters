@@ -166,4 +166,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="multiplesOf32.txt" />
+  </ItemGroup>
 </Project>

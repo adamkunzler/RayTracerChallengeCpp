@@ -6,7 +6,7 @@ void RayTraceScene_Benchmark(double sizeScale);
 void spheres(const int sizeScale);
 void cubes(const int sizeScale);
 void cubeOfSpheres(const double sizeScale);
-void simpleGroup(int sizeScale);
+void simpleGroup();
 void scatteredMarbles(int sizeScale, int numMarbles);
 void testObjParser(std::string filename);
 void utahTeapot(double sizeScale);
@@ -22,9 +22,9 @@ int main()
 	//spheres(2);
 	//cubes(2);	
 	//cubeOfSpheres(4);
-	//simpleGroup(10);
+	simpleGroup();
 	//scatteredMarbles(10, 500);
-	utahTeapot(4);
+	//utahTeapot(1);
 	//dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 
 
@@ -451,62 +451,58 @@ void cubeOfSpheres(const double sizeScale)
 
 // -----------------------------------------------------------------------
 
-void simpleGroup(int sizeScale)
+void simpleGroup()
 {
-	SceneConfig config;
+	RayTracer::SceneConfig config;
 
 	// dimensions and fov
-	config.width = 100 * sizeScale;
-	config.height = 100 * sizeScale;
-	config.fov = PI / 3.5f;
+	config.width = 800;
+	config.height = 600;
+	config.fov = PI / 2.7;
 
 	// camera
-	config.from = Point4(-10.0, 10.0, -10.0);
-	config.to = Point4(0.0, 2.0f, 2.0f);
-	config.up = Vector4(0.0, 1.0, 0.0);
+	config.from = RayTracer::Point4(0.0, 1.75, -2.75);
+	config.to = RayTracer::Point4(0.0, 1.0, 0.0);
+	config.up = RayTracer::Vector4(0.0, 1.0, 0.0);
 
-	Scene scene(config);
+	RayTracer::Scene scene(config);
 
 	// add the lights
-	scene.addLight(PointLight(
-		Point4(-20.0, 25.0f, -15.0f),
-		Color(0.85f)
+	scene.addLight(RayTracer::PointLight(
+		RayTracer::Point4(-5.0, 10.0, -5.0),
+		RayTracer::Color(0.9)
 	));
 
-	// add the shapes	
 	{
-		Group* g = new Group();
-		g->setTransform(scaling(4, 3, 4));
-		scene.addShape(g);
+		RayTracer::Color checkerColor1(0.99);
+		RayTracer::Color checkerColor2(0.95);
 
-		Point4 p1(-1.0, -1.0, -1.0);
-		Point4 p2(1.0, -1.0, -1.0);
-		Point4 p3(0.0, -1.0, 1.0);
-		Point4 p4(0.0, 1.0, 0.0);
+		// checkered plane
+		RayTracer::Plane* floor = new RayTracer::Plane();
+		RayTracer::CheckerPattern* floorPattern = new RayTracer::CheckerPattern(checkerColor1, checkerColor2);
+		floor->material.pattern = floorPattern;
+		floor->material.ambient = 0.1f;
+		scene.addShape(floor);
 
-		Triangle* t1 = new Triangle(p1, p2, p4);
-		t1->material.color = rgb(255, 0, 0);
-		//scene.addShape(t1);
+		RayTracer::Plane* backWall = new RayTracer::Plane();
+		backWall->material.color = checkerColor2;
+		backWall->material.reflective = 0.0;
+		backWall->material.ambient = 0.1f;
+		backWall->material.specular = 0.0f;
+		backWall->setTransform(RayTracer::translation(0.0, 0.0, 7.0) * RayTracer::xRotation4x4(-PI / 2));
+		scene.addShape(backWall);
 
-		Triangle* t2 = new Triangle(p2, p3, p4);
-		t2->material.color = rgb(0, 255, 0);
-		//scene.addShape(t2);
-
-		Triangle* t3 = new Triangle(p3, p1, p4);
-		t3->material.color = rgb(0, 0, 255);
-		//scene.addShape(t3);
-
-		Triangle* t4 = new Triangle(p1, p2, p3);
-		t4->material.color = rgb(255, 255, 255);
-		//scene.addShape(t4);
-
-		g->addChild(t1);
-		g->addChild(t2);
-		g->addChild(t3);
-		g->addChild(t4);
+		RayTracer::Sphere* sphere = new RayTracer::Sphere();
+		sphere->setTransform(RayTracer::translation(0.0, 1.0, 0.0));
+		sphere->material.color = RayTracer::rgb(168, 137, 201);
+		sphere->material.specular = 0.3;
+		sphere->material.shininess = 50.0;
+		sphere->material.diffuse = 0.9;
+		sphere->material.ambient = 0.1;
+		scene.addShape(sphere);
 	}
 
-	scene.renderToPPM("triangles", 1);
+	scene.renderToPPM("../_images/sfmlScene");
 }
 
 // -----------------------------------------------------------------------

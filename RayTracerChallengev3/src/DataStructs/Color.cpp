@@ -108,6 +108,13 @@ namespace RayTracer
 		);
 	}
 
+	void get32BitColor(const Color& color, int& r, int& g, int& b)
+	{
+		r = std::clamp((int)(color.r * 256.0), 0, 255);
+		g = std::clamp((int)(color.g * 256.0), 0, 255);
+		b = std::clamp((int)(color.b * 256.0), 0, 255);
+	}
+
 	// ostream
 	std::ostream& operator<<(std::ostream& os, const RayTracer::Color& color)
 	{

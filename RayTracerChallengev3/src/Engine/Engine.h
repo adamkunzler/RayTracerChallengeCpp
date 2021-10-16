@@ -6,7 +6,7 @@ namespace RayTracer
 
 	void renderThreadFunc(Camera& camera, World& world, int width, int startY, int endY, Color* data);
 
-	void threadProgressBarFunc(int totalPixels);
+	void threadProgressBarFunc(int totalPixels, bool progressBarIsVisible);
 
-	Canvas renderMultiThread(Camera& camera, World& world, int numThreads);
+	std::vector<Color*> renderMultiThread(Camera& camera, World& world, bool progressBarIsVisible, int numThreads);
 }

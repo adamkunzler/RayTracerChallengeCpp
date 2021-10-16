@@ -7,10 +7,11 @@ namespace RayTracer
 	private:
 		const int width;
 		const int height;
-		const int maxIndex;		
-		std::vector<Color> pixels;
+		const int maxIndex;				
 
 	public:
+		std::vector<Color> pixels;
+
 		Canvas(int lWidth, int lHeight);
 		
 		~Canvas() { }

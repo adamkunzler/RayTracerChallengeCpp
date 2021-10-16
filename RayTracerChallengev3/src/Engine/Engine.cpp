@@ -96,8 +96,10 @@ namespace RayTracer
 		}
 	}
 
-	void threadProgressBarFunc(int totalPixels)
+	void threadProgressBarFunc(int totalPixels, bool progressBarIsVisible)
 	{		
+		if (!progressBarIsVisible) return;
+
 		while (processedPixelsCount < totalPixels && !processingDone)
 		{
 			showProgressBar((double)(processedPixelsCount) / (double)totalPixels);
@@ -106,10 +108,8 @@ namespace RayTracer
 		showProgressBar(1);
 	}
 
-	Canvas renderMultiThread(Camera& camera, World& world, int numThreads)
-	{
-		//auto start1 = std::chrono::high_resolution_clock::now();
-
+	std::vector<Color*> renderMultiThread(Camera& camera, World& world, bool progressBarIsVisible, int numThreads)
+	{		
 		int totalPixels = (int)(camera.hSize * camera.vSize);
 		
 		std::vector<std::thread> threads;
@@ -119,51 +119,36 @@ namespace RayTracer
 		int yStart = 0;
 		int yStep = (int)camera.vSize / numThreads;
 		for (int i = 0; i < numThreads; i++)
-		{
-			//std::cout << "\n Creating thread...\n";
-			//std::cout << "\n yStart: " << yStart << "\t yStep: " << yStep
+		{			
 			Color* data = new Color[(int)camera.hSize * yStep];
+			datas.push_back(data);
+
 			int yEnd = yStart + yStep > camera.vSize ? yEnd = camera.vSize : yStart + yStep;
 			std::thread t(renderThreadFunc, std::ref(camera), std::ref(world), (int)camera.hSize, yStart, yEnd, data);
 
 			threads.push_back(std::move(t));
-			datas.push_back(data);
-
+			
 			yStart += yStep;
 		}
 
 		// progress bar thread
-		std::thread progBarThread(threadProgressBarFunc, totalPixels);
+		std::thread progBarThread(threadProgressBarFunc, totalPixels, progressBarIsVisible);
 
-		// wait for threads to finish working	
+		// wait for threads to finish working			
 		for (std::thread& th : threads)
 		{
 			if (th.joinable())
-				th.join();
-		}
-
-		processingDone = true;
-		progBarThread.join();
-
-		// concat data from each thread into single data structure
-		Canvas image((int)camera.hSize, (int)camera.vSize);
-		int index = 0;
-		for (int i = 0; i < datas.size(); i++) // each threads data
-		{
-			for (int j = 0; j < camera.hSize * yStep; j++) // each color in each data
-			{
-				image.setPixel(index, datas[i][j]);
-				index++;
+			{				
+				th.join();				
 			}
 		}
-
-		/*auto stop1 = std::chrono::high_resolution_clock::now();
-		auto duration1 = std::chrono::duration_cast<std::chrono::milliseconds>(stop1 - start1);
-		std::cout << "\nrender() completed in " << duration1.count() << "ms.";*/
-
+		
+		processingDone = true;
+		progBarThread.join();
+						
 		processedPixelsCount = 0;
 		processingDone = false;
 
-		return image;
+		return datas;
 	}
 }

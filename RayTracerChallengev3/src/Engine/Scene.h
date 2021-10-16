@@ -17,6 +17,8 @@ namespace RayTracer
 
 		void addShape(IShape* shape) const;
 
+		void render(std::vector<Color>& pixels, const int numThreads = 32);
+
 		void renderToPPM(const std::string baseFilename, const int numThreads = 32);
 	};
 }
