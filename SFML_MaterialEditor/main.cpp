@@ -1,16 +1,20 @@
+#include "imgui.h"
+#include "imgui-SFML.h"
+
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Clock.hpp>
+
 #include "..\RayTracerChallengev3\src\Headers.h"
 
-//int main()
-//{
-//	std::cout << "\n----------------- Ray Tracer Material Editor -----------------\n";
-//	
-//	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
-//	return 0;
-//}
+// for setting up IMGUI
+//https://eliasdaler.github.io/using-imgui-with-sfml-pt1/
+
 void buildScene(const int width, const int height, const double yRot);
+void drawToolsWindow(sf::RenderWindow& window);
 
 std::unique_ptr<sf::Uint8[]> pixels;
+char windowTitle[255] = "Ray Tracer Material Editor";
+
 
 int main()
 {
@@ -32,12 +36,17 @@ int main()
 	sprite.setScale(scale, scale);
 
     sf::RenderWindow window(sf::VideoMode(width * scale, height * scale), "Material Editor v1");
-    
+	ImGui::SFML::Init(window);
+
+	sf::Clock deltaClock;
+
     while (window.isOpen())
     {
         sf::Event event;
         while (window.pollEvent(event))
         {
+			ImGui::SFML::ProcessEvent(event);
+
             if (event.type == sf::Event::Closed)
                 window.close();
 
@@ -46,6 +55,12 @@ int main()
 				transformEnabled = !transformEnabled;
 			}
         }
+
+		ImGui::SFML::Update(window, deltaClock.restart());
+
+		//drawToolsWindow(window);
+
+		ImGui::ShowDemoWindow();
 
         window.clear();  
 		
@@ -59,8 +74,12 @@ int main()
 		texture.update(pixels.get());
 		window.draw(sprite);
         
+		ImGui::SFML::Render(window);
+
 		window.display();
     }
+
+	ImGui::SFML::Shutdown();
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
     return 0;
@@ -158,4 +177,20 @@ void buildScene(const int width, const int height, const double yRot)
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 	long long durationCount = duration.count();	
 	//std::cout << "\n scene is built\t" << durationCount << "ms";
+}
+
+void drawToolsWindow(sf::RenderWindow& window)
+{
+	ImGui::Begin("Sample window"); // begin window
+
+	// Window title text edit
+	ImGui::InputText("Window title", windowTitle, 255);
+
+	if (ImGui::Button("Update window title")) {
+		// this code gets if user clicks on the button
+		// yes, you could have written if(ImGui::InputText(...))
+		// but I do this to show how buttons work :)
+		window.setTitle(windowTitle);
+	}
+	ImGui::End(); // end window
 }
