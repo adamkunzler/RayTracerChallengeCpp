@@ -10,11 +10,20 @@
 //https://eliasdaler.github.io/using-imgui-with-sfml-pt1/
 
 void buildScene(const int width, const int height, const double yRot);
-void drawToolsWindow(sf::RenderWindow& window);
+void drawMaterialTools(sf::RenderWindow& window);
+void showInfoOverlay();
 
 std::unique_ptr<sf::Uint8[]> pixels;
-char windowTitle[255] = "Ray Tracer Material Editor";
+bool rotateSceneEnabled = false;
 
+float materialAmbient = 0.1f;
+float materialDiffuse = 0.9f;
+float materialSpecular = 0.3f;
+int materialShininess = 50;
+float materialReflective = 0.0f;
+float materialTransparency = 0.0f;
+float materialRefractiveIndex = 0.0f;
+ImVec4 materialColor(168.0f / 255.0f, 137.0f / 255.0f, 201.0f / 255.0f, 1.0f);
 
 int main()
 {
@@ -25,8 +34,7 @@ int main()
 	const float scale = 3.0f;
 
 	double yRot = 0.01;
-	bool transformEnabled = false;
-	
+		
 	pixels = std::unique_ptr< sf::Uint8[] >(new sf::Uint8[width * height * 4]);
 	buildScene(width, height, yRot);
 
@@ -35,7 +43,7 @@ int main()
 	sf::Sprite sprite(texture);
 	sprite.setScale(scale, scale);
 
-    sf::RenderWindow window(sf::VideoMode(width * scale, height * scale), "Material Editor v1");
+    sf::RenderWindow window(sf::VideoMode(width * scale, height * scale), "Ray Tracer Material Editor");
 	ImGui::SFML::Init(window);
 
 	sf::Clock deltaClock;
@@ -48,23 +56,19 @@ int main()
 			ImGui::SFML::ProcessEvent(event);
 
             if (event.type == sf::Event::Closed)
-                window.close();
-
-			if (event.type == sf::Event::MouseButtonPressed)
-			{				
-				transformEnabled = !transformEnabled;
-			}
+                window.close();			
         }
 
 		ImGui::SFML::Update(window, deltaClock.restart());
 
-		//drawToolsWindow(window);
-
+		drawMaterialTools(window);
+		showInfoOverlay();
 		ImGui::ShowDemoWindow();
+		//ImGui::ShowMetricsWindow();
 
         window.clear();  
 		
-		if (transformEnabled)
+		if (rotateSceneEnabled)
 		{
 			yRot += 0.05;
 			if (yRot > PI * 2.0) yRot = 0.0;
@@ -132,11 +136,14 @@ void buildScene(const int width, const int height, const double yRot)
 
 		RayTracer::Sphere* sphere = new RayTracer::Sphere();
 		sphere->setTransform(RayTracer::translation(0.0, 1.0, 0.0));
-		sphere->material.color = RayTracer::rgb(168, 137, 201);
-		sphere->material.specular = 0.3;
-		sphere->material.shininess = 50.0;
-		sphere->material.diffuse = 0.9;
-		sphere->material.ambient = 0.1;
+		sphere->material.color = RayTracer::Color(materialColor.x, materialColor.y, materialColor.z);
+		sphere->material.ambient = materialAmbient;
+		sphere->material.diffuse = materialDiffuse;
+		sphere->material.specular = materialSpecular;
+		sphere->material.shininess = materialShininess;
+		sphere->material.reflective = materialReflective;
+		sphere->material.transparency = materialTransparency;
+		sphere->material.refractiveIndex = materialRefractiveIndex;
 		scene.addShape(sphere);
 
 		RayTracer::Sphere* glassSphere = new RayTracer::Sphere();
@@ -179,18 +186,72 @@ void buildScene(const int width, const int height, const double yRot)
 	//std::cout << "\n scene is built\t" << durationCount << "ms";
 }
 
-void drawToolsWindow(sf::RenderWindow& window)
+void drawMaterialTools(sf::RenderWindow& window)
 {
-	ImGui::Begin("Sample window"); // begin window
+	ImGuiIO& io = ImGui::GetIO();
+	io.FontGlobalScale = 2.5f;
+	bool p_open = true;
 
-	// Window title text edit
-	ImGui::InputText("Window title", windowTitle, 255);
-
-	if (ImGui::Button("Update window title")) {
-		// this code gets if user clicks on the button
-		// yes, you could have written if(ImGui::InputText(...))
-		// but I do this to show how buttons work :)
-		window.setTitle(windowTitle);
+	ImGui::Begin("Material Window", &p_open, ImGuiWindowFlags_AlwaysAutoResize);
+	
+	if (ImGui::Button("Rotate Scene")) {
+		rotateSceneEnabled = !rotateSceneEnabled;
 	}
-	ImGui::End(); // end window
+
+	ImGuiColorEditFlags misc_flags = 0;	
+	ImGui::ColorEdit3("Color", (float*)&materialColor, misc_flags);
+
+	static ImGuiSliderFlags flags = ImGuiSliderFlags_None;
+	ImGui::SliderFloat("Ambient", &materialAmbient, 0.0f, 1.0f, "%.3f", flags);
+	ImGui::SliderFloat("Diffuse", &materialDiffuse, 0.0f, 1.0f, "%.3f", flags);
+	ImGui::SliderFloat("Specular", &materialSpecular, 0.0f, 1.0f, "%.3f", flags);
+	ImGui::SliderInt("Shininess", &materialShininess, 10, 350, "%d", flags);
+	ImGui::SliderFloat("Reflective", &materialReflective, 0.0f, 1.0f, "%.3f", flags);
+	ImGui::SliderFloat("Transparency", &materialTransparency, 0.0f, 1.0f, "%.3f", flags);
+	ImGui::SliderFloat("Refractive Index", &materialRefractiveIndex, 1.0f, 2.5f, "%.3f", flags);
+
+	ImGui::End();
+}
+
+void showInfoOverlay()
+{
+	bool p_open = true;
+	static int corner = 1;
+	ImGuiIO& io = ImGui::GetIO();
+	ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+	if (corner != -1)
+	{
+		const float PAD = 10.0f;
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_pos = viewport->WorkPos; // Use work area to avoid menu-bar/task-bar, if any!
+		ImVec2 work_size = viewport->WorkSize;
+		ImVec2 window_pos, window_pos_pivot;
+		window_pos.x = (corner & 1) ? (work_pos.x + work_size.x - PAD) : (work_pos.x + PAD);
+		window_pos.y = (corner & 2) ? (work_pos.y + work_size.y - PAD) : (work_pos.y + PAD);
+		window_pos_pivot.x = (corner & 1) ? 1.0f : 0.0f;
+		window_pos_pivot.y = (corner & 2) ? 1.0f : 0.0f;
+		ImGui::SetNextWindowPos(window_pos, ImGuiCond_Always, window_pos_pivot);
+		window_flags |= ImGuiWindowFlags_NoMove;
+	}
+	ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+	if (ImGui::Begin("Info Overlay", &p_open, window_flags))
+	{		
+		ImGui::Text("Average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+		ImGui::Separator();
+		if (ImGui::IsMousePosValid())
+			ImGui::Text("Mouse Position: (%.1f,%.1f)", io.MousePos.x, io.MousePos.y);
+		else
+			ImGui::Text("Mouse Position: <invalid>");
+		if (ImGui::BeginPopupContextWindow())
+		{
+			if (ImGui::MenuItem("Custom", NULL, corner == -1)) corner = -1;
+			if (ImGui::MenuItem("Top-left", NULL, corner == 0)) corner = 0;
+			if (ImGui::MenuItem("Top-right", NULL, corner == 1)) corner = 1;
+			if (ImGui::MenuItem("Bottom-left", NULL, corner == 2)) corner = 2;
+			if (ImGui::MenuItem("Bottom-right", NULL, corner == 3)) corner = 3;
+			if (p_open && ImGui::MenuItem("Close")) p_open = false;
+			ImGui::EndPopup();
+		}
+	}
+	ImGui::End();	
 }
