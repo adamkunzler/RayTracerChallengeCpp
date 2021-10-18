@@ -10,6 +10,7 @@
 //https://eliasdaler.github.io/using-imgui-with-sfml-pt1/
 
 void buildScene(const int width, const int height, const double yRot);
+void buildScene2(const int width, const int height, const double yRot);
 void drawMaterialTools(sf::RenderWindow& window);
 void showInfoOverlay();
 
@@ -29,14 +30,29 @@ int main()
 {
 	std::cout << "\n----------------- Ray Tracer Material Editor -----------------\n";
 
-	const int width = 512;
-	const int height = 512;
-	const float scale = 3.0f;
+	bool isScene1 = true;
+
+	// for scene 1
+	int width = 512;
+	int height = 512;
+	float scale = 2.0f;
+
+	if (!isScene1)
+	{
+		// for scene 2
+		width = 128;
+		height = 128;
+		scale = 6.0f;
+	}
 
 	double yRot = 0.01;
 		
 	pixels = std::unique_ptr< sf::Uint8[] >(new sf::Uint8[width * height * 4]);
-	buildScene(width, height, yRot);
+	
+	if(isScene1)
+		buildScene(width, height, yRot);
+	else
+		buildScene2(width, height, yRot);
 
 	sf::Texture texture;
 	texture.create(width, height);	
@@ -63,7 +79,7 @@ int main()
 
 		drawMaterialTools(window);
 		showInfoOverlay();
-		ImGui::ShowDemoWindow();
+		//ImGui::ShowDemoWindow();
 		//ImGui::ShowMetricsWindow();
 
         window.clear();  
@@ -74,7 +90,11 @@ int main()
 			if (yRot > PI * 2.0) yRot = 0.0;
 		}
 
-		buildScene(width, height, yRot);
+		if (isScene1)
+			buildScene(width, height, yRot);
+		else
+			buildScene2(width, height, yRot);
+
 		texture.update(pixels.get());
 		window.draw(sprite);
         
@@ -125,6 +145,13 @@ void buildScene(const int width, const int height, const double yRot)
 		floor->material.pattern = floorPattern;
 		floor->material.ambient = 0.1f;
 		scene.addShape(floor);
+
+		RayTracer::Plane* ceiling = new RayTracer::Plane();
+		ceiling->setTransform(RayTracer::translation(0.0, 11.0, 0.0) * RayTracer::xRotation4x4(-PI));
+		RayTracer::CheckerPattern* ceilingPattern = new RayTracer::CheckerPattern(checkerColor1, checkerColor2);
+		ceiling->material.pattern = ceilingPattern;
+		ceiling->material.ambient = 0.1f;
+		scene.addShape(ceiling);
 
 		RayTracer::Plane* backWall = new RayTracer::Plane();
 		backWall->material.color = checkerColor2;
@@ -254,4 +281,196 @@ void showInfoOverlay()
 		}
 	}
 	ImGui::End();	
+}
+
+void buildScene2(const int width, const int height, const double yRot)
+{
+	auto start = std::chrono::high_resolution_clock::now();
+
+	RayTracer::SceneConfig config;
+
+	// dimensions and fov
+	config.width = width;
+	config.height = height;
+	config.fov = 1.152f;
+
+	// camera
+	config.from = RayTracer::Point4(-2.6f, 1.5f, -3.9f) * RayTracer::yRotation4x4(yRot);
+	config.to = RayTracer::Point4(-0.6f, 1.0, -0.8f);
+	config.up = RayTracer::Vector4(0.0, 1.0, 0.0);
+
+	RayTracer::Scene scene(config);
+
+	// add the lights
+	scene.addLight(RayTracer::PointLight(
+		RayTracer::Point4(-4.9f, 4.9f, -1.0),
+		RayTracer::Color(1.0)
+	));
+
+	// add the shapes
+	{
+		//
+		// floors, ceiling, and walls
+		//
+		RayTracer::Plane* floor = new RayTracer::Plane();
+		floor->setTransform(RayTracer::yRotation4x4(0.31415f));
+		RayTracer::CheckerPattern* floorPattern = new RayTracer::CheckerPattern(RayTracer::Color(0.35f, 0.35f, 0.35f), RayTracer::Color(0.65f, 0.65f, 0.65f));
+		floor->material.pattern = floorPattern;
+		floor->material.specular = 0.0;
+		floor->material.reflective = 0.4f;
+		scene.addShape(floor);
+
+		RayTracer::Plane* westWall = new RayTracer::Plane();
+		westWall->setTransform(RayTracer::translation(-5, 0, 0)
+			* RayTracer::zRotation4x4(1.5708f)
+			* RayTracer::yRotation4x4(1.5708f));
+		RayTracer::StripePattern* stripePatternWW = new RayTracer::StripePattern(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
+		stripePatternWW->setTransform(RayTracer::yRotation4x4(-1.5708f)
+			* RayTracer::scaling(0.25f, 0.25f, 0.25f));
+		westWall->material.pattern = stripePatternWW;
+		westWall->material.ambient = 0;
+		westWall->material.diffuse = 0.4f;
+		westWall->material.specular = 0;
+		westWall->material.reflective = 0.3f;
+		scene.addShape(westWall);
+
+		RayTracer::Plane* eastWall = new RayTracer::Plane();
+		eastWall->setTransform(RayTracer::translation(5, 0, 0)
+			* RayTracer::zRotation4x4(1.5708f)
+			* RayTracer::yRotation4x4(1.5708f));
+		RayTracer::StripePattern* stripePatternEW = new RayTracer::StripePattern(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
+		stripePatternEW->setTransform(RayTracer::yRotation4x4(1.5708f)
+			* RayTracer::scaling(0.25f, 0.25f, 0.25f));
+		eastWall->material.pattern = stripePatternEW;
+		eastWall->material.ambient = 0;
+		eastWall->material.diffuse = 0.4f;
+		eastWall->material.specular = 0;
+		eastWall->material.reflective = 0.3f;
+		scene.addShape(eastWall);
+
+		RayTracer::Plane* northWall = new RayTracer::Plane();
+		northWall->setTransform(RayTracer::translation(0, 0, 5)
+			* RayTracer::xRotation4x4(-1.5708f));
+		RayTracer::StripePattern* stripePatternNW = new RayTracer::StripePattern(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
+		stripePatternNW->setTransform(RayTracer::yRotation4x4(1.5708f)
+			* RayTracer::scaling(0.25f, 0.25f, 0.25f));
+		northWall->material.pattern = stripePatternNW;
+		northWall->material.ambient = 0;
+		northWall->material.diffuse = 0.4f;
+		northWall->material.specular = 0;
+		northWall->material.reflective = 0.3f;
+		scene.addShape(northWall);
+
+		RayTracer::Plane* southWall = new RayTracer::Plane();
+		southWall->setTransform(RayTracer::translation(0, 0, -5)
+			* RayTracer::xRotation4x4(1.5708f));
+		RayTracer::StripePattern* stripePatternSW = new RayTracer::StripePattern(RayTracer::Color(0.45f, 0.45f, 0.45f), RayTracer::Color(0.55f, 0.55f, 0.55f));
+		stripePatternSW->setTransform(RayTracer::yRotation4x4(1.5708f)
+			* RayTracer::scaling(0.25f, 0.25f, 0.25f));
+		southWall->material.pattern = stripePatternSW;
+		southWall->material.ambient = 0;
+		southWall->material.diffuse = 0.4f;
+		southWall->material.specular = 0;
+		southWall->material.reflective = 0.3f;
+		scene.addShape(southWall);
+
+		//
+		// Big Red Ball
+		//
+		RayTracer::Sphere* redSphere = new RayTracer::Sphere();
+		redSphere->setTransform(RayTracer::translation(-0.6f, 1.0, 0.6f));
+		redSphere->material.color = RayTracer::Color(1.0, 0.3f, 0.2f);
+		redSphere->material.specular = 0.4f;
+		redSphere->material.shininess = 5;
+		scene.addShape(redSphere);
+
+		//
+		// Glass Marbles
+		// 
+
+		RayTracer::Sphere* blueMarble = new RayTracer::Sphere();
+		blueMarble->setTransform(RayTracer::translation(0.6f, 0.7f, -0.6f)
+			* RayTracer::scaling(0.7f, 0.7f, 0.7f));
+		blueMarble->material.color = RayTracer::Color(0, 0, 0.2f);
+		blueMarble->material.ambient = 0.0;
+		blueMarble->material.diffuse = 0.4f;
+		blueMarble->material.specular = 0.9f;
+		blueMarble->material.shininess = 300;
+		blueMarble->material.reflective = 0.4f;
+		blueMarble->material.transparency = 0.9f;
+		blueMarble->material.refractiveIndex = 1.5f;
+		scene.addShape(blueMarble);
+
+		RayTracer::Sphere* greenMarble = new RayTracer::Sphere();
+		greenMarble->setTransform(RayTracer::translation(-0.7f, 0.5f, -0.8f)
+			* RayTracer::scaling(0.5f, 0.5f, 0.5f));
+		greenMarble->material.color = RayTracer::Color(0, 0.2f, 0);
+		greenMarble->material.ambient = 0.0;
+		greenMarble->material.diffuse = 0.4f;
+		greenMarble->material.specular = 0.9f;
+		greenMarble->material.shininess = 300;
+		greenMarble->material.reflective = 0.9f;
+		greenMarble->material.transparency = 0.9f;
+		greenMarble->material.refractiveIndex = 1.5f;
+		scene.addShape(greenMarble);
+
+		//
+		// Background balls
+		//
+		RayTracer::Sphere* s1 = new RayTracer::Sphere();
+		s1->setTransform(RayTracer::translation(4.6f, 0.4f, 1)
+			* RayTracer::scaling(0.4f, 0.4f, 0.4f));
+		s1->material.color = RayTracer::Color(0.8f, 0.5f, 0.3f);
+		s1->material.shininess = 50;
+		scene.addShape(s1);
+
+		RayTracer::Sphere* s2 = new RayTracer::Sphere();
+		s2->setTransform(RayTracer::translation(4.7f, 0.3f, 0.4f)
+			* RayTracer::scaling(0.3f, 0.3f, 0.3f));
+		s2->material.color = RayTracer::Color(0.9f, 0.4f, 0.5f);
+		s2->material.shininess = 50;
+		scene.addShape(s2);
+
+		RayTracer::Sphere* s3 = new RayTracer::Sphere();
+		s3->setTransform(RayTracer::translation(-1.0, 0.5f, 4.5f)
+			* RayTracer::scaling(0.5f, 0.5f, 0.5f));
+		s3->material.color = RayTracer::Color(0.4f, 0.9f, 0.6f);
+		s3->material.shininess = 50;
+		scene.addShape(s3);
+
+		RayTracer::Sphere* s4 = new RayTracer::Sphere();
+		s4->setTransform(RayTracer::translation(-1.7f, 0.3f, 4.7f)
+			* RayTracer::scaling(0.3f, 0.3f, 0.3f));
+		s4->material.color = RayTracer::Color(0.4f, 0.6f, 0.9f);
+		s4->material.shininess = 50;
+		scene.addShape(s4);
+	}
+	
+	// render the scene
+	std::vector<RayTracer::Color> rtPixels;
+	rtPixels.reserve(config.width* config.height);
+	scene.render(rtPixels);
+
+	//scene.renderToPPM("../_images/godDamn");
+
+	// convert scene to array of sf:Uint8		
+	unsigned int i = 0;
+	for (auto& pixel : rtPixels)
+	{
+		int r = std::clamp((int)(pixel.r * 256.0), 0, 255);
+		int g = std::clamp((int)(pixel.g * 256.0), 0, 255);
+		int b = std::clamp((int)(pixel.b * 256.0), 0, 255);
+		sf::Color c(r, g, b);
+
+		pixels[i] = c.r;
+		pixels[i + 1] = c.g;
+		pixels[i + 2] = c.b;
+		pixels[i + 3] = 255;
+		i += 4;
+	}
+
+	auto stop = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+	long long durationCount = duration.count();
+	//std::cout << "\n scene is built\t" << durationCount << "ms";
 }

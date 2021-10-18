@@ -6,6 +6,7 @@ const double sqrt2 = sqrt(2.0);
 const double sqrt2over2 = sqrt(2.0) / 2.0;
 const double PI = 3.14159265358979323846264338327950288419716939937510; // 50 digits
 const int MAX_RECURSION = 5;
+const int MAX_SAMPLES = 32;
 
 bool feq(const double& a, const double& b)
 {

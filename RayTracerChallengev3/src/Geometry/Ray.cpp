@@ -17,4 +17,11 @@ namespace RayTracer
 			direction * matrix
 		);
 	}
+
+	// ostream
+	std::ostream& operator<<(std::ostream& os, const RayTracer::Ray& r)
+	{
+		os << "origin (" << r.origin.x << ", " << r.origin.y << ", " << r.origin.z << ")\tdirection: " << r.direction.x << ", " << r.direction.y << ", " << r.direction.z << ")";
+		return os;
+	}
 }

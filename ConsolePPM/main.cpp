@@ -22,10 +22,54 @@ int main()
 	//spheres(2);
 	//cubes(2);	
 	//cubeOfSpheres(4);
-	simpleGroup();
+	//simpleGroup();
 	//scatteredMarbles(10, 500);
-	//utahTeapot(1);
+	utahTeapot(4);
 	//dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
+
+	//
+	// ANTI-ALIASING / SAMPLING POC
+	// 
+	
+	//int height = 1;
+	//int width = 5;
+	//int numSamples = 9;
+
+	//RayTracer::Point4 from(0.0, 1.75, -2.75);
+	//RayTracer::Point4 to(0.0, 1.0, 0.0);
+	//RayTracer::Vector4 up(0.0, 1.0, 0.0);
+
+	//RayTracer::Camera camera(width, height, PI / 2.7);
+	//camera.setTransform(viewTransform(from, to, up));
+	//
+	//std::mt19937_64 rng;
+	//
+	//// initialize the random number generator with time-dependent seed
+	//uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+	//std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
+	//rng.seed(ss);
+	//
+	//// initialize a uniform distribution between 0 and 1
+	//std::uniform_real_distribution<double> unif(0, 1);
+
+	//for (int y = 0; y < height; y++)
+	//{
+	//	for (int x = 0; x < width; x++)
+	//	{	
+	//		std::cout << "\n x: " << x << "   y: " << y;
+	//		for (int i = 0; i < numSamples; i++)
+	//		{
+	//			double sx = x + unif(rng);
+	//			double sy = y + unif(rng);
+	//		
+	//			Ray r = camera.rayForPixel(sx, sy);
+	//			std::cout << "\n     sx: " << sx << "   sy: " << sy << "\t ray: " << r.direction;
+	//		}						
+	//	}
+	//}
+
+
+
 
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
@@ -456,8 +500,8 @@ void simpleGroup()
 	RayTracer::SceneConfig config;
 
 	// dimensions and fov
-	config.width = 800;
-	config.height = 600;
+	config.width = 512;
+	config.height = 512;
 	config.fov = PI / 2.7;
 
 	// camera
@@ -502,7 +546,7 @@ void simpleGroup()
 		scene.addShape(sphere);
 	}
 
-	scene.renderToPPM("../_images/sfmlScene");
+	scene.renderToPPM("../_images/sampling");
 }
 
 // -----------------------------------------------------------------------
@@ -619,7 +663,8 @@ void utahTeapot(double sizeScale)
 		floor->material.reflective = 0.5;
 		scene.addShape(floor);
 
-		ObjParser parser(false);
+		bool isSmooth = false;
+		ObjParser parser(isSmooth);
 		ObjParseResult result = parser.parse("../_3d Models/teapot.obj");
 		//ObjParseResult result = parser.parse("assets/obj/teapot-low.obj");
 
@@ -632,7 +677,7 @@ void utahTeapot(double sizeScale)
 		result.defaultGroup->setMaterial(*m);
 	}
 
-	scene.renderToPPM("../_images/utahTeapot_high");
+	scene.renderToPPM("../_images/utahTeapot_high_sampled");
 	//scene.renderToPPM("utahTeapot_low");
 }
 

@@ -21,7 +21,7 @@ namespace RayTracer
 
 		void setTransform(const Matrix4x4& lTransform);
 
-		Ray rayForPixel(int x, int y) const;
+		Ray rayForPixel(const double& x, const double& y) const;
 	};
 
 	Matrix4x4 viewTransform(const Vector4& from, const Vector4& to, const Vector4& up);

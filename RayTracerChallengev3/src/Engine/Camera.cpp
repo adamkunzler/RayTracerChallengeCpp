@@ -34,7 +34,7 @@ namespace RayTracer
 		inverseTransform = inverse(transform);
 	}
 
-	Ray Camera::rayForPixel(int x, int y) const
+	Ray Camera::rayForPixel(const double& x, const double& y) const
 	{
 		double xOffset = (x + 0.5) * pixelSize;
 		double yOffset = (y + 0.5) * pixelSize;

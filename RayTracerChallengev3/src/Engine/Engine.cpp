@@ -78,16 +78,34 @@ namespace RayTracer
 		std::vector<std::shared_ptr<Intersection>> intersections{};
 		intersections.reserve(1000);
 
+		// setup uniform distributed random number generator
+		std::mt19937_64 rng;		
+		uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count(); // initialize the random number generator with time-dependent seed
+		std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
+		rng.seed(ss);		
+		std::uniform_real_distribution<double> unif(0, 2); // initialize a uniform distribution between 0 and 1
+
 		int height = endY - startY;
 		for (int y = 0; y < height; y++)
 		{
 			for (int x = 0; x < width; x++)
 			{
 				int yy = startY + y;
-				Ray r = camera.rayForPixel(x, yy);
-				Color c = world.colorAt(r, MAX_RECURSION, intersections);
+								
+				Color c;
+				for (int i = 0; i < MAX_SAMPLES; i++)
+				{
+					double sx = x + (unif(rng) - 1.0);
+					double sy = yy + (unif(rng) - 1.0);
+
+					Ray r = camera.rayForPixel(sx, sy);									
+					c += world.colorAt(r, MAX_RECURSION, intersections);
+				}
+
+				c /= MAX_SAMPLES;
+
 				data[x + y * width] = c;
-				
+
 				intersections.clear();
 
 				processedPixelsCount++;

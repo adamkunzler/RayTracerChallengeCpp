@@ -14,4 +14,6 @@ namespace RayTracer
 		
 		Ray transform(const Matrix4x4& matrix) const;
 	};
+
+	std::ostream& operator<<(std::ostream& os, const RayTracer::Ray& r);
 }
