@@ -13,6 +13,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFML_MaterialEditor", "..\S
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DummyConsole", "..\DummyConsole\DummyConsole.vcxproj", "{7398967F-ABAF-47BB-A561-628690345D95}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SFML_Scene", "..\SFML_Scene\SFML_Scene.vcxproj", "{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -60,6 +62,14 @@ Global
 		{7398967F-ABAF-47BB-A561-628690345D95}.Release|x64.Build.0 = Release|x64
 		{7398967F-ABAF-47BB-A561-628690345D95}.Release|x86.ActiveCfg = Release|Win32
 		{7398967F-ABAF-47BB-A561-628690345D95}.Release|x86.Build.0 = Release|Win32
+		{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}.Debug|x64.ActiveCfg = Debug|x64
+		{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}.Debug|x64.Build.0 = Debug|x64
+		{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}.Debug|x86.ActiveCfg = Debug|Win32
+		{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}.Debug|x86.Build.0 = Debug|Win32
+		{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}.Release|x64.ActiveCfg = Release|x64
+		{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}.Release|x64.Build.0 = Release|x64
+		{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}.Release|x86.ActiveCfg = Release|Win32
+		{62A3F629-C2A0-481E-8DBA-8A5E3D1CE3CD}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

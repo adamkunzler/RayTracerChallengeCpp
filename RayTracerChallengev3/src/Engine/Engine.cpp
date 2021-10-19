@@ -83,7 +83,7 @@ namespace RayTracer
 		uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count(); // initialize the random number generator with time-dependent seed
 		std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
 		rng.seed(ss);		
-		std::uniform_real_distribution<double> unif(0, 2); // initialize a uniform distribution between 0 and 1
+		std::uniform_real_distribution<double> unif(0, 1); // initialize a uniform distribution between 0 and 1
 
 		int height = endY - startY;
 		for (int y = 0; y < height; y++)
@@ -95,8 +95,8 @@ namespace RayTracer
 				Color c;
 				for (int i = 0; i < MAX_SAMPLES; i++)
 				{
-					double sx = x + (unif(rng) - 1.0);
-					double sy = yy + (unif(rng) - 1.0);
+					double sx = x + (unif(rng));
+					double sy = yy + (unif(rng));
 
 					Ray r = camera.rayForPixel(sx, sy);									
 					c += world.colorAt(r, MAX_RECURSION, intersections);
