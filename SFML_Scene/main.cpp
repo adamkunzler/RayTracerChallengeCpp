@@ -95,10 +95,12 @@ void buildScene(const int width, const int height)
 	//scene.camera->setTransform();
 
 	// add the lights
-	scene.addLight(RayTracer::PointLight(
+	RayTracer::PointLight* light = new RayTracer::PointLight(
 		RayTracer::Point4(-1.0, 2.0, 4.0),
 		RayTracer::Color(1.0)
-	));
+	);
+
+	scene.addLight(light);
 
 	// corner (-1, 2, 4)
 	// uvec (2, 0, 0)

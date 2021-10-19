@@ -13,7 +13,7 @@ namespace RayTracer
 
 		~Scene();
 
-		void addLight(const PointLight& light) const;
+		void addLight(ILight* light) const;
 
 		void addShape(IShape* shape) const;
 

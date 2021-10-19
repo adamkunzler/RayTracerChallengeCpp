@@ -5,7 +5,7 @@ namespace RayTracer
 	struct World
 	{	
 		std::vector<IShape*> objects;
-		std::vector<PointLight> lights; // TODO ILight interface to support different types of lights
+		std::vector<ILight*> lights;
 
 		World();
 		~World();
@@ -23,8 +23,8 @@ namespace RayTracer
 		Color refractedColor(const Computation& comps, const int remaining) const;
 
 		double schlick(const Computation& comps) const;
-
-		bool isShadowed(const PointLight& light, const Vector4& p) const;
+		
+		bool isShadowed(const Point4& lightPosition, const Vector4& p) const;
 	};	
 	
 }

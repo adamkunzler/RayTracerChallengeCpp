@@ -33,6 +33,7 @@
 #include "../src/Patterns/GradientPattern.h"
 #include "../src/Patterns/RingPattern.h"
 
+#include "../src/Geometry/ILight.h"
 #include "../src/Geometry/PointLight.h"
 #include "../src/Geometry/Intersection.h"
 #include "../src/Geometry/Ray.h"

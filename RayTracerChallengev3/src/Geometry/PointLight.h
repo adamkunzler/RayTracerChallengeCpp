@@ -2,11 +2,11 @@
 
 namespace RayTracer
 {			
-	struct PointLight
-	{	
-		Point4 position;
-		Color intensity;
-			
-		PointLight(const Point4& lPosition, const Color& lIntensity) : position(lPosition), intensity(lIntensity) { }
+	struct PointLight : public ILight
+	{			
+					
+		PointLight(const Point4& lPosition, const Color& lIntensity) : ILight(lPosition, lIntensity) { }		
+
+		double intensityAt(const Point4& point, const World& world) const;
 	};
 }

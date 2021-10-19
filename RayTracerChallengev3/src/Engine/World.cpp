@@ -102,9 +102,9 @@ namespace RayTracer
 	Color World::shadeHit(const Computation& c, const int remaining, std::vector<std::shared_ptr<Intersection>>& intersections) const
 	{
 		Color finalColor;
-		for (std::vector<PointLight>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
+		for (std::vector<ILight*>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
 		{
-			bool isInShadow = isShadowed(*iter, c.overPoint);
+			bool isInShadow = isShadowed((*iter)->position, c.overPoint);
 			
 			Color surface = phong(*iter, c.object->material, *c.object, c.farOverPoint, c.eyeV, c.normalV, isInShadow);
 			Color reflected = reflectedColor(c, remaining);
@@ -214,23 +214,20 @@ namespace RayTracer
 		double oneMinusCosPower5 = (1.0 - cos) * (1.0 - cos) * (1.0 - cos) * (1.0 - cos) * (1.0 - cos);
 		return r0 + ((1.0 - r0) * oneMinusCosPower5);
 	}
-
-	bool World::isShadowed(const PointLight& light, const Vector4& p) const
+	
+	bool World::isShadowed(const Point4& lightPosition, const Vector4& p) const
 	{
-		Vector4 v = light.position - p;
+		Vector4 v = lightPosition - p;
 		double distance = magnitude(v);
 		Vector4 direction = normalize(v);
 
 		Ray r(p, direction);
 		std::vector<std::shared_ptr<Intersection>> intersections{};
 		intersectBy(r, intersections);
-		
+
 		std::shared_ptr<Intersection> hitXs = hit(intersections);
 		bool result = false;
 		if (!hitXs->isNull() && hitXs->object->hasShadow && hitXs->t < distance) result = true;
-		
-		//for (auto p : intersections) delete p;
-		//intersections.clear();
 		
 		return result;
 	}

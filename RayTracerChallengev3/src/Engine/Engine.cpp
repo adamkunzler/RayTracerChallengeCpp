@@ -9,7 +9,7 @@ namespace RayTracer
 {		
 	struct IPattern;
 	
-	Color phong(const PointLight& light, const Material& m, const IShape& shape, const Vector4& p, const Vector4& eye, const Vector4& normalV, bool inShadow)
+	Color phong(const ILight* light, const Material& m, const IShape& shape, const Vector4& p, const Vector4& eye, const Vector4& normalV, bool inShadow)
 	{
 		Color ambient;
 		Color diffuse;
@@ -23,10 +23,10 @@ namespace RayTracer
 		}
 
 		// combine surface color with lights color/intensity
-		Color effectiveColor = light.intensity * baseColor;
+		Color effectiveColor = light->intensity * baseColor;
 
 		// find the direction to the light source
-		Vector4 lightV = normalize(light.position - p);
+		Vector4 lightV = normalize(light->position - p);
 
 		// compute the ambient contriubtion
 		ambient = effectiveColor * m.ambient;
@@ -64,7 +64,7 @@ namespace RayTracer
 			{
 				// compute specular contribution
 				double factor = std::pow(reflectDotEye, m.shininess);
-				specular = light.intensity * (m.specular * factor);
+				specular = light->intensity * (m.specular * factor);
 			}
 		}
 		

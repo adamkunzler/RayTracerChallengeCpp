@@ -111,6 +111,9 @@
     <ClCompile Include="src\DataStructs\BoundingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Geometry\ILight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DataStructs\Vector4.h">
@@ -204,6 +207,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\DataStructs\BoundingBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Geometry\ILight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

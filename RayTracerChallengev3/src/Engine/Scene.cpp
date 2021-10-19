@@ -18,7 +18,7 @@ namespace RayTracer
 		delete camera;
 	}
 
-	void Scene::addLight(const PointLight& light) const
+	void Scene::addLight(ILight* light) const
 	{
 		world->lights.push_back(light);
 	}
