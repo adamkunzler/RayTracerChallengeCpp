@@ -18,8 +18,8 @@ long long renderTimeMs = 0;
 
 int main()
 {		
-	int width = 800;
-	int height = 320;
+	int width = 512;
+	int height = 512;
 	float scale = 2.0f;
 			
 	pixels = std::unique_ptr< sf::Uint8[] >(new sf::Uint8[width * height * 4]);
@@ -86,8 +86,8 @@ void buildScene(const int width, const int height)
 	config.fov = 0.7854;
 
 	// camera
-	config.from = RayTracer::Point4(-3.0, 1.0, 2.5);
-	config.to = RayTracer::Point4(0.0, 0.5, 0.0);
+	config.from = RayTracer::Point4(1.0, 1.0, -3.0);
+	config.to = RayTracer::Point4(1.0, 0.5, 0.0);
 	config.up = RayTracer::Vector4(0.0, 1.0, 0.0);
 
 	RayTracer::Scene scene(config);	
@@ -95,10 +95,17 @@ void buildScene(const int width, const int height)
 	//scene.camera->setTransform();
 
 	// add the lights
-	RayTracer::PointLight* light = new RayTracer::PointLight(
-		RayTracer::Point4(-1.0, 2.0, 4.0),
+	/*RayTracer::PointLight* pointLight = new RayTracer::PointLight(
+		RayTracer::Point4(-2.0, 2.0, -3.0),
 		RayTracer::Color(1.0)
 	);
+	scene.addLight(pointLight);*/
+	
+	RayTracer::AreaLight* light = new RayTracer::AreaLight(
+		RayTracer::Point4(-3, 1, -1.0),
+		RayTracer::Vector4(2, 0, 0), 2,
+		RayTracer::Vector4(0, 2, 0), 2,
+		RayTracer::Color(1.5, 1.5, 1.5));
 
 	scene.addLight(light);
 
@@ -110,6 +117,7 @@ void buildScene(const int width, const int height)
 	// jitter true
 	// intensity (1.5, 1.5, 1.5)
 
+	/*
 	{
 		RayTracer::Cube* theLight = new RayTracer::Cube();
 		theLight->material.color = RayTracer::Color(1.5, 1.5, 1.5);
@@ -143,7 +151,27 @@ void buildScene(const int width, const int height)
 		smallSphere->material.reflective = 0.3;
 		smallSphere->material.specular = 0;
 		smallSphere->setTransform(RayTracer::translation(-0.25, 0.33, 0) * RayTracer::scaling(0.33, 0.33, 0.33));
+		//smallSphere->hasShadow = false;
 		scene.addShape(smallSphere);
+	}
+	*/
+
+	{
+		RayTracer::Plane* floor = new RayTracer::Plane();
+		floor->material.color = RayTracer::Color(1, 1, 1);
+		floor->material.ambient = 0.025;
+		floor->material.diffuse = 0.67;
+		floor->material.specular = 0;
+		scene.addShape(floor);
+
+		RayTracer::Sphere* bigSphere = new RayTracer::Sphere();
+		bigSphere->material.color = RayTracer::Color(0.2, 0, 0.9);
+		bigSphere->material.ambient = 0.1;
+		bigSphere->material.diffuse = 0.8;
+		bigSphere->material.reflective = 0.1;
+		bigSphere->material.specular = 0.1;
+		bigSphere->setTransform(RayTracer::translation(0, 0.5, 0) * RayTracer::scaling(0.5, 0.5, 0.5));		
+		scene.addShape(bigSphere);
 	}
 
 	// render the scene

@@ -114,6 +114,9 @@
     <ClCompile Include="src\Geometry\ILight.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Geometry\AreaLight.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\DataStructs\Vector4.h">
@@ -210,6 +213,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Geometry\ILight.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Geometry\AreaLight.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

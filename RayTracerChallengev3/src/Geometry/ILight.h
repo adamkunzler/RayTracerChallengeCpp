@@ -7,8 +7,11 @@ namespace RayTracer
 	struct ILight
 	{
 		Point4 position;
-		Color intensity;
 		
+		// represent color and strength of the light
+		Color intensity; 
+		
+		ILight() {}
 		ILight(const Point4& lPosition, const Color& lIntensity) : position(lPosition), intensity(lIntensity) {}
 		virtual ~ILight() {}
 				

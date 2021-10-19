@@ -27,5 +27,6 @@ namespace RayTracer
 		bool isShadowed(const Point4& lightPosition, const Vector4& p) const;
 	};	
 	
+	World defaultWorld();
 }
 

@@ -35,6 +35,7 @@
 
 #include "../src/Geometry/ILight.h"
 #include "../src/Geometry/PointLight.h"
+#include "../src/Geometry/AreaLight.h"
 #include "../src/Geometry/Intersection.h"
 #include "../src/Geometry/Ray.h"
 #include "../src/Geometry/Material.h"

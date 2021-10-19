@@ -162,6 +162,7 @@
     <ClCompile Include="src\Engine\Scene.cpp" />
     <ClCompile Include="src\Engine\SceneConfig.cpp" />
     <ClCompile Include="src\Engine\World.cpp" />
+    <ClCompile Include="src\Geometry\AreaLight.cpp" />
     <ClCompile Include="src\Geometry\Computation.cpp" />
     <ClCompile Include="src\Geometry\ILight.cpp" />
     <ClCompile Include="src\Geometry\Intersection.cpp" />
@@ -197,6 +198,7 @@
     <ClInclude Include="src\Engine\Scene.h" />
     <ClInclude Include="src\Engine\SceneConfig.h" />
     <ClInclude Include="src\Engine\World.h" />
+    <ClInclude Include="src\Geometry\AreaLight.h" />
     <ClInclude Include="src\Geometry\Computation.h" />
     <ClInclude Include="src\Geometry\ILight.h" />
     <ClInclude Include="src\Geometry\Intersection.h" />

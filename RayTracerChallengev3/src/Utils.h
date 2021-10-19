@@ -7,6 +7,7 @@ extern const double sqrt2over2;
 extern const double PI;
 extern const int MAX_RECURSION;
 extern const int MAX_SAMPLES;
+extern const bool ANTI_ALIASING;
 
 bool feq(const double& a, const double& b);
 

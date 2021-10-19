@@ -6,10 +6,10 @@ std::atomic<int> processedPixelsCount;
 std::atomic<bool> processingDone;
 
 namespace RayTracer
-{		
+{
 	struct IPattern;
-	
-	Color phong(const ILight* light, const Material& m, const IShape& shape, const Vector4& p, const Vector4& eye, const Vector4& normalV, bool inShadow)
+
+	Color phong(const ILight* light, const Material& m, const IShape& shape, const Vector4& p, const Vector4& eye, const Vector4& normalV, double intensity)
 	{
 		Color ambient;
 		Color diffuse;
@@ -22,19 +22,19 @@ namespace RayTracer
 			baseColor = m.pattern->patternAt(shape, p);
 		}
 
-		// combine surface color with lights color/intensity
-		Color effectiveColor = light->intensity * baseColor;
-
-		// find the direction to the light source
-		Vector4 lightV = normalize(light->position - p);
+		// combine surface color with lights color/intensity		
+		Color effectiveColor = baseColor * intensity;
 
 		// compute the ambient contriubtion
 		ambient = effectiveColor * m.ambient;
-		if (inShadow)
+		if (intensity < EPSILON) // intensity == 0 = in shadow
 		{
 			// skip diffuse and specular if in shadow
 			return ambient;
 		}
+
+		// find the direction to the light source
+		Vector4 lightV = normalize(light->position - p);
 
 		// lightDotNormal represents the cosine of the angle betwen
 		// the light vector and the normal vector. A negative number 
@@ -64,25 +64,25 @@ namespace RayTracer
 			{
 				// compute specular contribution
 				double factor = std::pow(reflectDotEye, m.shininess);
-				specular = light->intensity * (m.specular * factor);
+				specular = light->intensity * (m.specular * factor); // TODO ??? just intensity instead of light->intensity
 			}
 		}
-		
+
 		//return diffuse;		
 		return ambient + diffuse + specular;
 	}
 
 	void renderThreadFunc(Camera& camera, World& world, int width, int startY, int endY, Color* data)
 	{
-		std::map<std::string, Matrix4x4&> cacheInverses;		
+		std::map<std::string, Matrix4x4&> cacheInverses;
 		std::vector<std::shared_ptr<Intersection>> intersections{};
 		intersections.reserve(1000);
 
 		// setup uniform distributed random number generator
-		std::mt19937_64 rng;		
+		std::mt19937_64 rng;
 		uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count(); // initialize the random number generator with time-dependent seed
 		std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
-		rng.seed(ss);		
+		rng.seed(ss);
 		std::uniform_real_distribution<double> unif(0, 1); // initialize a uniform distribution between 0 and 1
 
 		int height = endY - startY;
@@ -91,18 +91,29 @@ namespace RayTracer
 			for (int x = 0; x < width; x++)
 			{
 				int yy = startY + y;
-								
-				Color c;
-				for (int i = 0; i < MAX_SAMPLES; i++)
-				{
-					double sx = x + (unif(rng));
-					double sy = yy + (unif(rng));
 
-					Ray r = camera.rayForPixel(sx, sy);									
-					c += world.colorAt(r, MAX_RECURSION, intersections);
+				Color c;
+				if (ANTI_ALIASING)
+				{
+					for (int i = 0; i < MAX_SAMPLES; i++)
+					{
+						double sx = x + (unif(rng));
+						double sy = yy + (unif(rng));
+
+						Ray r = camera.rayForPixel(sx, sy);
+						c += world.colorAt(r, MAX_RECURSION, intersections);
+
+					}
+
+					c /= MAX_SAMPLES;
+				}
+				else
+				{
+					Ray r = camera.rayForPixel(x, yy);
+					c = world.colorAt(r, MAX_RECURSION, intersections);
 				}
 
-				c /= MAX_SAMPLES;
+
 
 				data[x + y * width] = c;
 
@@ -114,7 +125,7 @@ namespace RayTracer
 	}
 
 	void threadProgressBarFunc(int totalPixels, bool progressBarIsVisible)
-	{		
+	{
 		if (!progressBarIsVisible) return;
 
 		while (processedPixelsCount < totalPixels && !processingDone)
@@ -126,9 +137,9 @@ namespace RayTracer
 	}
 
 	std::vector<Color*> renderMultiThread(Camera& camera, World& world, bool progressBarIsVisible, int numThreads)
-	{		
+	{
 		int totalPixels = (int)(camera.hSize * camera.vSize);
-		
+
 		std::vector<std::thread> threads;
 		std::vector<Color*> datas;
 
@@ -136,7 +147,7 @@ namespace RayTracer
 		int yStart = 0;
 		int yStep = (int)camera.vSize / numThreads;
 		for (int i = 0; i < numThreads; i++)
-		{			
+		{
 			Color* data = new Color[(int)camera.hSize * yStep];
 			datas.push_back(data);
 
@@ -144,7 +155,7 @@ namespace RayTracer
 			std::thread t(renderThreadFunc, std::ref(camera), std::ref(world), (int)camera.hSize, yStart, yEnd, data);
 
 			threads.push_back(std::move(t));
-			
+
 			yStart += yStep;
 		}
 
@@ -155,14 +166,14 @@ namespace RayTracer
 		for (std::thread& th : threads)
 		{
 			if (th.joinable())
-			{				
-				th.join();				
+			{
+				th.join();
 			}
 		}
-		
+
 		processingDone = true;
 		progBarThread.join();
-						
+
 		processedPixelsCount = 0;
 		processingDone = false;
 

@@ -24,52 +24,42 @@ int main()
 	//cubeOfSpheres(4);
 	//simpleGroup();
 	//scatteredMarbles(10, 500);
-	utahTeapot(4);
+	//utahTeapot(4);
 	//dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 
-	//
-	// ANTI-ALIASING / SAMPLING POC
-	// 
 	
-	//int height = 1;
-	//int width = 5;
-	//int numSamples = 9;
-
-	//RayTracer::Point4 from(0.0, 1.75, -2.75);
-	//RayTracer::Point4 to(0.0, 1.0, 0.0);
-	//RayTracer::Vector4 up(0.0, 1.0, 0.0);
-
-	//RayTracer::Camera camera(width, height, PI / 2.7);
-	//camera.setTransform(viewTransform(from, to, up));
-	//
-	//std::mt19937_64 rng;
-	//
-	//// initialize the random number generator with time-dependent seed
-	//uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count();
-	//std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
-	//rng.seed(ss);
-	//
-	//// initialize a uniform distribution between 0 and 1
-	//std::uniform_real_distribution<double> unif(0, 1);
-
-	//for (int y = 0; y < height; y++)
-	//{
-	//	for (int x = 0; x < width; x++)
-	//	{	
-	//		std::cout << "\n x: " << x << "   y: " << y;
-	//		for (int i = 0; i < numSamples; i++)
-	//		{
-	//			double sx = x + unif(rng);
-	//			double sy = y + unif(rng);
-	//		
-	//			Ray r = camera.rayForPixel(sx, sy);
-	//			std::cout << "\n     sx: " << sx << "   sy: " << sy << "\t ray: " << r.direction;
-	//		}						
-	//	}
-	//}
+	Point4 corner(-0.5, -0.5, -5);
+	Vector4 v1(1, 0, 0);
+	Vector4 v2(0, 1, 0);
+	AreaLight light(corner, v1, 2, v2, 2, Color(1, 1, 1));
+	
+	Point4 p1(0, 0, 2);
+	Point4 p2(1, -1, 2);
+	Point4 p3(1.5, 0, 2);
+	Point4 p4(1.25, 1.25, 3);
+	Point4 p5(0, 0, -2);
 
 
+	World w;
 
+	PointLight* pl = new PointLight(Point4(-10, 10, -10), Color(1, 1, 1));
+	w.lights.push_back(pl);
+
+	Sphere* s1 = new Sphere();
+	s1->material.color = Color(0.8, 1.0, 0.6);
+	s1->material.diffuse = 0.7;
+	s1->material.specular = 0.2;
+	w.objects.push_back(s1);
+
+	Sphere* s2 = new Sphere();
+	s2->setTransform(scaling(0.5, 0.5, 0.5));
+	w.objects.push_back(s2);
+
+	double i1 = light.intensityAt(p1, w); // 0.0
+	double i2 = light.intensityAt(p2, w); // 0.25
+	double i3 = light.intensityAt(p3, w); // 0.5
+	double i4 = light.intensityAt(p4, w); // 0.75
+	double i5 = light.intensityAt(p5, w); // 1.0
 
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";
@@ -101,10 +91,11 @@ void RayTraceScene_Benchmark(double sizeScale)
 	Scene scene(config);
 
 	// add the lights
-	scene.addLight(PointLight(
+	PointLight* light = new PointLight(
 		Point4(-4.9f, 4.9f, -1.0),
 		Color(1.0)
-	));
+	);
+	scene.addLight(light);
 
 	// add the shapes
 	{
@@ -267,10 +258,11 @@ void spheres(const int sizeScale)
 	Scene scene(config);
 
 	// add the lights
-	scene.addLight(PointLight(
+	PointLight* light = new PointLight(
 		Point4(0.0, 7.0, 0.0),
 		Color(0.9)
-	));
+	);
+	scene.addLight(light);
 
 	// add the shapes	
 	{
@@ -340,10 +332,11 @@ void cubes(const int sizeScale)
 	Scene scene(config);
 
 	// add the lights
-	scene.addLight(PointLight(
+	PointLight* light = new PointLight(
 		Point4(0.0, 7.0, 0.0),
 		Color(0.9)
-	));
+	);
+	scene.addLight(light);
 
 	// add the shapes
 	{
@@ -416,10 +409,11 @@ void cubeOfSpheres(const double sizeScale)
 	Scene scene(config);
 
 	// add the lights
-	scene.addLight(PointLight(
+	PointLight* light = new PointLight(
 		Point4(-20.0, 25.0f, -15.0f),
 		Color(0.85f)
-	));
+	);
+	scene.addLight(light);
 
 	// add the shapes	
 	{
@@ -512,10 +506,11 @@ void simpleGroup()
 	RayTracer::Scene scene(config);
 
 	// add the lights
-	scene.addLight(RayTracer::PointLight(
+	PointLight* light = new RayTracer::PointLight(
 		RayTracer::Point4(-5.0, 10.0, -5.0),
 		RayTracer::Color(0.9)
-	));
+	);
+	scene.addLight(light);
 
 	{
 		RayTracer::Color checkerColor1(0.99);
@@ -568,10 +563,11 @@ void scatteredMarbles(int sizeScale, int numMarbles)
 	Scene scene(config);
 
 	// add the lights
-	scene.addLight(PointLight(
+	PointLight* light = new PointLight(
 		Point4(-30.0, 55.0f, 10.0),
 		Color(0.85f)
-	));
+	);
+	scene.addLight(light);
 
 	// add the shapes	
 	{
@@ -646,10 +642,11 @@ void utahTeapot(double sizeScale)
 	Scene scene(config);
 
 	// add the lights
-	scene.addLight(PointLight(
+	PointLight* light = new PointLight(
 		Point4(-45.0, 35.0f, -35.0),
 		Color(0.85f)
-	));
+	);
+	scene.addLight(light);
 
 	// add the shapes	
 	{
@@ -700,10 +697,11 @@ void dragon(double sizeScale)
 	Scene scene(config);
 
 	// add the lights
-	scene.addLight(PointLight(
+	PointLight* light = new PointLight(
 		Point4(-15.0, 15.0f, -15.0),
 		Color(0.85f)
-	));
+	);
+	scene.addLight(light);
 
 	// add the shapes	
 	{

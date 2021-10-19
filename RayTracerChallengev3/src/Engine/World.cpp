@@ -105,8 +105,9 @@ namespace RayTracer
 		for (std::vector<ILight*>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
 		{
 			bool isInShadow = isShadowed((*iter)->position, c.overPoint);
-			
-			Color surface = phong(*iter, c.object->material, *c.object, c.farOverPoint, c.eyeV, c.normalV, isInShadow);
+			double lightIntensity = isInShadow ? (*iter)->intensityAt(c.overPoint, *this) : 1.0;
+
+			Color surface = phong(*iter, c.object->material, *c.object, c.farOverPoint, c.eyeV, c.normalV, lightIntensity);
 			Color reflected = reflectedColor(c, remaining);
 			Color refracted = refractedColor(c, remaining);
 
@@ -230,5 +231,25 @@ namespace RayTracer
 		if (!hitXs->isNull() && hitXs->object->hasShadow && hitXs->t < distance) result = true;
 		
 		return result;
+	}
+
+	World defaultWorld()
+	{
+		World w;
+		
+		PointLight* light = new PointLight(Point4(-10, 10, -10), Color(1, 1, 1));
+		w.lights.push_back(light);
+
+		Sphere* s1 = new Sphere();
+		s1->material.color = Color(0.8, 1.0, 0.6);
+		s1->material.diffuse = 0.7;
+		s1->material.specular = 0.2;
+		w.objects.push_back(s1);
+		
+		Sphere* s2 = new Sphere();		
+		s2->setTransform(scaling(0.5, 0.5, 0.5));
+		w.objects.push_back(s2);
+
+		return w;
 	}
 }
