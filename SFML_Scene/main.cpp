@@ -5,7 +5,7 @@
 #include <SFML/System/Clock.hpp>
 
 #include "..\RayTracerChallengev3\src\Headers.h"
-#include "scenes\sceneSoftShadows.h"
+#include "scenes\scenes.h"
 
 // for setting up IMGUI
 //https://eliasdaler.github.io/using-imgui-with-sfml-pt1/
@@ -19,9 +19,9 @@ long long renderTimeMs = 0;
 
 int main()
 {		
-	int width = 640;
-	int height = 288;
-	float scale = 3.0f;
+	int width = 320;
+	int height = 240;
+	float scale = 6.0f;
 			
 	pixels = std::unique_ptr< sf::Uint8[] >(new sf::Uint8[width * height * 4]);
 		
@@ -79,7 +79,8 @@ void buildScene(const int width, const int height)
 {
 	auto start = std::chrono::high_resolution_clock::now();
 
-	RayTracer::Scene scene = sceneSoftShadows(width, height);
+	//RayTracer::Scene scene = sceneSoftShadows(width, height);
+	RayTracer::Scene scene = sceneBenchmark(width, height);
 	
 	//scene.renderToPPM("../_images/softShadows");
 
@@ -106,14 +107,12 @@ void buildScene(const int width, const int height)
 
 	auto stop = std::chrono::high_resolution_clock::now();
 	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
-	renderTimeMs = duration.count();	
-	//std::cout << "\n scene is built\t" << durationCount << "ms";
+	renderTimeMs = duration.count();		
 }
 
 
 void showInfoOverlay()
-{	
-	
+{		
 	bool p_open = true;
 	static int corner = 1;
 	
@@ -138,24 +137,8 @@ void showInfoOverlay()
 	ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
 	if (ImGui::Begin("Info Overlay", &p_open, window_flags))
 	{		
-		ImGui::Text("Average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-		//ImGui::Separator();
-		ImGui::Text("Last Render Time %dms (%.1fs)", renderTimeMs, renderTimeMs / 1000.0f);
-		//ImGui::Separator();
-		/*if (ImGui::IsMousePosValid())
-			ImGui::Text("Mouse Position: (%.1f,%.1f)", io.MousePos.x, io.MousePos.y);
-		else
-			ImGui::Text("Mouse Position: <invalid>");
-		if (ImGui::BeginPopupContextWindow())
-		{
-			if (ImGui::MenuItem("Custom", NULL, corner == -1)) corner = -1;
-			if (ImGui::MenuItem("Top-left", NULL, corner == 0)) corner = 0;
-			if (ImGui::MenuItem("Top-right", NULL, corner == 1)) corner = 1;
-			if (ImGui::MenuItem("Bottom-left", NULL, corner == 2)) corner = 2;
-			if (ImGui::MenuItem("Bottom-right", NULL, corner == 3)) corner = 3;
-			if (p_open && ImGui::MenuItem("Close")) p_open = false;
-			ImGui::EndPopup();
-		}*/
+		ImGui::Text("Average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);		
+		ImGui::Text("Last Render Time %dms (%.1fs)", renderTimeMs, renderTimeMs / 1000.0f);		
 	}
 	ImGui::End();	
 }

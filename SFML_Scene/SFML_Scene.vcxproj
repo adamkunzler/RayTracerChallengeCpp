@@ -169,6 +169,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="scenes\sceneBenchmark.h" />
+    <ClInclude Include="scenes\scenes.h" />
     <ClInclude Include="scenes\sceneSoftShadows.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

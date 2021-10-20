@@ -26,8 +26,8 @@ namespace RayTracer
 		// // skip diffuse and specular if in shadow
 		if (intensity < EPSILON) return ambient;
 		
-		AreaLight* areaLight = (AreaLight*)light;
-
+		
+		const AreaLight* areaLight = dynamic_cast<const AreaLight*>(light);
 		// TODO - figure out better way to do this
 		if (areaLight)
 		{

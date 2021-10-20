@@ -41,5 +41,11 @@
     <ClInclude Include="scenes\sceneSoftShadows.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="scenes\sceneBenchmark.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="scenes\scenes.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

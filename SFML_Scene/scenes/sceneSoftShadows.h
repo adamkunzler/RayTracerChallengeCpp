@@ -1,3 +1,5 @@
+#pragma once
+
 RayTracer::Scene& sceneSoftShadows(int width, int height);
 
 // width = 640, height = 288 
@@ -16,11 +18,11 @@ RayTracer::Scene& sceneSoftShadows(int width, int height)
 	config.up = RayTracer::Vector4(0.0, 1.0, 0.0);
 
 	RayTracer::Scene* scene = new RayTracer::Scene(config);
-	
+		
 	RayTracer::AreaLight* light = new RayTracer::AreaLight(
 		RayTracer::Point4(-1, 2, 4),
-		RayTracer::Vector4(2, 0, 0), 10,
-		RayTracer::Vector4(0, 2, 0), 10,
+		RayTracer::Vector4(5, 0, 0), 8,
+		RayTracer::Vector4(0, 5, 0), 8,
 		RayTracer::Color(1.5, 1.5, 1.5));
 	//light->shouldJitter = false;
 	scene->addLight(light);	
