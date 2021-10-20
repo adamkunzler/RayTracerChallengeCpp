@@ -10,6 +10,10 @@ namespace RayTracer
 		Vector4 vvec;
 		int vsteps;
 		int samples;
+		bool shouldJitter;
+
+		mutable std::mt19937_64 rng;
+		mutable std::uniform_real_distribution<double> unif;
 
 		AreaLight(const Point4& lCorner,
 			const Vector4& lFullUVec, const int& lUSteps,

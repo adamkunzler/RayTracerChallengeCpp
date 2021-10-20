@@ -15,64 +15,102 @@ namespace RayTracer
 		Color diffuse;
 		Color specular;
 
-		Color baseColor = m.color;
-
-		if (m.pattern)
-		{
-			baseColor = m.pattern->patternAt(shape, p);
-		}
-
+		Color baseColor = (m.pattern) ? m.pattern->patternAt(shape, p) : m.color;
+		
 		// combine surface color with lights color/intensity		
 		Color effectiveColor = baseColor * light->intensity;
 
 		// compute the ambient contriubtion
 		ambient = effectiveColor * m.ambient;
-		if (intensity < EPSILON) // in shadow
-		{
-			// skip diffuse and specular if in shadow
-			return ambient;
-		}
 
-		// find the direction to the light source
-		Vector4 lightV = normalize(light->position - p);
+		// // skip diffuse and specular if in shadow
+		if (intensity < EPSILON) return ambient;
+		
+		AreaLight* areaLight = (AreaLight*)light;
 
-		// lightDotNormal represents the cosine of the angle betwen
-		// the light vector and the normal vector. A negative number 
-		// means the light is on the other side of the surface
-		double lightDotNormal = lightV.dot(normalV);
-		if (lightDotNormal < 0.0)
+		// TODO - figure out better way to do this
+		if (areaLight)
 		{
-			diffuse = Color(0.0, 0.0, 0.0);
-			specular = Color(0.0, 0.0, 0.0);
+			Color sum(0, 0, 0);
+			for (int v = 0; v < areaLight->vsteps; v++)
+			{
+				for (int u = 0; u < areaLight->usteps; u++)
+				{
+					Point4 lightPosition = areaLight->pointOnLight(u, v);
+					// find the direction to the light source
+					Vector4 lightV = normalize(lightPosition - p);
+
+					// lightDotNormal represents the cosine of the angle betwen
+					// the light vector and the normal vector. A negative number 
+					// means the light is on the other side of the surface
+					double lightDotNormal = lightV.dot(normalV);
+					if (lightDotNormal >= 0.0)
+					{
+						// compute the diffuse contribution
+						sum += effectiveColor * m.diffuse * lightDotNormal;
+
+						// reflectDotEye represents the cosine of the angle between the reflection
+						// vector and the eye vector. A negative number means the light reflects 
+						// away from the eye				
+						Vector4 negLightV = -lightV;
+						Vector4 reflectV = negLightV.reflect(normalV);
+						double reflectDotEye = dot(reflectV, eye);
+						if (reflectDotEye > 0.0)
+						{
+							// compute specular contribution
+							double factor = std::pow(reflectDotEye, m.shininess);
+							sum += light->intensity * (m.specular * factor);
+						}
+					}					
+				}
+			}
+			
+			return ambient + ((sum / areaLight->samples) * intensity);
 		}
 		else
 		{
-			// compute the diffuse contribution
-			diffuse = effectiveColor * m.diffuse * lightDotNormal;
+			// POINT LIGHTS
+			// 
+			// find the direction to the light source
+			Vector4 lightV = normalize(light->position - p);
 
-			// reflectDotEye represents the cosine of the angle between the reflection
-			// vector and the eye vector. A negative number means the light reflects 
-			// away from the eye				
-			Vector4 negLightV = -lightV;
-			Vector4 reflectV = negLightV.reflect(normalV);
-			double reflectDotEye = dot(reflectV, eye);
-			if (reflectDotEye <= 0.0)
+			// lightDotNormal represents the cosine of the angle betwen
+			// the light vector and the normal vector. A negative number 
+			// means the light is on the other side of the surface
+			double lightDotNormal = lightV.dot(normalV);
+			if (lightDotNormal < 0.0)
 			{
-				specular = Color(0.0);
+				diffuse = Color(0.0, 0.0, 0.0);
+				specular = Color(0.0, 0.0, 0.0);
 			}
 			else
 			{
-				// compute specular contribution
-				double factor = std::pow(reflectDotEye, m.shininess);
-				specular = light->intensity * (m.specular * factor);
+				// compute the diffuse contribution
+				diffuse = effectiveColor * m.diffuse * lightDotNormal;
+
+				// reflectDotEye represents the cosine of the angle between the reflection
+				// vector and the eye vector. A negative number means the light reflects 
+				// away from the eye				
+				Vector4 negLightV = -lightV;
+				Vector4 reflectV = negLightV.reflect(normalV);
+				double reflectDotEye = dot(reflectV, eye);
+				if (reflectDotEye <= 0.0)
+				{
+					specular = Color(0.0);
+				}
+				else
+				{
+					// compute specular contribution
+					double factor = std::pow(reflectDotEye, m.shininess);
+					specular = light->intensity * (m.specular * factor);
+				}
 			}
+
+			diffuse *= intensity;
+			specular *= intensity;
+			
+			return ambient + diffuse + specular;
 		}
-
-		diffuse *= intensity;
-		specular *= intensity;
-
-		//return diffuse;		
-		return ambient + diffuse + specular;
 	}
 
 	void renderThreadFunc(Camera& camera, World& world, int width, int startY, int endY, Color* data)

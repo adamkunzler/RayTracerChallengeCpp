@@ -168,6 +168,9 @@
       <Project>{da9992b7-0c37-4e34-8581-e7d5efc7835a}</Project>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="scenes\sceneSoftShadows.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

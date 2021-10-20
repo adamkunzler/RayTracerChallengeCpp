@@ -20,6 +20,13 @@ namespace RayTracer
 		position.w = 0.0;
 
 		intensity = lIntensity;
+
+		shouldJitter = true;
+
+		uint64_t timeSeed = std::chrono::high_resolution_clock::now().time_since_epoch().count(); // initialize the random number generator with time-dependent seed
+		std::seed_seq ss{ uint32_t(timeSeed & 0xffffffff), uint32_t(timeSeed >> 32) };
+		rng.seed(ss);
+		unif = std::uniform_real_distribution<double>(0, 1); // initialize a uniform distribution between 0 and 1
 	}
 
 	double AreaLight::intensityAt(const Point4& point, const World& world) const
@@ -43,8 +50,17 @@ namespace RayTracer
 
 	Point4 AreaLight::pointOnLight(const int& u, const int& v) const
 	{
-		return corner +
-			uvec * (u / 0.5) +
-			vvec * (v / 0.5);
+		if (shouldJitter)
+		{
+			return corner +
+				uvec * (u + unif(rng)) +
+				vvec * (v + unif(rng));
+		}
+		else
+		{
+			return corner +
+				uvec * (u / 0.5) +
+				vvec * (v / 0.5);
+		}
 	}
 }
