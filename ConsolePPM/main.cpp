@@ -28,38 +28,44 @@ int main()
 	//dragon(4); // 725218ms 12.1m - 2560x1920 - 5 million pixels
 
 	
-	Point4 corner(-0.5, -0.5, -5);
-	Vector4 v1(1, 0, 0);
-	Vector4 v2(0, 1, 0);
-	AreaLight light(corner, v1, 2, v2, 2, Color(1, 1, 1));
-	
-	Point4 p1(0, 0, 2);
-	Point4 p2(1, -1, 2);
-	Point4 p3(1.5, 0, 2);
-	Point4 p4(1.25, 1.25, 3);
-	Point4 p5(0, 0, -2);
+	//Point4 corner(-0.5, -0.5, -5);
+	//Vector4 v1(1, 0, 0);
+	//Vector4 v2(0, 1, 0);
+	//AreaLight light(corner, v1, 2, v2, 2, Color(1, 1, 1));
+	//
+	//Point4 p1(0, 0, 2);
+	//Point4 p2(1, -1, 2);
+	//Point4 p3(1.5, 0, 2);
+	//Point4 p4(1.25, 1.25, 3);
+	//Point4 p5(0, 0, -2);
 
 
-	World w;
+	//World w;
 
-	PointLight* pl = new PointLight(Point4(-10, 10, -10), Color(1, 1, 1));
-	w.lights.push_back(pl);
+	//PointLight* pl = new PointLight(Point4(-10, 10, -10), Color(1, 1, 1));
+	//w.lights.push_back(pl);
 
-	Sphere* s1 = new Sphere();
-	s1->material.color = Color(0.8, 1.0, 0.6);
-	s1->material.diffuse = 0.7;
-	s1->material.specular = 0.2;
-	w.objects.push_back(s1);
+	//Sphere* s1 = new Sphere();
+	//s1->material.color = Color(0.8, 1.0, 0.6);
+	//s1->material.diffuse = 0.7;
+	//s1->material.specular = 0.2;
+	//w.objects.push_back(s1);
 
-	Sphere* s2 = new Sphere();
-	s2->setTransform(scaling(0.5, 0.5, 0.5));
-	w.objects.push_back(s2);
+	//Sphere* s2 = new Sphere();
+	//s2->setTransform(scaling(0.5, 0.5, 0.5));
+	//w.objects.push_back(s2);
 
-	double i1 = light.intensityAt(p1, w); // 0.0
-	double i2 = light.intensityAt(p2, w); // 0.25
-	double i3 = light.intensityAt(p3, w); // 0.5
-	double i4 = light.intensityAt(p4, w); // 0.75
-	double i5 = light.intensityAt(p5, w); // 1.0
+	//double i1 = light.intensityAt(p1, w); // 0.0
+	//double i2 = light.intensityAt(p2, w); // 0.25
+	//double i3 = light.intensityAt(p3, w); // 0.5
+	//double i4 = light.intensityAt(p4, w); // 0.75
+	//double i5 = light.intensityAt(p5, w); // 1.0
+
+
+	/*Point4 corner(0, 0, 0);
+	Vector4 v1(2, 0, 0);
+	Vector4 v2(0, 0, 1);
+	AreaLight light(corner, v1, 4, v2, 2, Color(1, 1, 1));*/
 
 
 	std::cout << "\n\n\n\n\n\n\n\n\n\n\n";

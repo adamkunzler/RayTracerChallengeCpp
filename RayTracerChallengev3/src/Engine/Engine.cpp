@@ -23,11 +23,11 @@ namespace RayTracer
 		}
 
 		// combine surface color with lights color/intensity		
-		Color effectiveColor = baseColor * intensity;
+		Color effectiveColor = baseColor * light->intensity;
 
 		// compute the ambient contriubtion
 		ambient = effectiveColor * m.ambient;
-		if (intensity < EPSILON) // intensity == 0 = in shadow
+		if (intensity < EPSILON) // in shadow
 		{
 			// skip diffuse and specular if in shadow
 			return ambient;
@@ -64,9 +64,12 @@ namespace RayTracer
 			{
 				// compute specular contribution
 				double factor = std::pow(reflectDotEye, m.shininess);
-				specular = light->intensity * (m.specular * factor); // TODO ??? just intensity instead of light->intensity
+				specular = light->intensity * (m.specular * factor);
 			}
 		}
+
+		diffuse *= intensity;
+		specular *= intensity;
 
 		//return diffuse;		
 		return ambient + diffuse + specular;

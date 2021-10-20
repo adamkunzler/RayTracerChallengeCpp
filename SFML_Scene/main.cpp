@@ -103,8 +103,8 @@ void buildScene(const int width, const int height)
 	
 	RayTracer::AreaLight* light = new RayTracer::AreaLight(
 		RayTracer::Point4(-3, 1, -1.0),
-		RayTracer::Vector4(2, 0, 0), 2,
-		RayTracer::Vector4(0, 2, 0), 2,
+		RayTracer::Vector4(2, 0, 0), 8,
+		RayTracer::Vector4(0, 2, 0), 8,
 		RayTracer::Color(1.5, 1.5, 1.5));
 
 	scene.addLight(light);

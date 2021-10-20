@@ -104,8 +104,9 @@ namespace RayTracer
 		Color finalColor;
 		for (std::vector<ILight*>::const_iterator iter = lights.begin(); iter != lights.end(); iter++)
 		{
-			bool isInShadow = isShadowed((*iter)->position, c.overPoint);
-			double lightIntensity = isInShadow ? (*iter)->intensityAt(c.overPoint, *this) : 1.0;
+			//bool isInShadow = isShadowed((*iter)->position, c.overPoint);
+			//double lightIntensity = isInShadow ? (*iter)->intensityAt(c.overPoint, *this) : 1.0;
+			double lightIntensity = (*iter)->intensityAt(c.overPoint, *this);
 
 			Color surface = phong(*iter, c.object->material, *c.object, c.farOverPoint, c.eyeV, c.normalV, lightIntensity);
 			Color reflected = reflectedColor(c, remaining);
